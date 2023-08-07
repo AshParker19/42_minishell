@@ -85,3 +85,4 @@ git_sync_upstrea_alex:
 	git merge main
 	git checkout alex
 	git push origin main
+	git status
