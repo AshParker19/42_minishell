@@ -17,7 +17,7 @@ ORANGE = \033[0;33m
 RESET = \033[0m
 
 # Library name and source files
-NAME = libft_printf.a
+NAME = libft.a
 SRC_FOLDER = ./src/
 OBJS_FOLDER = ./obj/
 SRCS = $(addprefix $(SRC_FOLDER), \
