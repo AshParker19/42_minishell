@@ -83,3 +83,5 @@ git_sync_upstrea_alex:
 	git pull origin main
 	git checkout alex
 	git merge main
+	git checkout alex
+	git push origin main
