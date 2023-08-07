@@ -6,14 +6,16 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:06:17 by astein            #+#    #+#             */
-/*   Updated: 2023/08/07 16:06:54 by astein           ###   ########.fr       */
+/*   Updated: 2023/08/07 16:20:38 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philo.h"
+#include "./include/minishell.h"
 
 int	main(int argc, char **argv)
 {
-	ft_print("Hello World\n");
+	(void)argc;
+	(void)argv;
+	printf("Hello World\n");
 	return (0);
 }
