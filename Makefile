@@ -76,7 +76,7 @@ t: fclean
 	git commit -m 'Makefile - ANATOLII'
 	git status
 
-git_sync_a:	a
+git_sync_a:
 	git checkout alex
 	git fetch origin
 	git checkout main
@@ -87,7 +87,7 @@ git_sync_a:	a
 	git push origin main
 	git status
 
-git_sync_t:	t
+git_sync_t:
 	git checkout anatolii
 	git fetch origin
 	git checkout main
