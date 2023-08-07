@@ -79,7 +79,7 @@ t: fclean
 git_sync_upstrea_alex:
 	git checkout alex
 	git fetch origin
-	git cheeckout main
+	git checkout main
 	git pull origin main
 	git checkout alex
 	git merge main
