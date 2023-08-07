@@ -66,7 +66,12 @@ test: all
 norm:
 	norminette
 
-god:
+a: fclean
 	git add .
-	git commit -m 'Makefile'
+	git commit -m 'Makefile - ALEX'
+	git status
+
+t: fclean
+	git add .
+	git commit -m 'Makefile - ANATOLII'
 	git status
