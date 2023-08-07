@@ -76,7 +76,10 @@ t: fclean
 	git commit -m 'Makefile - ANATOLII'
 	git status
 
-git_sync_upstream:
+git_sync_upstrea_alex:
+	git checkout alex
 	git fetch origin
 	git cheeckout main
 	git pull origin main
+	git checkout alex
+	git merge main
