@@ -1,34 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   bultin_pwd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/07 16:06:17 by astein            #+#    #+#             */
-/*   Updated: 2023/09/13 17:02:47 by astein           ###   ########.fr       */
+/*   Created: 2023/09/13 16:32:55 by astein            #+#    #+#             */
+/*   Updated: 2023/09/13 17:01:23 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-t_bool	running;
-
-int	main(int argc, char **argv, char** envp)
+void	builtin_pwd(void)
 {
-	char	*current_input;
+	char	*pwd;
 
-	(void)argc;
-	(void)argv;
-	running = true;
-
-	while (running)
-	{
-		current_input = readline("MINI-HELL->");
-		// do stuff with the command
-		if (parse_input(current_input) == ft_false)
-		running = ft_false;
-		free(current_input);
-	}
-	return (0);
+	pwd = getcwd(NULL, 0);
+	ft_putendl_fd(pwd, 1);
+	free(pwd);
 }

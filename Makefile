@@ -10,7 +10,7 @@ DEBUG = 0
 # Compiler options
 CC = cc
 CFLAGS = -D DEBUG=$(DEBUG) -Wall -Werror -Wextra #-g -fsanitize=address -fsanitize-address-use-after-scope
-CLIBS = -L$(LIB_FOLDER) -lft -lm
+CLIBS = -L$(LIB_FOLDER) -lft -lm -lreadline
 CINCLUDES  = -I$(INCLUDE_FOLDER) 
 RM = rm -f
 
@@ -29,7 +29,16 @@ LIB_FOLDER = ./lib/
 # ->Files
 LIBFT = $(LIB_FOLDER)libft.a
 SRCS = $(addprefix $(SRC_FOLDER), \
-	main.c)
+	main.c \
+	parser.c \
+	bultin_echo.c\
+	bultin_cd.c\
+	bultin_pwd.c\
+	bultin_export.c\
+	bultin_unset.c\
+	bultin_env.c\
+	bulitin_exit.c\
+	signals.c)
 	
 # Object files
 OBJS = $(SRCS:$(SRC_FOLDER)%.c=$(OBJ_FOLDER)%.o)
@@ -44,9 +53,9 @@ $(NAME): $(LIBFT) $(OBJS)
 	echo "$(GREEN)$(NAME): created$(RESET)"
 
 $(OBJ_FOLDER)%.o: $(SRC_FOLDER)%.c
-	@mkdir -p $(@D)
-	@echo -n "$(ORANGE).$(RESET)"
-	@$(CC) $(CFLAGS) -c $< -o $@
+	mkdir -p $(@D)
+	echo -n "$(ORANGE).$(RESET)"
+	$(CC) $(CFLAGS) -c $< -o $@
 
 $(LIBFT):
 	echo "$(ORANGE)compiling: $(LIBFT)\n$(RESET)"
