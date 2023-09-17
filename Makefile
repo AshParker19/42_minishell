@@ -11,28 +11,31 @@ DEBUG = 0
 CC = cc
 CFLAGS = -D DEBUG=$(DEBUG) -Wall -Werror -Wextra #-g -fsanitize=address -fsanitize-address-use-after-scope
 CLIBS = -L$(LIB_FOLDER) -lft -lm
-CINCLUDES  = -I$(INCLUDE_FOLDER) 
-RM = rm -f
+CINCLUDES = -I$(INCLUDE_FOLDER) 
+RM = rm -rf
 
-# Color codes
-RESET = \033[0m
-RED = \033[0;31m
-GREEN = \033[0;32m
-ORANGE = \033[0;33m
+# ->Colors
+RED    = 	\033[0;31m
+GREEN  = 	\033[0;32m
+ORANGE = 	\033[0;33m
+BLUE   = 	\033[34m
+PURPLE = 	\033[35m
+RESET  = 	\033[0m
 
 # ->Folders
-INCLUDE_FOLDER = ./include/
-SRC_FOLDER = ./src/
-OBJ_FOLDER = ./obj/
-LIB_FOLDER = ./lib/
+INCLUDE_FOLDER = ./includes/
+SRC_FOLDER     = ./src/
+OBJ_FOLDER     = ./obj/
+LIB_FOLDER     = ./libft/
 
 # ->Files
 LIBFT = $(LIB_FOLDER)libft.a
-SRCS = $(addprefix $(SRC_FOLDER), \
-	main.c)
-	
+SRCS = $(addprefix $(SRC_FOLDER), parsing/parsing1.c)
+
 # Object files
 OBJS = $(SRCS:$(SRC_FOLDER)%.c=$(OBJ_FOLDER)%.o)
+
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
 
 # TARGETS
 .PHONY: all clean fclean re norm
@@ -40,26 +43,27 @@ OBJS = $(SRCS:$(SRC_FOLDER)%.c=$(OBJ_FOLDER)%.o)
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJS) 
-	$(CC) $(OBJS) $(CFLAGS) $(CLIBS) $(CINCLUDES) -o $(NAME)
-	echo "$(GREEN)$(NAME): created$(RESET)"
+	@$(CC) $(OBJS) $(CFLAGS) $(CLIBS) $(CINCLUDES) -o $(NAME)
+	@echo "$(GREEN)$(NAME): created$(RESET)"
 
 $(OBJ_FOLDER)%.o: $(SRC_FOLDER)%.c
 	@mkdir -p $(@D)
 	@echo -n "$(ORANGE).$(RESET)"
-	@$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) $(CINCLUDES)-c $< -o $@
 
 $(LIBFT):
-	echo "$(ORANGE)compiling: $(LIBFT)\n$(RESET)"
-	$(MAKE) --no-print-directory -C $(LIB_FOLDER) DEBUG=$(DEBUG)
+	@echo "$(ORANGE)compiling: $(LIBFT)\n$(RESET)"
+	@$(MAKE) -sC $(LIB_FOLDER) DEBUG=$(DEBUG)
 
 clean:
-	$(RM) $(OBJS)
-	echo "$(RED)$(NAME): cleaned object files$(RESET)"
+	@$(RM) $(OBJ_FOLDER)
+	@echo "$(BLUE)┌────────────────────┐"
+	@echo "│    $(ORANGE)[✓] CLEANED!$(BLUE)    │"
+	@echo "$(BLUE)└────────────────────┘$(RESET)"
 
 fclean: clean
-	make --no-print-directory -C $(LIB_FOLDER) fclean
-	$(RM) $(NAME)
-	echo "$(RED)$(NAME): cleaned program$(RESET)"
+	@make -sC $(LIB_FOLDER) fclean
+	@$(RM) $(NAME)
 
 re: fclean all
 
