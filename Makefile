@@ -10,8 +10,8 @@ DEBUG = 0
 # Compiler options
 CC = cc
 CFLAGS = -D DEBUG=$(DEBUG) -Wall -Werror -Wextra #-g -fsanitize=address -fsanitize-address-use-after-scope
-CLIBS = -L$(LIB_FOLDER) -lft -lm
-CINCLUDES = -I$(INCLUDE_FOLDER) 
+CLIBS = -L$(LIB_FOLDER) -lft -lm -lreadline
+CINCLUDES  = -I$(INCLUDE_FOLDER) 
 RM = rm -rf
 
 # ->Colors
@@ -30,8 +30,19 @@ LIB_FOLDER     = ./libft/
 
 # ->Files
 LIBFT = $(LIB_FOLDER)libft.a
-SRCS = $(addprefix $(SRC_FOLDER), parsing/parsing1.c)
-
+SRCS = $(addprefix $(SRC_FOLDER), \
+	main.c \
+	parser.c \
+	bultin_echo.c\
+	bultin_cd.c\
+	bultin_pwd.c\
+	bultin_export.c\
+	bultin_unset.c\
+	bultin_env.c\
+	bulitin_exit.c\
+	signals.c\
+	parsing/parsing1.c)
+	
 # Object files
 OBJS = $(SRCS:$(SRC_FOLDER)%.c=$(OBJ_FOLDER)%.o)
 
