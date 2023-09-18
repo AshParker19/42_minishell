@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:06:17 by astein            #+#    #+#             */
-/*   Updated: 2023/09/13 17:02:47 by astein           ###   ########.fr       */
+/*   Updated: 2023/09/17 18:06:10 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "minishell.h"
 
 t_bool	running;
 
@@ -20,11 +20,12 @@ int	main(int argc, char **argv, char** envp)
 
 	(void)argc;
 	(void)argv;
+	(void)envp;
 	running = true;
 
 	while (running)
 	{
-		current_input = readline("MINI-HELL->");
+		current_input = readline("MINI-HELL-> ");
 		// do stuff with the command
 		if (parse_input(current_input) == ft_false)
 		running = ft_false;

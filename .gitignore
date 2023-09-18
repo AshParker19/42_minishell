@@ -1,4 +1,5 @@
-*.o
+/obj
 minishell
 ./VS
 en.subject.pdf
+save.txt

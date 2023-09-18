@@ -1,22 +1,13 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bultin_pwd.c                                       :+:      :+:    :+:   */
+/*   bultin_cd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/13 16:32:55 by astein            #+#    #+#             */
-/*   Updated: 2023/09/13 17:01:23 by astein           ###   ########.fr       */
+/*   Created: 2023/09/13 16:32:31 by astein            #+#    #+#             */
+/*   Updated: 2023/09/17 16:29:37 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
-
-void	builtin_pwd(void)
-{
-	char	*pwd;
-
-	pwd = getcwd(NULL, 0);
-	ft_putendl_fd(pwd, 1);
-	free(pwd);
-}
+#include "minishell.h"
