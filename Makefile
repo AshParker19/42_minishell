@@ -30,9 +30,9 @@ LIB_FOLDER     = ./libft/
 
 # ->Files
 LIBFT = $(LIB_FOLDER)libft.a
-SRCS = $(addprefix $(SRC_FOLDER), \
+SRCS = $(addprefix $(SRC_FOLDER), 	\
 	core/main.c \
-	parsing/parser.c \
+	parsing/parser.c parsing/p_utils.c		\
 	builtins/bultin_echo.c\
 	builtins/bultin_cd.c\
 	builtins/bultin_pwd.c\

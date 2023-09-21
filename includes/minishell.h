@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2023/09/18 18:07:55 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/09/21 14:17:07 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,14 @@
 
 /* project includes */
 # include "parsing.h"
+
+/*    colors    */
+# define GREEN 		"\033[0;32m"
+# define RED 		"\033[0;31m"
+# define YELLOW 	"\x1b[33m"
+# define CYAN 		"\x1b[36m"
+# define PURPLE 	"\x1b[35m"
+# define RESET 		"\033[0m"
 
 // MAIN.C
 int	main(int argc, char **argv, char** envp);

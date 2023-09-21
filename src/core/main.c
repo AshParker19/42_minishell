@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:06:17 by astein            #+#    #+#             */
-/*   Updated: 2023/09/18 16:20:55 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/09/21 12:01:40 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,10 @@ int	main(int argc, char **argv, char** envp)
 
 	while (running)
 	{
-		// hey Alex, what about call out shell as "panzer-shell"?
 		current_input = readline("MINI-HELL-> ");
+		if (!current_input)
+			return (0);
+		add_history(current_input);
 		// do stuff with the command
 		if (parse_input(current_input) == ft_false)
 		running = ft_false;
