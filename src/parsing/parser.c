@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:16:49 by astein            #+#    #+#             */
-/*   Updated: 2023/09/18 23:08:52 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/09/21 01:45:11 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,29 @@ characters in the quoted sequence.
 characters in the quoted sequence except for $ (dollar sign).
 
 */
+
+int	ft_isspace(char c)
+{
+	return (c == ' ' || c == '\n' || c == '\t');
+}
+
+// int	skip_spaces(char *str, int i)
+// {
+// 	if (!str)
+// 		return (0);
+// 	while (ft_isspace(str[i]))
+// 		i++;
+// 	return (i);	
+// }
+
+char	*skip_spaces(char *str)
+{
+	if (!str)
+		return (NULL);
+	while (ft_isspace(*str))
+			str++;
+	return (str);		
+}
 
 bool	special_characters(char c, int i)
 {	
@@ -66,23 +89,60 @@ int	get_flag(char *token, int i)
 	return (0);	
 }
 
+char	*cut_word(char *str, int i, int *len)
+{
+	char	*skip;
+	
+	// if (!str)
+	// 	return (NULL);
+	while (ft_isalpha(str[i]))
+		i++;
+	*len = i;	
+	skip = ft_substr(str, 0, i + 1);
+	// if (str)
+	// 	free (str);
+	return (skip);
+}
+
 t_parser *get_token(char *input, t_parser *parser, int i)
 {
-	int		char_counter;
-	char	*token;
+	char			*token;
+	int				len;
 
-	while (input[i])
+	 i =1;
+	len = 0;
+	while (*input)
 	{
-		char_counter = 0;
-		while (ft_isalpha(input[char_counter]))
-			char_counter++;
-		// printf ("COUNT %d\n", char_counter);	
-		if (!ft_isalpha(input[i])) // make it as a command
+		input = skip_spaces(input);
+		if (ft_isalpha(*input))
 		{
-			token = ft_substr(input, i - char_counter, char_counter);
-			printf ("TOKEN %s\n", token);
-		}// treat special characters
-		i++;		
+			// if (!input)
+			// 	break ;
+			token = cut_word(input, 0, &len);
+			printf ("%s\n", token);
+			input += len;
+		}
+		else if (special_characters(*input, -1))
+		{
+			printf ("SPECIAL\n");
+			input++;
+		}
+		
+		// handle cases when there's a special character between words
+		
+		// else
+		// 	input++;
+		// break;
+		// i++;
+		// token_counter++;
+		// if (ft_isspace(input[i]))
+		// 	i++;
+		// if (!ft_isalpha(input[char_counter])) // make it as a command
+		// {
+		// 	token = ft_substr(input, char_counter - i, char_counter);
+		// 	printf ("TOKEN %s\n", token);
+		// }// treat special characters
+		// i += char_counter;		
 	}
 	return (parser);
 	if (!parser)
@@ -100,7 +160,7 @@ void	tokenize_input(char *input, int i, t_parser *parser)
 	// 	}
 	// 	else
 	// 		printf("NOT SPECIAL\n");
-	(void)i;
+	i++;
 	parser = get_token(input, parser, 0);
 	// while (input)
 	// {
