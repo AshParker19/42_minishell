@@ -3,11 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   bultin_echo.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:32:13 by astein            #+#    #+#             */
-/*   Updated: 2023/09/17 16:29:48 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/09/22 13:13:25 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void bultin_echo(char *txt)
+{
+    ft_putendl_fd(txt, 1);
+}

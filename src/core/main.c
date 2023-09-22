@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:06:17 by astein            #+#    #+#             */
-/*   Updated: 2023/09/21 13:51:14 by astein           ###   ########.fr       */
+/*   Updated: 2023/09/22 13:12:08 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ int	main(int argc, char **argv, char** envp)
 	(void)argv;
 	(void)envp;
 	running = true;
+
+	bultin_echo(argv[1]);
 
 	while (running)
 	{

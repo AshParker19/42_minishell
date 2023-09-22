@@ -1,0 +1,72 @@
+words
+  - prognames
+  - args
+  - filenames
+  - variable
+  
+seperators
+  - >
+  - >>
+  - <
+  - <<
+  - |
+	  111111111122222222223333
+0123456789012345678901234567890123
+echo "asd"|grep "asd" > test.txt
+@@@@@@@@@@ @@@@@@@@@@@ @@@@@@@@@
+
+=====
+1. Create nodes and link them together
+(while updating the root after creating each new node)
+=====
+
+Nodes:
+
+UPDATE ROOT: programnode1 
+
+programnode01
+start_name = 0
+end_name  = 3
+start_args = 5
+end_args = 9
+
+pipenode
+type = pipe
+left = pointing to programnode01
+rigth = pointing to programnode02
+
+UPDATE ROOT: pipenode
+
+programnode02
+start_name = 11
+end_name  = 14
+start_args =16
+end_args = 20
+
+UPDATE ROOT: redirectnode
+
+redirectnode
+type = redirect forwads
+left = pointer to  pipenode
+rigth = pointer to filenamenode
+
+UPDATE ROOT: redirectnode
+
+filenamenode
+type=filename
+start_name = 24
+end_name  =  31
+
+=====
+2. walk trough tree and set all end_pointer to \0
+=====
+
+	  111111111122222222223333
+0123456789012345678901234567890123
+echo0"asd"0grep0"asd"000test.txt0
+@@@@@@@@@@ @@@@@@@@@@@ @@@@@@@@@
+
+
+
+
+
