@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:16:49 by astein            #+#    #+#             */
-/*   Updated: 2023/09/21 21:57:17 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/09/22 12:02:45 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,11 @@ void	print_type(t_token *head)
 		else if (current->type == DOLLAR)
 			printf ("Dollar Sign");
 		else if (current->type == DB_QUOTE)
-			printf ("Double Quote");
+			printf ("Double Quotes");
 		else if (current->type == SN_QUOTE)
-			printf ("Single Quote");
+			printf ("Single Quotes");
+		else if (current->type == REDIREC)	
+			printf ("Redirection");
 		printf ("\n");
 		printf (GREEN"----------\n"RESET);
 		current = current->next;
@@ -75,11 +77,20 @@ char	*cut_word(char *str, int i, int *len, int option)
 	return (skip);
 }
 
+int	quote_len(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (str[i] == '"' || str[i] == '\'')
+		i++;	
+	while (str[i] != '"' && str[i] != '\'')
+		i++;
+	return (i + 1);	
+}
 
 t_token *get_token(char *input, t_token *token, int len)
 {
-	// t_bool flg_dbl_qoute;
-	
 	while (*input)
 	{
 		input = skip_spaces(input);
@@ -88,28 +99,30 @@ t_token *get_token(char *input, t_token *token, int len)
 			token = ft_addback(token, cut_word(input, 0, &len, 0), WORD);
 			input += len;
 		}
-		else if (*input == '-' && *input + 1)
+		else if ((*input == '-' && *input + 1)
+			|| (*input == '-' && *input + 1 == '-' && *input + 2))
 		{
-			token = ft_addback(token, cut_word(input, 1, &len, 0), WORD);
+			token = ft_addback(token, cut_word(input, 2, &len, 0), WORD); // 0 here to not to put a special character after a word
 			input += len;
 		}
 		else if (special_characters(*input, -1))
 		{
-			if (*input == '\'' || *input == '"')
+			if (*input == '\'' || *input == '"') // check if quotes are closed
 			{
-				// while(*input != '"')
-				// 	input++;		
-				token = ft_addback(token, cut_word(input, 0, &len, 1), //length for quotes here
+				len = quote_len(input);
+				token = ft_addback(token, ft_substr(input, 0, len), //length for quotes here
 					get_flag(*input));
 				input += len;				
 			}
 			else
-				token = ft_addback(token, cut_word(input, 0, &len, 1),
-					get_flag(*input));
-			input++;
+			{
+					token = ft_addback(token, cut_word(input, 0, &len, 1),
+						get_flag(*input));
+				input++;
+			}
 		}
-		// else
-		// 	input++;
+		else
+			input++;
 	}
 	print_type(token);
 	return (token);
