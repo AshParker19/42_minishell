@@ -32,7 +32,7 @@ LIB_FOLDER     = ./libft/
 LIBFT = $(LIB_FOLDER)libft.a
 SRCS = $(addprefix $(SRC_FOLDER), 	\
 	core/main.c \
-	parsing/parser.c parsing/p_utils.c		\
+	parsing/parser.c parsing/p_utils.c	\
 	builtins/bultin_echo.c\
 	builtins/bultin_cd.c\
 	builtins/bultin_pwd.c\
@@ -40,6 +40,7 @@ SRCS = $(addprefix $(SRC_FOLDER), 	\
 	builtins/bultin_unset.c\
 	builtins/bultin_env.c\
 	builtins/bulitin_exit.c\
+	parsing/expand_vars.c \
 	signals.c)
 	
 # Object files

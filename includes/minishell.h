@@ -6,14 +6,14 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2023/09/21 14:17:07 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/09/24 17:07:49 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "../libft/libft.h"
+/* system includes */
 # include <curses.h>
 # include <dirent.h>
 # include <errno.h>
@@ -34,7 +34,9 @@
 # include <termios.h>
 # include <unistd.h>
 
+
 /* project includes */
+# include "../libft/libft.h"
 # include "parsing.h"
 
 /*    colors    */
@@ -44,6 +46,14 @@
 # define CYAN 		"\x1b[36m"
 # define PURPLE 	"\x1b[35m"
 # define RESET 		"\033[0m"
+
+typedef struct s_minibox
+{
+    char        **env;
+    char        *input;
+    char        **vars;
+    t_token     *tokens;
+}              t_minibox;
 
 // MAIN.C
 int	main(int argc, char **argv, char** envp);

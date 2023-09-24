@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:16:49 by astein            #+#    #+#             */
-/*   Updated: 2023/09/22 12:02:45 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/09/24 20:54:17 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ characters in the quoted sequence.
 
 • Handle " (double quote) which should prevent the shell from interpreting the meta-
 characters in the quoted sequence except for $ (dollar sign).
-
 */
 
 int	get_flag(char c)
@@ -128,20 +127,22 @@ t_token *get_token(char *input, t_token *token, int len)
 	return (token);
 }
 
-void	tokenize_input(char *input, t_token *token)
+void	tokenize_input(t_minibox *minibox)
 {
-	token = get_token(input, token, 0);
+	minibox->input = expand_variables(minibox, 0, 0);
+	// printf ("EXTENDEN %s\n", minibox->input);
+	// token = get_token(input, token, 0);
 }
 
 // parse the input and call the correct functions
 // return false if the input is exit
-t_bool	parse_input(char *input)
+t_bool	parse_input(t_minibox *minibox)
 {
-	if (ft_strlen(input) == 4 && !ft_strncmp(input, "exit", 4))
+	if (ft_strlen(minibox->input) == 4 && !ft_strncmp(minibox->input, "exit", 4))
 	{
 		printf("Bye Bye fuckers!\n");
 		return (ft_false);
 	}
-	tokenize_input(input, NULL);
+	tokenize_input(minibox);
 	return (ft_true);
 }
