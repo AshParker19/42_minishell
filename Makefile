@@ -9,7 +9,7 @@ DEBUG = 0
 
 # Compiler options
 CC = cc
-CFLAGS = -D DEBUG=$(DEBUG) #-Wall -Werror -Wextra #-g -fsanitize=address -fsanitize-address-use-after-scope
+CFLAGS = -D DEBUG=$(DEBUG) -Wall -Werror -Wextra #-g -fsanitize=address -fsanitize-address-use-after-scope
 CLIBS = -L$(LIB_FOLDER) -lft -lm -lreadline
 CINCLUDES  = -I$(INCLUDE_FOLDER) 
 RM = rm -rf
@@ -30,17 +30,17 @@ LIB_FOLDER     = ./libft/
 
 # ->Files
 LIBFT = $(LIB_FOLDER)libft.a
-SRCS = $(addprefix $(SRC_FOLDER), 	\
-	core/main.c \
+SRCS = $(addprefix $(SRC_FOLDER), 		\
+	core/main.c							\
 	parser/parser.c parser/p_utils.c	\
-	builtins/bultin_echo.c\
-	builtins/bultin_cd.c\
-	builtins/bultin_pwd.c\
-	builtins/bultin_export.c\
-	builtins/bultin_unset.c\
-	builtins/bultin_env.c\
-	builtins/bulitin_exit.c\
-	parser/expand_vars.c \
+	builtins/bultin_echo.c				\
+	builtins/bultin_cd.c				\
+	builtins/bultin_pwd.c				\
+	builtins/bultin_export.c			\
+	builtins/bultin_unset.c				\
+	builtins/bultin_env.c				\
+	builtins/bulitin_exit.c				\
+	parser/expand_vars.c 				\
 	signals.c)
 	
 # Object files

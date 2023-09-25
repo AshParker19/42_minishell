@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:16:49 by astein            #+#    #+#             */
-/*   Updated: 2023/09/24 20:54:17 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/09/25 14:09:35 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,8 +129,8 @@ t_token *get_token(char *input, t_token *token, int len)
 
 void	tokenize_input(t_minibox *minibox)
 {
-	minibox->input = expand_variables(minibox, 0, 0);
-	// printf ("EXTENDEN %s\n", minibox->input);
+	minibox->input = expand_variables(minibox, -1, 0);
+	printf ("%s\n", minibox->input);
 	// token = get_token(input, token, 0);
 }
 

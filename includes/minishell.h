@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2023/09/24 17:07:49 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/09/25 12:41:30 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@
 
 
 /* project includes */
-# include "../libft/libft.h"
+# include "../libft/libft_printf.h"
 # include "parsing.h"
 
 /*    colors    */
