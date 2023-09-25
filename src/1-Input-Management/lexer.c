@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/13 16:16:49 by astein            #+#    #+#             */
-/*   Updated: 2023/09/25 14:09:35 by anshovah         ###   ########.fr       */
+/*   Created: 2023/09/21 12:11:14 by anshovah          #+#    #+#             */
+/*   Updated: 2023/09/25 18:35:29 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,22 +127,19 @@ t_token *get_token(char *input, t_token *token, int len)
 	return (token);
 }
 
-void	tokenize_input(t_minibox *minibox)
+
+
+/*
+	TODO: Make a linked list with the tokens grabbed from 
+	minibox->input_expaned
+
+    the result will be stored in the linked list:
+    minibox->tokens
+*/
+void	tokenize(t_minibox *minibox)
 {
-	minibox->input = expand_variables(minibox, -1, 0);
-	printf ("%s\n", minibox->input);
+	(void)minibox;
+	// printf("TOKENIZER STARTED....%s\n",minibox->input_expanded);
 	// token = get_token(input, token, 0);
 }
 
-// parse the input and call the correct functions
-// return false if the input is exit
-t_bool	parse_input(t_minibox *minibox)
-{
-	if (ft_strlen(minibox->input) == 4 && !ft_strncmp(minibox->input, "exit", 4))
-	{
-		printf("Bye Bye fuckers!\n");
-		return (ft_false);
-	}
-	tokenize_input(minibox);
-	return (ft_true);
-}

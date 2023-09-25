@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 12:58:49 by anshovah          #+#    #+#             */
-/*   Updated: 2023/09/25 14:08:30 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/09/25 18:34:47 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int count_dollars(char *input, int i, int count)
 char	*find_key(char *input, int i)
 {
     input++;
-	while (ft_isalnum(input[i]))
+	while (ft_isalnum(input[i]) || input[i] == '_')
 		i++;
 	return (ft_substr(input, 0, i));	
 }
@@ -74,19 +74,7 @@ char    **get_all_vars(char *input, int i, int count, char **vars)
     return (vars);
 }
 
-/*
-   trims all the whitespaces at the beginning and the end 
-   of the original string, frees it and returns the trimmed one
-*/
-char    *trim_input(char *input)
-{
-    char    *trimmed;
 
-    trimmed = ft_strtrim(input, " \n\t\v");
-    if (input)
-        free (input);        
-    return (trimmed);
-}
 /*
 	gets the parts of the string which are located before and after
 	the variable name, then expands the variable, and then join all the 3 parts
@@ -116,24 +104,40 @@ char    *insert_var_val(char *input, char *var_name, char *var_value)
 	a string array, then trims spaces at the beginning and the end
 	of a string, then replaces all the variable names by their values
 */
-char	*expand_variables(t_minibox *minibox, int i, int j)
+void	expand_variables(t_minibox *minibox, int i, int j)
 {
-    minibox->vars = get_all_vars(minibox->input, 0,
-        count_dollars(minibox->input, 0, 0), NULL);
-    minibox->input = trim_input(minibox->input);
+    t_bool flg_found_var;
+    minibox->input_expanded = ft_strdup(minibox->input_trimmed);
+    minibox->vars = get_all_vars(minibox->input_expanded, 0,
+        count_dollars(minibox->input_expanded, 0, 0), NULL);
     while (minibox->vars[++i])
     {   
+        flg_found_var = ft_false;
         j = 0;
         while (minibox->env[j])
         {
-            if (!ft_strncmp(minibox->vars[i], minibox->env[j],
-                ft_strlen(minibox->vars[i])))
+            int len_var;
+            int len_env_key;
+            char *equal_sign;
+            len_var = ft_strlen(minibox->vars[i]);
+            equal_sign = ft_strchr(minibox->env[j], '=');
+            len_env_key = ft_strlen(minibox->env[j]) - ft_strlen(equal_sign);
+            if(len_var == len_env_key)
             {
-                minibox->input = insert_var_val(minibox->input,
-                minibox->vars[i], minibox->env[j]);
-            }    
+                if (!ft_strncmp(minibox->vars[i], minibox->env[j], len_env_key))
+                {
+                    flg_found_var = ft_true;
+                    minibox->input_expanded = insert_var_val(minibox->input_expanded,
+                    minibox->vars[i], minibox->env[j]);
+                    break;
+                }    
+            }
             j++;    
         }
+        if(flg_found_var == ft_false)
+        {
+            // TODO: We have to remove the wrong var in the string like:
+            // Hello $LES World    ->   Hello  World 
+        }
     }
-	return (minibox->input);
 }

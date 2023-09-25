@@ -9,7 +9,7 @@ DEBUG = 0
 
 # Compiler options
 CC = cc
-CFLAGS = -D DEBUG=$(DEBUG) -Wall -Werror -Wextra #-g -fsanitize=address -fsanitize-address-use-after-scope
+CFLAGS = -D DEBUG=$(DEBUG) -Wall -Werror -Wextra -g -fsanitize=address -fsanitize-address-use-after-scope
 CLIBS = -L$(LIB_FOLDER) -lft -lm -lreadline
 CINCLUDES  = -I$(INCLUDE_FOLDER) 
 RM = rm -rf
@@ -30,23 +30,30 @@ LIB_FOLDER     = ./libft/
 
 # ->Files
 LIBFT = $(LIB_FOLDER)libft.a
-SRCS = $(addprefix $(SRC_FOLDER), 		\
-	core/main.c							\
-	parser/parser.c parser/p_utils.c	\
-	builtins/bultin_echo.c				\
-	builtins/bultin_cd.c				\
-	builtins/bultin_pwd.c				\
-	builtins/bultin_export.c			\
-	builtins/bultin_unset.c				\
-	builtins/bultin_env.c				\
-	builtins/bulitin_exit.c				\
-	parser/expand_vars.c 				\
-	signals.c)
-	
+SRCS = $(addprefix $(SRC_FOLDER), 			\
+	0-Core/main.c							\
+	0-Core/env.c							\
+	0-Core/general_utils_1.c				\
+	0-Core/input_manager.c					\
+	0-Core/manage_minibox.c					\
+	0-Core/signals.c						\
+	1-Input-Management/expand_vars.c		\
+	1-Input-Management/lexer.c 				\
+	1-Input-Management/parser.c				\
+	1-Input-Management/utils.c				\
+	2-Execution/builtins/cd.c				\
+	2-Execution/builtins/echo.c				\
+	2-Execution/builtins/pwd.c				\
+	2-Execution/builtins/export.c			\
+	2-Execution/builtins/unset.c			\
+	2-Execution/builtins/env.c				\
+	2-Execution/builtins/exit.c				\
+	)
+
 # Object files
 OBJS = $(SRCS:$(SRC_FOLDER)%.c=$(OBJ_FOLDER)%.o)
 
-#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
 
 # TARGETS
 .PHONY: all clean fclean re norm

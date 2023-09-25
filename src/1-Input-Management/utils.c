@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   p_utils.c                                          :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 15:05:22 by anshovah          #+#    #+#             */
-/*   Updated: 2023/09/21 15:13:19 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/09/25 18:25:03 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,3 +69,17 @@ bool	special_characters(char c, int i)
 	}
 	return (false);
 }
+
+/*
+   trims all the whitespaces at the beginning and the end 
+   of the original string, frees it and returns the trimmed one
+*/
+// char    *trim_input(char *input)
+// {
+//     char    *trimmed;
+
+//     trimmed = ft_strtrim(input, " \n\t\v");
+//     if (input)
+//         free (input);        
+//     return (trimmed);
+// }
