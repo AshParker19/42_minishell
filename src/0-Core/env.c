@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:16:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/09/25 18:47:00 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/09/25 19:32:58 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char *resolve_local_var(char *key)
 //      2 Check if already a local one -> overwrite local one
 //      3 If not 1 or 2 than declare a new local one (add to linked list)
 void store_local_var(t_minibox *minibox, char *key, char *value)
-{
+{if u finde ""
     (void)minibox;    
     (void)key;
     (void)value;    

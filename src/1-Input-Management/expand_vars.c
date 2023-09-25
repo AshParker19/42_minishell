@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 12:58:49 by anshovah          #+#    #+#             */
-/*   Updated: 2023/09/25 18:34:47 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/09/25 19:32:31 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,9 +108,9 @@ void	expand_variables(t_minibox *minibox, int i, int j)
 {
     t_bool flg_found_var;
     minibox->input_expanded = ft_strdup(minibox->input_trimmed);
-    minibox->vars = get_all_vars(minibox->input_expanded, 0,
+    minibox->global_vars = get_all_vars(minibox->input_expanded, 0,
         count_dollars(minibox->input_expanded, 0, 0), NULL);
-    while (minibox->vars[++i])
+    while (minibox->global_vars[++i])
     {   
         flg_found_var = ft_false;
         j = 0;
@@ -119,16 +119,16 @@ void	expand_variables(t_minibox *minibox, int i, int j)
             int len_var;
             int len_env_key;
             char *equal_sign;
-            len_var = ft_strlen(minibox->vars[i]);
+            len_var = ft_strlen(minibox->global_vars[i]);
             equal_sign = ft_strchr(minibox->env[j], '=');
             len_env_key = ft_strlen(minibox->env[j]) - ft_strlen(equal_sign);
             if(len_var == len_env_key)
             {
-                if (!ft_strncmp(minibox->vars[i], minibox->env[j], len_env_key))
+                if (!ft_strncmp(minibox->global_vars[i], minibox->env[j], len_env_key))
                 {
                     flg_found_var = ft_true;
                     minibox->input_expanded = insert_var_val(minibox->input_expanded,
-                    minibox->vars[i], minibox->env[j]);
+                    minibox->global_vars[i], minibox->env[j]);
                     break;
                 }    
             }

@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2023/09/25 18:49:59 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/09/25 19:26:48 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@
 # include <termios.h>
 # include <unistd.h>
 
-
 /* project includes */
 # include "../libft/libft_printf.h"
 # include "input_manager.h"
@@ -58,7 +57,7 @@ typedef struct s_minibox
     char        *input_original;
     char        *input_trimmed;
     char        *input_expanded;
-    char        **vars;
+    char        **global_vars;
     t_token     *tokens;
     t_tree      *root;
     t_local_var *local_vars;
