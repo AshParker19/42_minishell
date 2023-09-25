@@ -6,14 +6,14 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2023/09/21 14:17:07 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/09/25 19:26:48 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "../libft/libft.h"
+/* system includes */
 # include <curses.h>
 # include <dirent.h>
 # include <errno.h>
@@ -35,7 +35,9 @@
 # include <unistd.h>
 
 /* project includes */
-# include "parsing.h"
+# include "../libft/libft_printf.h"
+# include "input_manager.h"
+# include "executor.h"
 
 /*    colors    */
 # define GREEN 		"\033[0;32m"
@@ -45,15 +47,43 @@
 # define PURPLE 	"\x1b[35m"
 # define RESET 		"\033[0m"
 
-// MAIN.C
-int	main(int argc, char **argv, char** envp);
+/******************************************************************************/
+/* list of local variables */
+typedef struct s_local_var t_local_var;
 
+typedef struct s_minibox
+{
+    char        **env;
+    char        *input_original;
+    char        *input_trimmed;
+    char        *input_expanded;
+    char        **global_vars;
+    t_token     *tokens;
+    t_tree      *root;
+    t_local_var *local_vars;
+}              t_minibox;
 
-// SIGNALS.C
+/* list of local variables (definition) */
+typedef struct s_local_var
+{
+    char        *key;
+    char        *value;
+    struct      s_local_var *next;
+}              t_local_var;
+/******************************************************************************/
 
+/* input_manager.c */
+void	manage_input(t_minibox *minibox);
 
-// BUILTINS
-// 
+/* env.c */
+char    *resolve_local_var(char *key);
+void    store_local_var(t_minibox *minibox, char *key, char *value);
+void    free_local_vars(t_minibox *minibox);
 
+/* manage_minibox.c */
+void	initialize_box(t_minibox *minibox, char **env);
+void    free_input_strings(t_minibox *minibox);
+void	free_matrix(t_minibox *minibox, int i);
+void    free_and_close_box(t_minibox *minibox, int exit_status);
 
 #endif

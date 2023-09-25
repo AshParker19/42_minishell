@@ -49,6 +49,7 @@ SRCS = $(addprefix $(SRC_FOLDER), \
 	ft_memcpy.c \
 	ft_memmove.c \
 	ft_memset.c \
+	ft_printf.c \
 	ft_putchar_fd.c \
 	ft_putendl_fd.c \
 	ft_putnbr_fd.c \
@@ -72,6 +73,11 @@ SRCS = $(addprefix $(SRC_FOLDER), \
 	ft_tolower.c \
 	ft_toupper.c \
 	get_next_line.c \
+	print_char.c \
+	print_dez_to_hexa.c \
+	print_nbr.c \
+	print_ptr.c \
+	print_str.c \
 	print_header.c)
 
 # Object files

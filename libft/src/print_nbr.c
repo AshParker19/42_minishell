@@ -1,27 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
+/*   print_nbr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/17 14:10:40 by astein            #+#    #+#             */
+/*   Created: 2023/04/21 11:19:24 by astein            #+#    #+#             */
 /*   Updated: 2023/05/09 15:38:12 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft_printf.h"
 
-/**
- * @brief	Adds the node 'new' at the end of the list.
- * 
- * @param	lst	The address of a pointer to the first link of a list.
- * @param	new	The address of a pointer to the nose to be added to the list.
- */
-void	ft_lstadd_back(t_list **lst, t_list *new)
+void	print_nbr(long nbr, int *len)
 {
-	if (!*lst)
-		ft_lstadd_front(lst, new);
+	if (nbr == -2147483648)
+	{
+		print_char('-', len);
+		print_char('2', len);
+		print_nbr(147483648, len);
+	}
+	else if (nbr < 0)
+	{
+		print_char('-', len);
+		print_nbr(-nbr, len);
+	}
+	else if (nbr < 10)
+		print_char(nbr + '0', len);
 	else
-		ft_lstlast(*lst)->next = new;
+	{
+		print_nbr(nbr / 10, len);
+		print_char((nbr % 10) + '0', len);
+	}
 }

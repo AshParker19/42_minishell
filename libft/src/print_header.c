@@ -6,11 +6,11 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 18:57:11 by astein            #+#    #+#             */
-/*   Updated: 2023/08/07 16:11:14 by astein           ###   ########.fr       */
+/*   Updated: 2023/07/27 18:59:43 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include "../libft_printf.h"
 
 /**
  * @brief 	simple function that prints the char 'c' int 'amount' of times to the

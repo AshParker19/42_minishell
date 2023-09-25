@@ -6,11 +6,11 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 17:41:02 by astein            #+#    #+#             */
-/*   Updated: 2023/08/07 16:11:14 by astein           ###   ########.fr       */
+/*   Updated: 2023/05/09 15:38:12 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include "../libft_printf.h"
 
 /**
  * @brief	Outputs any integer 'n' to the given file descriptor 'fd'.

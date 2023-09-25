@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/13 16:16:49 by astein            #+#    #+#             */
-/*   Updated: 2023/09/22 12:02:45 by anshovah         ###   ########.fr       */
+/*   Created: 2023/09/21 12:11:14 by anshovah          #+#    #+#             */
+/*   Updated: 2023/09/25 18:35:29 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ characters in the quoted sequence.
 
 • Handle " (double quote) which should prevent the shell from interpreting the meta-
 characters in the quoted sequence except for $ (dollar sign).
-
 */
 
 int	get_flag(char c)
@@ -128,20 +127,19 @@ t_token *get_token(char *input, t_token *token, int len)
 	return (token);
 }
 
-void	tokenize_input(char *input, t_token *token)
+
+
+/*
+	TODO: Make a linked list with the tokens grabbed from 
+	minibox->input_expaned
+
+    the result will be stored in the linked list:
+    minibox->tokens
+*/
+void	tokenize(t_minibox *minibox)
 {
-	token = get_token(input, token, 0);
+	(void)minibox;
+	// printf("TOKENIZER STARTED....%s\n",minibox->input_expanded);
+	// token = get_token(input, token, 0);
 }
 
-// parse the input and call the correct functions
-// return false if the input is exit
-t_bool	parse_input(char *input)
-{
-	if (ft_strlen(input) == 4 && !ft_strncmp(input, "exit", 4))
-	{
-		printf("Bye Bye fuckers!\n");
-		return (ft_false);
-	}
-	tokenize_input(input, NULL);
-	return (ft_true);
-}
