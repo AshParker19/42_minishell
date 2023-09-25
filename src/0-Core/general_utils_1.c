@@ -1,25 +1,13 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   general_utils_1.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/14 17:41:09 by astein            #+#    #+#             */
-/*   Updated: 2023/05/09 15:38:12 by astein           ###   ########.fr       */
+/*   Created: 2023/09/25 16:43:17 by anshovah          #+#    #+#             */
+/*   Updated: 2023/09/25 17:51:00 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft_printf.h"
-
-/**
- * @brief	Outputs the string 's' to the given file descriptor 'fd'.
- */
-void	ft_putstr_fd(char *s, int fd)
-{
-	while (*s)
-	{
-		ft_putchar_fd(*s, fd);
-		s++;
-	}
-}
+#include "minishell.h"

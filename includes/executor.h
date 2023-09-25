@@ -1,25 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/14 17:41:09 by astein            #+#    #+#             */
-/*   Updated: 2023/05/09 15:38:12 by astein           ###   ########.fr       */
+/*   Created: 2023/09/25 17:55:31 by anshovah          #+#    #+#             */
+/*   Updated: 2023/09/25 19:25:15 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft_printf.h"
+#ifndef EXECUTOR_H
+# define EXECUTOR_H
 
-/**
- * @brief	Outputs the string 's' to the given file descriptor 'fd'.
- */
-void	ft_putstr_fd(char *s, int fd)
-{
-	while (*s)
-	{
-		ft_putchar_fd(*s, fd);
-		s++;
-	}
-}
+// BUILTINS
+// TODO:
+// Alex will put all the buildin prototypes here...
+
+#endif

@@ -6,11 +6,11 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 16:02:29 by astein            #+#    #+#             */
-/*   Updated: 2023/08/07 16:11:14 by astein           ###   ########.fr       */
+/*   Updated: 2023/05/09 15:38:12 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include "../libft_printf.h"
 
 /**
  * @brief	This function erases the data in the 'n' bytes of the memory

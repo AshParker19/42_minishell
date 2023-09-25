@@ -1,14 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bulitin_exit.c                                     :+:      :+:    :+:   */
+/*   print_ptr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/13 16:33:57 by astein            #+#    #+#             */
-/*   Updated: 2023/09/17 18:05:13 by anshovah         ###   ########.fr       */
+/*   Created: 2023/04/21 11:50:07 by astein            #+#    #+#             */
+/*   Updated: 2023/05/09 15:36:07 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../libft_printf.h"
 
+void	print_ptr(unsigned long ptr, int *len)
+{
+	if (!ptr)
+		print_str("(nil)", len);
+	else
+	{
+		print_str("0x", len);
+		print_dez_to_hexa(ptr, len, ft_false);
+	}
+}

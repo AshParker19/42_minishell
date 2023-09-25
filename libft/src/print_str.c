@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
+/*   print_str.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/17 14:10:40 by astein            #+#    #+#             */
+/*   Created: 2023/04/21 11:14:42 by astein            #+#    #+#             */
 /*   Updated: 2023/05/09 15:38:12 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft_printf.h"
 
-/**
- * @brief	Adds the node 'new' at the end of the list.
- * 
- * @param	lst	The address of a pointer to the first link of a list.
- * @param	new	The address of a pointer to the nose to be added to the list.
- */
-void	ft_lstadd_back(t_list **lst, t_list *new)
+void	print_str(char *str, int *len)
 {
-	if (!*lst)
-		ft_lstadd_front(lst, new);
+	if (!str)
+		print_str("(null)", len);
 	else
-		ft_lstlast(*lst)->next = new;
+	{
+		while (*str)
+		{
+			print_char(*str, len);
+			str++;
+		}
+	}
 }

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include "../libft_printf.h"
 
 /**
  * @brief	replaces all char 'old' in string 'str' with char 'new'
