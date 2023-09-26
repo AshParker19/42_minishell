@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 15:35:02 by anshovah          #+#    #+#             */
-/*   Updated: 2023/09/25 18:49:31 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/09/26 17:24:39 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct	s_tree
 /* VARIABLES EXPANSION*/
 char	*find_key(char *input, int i);
 void	expand_variables(t_minibox *minibox, int i, int j);
+void	expand_variables_2(t_minibox *minibox, int i, int j);
 
 /* LEXER */
 t_token	*ft_addback(t_token *head, char *token_val, int type);
@@ -52,6 +53,11 @@ int		ft_isspace(char c);
 char	*skip_spaces(char *str);
 bool	special_characters(char c, int i);
 void	tokenize(t_minibox *minibox);
+
+/* HANDLE QUOTES */
+// void	mark_context_quotes(t_minibox *minibox);
+void	mark_context_quotes(t_minibox *minibox, int i, int quote_state);
+void	remove_context_quotes(t_minibox *minibox, int i, int j);
 
 /* PARSER */
 void	parse(t_minibox *minibox);

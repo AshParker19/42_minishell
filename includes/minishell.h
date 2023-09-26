@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2023/09/25 19:26:48 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/09/26 17:04:51 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,11 @@
 # define PURPLE 	"\x1b[35m"
 # define RESET 		"\033[0m"
 
+/* QUOTE STATES */
+# define OUT_Q      0   //OUTSIDE QUOTES
+# define IN_SQ      6   //INSIDE SINGLE QUOTES
+# define IN_DQ      7   //INSIDE DOUBLE QUOTES
+
 /******************************************************************************/
 /* list of local variables */
 typedef struct s_local_var t_local_var;
@@ -56,6 +61,7 @@ typedef struct s_minibox
     char        **env;
     char        *input_original;
     char        *input_trimmed;
+    char        *input_quoted;
     char        *input_expanded;
     char        **global_vars;
     t_token     *tokens;
