@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2023/09/25 19:45:47 by astein           ###   ########.fr       */
+/*   Updated: 2023/09/26 16:25:25 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,8 @@ typedef struct s_local_var
 void	manage_input(t_minibox *minibox);
 
 /* env.c */
-char    *resolve_local_var(char *key);
-void    store_local_var(t_minibox *minibox, char *key, char *value);
-void    free_local_vars(t_minibox *minibox);
+char    *get_var(char *key);
+void    set_var(t_minibox *minibox, char *key, char *value)
 
 /* manage_minibox.c */
 void	initialize_box(t_minibox *minibox, char **env);
