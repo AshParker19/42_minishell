@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 15:35:02 by anshovah          #+#    #+#             */
-/*   Updated: 2023/09/27 09:57:03 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/09/27 10:34:12 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,10 @@ char    *insert_var_val(char *input, char *var_key, char *var_val, bool found);
 void	expand_variables(t_minibox *minibox, int k, int k_end, int quote_state);
 
 /* LEXER */
-t_token	*ft_addback(t_token *head, char *token_val, int type);
+t_token	*ft_addback(t_token *head, char *token_value, int type);
 int		ft_isspace(char c);
-char	*skip_spaces(char *str);
 bool	special_characters(char c, int i);
+// void	tokenize(t_minibox *minibox, int i);
 void	tokenize(t_minibox *minibox);
 
 /* HANDLE QUOTES */

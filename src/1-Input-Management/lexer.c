@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 12:11:14 by anshovah          #+#    #+#             */
-/*   Updated: 2023/09/25 18:35:29 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/09/27 10:34:30 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ t_token *get_token(char *input, t_token *token, int len)
 {
 	while (*input)
 	{
-		input = skip_spaces(input);
 		if (ft_isalpha(*input))
 		{
 			token = ft_addback(token, cut_word(input, 0, &len, 0), WORD);
