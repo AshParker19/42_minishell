@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:38:32 by anshovah          #+#    #+#             */
-/*   Updated: 2023/09/26 17:24:19 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/09/27 09:40:44 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	manage_input(t_minibox *minibox)
     printf ("minibox->input_trimmed:%s\n", minibox->input_trimmed);
     mark_context_quotes(minibox, 0, 0);
     printf ("minibox->input_quoted:%s\n", minibox->input_quoted);
-    expand_variables_2(minibox, -1, 0);
+    expand_variables(minibox, 0, 0, 0);
     printf ("minibox->input_expanded:%s\n", minibox->input_expanded);
     remove_context_quotes(minibox, 0, 0);
     printf ("minibox->input_removed:%s\n", minibox->input_expanded);
@@ -43,7 +43,7 @@ void	manage_input(t_minibox *minibox)
         if (ft_strlen(minibox->input_expanded) == 4 && !ft_strncmp(minibox->input_expanded, "exit", 4))
         {
             printf("Bye Bye fuckers!\n");
-            //TODO: Deal with exit satus!
+            // Deal with exit satus!
             free_and_close_box(minibox, -1);
         }
         tokenize(minibox);

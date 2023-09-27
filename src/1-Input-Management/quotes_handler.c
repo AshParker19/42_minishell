@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 14:36:59 by anshovah          #+#    #+#             */
-/*   Updated: 2023/09/26 17:10:50 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/09/27 09:18:24 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	mark_context_quotes(t_minibox *minibox, int i, int quote_state)
             quote_state = minibox->input_quoted[i];
             minibox->input_quoted[i] = IN_DQ;
         }
-        else if(quote_state ==  minibox->input_quoted[i])
+        else if(quote_state == minibox->input_quoted[i])
         {
             if(quote_state == '\'')
                 minibox->input_quoted[i] = IN_SQ;

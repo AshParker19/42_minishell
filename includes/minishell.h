@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2023/09/26 17:04:51 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/09/27 10:02:02 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@
 # include "input_manager.h"
 # include "executor.h"
 
+/******************************************************************************/
 /*    colors    */
 # define GREEN 		"\033[0;32m"
 # define RED 		"\033[0;31m"
@@ -46,12 +47,6 @@
 # define CYAN 		"\x1b[36m"
 # define PURPLE 	"\x1b[35m"
 # define RESET 		"\033[0m"
-
-/* QUOTE STATES */
-# define OUT_Q      0   //OUTSIDE QUOTES
-# define IN_SQ      6   //INSIDE SINGLE QUOTES
-# define IN_DQ      7   //INSIDE DOUBLE QUOTES
-
 /******************************************************************************/
 /* list of local variables */
 typedef struct s_local_var t_local_var;
