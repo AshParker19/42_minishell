@@ -6,12 +6,12 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:16:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/09/27 09:32:14 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/09/27 15:14:51 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h" //TODO:FIXME:Check the bottom of a fileFIXME:TODO:
-
+//TODO: VAR=""hello world"" should be an error TODO:
 // REPLACING $LESS ---> -R
 //    1 check if Var KEY is a GLOBAL one
 //    2 check if local one

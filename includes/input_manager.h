@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 15:35:02 by anshovah          #+#    #+#             */
-/*   Updated: 2023/09/27 10:34:12 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/09/27 18:16:19 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ t_token	*ft_addback(t_token *head, char *token_value, int type);
 int		ft_isspace(char c);
 bool	special_characters(char c, int i);
 // void	tokenize(t_minibox *minibox, int i);
-void	tokenize(t_minibox *minibox);
+void	tokenize(t_minibox *minibox, int i);
 
 /* HANDLE QUOTES */
 void	mark_context_quotes(t_minibox *minibox, int i, int quote_state);

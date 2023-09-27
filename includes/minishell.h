@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2023/09/27 10:17:09 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/09/27 11:16:59 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ typedef struct s_local_var
 {
     char        *key;
     char        *value;
-    struct      s_local_var *next;
+    struct      s_local_var *next; //echo $LESS "$LESS" '$LESS' "$LE''SS"
 }              t_local_var;
 /******************************************************************************/
 

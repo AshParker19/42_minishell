@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:38:32 by anshovah          #+#    #+#             */
-/*   Updated: 2023/09/27 10:34:18 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/09/27 14:39:01 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	manage_input(t_minibox *minibox)
             // Deal with exit satus!
             free_and_close_box(minibox, -1);
         }
-        tokenize(minibox);
+        tokenize(minibox, 0);
         parse(minibox);
     }
 

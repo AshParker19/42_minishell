@@ -6,13 +6,13 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 15:05:22 by anshovah          #+#    #+#             */
-/*   Updated: 2023/09/27 10:23:07 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/09/27 13:55:21 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_token	*ft_addback(t_token *head, char *token_value, int type)
+t_token	*ft_addback(t_token *head, char *token_v, int type)
 {
 	t_token	*new;
 	t_token	*current;
@@ -20,7 +20,7 @@ t_token	*ft_addback(t_token *head, char *token_value, int type)
 	new = ft_calloc(1, sizeof(t_token));
 	if (!new)
 		return (NULL);
-	new->token_value = token_value;
+	new->token_value = token_v;
 	new->type = type;
 	if (!head)
 		return (new);	
@@ -33,7 +33,7 @@ t_token	*ft_addback(t_token *head, char *token_value, int type)
 
 int	ft_isspace(char c)
 {
-	return (c == ' ' || c == '\n' || c == '\t' || c == '\v');
+	return (c == ' ' || c == '\n' || c == '\t');
 }
 
 bool	special_characters(char c, int i)

@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 12:58:49 by anshovah          #+#    #+#             */
-/*   Updated: 2023/09/27 09:58:35 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/09/27 12:54:06 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,16 @@ char    *insert_var_val(char *input, char *var_key, char *var_val, bool found)
     return (inserted);
 }
 
-
 // TODO: ALex will code this in the env.c file
 char *get_var(char *cur_key)
 {
-    (void)cur_key;
-    char *temp_message = ft_calloc(9, sizeof(char));
-    temp_message = "|SOON!|";
-    return(temp_message);
+    // (void)cur_key;
+    if (!ft_strncmp(cur_key, "LESS", 4))
+        return ("|SOON!|");
+    else
+        return ("###");
+    // char *temp_message = ft_calloc(9, sizeof(char));
+    // return(temp_message);
 }
 
 // 1. Loop trough qouted_input
@@ -80,8 +82,8 @@ char *get_var(char *cur_key)
 void	expand_variables(t_minibox *minibox, int k, int k_end, int quote_state)
 {
     char    *cur_key;
-    char    *cur_value;
-    char    cur_char;
+    char    *cur_value; //FIXME:echo $LESS "$LESS" '$LESS' "$LE''SS"
+    char    cur_char;   // -R -R $LESS ''SS
     
     quote_state = OUT_Q;
     minibox->input_expanded = ft_strdup(minibox->input_quoted);
@@ -100,13 +102,19 @@ void	expand_variables(t_minibox *minibox, int k, int k_end, int quote_state)
             {
                 k_end++;
             }
+            // printf (PURPLE"KEY_END %d\n", k_end);
 	        cur_key = ft_substr(minibox->input_quoted, k, k_end - k); //TODO:FREE IT
             // TODO: cur_key is "$" or "$?" -> treat special cases
             cur_value = get_var(cur_key); //IF key doesnt exist function returns NULL
+            // printf (GREEN"BEFORE: %s\n"RESET, minibox->input_expanded);
+            // printf ("cur_key **%s**\n", cur_key);
+            // printf ("cur_val **%s**\n", cur_value);
             if (cur_value)
                 minibox->input_expanded = insert_var_val(minibox->input_expanded, cur_key, cur_value, true);
             else
                 minibox->input_expanded = insert_var_val(minibox->input_expanded, cur_key, cur_value, false);
+            // printf (GREEN"AFTER: %s\n"RESET, minibox->input_expanded);
+            free (cur_key);    
         }            
         k++;
     }
