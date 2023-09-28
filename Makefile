@@ -91,4 +91,3 @@ test: all
 
 norm:
 	norminette
-

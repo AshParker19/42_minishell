@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 12:58:49 by anshovah          #+#    #+#             */
-/*   Updated: 2023/09/28 12:24:47 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/09/28 14:56:15 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,18 +51,6 @@ char    *insert_var_val(char *input, char *var_key, char *var_val, bool found)
     return (inserted);
 }
 
-// TODO: ALex will code this in the env.c file
-char *get_var(char *cur_key)
-{
-    // (void)cur_key;
-    if (!ft_strncmp(cur_key, "LESS", 4))
-        return ("|SOON!|");
-    else
-        return ("123###");
-    // char *temp_message = ft_calloc(9, sizeof(char));
-    // return(temp_message);
-}
-
 // 1. Loop trough qouted_input
 // 2. If we find a $ and are not in qoute_state= single quote
 //  TRUE
@@ -105,7 +93,7 @@ void	expand_variables(t_minibox *minibox, int k, int k_end, int quote_state)
             // printf (PURPLE"KEY_END %d\n", k_end);
 	        cur_key = ft_substr(minibox->input_quoted, k, k_end - k); //TODO:FREE IT
             // TODO: cur_key is "$" or "$?" -> treat special cases
-            cur_value = get_var(cur_key); //IF key doesnt exist function returns NULL
+            cur_value = get_var(minibox, cur_key); //IF key doesnt exist function returns NULL
             // printf (GREEN"BEFORE: %s\n"RESET, minibox->input_expanded);
             // printf ("cur_key **%s**\n", cur_key);
             // printf ("cur_val **%s**\n", cur_value);

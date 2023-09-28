@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 12:58:03 by astein            #+#    #+#             */
-/*   Updated: 2023/05/26 21:07:08 by astein           ###   ########.fr       */
+/*   Updated: 2023/09/26 16:20:39 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /**
  * @brief	Allocates and returns a copy of 's1' with the characters specified 
- * 			in 'set' removed from the beginning and the end of the string
+* 			in 'set' removed from the beginning and the end of the string
  * 
  * @param	s1	The string to be trimmed
  * @param	set The reference set of characters to trim
