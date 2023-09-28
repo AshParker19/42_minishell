@@ -3,46 +3,144 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:16:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/09/25 20:50:01 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/09/28 14:27:46 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// REPLACING $LESS ---> -R
-//    1 check if Var KEY is a GLOBAL one
-//    2 check if local one
-//    3 if not 1 ord 2 delete it (HELLO $LES WOLRD   -> Hello  World)
-// Input a VAR Key
-// Returns Value (NULL if doenst exist)
-// 
-// Input $ANATOLII
-// Return ALEX
-char *resolve_local_var(char *key)
+/*
+    this function crates a new node of t_var
+        new_var->key = key
+        new_var->value
+            if value=NULL
+                getenv
+            else
+                value
+    add the new node to the end of the vars linked lis tin minibox
+*/
+static void    add_var(t_minibox *minibox, char *key, char *value)
 {
-    (void)key;
-    return(NULL);
+    t_var   *new_var;
+    t_var   *current;
+    
+    new_var = ft_calloc(1, sizeof(t_var));
+    if(!new_var)
+        return; //TODO: deal with malloc failure
+    new_var->key = key;
+    if(value)
+        new_var->value = value;
+    else
+        new_var->value = ft_strdup(getenv(key));
+    if(!minibox->vars)
+        minibox->vars = new_var;
+    else
+    {
+        current = minibox->vars;
+        while (current->next)
+            current = current->next;
+        current->next = new_var;    
+    }
 }
 
-// SET VARS    LESS=ASD
-//      1 Check i KEY is a GLOBAL one -> overwrite global one
-//      2 Check if already a local one -> overwrite local one
-//      3 If not 1 or 2 than declare a new local one (add to linked list)
-void store_local_var(t_minibox *minibox, char *key, char *value)
+/*
+    Transforming the env into a linked list
+    -> store the linked list in minibox
+*/
+void load_vars(t_minibox *minibox)
 {
-    (void)minibox;    
-    (void)key;
-    (void)value;    
-    // TODO:
+    int     i;
+    char    *key;
+
+    i = 0;
+    while(minibox->env[i])
+    {
+        key = ft_strchr(minibox->env[i], '=');
+        key = ft_substr(minibox->env[i], 0,
+            ft_strlen(minibox->env[i]) - ft_strlen(key));
+        add_var(minibox, key, NULL);
+        i++;    
+    }
 }
 
-// DELETE AND FREE THE LINKED LIST
-void free_local_vars(t_minibox *minibox)
+/*
+    input a key and return the value or NULL if doesnt exist
+*/
+char *get_var(t_minibox *minibox, char *key)
 {
-    (void)minibox;
-    // TODO:
+    t_var *current;
+    char *value;
+
+    current = minibox->vars;
+    value = NULL;
+
+    while(current)
+    {
+        if(ft_strlen(key) == ft_strlen(current->key))
+        {
+            if(!ft_strncmp(key, current->key, ft_strlen(key)))
+            {
+                value = current->value;
+                break;
+            }
+        }
+        current = current->next;
+    }
+    return(value);
+}
+
+/*
+    input a key and a value
+    if key exists
+        -> only change value
+    if key doesnt exist
+        -> create new node in linkedlist and set value
+*/
+void set_var(t_minibox *minibox, char *key, char *value)
+{
+    t_var *current;
+    
+    if(get_var(minibox, key))
+    {
+        current = minibox->vars;
+        while(current)
+        {
+            if(ft_strlen(key) == ft_strlen(current->key))   
+            {
+                if(!ft_strncmp(key, current->key, ft_strlen(key)))
+                {
+                    current->value = value;
+                    break;
+                }
+            }
+            current = current->next;
+        }
+    }
+    else
+        add_var(minibox, key, value);
+}  
+
+/*
+    Go through the linked list of t_var and free each node
+*/
+void free_vars(t_minibox *minibox)
+{
+    t_var *current;
+    t_var *temp;
+
+    current = minibox->vars;
+    while(current)
+    {
+        temp = current;
+        current = current->next;
+        if (temp->key)
+            free(temp->key);
+        if(temp->value)
+            free(temp->value); // FIXME: getenv no free! overwrtitten value need free!
+        free(temp);
+    }
 }
 

@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bultin_echo.c                                      :+:      :+:    :+:   */
+/*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/13 16:32:13 by astein            #+#    #+#             */
-/*   Updated: 2023/09/22 13:13:25 by astein           ###   ########.fr       */
+/*   Created: 2023/09/21 11:32:13 by astein            #+#    #+#             */
+/*   Updated: 2023/09/22 13:11:16 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#ifndef BUILTINS_H
+# define BUILTINS_H
 
-void bultin_echo(char *txt)
-{
-    ft_putendl_fd(txt, 1);
-}
+void bultin_echo(char *txt);
+
+#endif
