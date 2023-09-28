@@ -41,6 +41,7 @@ SRCS = $(addprefix $(SRC_FOLDER), 			\
 	1-Input-Management/lexer.c 				\
 	1-Input-Management/parser.c				\
 	1-Input-Management/utils.c				\
+	1-Input-Management/quotes_handler.c		\
 	2-Execution/builtins/cd.c				\
 	2-Execution/builtins/echo.c				\
 	2-Execution/builtins/pwd.c				\

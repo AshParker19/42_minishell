@@ -121,8 +121,7 @@ void set_var(t_minibox *minibox, char *key, char *value)
     }
     else
         add_var(minibox, key, value);
-}
-
+}  
 
 /*
     Go through the linked list of t_var and free each node

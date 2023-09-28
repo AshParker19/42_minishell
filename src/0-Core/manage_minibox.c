@@ -18,6 +18,7 @@ void	initialize_box(t_minibox *minibox, char **env)
 	minibox->vars = NULL;
 	minibox->input_original = NULL;
 	minibox->input_trimmed = NULL;
+	minibox->input_quoted = NULL;
 	minibox->input_expanded = NULL;
 	minibox->tokens = NULL;
 	minibox->root = NULL;
@@ -26,11 +27,13 @@ void	initialize_box(t_minibox *minibox, char **env)
 
 void free_input_strings(t_minibox *minibox)
 {
-	if(minibox->input_original)
+	if (minibox->input_original)
 		free(minibox->input_original);
-	if(minibox->input_trimmed)
+	if (minibox->input_trimmed)
 		free(minibox->input_trimmed);
-	if(minibox->input_expanded)
+	if (minibox->input_quoted)
+		free (minibox->input_quoted);
+	if (minibox->input_expanded)
 		free(minibox->input_expanded);
 }
 

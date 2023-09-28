@@ -47,6 +47,11 @@
 # define PURPLE 	"\x1b[35m"
 # define RESET 		"\033[0m"
 
+/* QUOTE STATES */
+# define OUT_Q      0   //OUTSIDE QUOTES
+# define IN_SQ      6   //INSIDE SINGLE QUOTES
+# define IN_DQ      7   //INSIDE DOUBLE QUOTES
+
 /******************************************************************************/
 /* list of local variables */
 typedef struct s_var t_var;
@@ -58,6 +63,7 @@ typedef struct s_minibox
     
     char        *input_original;
     char        *input_trimmed;
+    char        *input_quoted;
     char        *input_expanded;
     char        **global_vars;
     t_token     *tokens;
