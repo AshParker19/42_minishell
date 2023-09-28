@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:06:17 by astein            #+#    #+#             */
-/*   Updated: 2023/09/25 19:45:35 by astein           ###   ########.fr       */
+/*   Updated: 2023/09/28 14:30:53 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	main(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 	initialize_box(&minibox, env);
+	load_vars(&minibox);
+	
 	while (1)
 	{
 		minibox.input_original = readline("MINI-HELL-> ");

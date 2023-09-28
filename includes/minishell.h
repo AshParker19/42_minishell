@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2023/09/26 16:25:25 by astein           ###   ########.fr       */
+/*   Updated: 2023/09/28 14:06:18 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,35 +49,39 @@
 
 /******************************************************************************/
 /* list of local variables */
-typedef struct s_local_var t_local_var;
+typedef struct s_var t_var;
 
 typedef struct s_minibox
 {
     char        **env;
+    t_var       *vars;
+    
     char        *input_original;
     char        *input_trimmed;
     char        *input_expanded;
     char        **global_vars;
     t_token     *tokens;
     t_tree      *root;
-    t_local_var *local_vars;
 }              t_minibox;
 
-/* list of local variables (definition) */
-typedef struct s_local_var
+/* list of variables (definition) */
+typedef struct s_var
 {
     char        *key;
     char        *value;
-    struct      s_local_var *next;
-}              t_local_var;
+    struct      s_var *next;
+}              t_var;
 /******************************************************************************/
 
 /* input_manager.c */
 void	manage_input(t_minibox *minibox);
 
 /* env.c */
-char    *get_var(char *key);
-void    set_var(t_minibox *minibox, char *key, char *value)
+void    load_vars(t_minibox *minibox);
+char    *get_var(t_minibox *minibox, char *key);
+void    set_var(t_minibox *minibox, char *key, char *value);
+void    free_vars(t_minibox *minibox);
+
 
 /* manage_minibox.c */
 void	initialize_box(t_minibox *minibox, char **env);
