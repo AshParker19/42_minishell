@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manage_minibox.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:49:13 by anshovah          #+#    #+#             */
-/*   Updated: 2023/09/28 14:08:38 by astein           ###   ########.fr       */
+/*   Updated: 2023/09/28 19:46:55 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,13 @@ void free_input_strings(t_minibox *minibox)
 		free(minibox->input_expanded);
 }
 
-void	free_matrix(t_minibox *minibox, int i)
+void	free_matrix(char **matrix, int i)
 {
-	if (minibox->global_vars)
+	if (matrix)
 	{
-		while (minibox->global_vars[++i])
-			free (minibox->global_vars[i]);
-		free (minibox->global_vars);		
+		while (matrix[++i])
+			free (matrix[i]);
+		free (matrix);		
 	}
 }
 
@@ -54,7 +54,6 @@ void	free_matrix(t_minibox *minibox, int i)
 void free_and_close_box(t_minibox *minibox, int exit_status)
 {
 	free_input_strings(minibox);
-	free_matrix(minibox, -1);
 	free_vars(minibox);
     exit(exit_status);
 }

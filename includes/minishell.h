@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2023/09/28 16:13:02 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/09/28 19:46:14 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void    free_vars(t_minibox *minibox);
 /* manage_minibox.c */
 void	initialize_box(t_minibox *minibox, char **env);
 void    free_input_strings(t_minibox *minibox);
-void	free_matrix(t_minibox *minibox, int i);
+void	free_matrix(char **matrix, int i);
 void    free_and_close_box(t_minibox *minibox, int exit_status);
 
 #endif

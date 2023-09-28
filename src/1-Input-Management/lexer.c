@@ -6,147 +6,11 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 12:11:14 by anshovah          #+#    #+#             */
-/*   Updated: 2023/09/28 17:02:33 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/09/28 21:50:50 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*
-	trims value  "   echo" -> "echo"
-	checks for invalid tokens e.g. "     "
-	if token is valid -> adds to ll
-*/
-static void    add_token(t_minibox *minibox, char *value)
-{
-    t_token   	*new_t;
-    t_token   	*current;
-	char		*temp;
-    
-	temp = ft_strtrim(value, " \v\t\n");
-	free(value);
-	if(temp)
-	{
-		new_t = ft_calloc(1, sizeof(t_token));
-		if(!new_t)
-			return; //TODO: deal with malloc failure
-		new_t->value = temp;		
-		if(!minibox->tokens)
-			minibox->tokens = new_t;
-		else
-		{
-			current = minibox->tokens;
-			while (current->next)
-				current = current->next;
-			current->next = new_t;    
-		}
-	}
-}
-
-void	print_tokens(t_minibox *minibox)
-{
-    t_token   *current;
-	
-	current = minibox->tokens;
-	while (current)
-	{
-		printf (GREEN"----------\n"RESET);
-		printf ("token ---> %s\n type ---> %d \n", current->value, current->type);
-		printf (GREEN"----------\n\n"RESET);
-		current = current->next;
-	}
-}
-
-void	tokenize(t_minibox *minibox, int i)
-{
-	t_bool flg_end_token;
-	int j;
-	int quote_state;
-	char *start;
-	char cur_char;
-	char *cur_token_value;
-
-	i = 0;
-	j = 0;
-	flg_end_token = ft_false;
-	quote_state = OUT_Q;	
-	while(minibox->input_expanded[j])
-	{
-		cur_char = minibox->input_expanded[j];
-		// keep track of current qoute state
-		if((cur_char == IN_SQ || cur_char == IN_DQ) && quote_state == OUT_Q)
-			quote_state = cur_char;
-		else if(quote_state == cur_char)
-			quote_state = OUT_Q;
-
-		if(quote_state != OUT_Q)
-			// dont to nothing
-		else
-		{
-			// we are not in a qoutesring
-		}
-		j++;
-
-
-
-
-		// end the token and add it to the ll
-		if(flg_end_token)
-			if(j != i)
-				add_token(minibox, ft_substr(minibox->input_expanded,i,j-i));
-			i = j;
-	}
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// OLD
 
 /*
 • Not interpret unclosed quotes or special characters which are not required by the
@@ -174,30 +38,30 @@ int	get_flag(char c)
 	return (0);	
 }
 
-void	print_type(t_token *head)
-{
-	t_token *current = head;
-	while (current)
-	{
-		printf (GREEN"----------\n"RESET);
-		printf ("token ---> %s\n type ---> ", current->token_value);
-		if (current->type == WORD)
-			printf ("Word");
-		else if (current->type == PIPE)
-			printf ("Pipe");
-		else if (current->type == DOLLAR)
-			printf ("Dollar Sign");
-		else if (current->type == DB_QUOTE)
-			printf ("Double Quotes");
-		else if (current->type == SN_QUOTE)
-			printf ("Single Quotes");
-		else if (current->type == REDIREC)	
-			printf ("Redirection");
-		printf ("\n");
-		printf (GREEN"----------\n"RESET);
-		current = current->next;
-	}
-}
+// void	print_type(t_token *head)
+// {
+// 	t_token *current = head;
+// 	while (current)
+// 	{
+// 		printf (GREEN"----------\n"RESET);
+// 		printf ("token ---> %s\n type ---> ", current->token_value);
+// 		if (current->type == WORD)
+// 			printf ("Word");
+// 		else if (current->type == PIPE)
+// 			printf ("Pipe");
+// 		else if (current->type == DOLLAR)
+// 			printf ("Dollar Sign");
+// 		else if (current->type == DB_QUOTE)
+// 			printf ("Double Quotes");
+// 		else if (current->type == SN_QUOTE)
+// 			printf ("Single Quotes");
+// 		else if (current->type == REDIREC)	
+// 			printf ("Redirection");
+// 		printf ("\n");
+// 		printf (GREEN"----------\n"RESET);
+// 		current = current->next;
+// 	}
+// }
 
 char	*cut_word(char *str, int i, int *len, int option)
 {
@@ -212,55 +76,79 @@ char	*cut_word(char *str, int i, int *len, int option)
 	return (skip);
 }
 
-int	quote_len(char *str)
-{
-	int	i;
+// t_token *get_token(char *input, t_token *token, int len)
+// {
+// 	while (*input)
+// 	{
+// 		if (ft_isalpha(*input))
+// 		{
+// 			token = ft_addback(token, cut_word(input, 0, &len, 0), WORD);
+// 			input += len;
+// 		}
+// 		else if ((*input == '-' && *input + 1)
+// 			|| (*input == '-' && *input + 1 == '-' && *input + 2))
+// 		{
+// 			token = ft_addback(token, cut_word(input, 2, &len, 0), WORD); // 0 here to not to put a special character after a word
+// 			input += len;
+// 		}
+// 		else if (special_characters(*input, -1))
+// 		{
+// 			if (*input == '\'' || *input == '"') // check if quotes are closed
+// 			{
+// 				len = quote_len(input);
+// 				token = ft_addback(token, ft_substr(input, 0, len), //length for quotes here
+// 					get_flag(*input));
+// 				input += len;				
+// 			}
+// 			else
+// 			{
+// 					token = ft_addback(token, cut_word(input, 0, &len, 1),
+// 						get_flag(*input));
+// 				input++;
+// 			}
+// 		}
+// 		else
+// 			input++;
+// 	}
+// 	return (token);
+// }
 
-	i = 0;
-	if (str[i] == '"' || str[i] == '\'')
-		i++;	
-	while (str[i] != '"' && str[i] != '\'')
-		i++;
-	return (i + 1);	
-}
-
-t_token *get_token(char *input, t_token *token, int len)
+void	print_tokens(t_minibox *minibox)
 {
-	while (*input)
+    t_token   *current;
+	
+	current = minibox->tokens;
+	printf("START PRINTING\n---\n");
+	while (current)
 	{
-		if (ft_isalpha(*input))
-		{
-			token = ft_addback(token, cut_word(input, 0, &len, 0), WORD);
-			input += len;
-		}
-		else if ((*input == '-' && *input + 1)
-			|| (*input == '-' && *input + 1 == '-' && *input + 2))
-		{
-			token = ft_addback(token, cut_word(input, 2, &len, 0), WORD); // 0 here to not to put a special character after a word
-			input += len;
-		}
-		else if (special_characters(*input, -1))
-		{
-			if (*input == '\'' || *input == '"') // check if quotes are closed
-			{
-				len = quote_len(input);
-				token = ft_addback(token, ft_substr(input, 0, len), //length for quotes here
-					get_flag(*input));
-				input += len;				
-			}
-			else
-			{
-					token = ft_addback(token, cut_word(input, 0, &len, 1),
-						get_flag(*input));
-				input++;
-			}
-		}
-		else
-			input++;
+		printf ("type:(%d) \t token:╟%s╢\n", current->type, current->value);
+		current = current->next;
 	}
-	print_type(token);
-	return (token);
+	printf("---\nEND PRINTING\n");
 }
+
+/* add a new token to the end of tokens linked list and assigns variables */
+static void    add_token(t_minibox *minibox, char *value)
+{
+    t_token   *new_t;
+    t_token   *current;
+    
+    new_t = ft_calloc(1, sizeof(t_token));
+    if(!new_t)
+        return;
+    new_t->value = value;
+    if(!minibox->tokens)
+        minibox->tokens = new_t;
+    else
+    {
+        current = minibox->tokens;
+        while (current->next)
+            current = current->next;
+        current->next = new_t;    
+    }
+}
+//  ls  -l|wc  -c
+//  00**00#00**00
 
 /*
 	TODO: Make a linked list with the tokens grabbed from 
@@ -269,14 +157,82 @@ t_token *get_token(char *input, t_token *token, int len)
     the result will be stored in the linked list:
     minibox->tokens
 */
+int	substring_count(char **matrix, int i)
+{
+	while (matrix[i])
+		i++;
+	return (i);	
+}
+
+int	count_chars(char *matrix, int i)
+{
+	int	count;
+
+	count = 0;
+	while (matrix[i])
+	{
+		if (matrix[i] == TRUE_PIPE)
+			count++;
+		i++;	
+	}
+	return (count);
+}
+
+int	*mark_array(int *marks, char **matrix, char *sub, int i)
+{
+	int	string_count;
+	int	char_count;
+	(void)marks;//in marks, we have statuses, 0 = pipe, 1 = command, we traverse the array and makr indexes
+				// ant then we go though the array in the calling fucntion and see what kind of node do we need to have, with a character(pipe or other corresponding) or with a command
+	i++;
+	string_count = substring_count(matrix, 0);
+	char_count = count_chars(sub, 0);
+	// marks = malloc(count); TODO:use clloc so change only 0 to 1 if needed
+	// i = 0;
+	// int j = 0;
+	// while (i < string_count + char_count)
+	// {
+	// 	if the string 
+	// 	// if (matrix[i])
+	// 	// marks[i] = 
+	// 	// if (matrix[j])
+	// 	i++;
+	// }
+	printf ("THE COUNT %d\n", string_count + char_count);
+	return (NULL);
+}
+
+void	tokenize(t_minibox *minibox, int i)
+{
+	char	**no_space;
+	char	**no_pipes;
+	int		*marks;
+
+	no_pipes = NULL;
+	no_space = ft_split(minibox->input_expanded, NO_SPACE);
+	i = 0;
+	while (no_space[i]) // TODO:if a part of a string is a combination of commands and pipes ith no spaces, it always goes in this order command pipi command pipe and so on
+	{
+		if (ft_strchr(no_space[i], TRUE_PIPE)) // TODO: if strchr doeasn't return NULL, means there is such a character
+		{// num of strings = count of what split returns + 1TODO: find an index for a PIPE node
+			no_pipes = ft_split(no_space[i], TRUE_PIPE);
+			marks = mark_array(marks, no_pipes, no_space[i], 0);
+			free_matrix(no_pipes, -1);
+		}
+		else
+			add_token(minibox, ft_strdup(no_space[i]));
+		i++;
+	}
+	free_matrix(no_space, -1);
+	print_tokens(minibox);
+	minibox->tokens = NULL;
+}
 // void	tokenize(t_minibox *minibox, int i)
 // {
 	// int	j = 0;
 	// int	len = 0;
 	// char sep = -1;
 	// char	cur_c;
-	// (void)minibox;
-	// i++;
 	// char	**no_pipes;
 	// char	*token = NULL;
 

@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 15:35:02 by anshovah          #+#    #+#             */
-/*   Updated: 2023/09/28 16:48:14 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/09/28 21:14:47 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@
 # define IN_SQ      6   //INSIDE SINGLE QUOTES
 # define IN_DQ      7   //INSIDE DOUBLE QUOTES
 
-# define TP	    	-1	//PIPE IS TO BE EXECUTED
+# define TRUE_PIPE	-1	//PIPE IS TO BE EXECUTED
+# define NO_SPACE	-2	//WHITESPACE TO BE IGNORED
 /******************************************************************************/
 
 /* data types from other header files */
@@ -72,3 +73,4 @@ void	remove_context_quotes(t_minibox *minibox, int i, int j);
 void	parse(t_minibox *minibox);
 
 #endif
+
