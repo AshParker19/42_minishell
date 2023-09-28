@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 12:11:14 by anshovah          #+#    #+#             */
-/*   Updated: 2023/09/27 22:02:00 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/09/28 12:22:28 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,74 +135,102 @@ t_token *get_token(char *input, t_token *token, int len)
 */
 void	tokenize(t_minibox *minibox, int i)
 {
-	int		len;
-	int		start;
-	char	*token = NULL;
-	char	cur_c;
-	
-	printf("TOKENIZER STARTED....\n");
-	while (minibox->input_expanded[i])
-	{
-		len = 0;
-		// to treat the argument which is in quotes and consists of more than one word
-		if (minibox->input_expanded[i] == '\'' || minibox->input_expanded[i] == '"')
-		{
-			cur_c = minibox->input_expanded[i];
-			start = i;
-			while (minibox->input_expanded[i] == cur_c) // if there's more than one quote one after another
-			{
-				len++;
-				i++; // skip quote
-			}
-			while (minibox->input_expanded[i])
-			{
-				
-				if (minibox->input_expanded[i] == cur_c)
-				{
-					while (minibox->input_expanded[i] == cur_c) // if  more quotes after. fucked up cases like:"''world''''"   "'''world'''''" 
-					{
-						len++;
-						i++;
-					}
-					token = ft_substr(minibox->input_expanded, start, len);
-					printf ("╟%s╢", token);
-					break ;
-				}
-				len++;
-				i++;
-			}
-		}
-		else if (!ft_isspace(minibox->input_expanded[i]))
-		{
-			start = i;
-			while (minibox->input_expanded[i]) 
-			{
-				if (minibox->input_expanded[i] == '|') // look for a pipe between 2 arguments with no spaces
-				{
-					token = ft_strchr(minibox->input_expanded, '|');
-					token = ft_substr(minibox->input_expanded, start, 
-						ft_strlen(minibox->input_expanded) - ft_strlen(token));
-					// i += ft_strlen(token);	
-					printf ("╟%s╢", token);
-					break ;
-				}
-				else if (ft_isspace(minibox->input_expanded[i]))
-				{
-					token = ft_strchr(minibox->input_expanded, minibox->input_expanded[i]);
-					printf ("***%s***\n", token);
-					token = ft_substr(minibox->input_expanded, start, 
-						ft_strlen(minibox->input_expanded) - ft_strlen(token));
-					// i += ft_strlen(token);	
-					printf ("╟%s╢", token);
-					break ;
-				}
-				else
-					i++;
-			}
-		}
-		else
-			i++;
-	}
-	printf ("\n");
+	// int	j = 0;
+	// int	len = 0;
+	// char sep = -1;
+	// char	cur_c;
+	(void)minibox;
+	i++;
+	// char	**no_pipes;
+	// char	*token = NULL;
+
+	// token++;
+	// no_pipes = ft_split(minibox->input_expanded, TP);
+	// // while (no_pipes[i])
+	// // {
+	// // 	if (no_pipes[i][j])
+	// // 		//...
+	// // }
+	// i = 0;
+	// while (no_pipes[i])
+	// {
+	// 	printf ("╟%s╢\n", no_pipes[i]);
+	// 	i++;
+	// }
+	// printf ("NO PIPE ╟%s╢\n", minibox->input_expanded);
 }
+
+
+// void	tokenize(t_minibox *minibox, int i)
+// {
+// 	int		len;
+// 	int		start;
+// 	char	*token = NULL;
+// 	char	cur_c;
+	
+// 	printf("TOKENIZER STARTED....\n");
+// 	while (minibox->input_expanded[i])
+// 	{
+// 		len = 0;
+// 		// to treat the argument which is in quotes and consists of more than one word
+// 		if (minibox->input_expanded[i] == '\'' || minibox->input_expanded[i] == '"')
+// 		{
+// 			cur_c = minibox->input_expanded[i];
+// 			start = i;
+// 			while (minibox->input_expanded[i] == cur_c) // if there's more than one quote one after another
+// 			{
+// 				len++;
+// 				i++; // skip quote
+// 			}
+// 			while (minibox->input_expanded[i])
+// 			{
+				
+// 				if (minibox->input_expanded[i] == cur_c)
+// 				{
+// 					while (minibox->input_expanded[i] == cur_c) // if  more quotes after. fucked up cases like:"''world''''"   "'''world'''''" 
+// 					{
+// 						len++;
+// 						i++;
+// 					}
+// 					token = ft_substr(minibox->input_expanded, start, len);
+// 					printf ("╟%s╢", token);
+// 					break ;
+// 				}
+// 				len++;
+// 				i++;
+// 			}
+// 		}
+		
+// 		// else if (!ft_isspace(minibox->input_expanded[i]))
+// 		// {
+// 		// 	start = i;
+// 		// 	while (minibox->input_expanded[i]) 
+// 		// 	{
+// 		// 		if (minibox->input_expanded[i] == '|') // look for a pipe between 2 arguments with no spaces
+// 		// 		{
+// 		// 			printf ("TATATATA\n");
+// 		// 			token = ft_strchr(minibox->input_expanded, '|');
+// 		// 			token = ft_substr(minibox->input_expanded, start, 
+// 		// 				ft_strlen(minibox->input_expanded) - ft_strlen(token));
+// 		// 			i += ft_strlen(token);	
+// 		// 			printf ("╟%s╢", token);
+// 		// 		}
+// 		// 		else if (ft_isspace(minibox->input_expanded[i]))
+// 		// 		{
+// 		// 			token = ft_strchr(minibox->input_expanded, minibox->input_expanded[i]);
+// 		// 			printf ("***%s***\n", token);
+// 		// 			token = ft_substr(minibox->input_expanded, start, 
+// 		// 				ft_strlen(minibox->input_expanded) - ft_strlen(token));
+// 		// 			i += ft_strlen(token);	
+// 		// 			printf ("╟%s╢", token);
+// 		// 		}
+// 		// 		else
+// 		// 			i++;
+// 		// 	}
+// 		// }
+// 		else
+// 			i++;
+// 	}
+// 	printf ("\n");
+// }
 

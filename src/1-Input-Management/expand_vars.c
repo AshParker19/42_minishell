@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 12:58:49 by anshovah          #+#    #+#             */
-/*   Updated: 2023/09/27 12:54:06 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/09/28 12:24:47 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char *get_var(char *cur_key)
     if (!ft_strncmp(cur_key, "LESS", 4))
         return ("|SOON!|");
     else
-        return ("###");
+        return ("123###");
     // char *temp_message = ft_calloc(9, sizeof(char));
     // return(temp_message);
 }
