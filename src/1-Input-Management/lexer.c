@@ -6,11 +6,147 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 12:11:14 by anshovah          #+#    #+#             */
-/*   Updated: 2023/09/28 12:22:28 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/09/28 17:02:33 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/*
+	trims value  "   echo" -> "echo"
+	checks for invalid tokens e.g. "     "
+	if token is valid -> adds to ll
+*/
+static void    add_token(t_minibox *minibox, char *value)
+{
+    t_token   	*new_t;
+    t_token   	*current;
+	char		*temp;
+    
+	temp = ft_strtrim(value, " \v\t\n");
+	free(value);
+	if(temp)
+	{
+		new_t = ft_calloc(1, sizeof(t_token));
+		if(!new_t)
+			return; //TODO: deal with malloc failure
+		new_t->value = temp;		
+		if(!minibox->tokens)
+			minibox->tokens = new_t;
+		else
+		{
+			current = minibox->tokens;
+			while (current->next)
+				current = current->next;
+			current->next = new_t;    
+		}
+	}
+}
+
+void	print_tokens(t_minibox *minibox)
+{
+    t_token   *current;
+	
+	current = minibox->tokens;
+	while (current)
+	{
+		printf (GREEN"----------\n"RESET);
+		printf ("token ---> %s\n type ---> %d \n", current->value, current->type);
+		printf (GREEN"----------\n\n"RESET);
+		current = current->next;
+	}
+}
+
+void	tokenize(t_minibox *minibox, int i)
+{
+	t_bool flg_end_token;
+	int j;
+	int quote_state;
+	char *start;
+	char cur_char;
+	char *cur_token_value;
+
+	i = 0;
+	j = 0;
+	flg_end_token = ft_false;
+	quote_state = OUT_Q;	
+	while(minibox->input_expanded[j])
+	{
+		cur_char = minibox->input_expanded[j];
+		// keep track of current qoute state
+		if((cur_char == IN_SQ || cur_char == IN_DQ) && quote_state == OUT_Q)
+			quote_state = cur_char;
+		else if(quote_state == cur_char)
+			quote_state = OUT_Q;
+
+		if(quote_state != OUT_Q)
+			// dont to nothing
+		else
+		{
+			// we are not in a qoutesring
+		}
+		j++;
+
+
+
+
+		// end the token and add it to the ll
+		if(flg_end_token)
+			if(j != i)
+				add_token(minibox, ft_substr(minibox->input_expanded,i,j-i));
+			i = j;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// OLD
 
 /*
 • Not interpret unclosed quotes or special characters which are not required by the
@@ -133,14 +269,14 @@ t_token *get_token(char *input, t_token *token, int len)
     the result will be stored in the linked list:
     minibox->tokens
 */
-void	tokenize(t_minibox *minibox, int i)
-{
+// void	tokenize(t_minibox *minibox, int i)
+// {
 	// int	j = 0;
 	// int	len = 0;
 	// char sep = -1;
 	// char	cur_c;
-	(void)minibox;
-	i++;
+	// (void)minibox;
+	// i++;
 	// char	**no_pipes;
 	// char	*token = NULL;
 
@@ -158,7 +294,7 @@ void	tokenize(t_minibox *minibox, int i)
 	// 	i++;
 	// }
 	// printf ("NO PIPE ╟%s╢\n", minibox->input_expanded);
-}
+// }
 
 
 // void	tokenize(t_minibox *minibox, int i)

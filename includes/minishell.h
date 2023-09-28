@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2023/09/28 14:54:22 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/09/28 16:13:02 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@
 # include "../libft/libft_printf.h"
 # include "input_manager.h"
 # include "executor.h"
+# include "builtins.h"
 
 /******************************************************************************/
 /*    colors    */

@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 15:35:02 by anshovah          #+#    #+#             */
-/*   Updated: 2023/09/28 12:11:49 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/09/28 16:48:14 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ typedef struct s_minibox t_minibox;
 typedef	struct s_token
 {
 	int				type;
-	char			*token_value;
+	char			*value;
 	struct s_token	*next;
 }				t_token;
 
