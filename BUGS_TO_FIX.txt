@@ -1,0 +1,2 @@
+FIXED:  "hello "world --> set if as one token "hello world"
+FIXED:  echo $LESS "$LESS" '$LESS' "$LE''SS" --> should return -R -R $LESS ''SS

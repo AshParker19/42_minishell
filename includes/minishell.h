@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2023/09/28 14:06:18 by astein           ###   ########.fr       */
+/*   Updated: 2023/09/28 19:46:14 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,9 @@
 # include "../libft/libft_printf.h"
 # include "input_manager.h"
 # include "executor.h"
+# include "builtins.h"
 
+/******************************************************************************/
 /*    colors    */
 # define GREEN 		"\033[0;32m"
 # define RED 		"\033[0;31m"
@@ -46,12 +48,6 @@
 # define CYAN 		"\x1b[36m"
 # define PURPLE 	"\x1b[35m"
 # define RESET 		"\033[0m"
-
-/* QUOTE STATES */
-# define OUT_Q      0   //OUTSIDE QUOTES
-# define IN_SQ      6   //INSIDE SINGLE QUOTES
-# define IN_DQ      7   //INSIDE DOUBLE QUOTES
-
 /******************************************************************************/
 /* list of local variables */
 typedef struct s_var t_var;
@@ -92,7 +88,7 @@ void    free_vars(t_minibox *minibox);
 /* manage_minibox.c */
 void	initialize_box(t_minibox *minibox, char **env);
 void    free_input_strings(t_minibox *minibox);
-void	free_matrix(t_minibox *minibox, int i);
+void	free_matrix(char **matrix, int i);
 void    free_and_close_box(t_minibox *minibox, int exit_status);
 
 #endif

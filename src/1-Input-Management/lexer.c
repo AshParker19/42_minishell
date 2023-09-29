@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 12:11:14 by anshovah          #+#    #+#             */
-/*   Updated: 2023/09/25 18:35:29 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/09/29 16:32:16 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,111 +23,104 @@ characters in the quoted sequence.
 characters in the quoted sequence except for $ (dollar sign).
 */
 
-int	get_flag(char c)
-{
-	if (c == '|')
-		return (PIPE);
-	else if (c == '<' || c == '>')
-		return (REDIREC);
-	else if (c == '$')
-		return (DOLLAR);
-	else if (c == '\'')
-		return (SN_QUOTE);
-	else if (c == '"')
-		return (DB_QUOTE);	
-	return (0);	
-}
 
-void	print_type(t_token *head)
+void	print_tokens(t_minibox *minibox)
 {
-	t_token *current = head;
+    t_token   *current;
+	
+	current = minibox->tokens;
+	printf("START PRINTING\n---\n");
 	while (current)
 	{
-		printf (GREEN"----------\n"RESET);
-		printf ("token ---> %s\n type ---> ", current->token_value);
-		if (current->type == WORD)
-			printf ("Word");
-		else if (current->type == PIPE)
-			printf ("Pipe");
-		else if (current->type == DOLLAR)
-			printf ("Dollar Sign");
-		else if (current->type == DB_QUOTE)
-			printf ("Double Quotes");
-		else if (current->type == SN_QUOTE)
-			printf ("Single Quotes");
-		else if (current->type == REDIREC)	
-			printf ("Redirection");
-		printf ("\n");
-		printf (GREEN"----------\n"RESET);
+		printf ("type:(%d) \t token:╟%s╢\n", current->type, current->value);
 		current = current->next;
 	}
+	printf("---\nEND PRINTING\n");
 }
 
-char	*cut_word(char *str, int i, int *len, int option)
+/* add a new token to the end of tokens linked list and assigns variables */
+static void    add_token(t_minibox *minibox, char *value)
 {
-	char	*skip;
-	
-	// if (!str)
-	// 	return (NULL);
-	while (ft_isalpha(str[i]))
-		i++;
-	*len = i;	
-	skip = ft_substr(str, 0, i + option);
-	return (skip);
-}
-
-int	quote_len(char *str)
-{
-	int	i;
-
-	i = 0;
-	if (str[i] == '"' || str[i] == '\'')
-		i++;	
-	while (str[i] != '"' && str[i] != '\'')
-		i++;
-	return (i + 1);	
-}
-
-t_token *get_token(char *input, t_token *token, int len)
-{
-	while (*input)
+    t_token   *new_t;
+    t_token   *current;
+    
+	// if(ft_strlen(value) == 2 && ft_isqoute(*value))
+	// 	return ;
+    new_t = ft_calloc(1, sizeof(t_token));
+    if(!new_t)
 	{
-		input = skip_spaces(input);
-		if (ft_isalpha(*input))
+        return; 
+	}
+		
+	if(value[0] < 0)
+	{
+		new_t->value = ft_calloc(2,sizeof(char));
+		new_t->value[0] = remove_offset(value[0]);
+		free(value);
+	}
+	else
+    	new_t->value = value;
+    if(!minibox->tokens)
+        minibox->tokens = new_t;
+    else
+    {
+        current = minibox->tokens;
+        while (current->next)
+            current = current->next;
+        current->next = new_t;    
+    }
+}
+
+
+/*
+	receives the substing with a special character between words,
+	splits them into words and characters and adds new tokens to minibox
+*/
+static void	split_by_sep(t_minibox *minibox, char *copy, int len)
+{
+	int	quote_state;
+	
+	quote_state = OUT_Q;
+	while (*copy)
+	{
+        update_qoute_state(&quote_state, *copy);
+		if (quote_state == OUT_Q)
 		{
-			token = ft_addback(token, cut_word(input, 0, &len, 0), WORD);
-			input += len;
-		}
-		else if ((*input == '-' && *input + 1)
-			|| (*input == '-' && *input + 1 == '-' && *input + 2))
-		{
-			token = ft_addback(token, cut_word(input, 2, &len, 0), WORD); // 0 here to not to put a special character after a word
-			input += len;
-		}
-		else if (special_characters(*input, -1))
-		{
-			if (*input == '\'' || *input == '"') // check if quotes are closed
+			if (ft_issep(remove_offset(*copy)))
 			{
-				len = quote_len(input);
-				token = ft_addback(token, ft_substr(input, 0, len), //length for quotes here
-					get_flag(*input));
-				input += len;				
+				add_token(minibox, ft_substr(copy, 0, 1));
+				copy++;
 			}
 			else
 			{
-					token = ft_addback(token, cut_word(input, 0, &len, 1),
-						get_flag(*input));
-				input++;
-			}
+				len = 0;
+				while (copy[len])
+				{
+					if (ft_issep(remove_offset(copy[len])) || ft_isqoute(remove_offset(copy[len]))) 
+						break ; 
+					len++;
+				}
+				add_token(minibox, ft_substr(copy, 0, len));
+				copy += len;
+			}	
 		}
 		else
-			input++;
+		{
+			len = 0;
+			while (copy[len])
+			{
+				if (quote_state == OUT_Q)
+					break ; 	
+				update_qoute_state(&quote_state, copy[len]);
+				len++;
+			}
+			if (quote_state != OUT_Q)
+				add_token(minibox, ft_substr(copy, 0, len));
+			copy += len;
+
+		}
 	}
-	print_type(token);
-	return (token);
 }
-
-
 
 /*
 	TODO: Make a linked list with the tokens grabbed from 
@@ -136,10 +129,22 @@ t_token *get_token(char *input, t_token *token, int len)
     the result will be stored in the linked list:
     minibox->tokens
 */
-void	tokenize(t_minibox *minibox)
+void	tokenize(t_minibox *minibox, int i)
 {
-	(void)minibox;
-	// printf("TOKENIZER STARTED....%s\n",minibox->input_expanded);
-	// token = get_token(input, token, 0);
-}
+	char	**no_space;
 
+	no_space = ft_split(minibox->input_expanded, NO_SPACE); //\n\v\t
+	while (no_space[i])
+	{
+		if (ft_strchr(no_space[i], add_offset('|')) || ft_strchr(no_space[i], add_offset('>')) || ft_strchr(no_space[i], add_offset('<')))
+			split_by_sep(minibox, no_space[i], 0);
+		else if (ft_strchr(no_space[i], add_offset('\'')) || ft_strchr(no_space[i], add_offset('"')))
+			split_by_sep(minibox, no_space[i], 0);
+		else
+			add_token(minibox, ft_strdup(no_space[i]));
+		i++;
+	}
+	// free_matrix(no_space, -1);
+	print_tokens(minibox);
+	minibox->tokens = NULL;
+}
