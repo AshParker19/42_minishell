@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 15:35:02 by anshovah          #+#    #+#             */
-/*   Updated: 2023/09/28 21:14:47 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/09/29 13:04:24 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,20 +54,19 @@ typedef struct	s_tree
 }				t_tree;
 /******************************************************************************/
 
+/* HANDLE QUOTES */
+void	mark_context_quotes(t_minibox *minibox, int i, int quote_state);
+void	remove_context_quotes(t_minibox *minibox, int i, int j);
+
 /* VARIABLES EXPANSION */
 char    find_limiter(char *input, int i);
 char    *insert_var_val(char *input, char *var_key, char *var_val, bool found);
 void	expand_variables(t_minibox *minibox, int k, int k_end, int quote_state);
 
 /* LEXER */
-t_token	*ft_addback(t_token *head, char *token_value, int type);
+void	tokenize(t_minibox *minibox, int i);
 int		ft_isspace(char c);
 bool	special_characters(char c, int i);
-void	tokenize(t_minibox *minibox, int i);
-
-/* HANDLE QUOTES */
-void	mark_context_quotes(t_minibox *minibox, int i, int quote_state);
-void	remove_context_quotes(t_minibox *minibox, int i, int j);
 
 /* PARSER */
 void	parse(t_minibox *minibox);

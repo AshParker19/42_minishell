@@ -6,30 +6,11 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 15:05:22 by anshovah          #+#    #+#             */
-/*   Updated: 2023/09/28 17:42:48 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/09/29 11:55:45 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// t_token	*ft_addback(t_token *head, char *token_v, int type)
-// {
-// 	t_token	*new;
-// 	t_token	*current;
-
-// 	new = ft_calloc(1, sizeof(t_token));
-// 	if (!new)
-// 		return (NULL);
-// 	new->token_value = token_v;
-// 	new->type = type;
-// 	if (!head)
-// 		return (new);	
-// 	current = head;
-// 	while (current->next)
-// 		current = current->next;
-// 	current->next = new;
-// 	return (head);	
-// }
 
 int	ft_isspace(char c)
 {
@@ -74,3 +55,53 @@ bool	special_characters(char c, int i)
 //         free (input);        
 //     return (trimmed);
 // }
+
+
+// void	case1(t_minibox *minibox, char *copy, int len)
+// {
+// 	char	*token;
+	
+// 	(void)minibox;
+// 	while (*copy)
+// 	{
+// 		len = 0;
+// 		if (copy[len] != TRUE_PIPE)
+// 		{
+// 			while (copy[len] != TRUE)
+// 				len++;
+// 			printf ("LEN %d\n", len);
+// 			break ;	
+// 			printf ("TOKEN1 %s\n", ft_substr(copy, 0, len));
+// 			copy += len;
+// 		}
+// 		else if (copy[len] == TRUE_PIPE)
+// 		{
+// 			token = ft_strchr(copy, TRUE_PIPE);
+// 			while (token[len] == TRUE_PIPE)
+// 				len++;
+// 			printf ("TOKEN2 %s\n", ft_substr(token, 0, len));
+// 			copy += len;
+// 		}
+// 	}
+// }
+
+// if (ft_strchr(no_space[i], TRUE_PIPE))
+// 		{
+// 			len = 0;
+// 			if (no_space[i][len] != TRUE_PIPE)
+// 			{
+// 				while (no_space[i][len] != TRUE_PIPE)
+// 					len++;
+// 				add_token(minibox, ft_substr(no_space[i], 0, len));		
+// 			}
+// 			else
+// 			{
+// 				token = ft_strchr(no_space[i], TRUE_PIPE);
+// 				while (token[len] == TRUE_PIPE)
+// 				{
+// 					token[len] = '|';
+// 					len++;
+// 				}
+// 				add_token(minibox, ft_substr(token, 0, len));		
+// 			}
+// 		}
