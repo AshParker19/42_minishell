@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:38:32 by anshovah          #+#    #+#             */
-/*   Updated: 2023/09/28 19:46:39 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/09/29 15:13:04 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,15 @@
 void	manage_input(t_minibox *minibox)
 {
     add_history(minibox->input_original);
-    // printf ("minibox->input_original:%s\n", minibox->input_original);
+    printf ("minibox->input_original:\t%s\n", minibox->input_original);
     minibox->input_trimmed = ft_strtrim(minibox->input_original, " \n\t\v");
-    // printf ("minibox->input_trimmed:%s\n", minibox->input_trimmed);
-    mark_context_quotes(minibox, 0, 0);
-    // printf ("minibox->input_quoted:%s\n", minibox->input_quoted);
+    printf ("minibox->input_trimmed:\t\t%s\n", minibox->input_trimmed);
+    mark_seps(minibox, 0, 0);
+    printf ("minibox->input_quoted:\t\t%s\n", minibox->input_quoted);
     expand_variables(minibox, 0, 0, 0);
-    // printf ("minibox->input_expanded:%s\n", minibox->input_expanded);
-    remove_context_quotes(minibox, 0, 0);
-    // printf ("minibox->input_removed:%s\n", minibox->input_expanded);
+    printf ("minibox->input_expanded:\t%s\n", minibox->input_expanded);
+    // remove_sep_marks(minibox, 0, 0);
+    // printf ("minibox->input_removed:\t\t%s\n\n", minibox->input_expanded);
     if (ft_strlen(minibox->input_expanded) != 0)
     {
         if (ft_strlen(minibox->input_expanded) == 4 && !ft_strncmp(minibox->input_expanded, "exit", 4))

@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 12:11:14 by anshovah          #+#    #+#             */
-/*   Updated: 2023/09/29 13:04:51 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/09/29 16:32:16 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,22 @@ static void    add_token(t_minibox *minibox, char *value)
     t_token   *new_t;
     t_token   *current;
     
+	// if(ft_strlen(value) == 2 && ft_isqoute(*value))
+	// 	return ;
     new_t = ft_calloc(1, sizeof(t_token));
     if(!new_t)
-        return;
-    new_t->value = value;
+	{
+        return; 
+	}
+		
+	if(value[0] < 0)
+	{
+		new_t->value = ft_calloc(2,sizeof(char));
+		new_t->value[0] = remove_offset(value[0]);
+		free(value);
+	}
+	else
+    	new_t->value = value;
     if(!minibox->tokens)
         minibox->tokens = new_t;
     else
@@ -66,24 +78,46 @@ static void    add_token(t_minibox *minibox, char *value)
 */
 static void	split_by_sep(t_minibox *minibox, char *copy, int len)
 {
+	int	quote_state;
+	
+	quote_state = OUT_Q;
 	while (*copy)
 	{
-		if (*copy != TRUE_PIPE)
+        update_qoute_state(&quote_state, *copy);
+		if (quote_state == OUT_Q)
+		{
+			if (ft_issep(remove_offset(*copy)))
+			{
+				add_token(minibox, ft_substr(copy, 0, 1));
+				copy++;
+			}
+			else
+			{
+				len = 0;
+				while (copy[len])
+				{
+					if (ft_issep(remove_offset(copy[len])) || ft_isqoute(remove_offset(copy[len]))) 
+						break ; 
+					len++;
+				}
+				add_token(minibox, ft_substr(copy, 0, len));
+				copy += len;
+			}	
+		}
+		else
 		{
 			len = 0;
 			while (copy[len])
 			{
-				if (copy[len] == TRUE_PIPE)
-					break ; 
+				if (quote_state == OUT_Q)
+					break ; 	
+				update_qoute_state(&quote_state, copy[len]);
 				len++;
 			}
-			add_token(minibox, ft_substr(copy, 0, len));
+			if (quote_state != OUT_Q)
+				add_token(minibox, ft_substr(copy, 0, len));
 			copy += len;
-		}
-		else if (*copy == TRUE_PIPE)
-		{
-			add_token(minibox, ft_substr(copy, 0, 1));
-			copy++;
+
 		}
 	}
 }
@@ -102,13 +136,15 @@ void	tokenize(t_minibox *minibox, int i)
 	no_space = ft_split(minibox->input_expanded, NO_SPACE); //\n\v\t
 	while (no_space[i])
 	{
-		if (ft_strchr(no_space[i], TRUE_PIPE))
+		if (ft_strchr(no_space[i], add_offset('|')) || ft_strchr(no_space[i], add_offset('>')) || ft_strchr(no_space[i], add_offset('<')))
+			split_by_sep(minibox, no_space[i], 0);
+		else if (ft_strchr(no_space[i], add_offset('\'')) || ft_strchr(no_space[i], add_offset('"')))
 			split_by_sep(minibox, no_space[i], 0);
 		else
 			add_token(minibox, ft_strdup(no_space[i]));
 		i++;
 	}
-	free_matrix(no_space, -1);
+	// free_matrix(no_space, -1);
 	print_tokens(minibox);
 	minibox->tokens = NULL;
 }
