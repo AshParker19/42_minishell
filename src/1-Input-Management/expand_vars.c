@@ -6,15 +6,16 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 12:58:49 by anshovah          #+#    #+#             */
-/*   Updated: 2023/09/29 17:07:53 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/09/29 17:57:04 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
 
 /*
-   finds a corresponding whitespace character and returns it
-   so the rest part of the input starts with a correct character 
+    uses to find the end of an var key.
+    a key ends if the next char is not alphanum or underscore
+    returns: pointer to
 */
 char    find_limiter(char *input, int i)
 {
@@ -36,9 +37,17 @@ char    *insert_var_val(char *input, char *var_key, char *var_val, bool found)
     char    *rest_part;
     char    *inserted;
     int     first_part_len;
-    
-    // FIXME:
-    rest_part = ft_strchr(input, '$');
+    int     quote_state;
+
+    rest_part = input;
+    quote_state = OUT_Q;
+    while(*rest_part)
+    {
+        update_qoute_state(&quote_state, *rest_part);
+        if (quote_state != add_offset('\'') && *rest_part == '$')
+            break;
+        rest_part++;
+    }
     rest_part = ft_strchr(rest_part, find_limiter(rest_part, 0));
     first_part_len = ft_strlen(input)
 		- ft_strlen(rest_part) - (ft_strlen(var_key) + 1); 
@@ -46,11 +55,7 @@ char    *insert_var_val(char *input, char *var_key, char *var_val, bool found)
     if (found == true)
         inserted = ft_strcat_multi(3, first_part, var_val, rest_part);
     else
-    {
-        printf ("FISRT_PART %s\n", first_part);
-        printf ("REST_PART %s\n", rest_part);
         inserted = ft_strcat_multi(2, first_part, rest_part);
-    }
     free (input);
 	free (first_part);
     return (inserted);
@@ -75,8 +80,8 @@ char    *insert_var_val(char *input, char *var_key, char *var_val, bool found)
 void	expand_variables(t_minibox *minibox, int k, int k_end, int quote_state)
 {
     char    *cur_key;
-    char    *cur_value; //FIXME:echo $LESS "$LESS" '$LESS' "$LE''SS"
-    char    cur_char;   // -R -R $LESS ''SS
+    char    *cur_value;
+    char    cur_char;
     
     quote_state = OUT_Q;
     minibox->input_expanded = ft_strdup(minibox->input_quoted);
@@ -88,17 +93,13 @@ void	expand_variables(t_minibox *minibox, int k, int k_end, int quote_state)
         {
             k++; //skipping the $ sign
             k_end = k;
-            while (ft_isalnum(minibox->input_quoted[k_end]) ||  minibox->input_quoted[k_end] == '_')
+            while ((ft_isalnum(minibox->input_quoted[k_end]) ||  minibox->input_quoted[k_end] == '_'))
             {
-                printf ("KEY end %d\n", k_end);
                 k_end++;
             }
-        
 	        cur_key = ft_substr(minibox->input_quoted, k, k_end - k); //TODO:FREE IT
-            printf("key %s\n",cur_key);
             // TODO: cur_key is "$" or "$?" -> treat special cases
             cur_value = get_var(minibox, cur_key);
-            printf("value %s\n",cur_value);
             if (cur_value)
                 minibox->input_expanded = insert_var_val(minibox->input_expanded, cur_key, cur_value, true);
             else
