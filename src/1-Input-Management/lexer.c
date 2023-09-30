@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 12:11:14 by anshovah          #+#    #+#             */
-/*   Updated: 2023/09/29 16:32:16 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/09/30 17:10:36 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ characters in the quoted sequence.
 • Handle " (double quote) which should prevent the shell from interpreting the meta-
 characters in the quoted sequence except for $ (dollar sign).
 */
-
 
 void	print_tokens(t_minibox *minibox)
 {
@@ -44,23 +43,20 @@ static void    add_token(t_minibox *minibox, char *value)
     t_token   *new_t;
     t_token   *current;
     
-	// if(ft_strlen(value) == 2 && ft_isqoute(*value))
-	// 	return ;
     new_t = ft_calloc(1, sizeof(t_token));
-    if(!new_t)
+    if (!new_t)
 	{
-        return; 
+        return ;
 	}
-		
-	if(value[0] < 0)
+	if (value[0] < 0)
 	{
-		new_t->value = ft_calloc(2,sizeof(char));
+		new_t->value = ft_calloc(2, sizeof(char));
 		new_t->value[0] = remove_offset(value[0]);
 		free(value);
 	}
 	else
     	new_t->value = value;
-    if(!minibox->tokens)
+    if (!minibox->tokens)
         minibox->tokens = new_t;
     else
     {
@@ -71,10 +67,9 @@ static void    add_token(t_minibox *minibox, char *value)
     }
 }
 
-
 /*
 	receives the substing with a special character between words,
-	splits them into words and characters and adds new tokens to minibox
+	splits them into words and characters and adds new tokens to minibox->tokens
 */
 static void	split_by_sep(t_minibox *minibox, char *copy, int len)
 {
@@ -96,7 +91,8 @@ static void	split_by_sep(t_minibox *minibox, char *copy, int len)
 				len = 0;
 				while (copy[len])
 				{
-					if (ft_issep(remove_offset(copy[len])) || ft_isqoute(remove_offset(copy[len]))) 
+					if (ft_issep(remove_offset(copy[len]))
+						|| ft_isqoute(remove_offset(copy[len]))) 
 						break ; 
 					len++;
 				}
@@ -123,9 +119,8 @@ static void	split_by_sep(t_minibox *minibox, char *copy, int len)
 }
 
 /*
-	TODO: Make a linked list with the tokens grabbed from 
+	makes a linked list with the tokens grabbed from 
 	minibox->input_expaned
-
     the result will be stored in the linked list:
     minibox->tokens
 */
@@ -133,18 +128,22 @@ void	tokenize(t_minibox *minibox, int i)
 {
 	char	**no_space;
 
-	no_space = ft_split(minibox->input_expanded, NO_SPACE); //\n\v\t
+	no_space = ft_split(minibox->input_expanded, NO_SPACE);
 	while (no_space[i])
 	{
-		if (ft_strchr(no_space[i], add_offset('|')) || ft_strchr(no_space[i], add_offset('>')) || ft_strchr(no_space[i], add_offset('<')))
-			split_by_sep(minibox, no_space[i], 0);
-		else if (ft_strchr(no_space[i], add_offset('\'')) || ft_strchr(no_space[i], add_offset('"')))
-			split_by_sep(minibox, no_space[i], 0);
+		if (ft_strchr(no_space[i], add_offset('|'))
+			|| ft_strchr(no_space[i], add_offset('>'))
+			|| ft_strchr(no_space[i], add_offset('<'))
+			|| ft_strchr(no_space[i], add_offset('\''))
+			|| ft_strchr(no_space[i], add_offset('"')))
+		{
+			split_by_sep(minibox, no_space[i], 0);		
+		}
 		else
 			add_token(minibox, ft_strdup(no_space[i]));
 		i++;
 	}
-	// free_matrix(no_space, -1);
+	free_matrix(no_space, -1);
 	print_tokens(minibox);
 	minibox->tokens = NULL;
 }

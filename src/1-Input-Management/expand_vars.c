@@ -6,16 +6,16 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 12:58:49 by anshovah          #+#    #+#             */
-/*   Updated: 2023/09/29 17:57:04 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/09/30 17:08:26 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
 
 /*
-    uses to find the end of an var key.
+    used to find the end of an var key.
     a key ends if the next char is not alphanum or underscore
-    returns: pointer to
+    returns: the character which is located after a "word"
 */
 char    find_limiter(char *input, int i)
 {
@@ -61,17 +61,6 @@ char    *insert_var_val(char *input, char *var_key, char *var_val, bool found)
     return (inserted);
 }
 
-// 1. Loop trough qouted_input
-// 2. If we find a $ and are not in qoute_state= single quote
-//  TRUE
-//      3.1.    Find end of var key (so we have the key)
-//      3.2.    Expand var key to value...
-//      3.3.    ... and replace in string
-//          Subcase
-//              only a $
-//              $?
-//  FALSE
-//      4.1.    Remove Quotes but print var key including $
 /*
 	traverses through the input string, locates all the variable
 	names checking for a dollar sign, then replaces all the variable names
@@ -91,13 +80,13 @@ void	expand_variables(t_minibox *minibox, int k, int k_end, int quote_state)
         update_qoute_state(&quote_state, cur_char);
         if(quote_state != add_offset('\'') && cur_char == '$')
         {
-            k++; //skipping the $ sign
+            k++;
             k_end = k;
             while ((ft_isalnum(minibox->input_quoted[k_end]) ||  minibox->input_quoted[k_end] == '_'))
             {
                 k_end++;
             }
-	        cur_key = ft_substr(minibox->input_quoted, k, k_end - k); //TODO:FREE IT
+	        cur_key = ft_substr(minibox->input_quoted, k, k_end - k);
             // TODO: cur_key is "$" or "$?" -> treat special cases
             cur_value = get_var(minibox, cur_key);
             if (cur_value)

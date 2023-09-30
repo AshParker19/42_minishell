@@ -6,20 +6,24 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 14:36:59 by anshovah          #+#    #+#             */
-/*   Updated: 2023/09/29 16:00:17 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/09/30 14:16:16 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
 
-// if((cur_char == IN_SQ || cur_char == IN_DQ) && quote_state == OUT_Q)
-//           quote_state = cur_char;
-//      else if(quote_state == cur_char)
-//          quote_state = OUT_Q;
-
+/*
+    accepts an address of quote_state to update it using call by reference
+    and accepts the current char of yhe srting. checks the current quote state
+    and compares it to single or double quotes characters.
+    if quote_state is OUT_Q, means no quote were found before and is it is now
+        change quote state to aacording value(single or double quote)
+    else means that the quote was found, and is a needed quote occurs
+        close it and put quote_state to OUT_Q     
+*/
 void update_qoute_state(int *quote_state, char cur_char)
 {
-    if (*quote_state == OUT_Q) //we
+    if (*quote_state == OUT_Q)
     {
         if (cur_char == add_offset('\''))
             *quote_state = cur_char;
@@ -37,7 +41,11 @@ void update_qoute_state(int *quote_state, char cur_char)
             *quote_state = OUT_Q;
     }
 }
-
+/*
+    traverses through the string and if a quotes_state is Q_OUT,
+    checks if a current character is one of the separated ones 
+    and if so it shifts it to negative ASCII values
+*/
 void	mark_seps(t_minibox *minibox, int i, int quote_state)
 {
     minibox->input_quoted = ft_strdup(minibox->input_trimmed);
@@ -56,10 +64,6 @@ void	mark_seps(t_minibox *minibox, int i, int quote_state)
         {
             minibox->input_quoted[i] = add_offset(minibox->input_quoted[i]);
             quote_state = OUT_Q;
-            // if(quote_state == '\'')
-            //     minibox->input_quoted[i] = IN_SQ;
-            // else if(quote_state == '"')
-            //     minibox->input_quoted[i] = IN_DQ;
         }
         i++;
     }
@@ -72,34 +76,3 @@ void	mark_seps(t_minibox *minibox, int i, int quote_state)
         // MAYBE WITH A RETURN BOOLEAN THAT MARK CONTEXT QUTES FAILED
     }
 }
-
-// void	remove_sep_marks(t_minibox *minibox, int i, int j)
-// {
-//     char    *removed;
-//     int     marker_count;
-
-//     marker_count = 0;
-//     while (minibox->input_expanded[i])
-//     {
-//         if (ft_isqoute(remove_offset(minibox->input_expanded[i])))
-//             marker_count++;
-//         i++;    
-//     }
-//     printf ("COUNT %d\n", marker_count);
-//     removed = ft_calloc(ft_strlen(minibox->input_expanded) - marker_count + 1, 
-//         sizeof(char));
-//     if (!removed)
-//         return ;   
-//     i = 0;
-//     while (minibox->input_expanded[i])
-//     {
-//         if (minibox->input_expanded[i] == IN_SQ || minibox->input_expanded[i] == IN_DQ)
-//             i++;
-//         else
-//         {
-//             removed[j] = minibox->input_expanded[i];
-//             j++;
-//             i++;
-//         }        
-//     }
-// }
