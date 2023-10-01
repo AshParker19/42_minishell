@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:38:32 by anshovah          #+#    #+#             */
-/*   Updated: 2023/09/30 10:14:03 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/01 09:37:12 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	manage_input(t_minibox *minibox)
     // printf ("minibox->input_trimmed:\t\t%s\n", minibox->input_trimmed);
     mark_seps(minibox, 0, 0);
     // printf ("minibox->input_quoted:\t\t%s\n", minibox->input_quoted);
-    expand_variables(minibox, 0, 0, 0);
+    expand_variables(minibox, 0, 0, OUT_Q);
     printf ("minibox->input_expanded:\t%s\n", minibox->input_expanded);
     if (ft_strlen(minibox->input_expanded) != 0)
     {

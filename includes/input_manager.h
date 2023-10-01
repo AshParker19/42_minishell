@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 15:35:02 by anshovah          #+#    #+#             */
-/*   Updated: 2023/09/30 14:07:54 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/01 11:28:06 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void 	update_qoute_state(int *quote_state, char cur_char);
 
 /* VARIABLES EXPANSION */
 char    find_limiter(char *input, int i);
-char    *insert_var_val(char *input, char *var_key, char *var_val, bool found);
+char    *insert_value(char *input, char *key, char *value, int quote_state);
 void	expand_variables(t_minibox *minibox, int k, int k_end, int quote_state);
 
 /* LEXER */

@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 12:58:49 by anshovah          #+#    #+#             */
-/*   Updated: 2023/09/30 17:08:26 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/01 11:27:59 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,14 @@ char    find_limiter(char *input, int i)
     the variable, and then join all the 3 parts, if a key wasn't correct, 
     it joins what was before and after the variable
 */
-char    *insert_var_val(char *input, char *var_key, char *var_val, bool found)
+char    *insert_value(char *input, char *key, char *value, int quote_state)
 {
     char    *first_part;
     char    *rest_part;
     char    *inserted;
     int     first_part_len;
-    int     quote_state;
 
     rest_part = input;
-    quote_state = OUT_Q;
     while(*rest_part)
     {
         update_qoute_state(&quote_state, *rest_part);
@@ -50,10 +48,10 @@ char    *insert_var_val(char *input, char *var_key, char *var_val, bool found)
     }
     rest_part = ft_strchr(rest_part, find_limiter(rest_part, 0));
     first_part_len = ft_strlen(input)
-		- ft_strlen(rest_part) - (ft_strlen(var_key) + 1); 
+		- ft_strlen(rest_part) - (ft_strlen(key) + 1); 
     first_part = ft_substr(input, 0, first_part_len);
-    if (found == true)
-        inserted = ft_strcat_multi(3, first_part, var_val, rest_part);
+    if (value)
+        inserted = ft_strcat_multi(3, first_part, value, rest_part);
     else
         inserted = ft_strcat_multi(2, first_part, rest_part);
     free (input);
@@ -72,7 +70,6 @@ void	expand_variables(t_minibox *minibox, int k, int k_end, int quote_state)
     char    *cur_value;
     char    cur_char;
     
-    quote_state = OUT_Q;
     minibox->input_expanded = ft_strdup(minibox->input_quoted);
     while(minibox->input_quoted[k])
     {
@@ -82,19 +79,16 @@ void	expand_variables(t_minibox *minibox, int k, int k_end, int quote_state)
         {
             k++;
             k_end = k;
-            while ((ft_isalnum(minibox->input_quoted[k_end]) ||  minibox->input_quoted[k_end] == '_'))
-            {
-                k_end++;
-            }
+            while ((ft_isalnum(minibox->input_quoted[k_end])
+                ||  minibox->input_quoted[k_end] == '_'))
+                 k_end++;
 	        cur_key = ft_substr(minibox->input_quoted, k, k_end - k);
             // TODO: cur_key is "$" or "$?" -> treat special cases
-            cur_value = get_var(minibox, cur_key);
-            if (cur_value)
-                minibox->input_expanded = insert_var_val(minibox->input_expanded, cur_key, cur_value, true);
-            else
-                minibox->input_expanded = insert_var_val(minibox->input_expanded, cur_key, cur_value, false);
-            free (cur_key);    
+            cur_value = get_var(minibox, cur_key); //TODO: try to sent an address of a current index
+            minibox->input_expanded = insert_value(minibox->input_expanded, cur_key, cur_value, OUT_Q);
+            free(cur_key);    
         }            
         k++;
     }
 }
+
