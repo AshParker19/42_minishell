@@ -6,24 +6,14 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:38:32 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/01 09:37:12 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/02 12:23:26 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*
-        1. trim readline (begin end)
-        2. expand the vars (considering contexet quotes)
-        3. check if stringlen = 0 (->no can do but add to history (trimmed))
-        4. check for exit
-        5. tokenize (look for swp
-        6. parse into binary tree
-        7. execv
-        	- 1. pipes
-        	- 2. fork
-        		- 3. redirection in child
-*/
+void	print_parser_output(t_tree *root);
+void	add_token(t_minibox *minibox, char *value, int type);
 
 // dealing with everything thats before exection
 void	manage_input(t_minibox *minibox)
@@ -44,8 +34,13 @@ void	manage_input(t_minibox *minibox)
             // Deal with exit satus!
             free_and_close_box(minibox, -1);
         }
-        tokenize(minibox, 0);
+        // tokenize(minibox, 0);
+        minibox->tokens = NULL;
+        add_token(minibox, "ls", TEXT_TOKEN);
+        add_token(minibox, "-l", TEXT_TOKEN);
+        add_token(minibox, "-a", TEXT_TOKEN);
         parse(minibox);
+        print_parser_output(minibox->root);
     }
 
     // somehow call something to execute everything

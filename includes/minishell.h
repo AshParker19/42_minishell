@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2023/09/28 19:46:14 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/02 13:42:00 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,9 @@ typedef struct s_minibox
     char        *input_expanded;
     char        **global_vars;
     t_token     *tokens;
+    t_token     *tmp_token;
     t_tree      *root;
+    t_tree      *tmp_node;
 }              t_minibox;
 
 /* list of variables (definition) */
@@ -73,6 +75,29 @@ typedef struct s_var
     char        *value;
     struct      s_var *next;
 }              t_var;
+
+enum e_token_type
+{
+    TEXT_TOKEN,
+    PIPE_TOKEN,
+    RED_IN_TOKEN,
+    RED_OUT_TOKEN,
+    AND_TOKEN,
+    OR_TOKEN,
+    SC_TOKEN,
+    EOF_TOKEN,
+};
+
+enum e_node_type
+{
+    CMD_NODE,
+    ARG_NODE,
+    RED_IN,
+    RED_IN_HD,
+    RED_OUT_TR,
+    RED_OUT_AP
+};
+
 /******************************************************************************/
 
 /* input_manager.c */

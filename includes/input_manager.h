@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 15:35:02 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/01 11:28:06 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/02 11:45:35 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,13 @@
 /* VALUE TO SHIFT SPACE CHARACTER */
 # define NO_SPACE	-125	//WHITESPACE TO BE IGNORED
 /******************************************************************************/
+
+typedef enum e_smoeting
+{
+	LITERAL = 124,
+	PIPE,
+	REDIR,
+}	t_someting;
 
 /* data types from other header files */
 typedef struct s_minibox t_minibox;
@@ -39,6 +46,7 @@ typedef	struct s_token
 typedef struct	s_tree
 {
 	int				type;
+	char   			*content;
 	struct s_tree	*left;
 	struct s_tree	*right;
 }				t_tree;
