@@ -6,28 +6,16 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 12:11:14 by anshovah          #+#    #+#             */
-/*   Updated: 2023/09/29 16:32:16 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/01 10:08:28 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*
-• Not interpret unclosed quotes or special characters which are not required by the
-subject such as \ (backslash) or ; (semicolon).
-
-• Handle ’ (single quote) which should prevent the shell from interpreting the meta-
-characters in the quoted sequence.
-
-• Handle " (double quote) which should prevent the shell from interpreting the meta-
-characters in the quoted sequence except for $ (dollar sign).
-*/
-
-
 void	print_tokens(t_minibox *minibox)
 {
-    t_token   *current;
-	
+	t_token	*current;
+
 	current = minibox->tokens;
 	printf("START PRINTING\n---\n");
 	while (current)
@@ -39,112 +27,121 @@ void	print_tokens(t_minibox *minibox)
 }
 
 /* add a new token to the end of tokens linked list and assigns variables */
-static void    add_token(t_minibox *minibox, char *value)
+static void	add_token(t_minibox *minibox, char *value)
 {
-    t_token   *new_t;
-    t_token   *current;
-    
-	// if(ft_strlen(value) == 2 && ft_isqoute(*value))
-	// 	return ;
-    new_t = ft_calloc(1, sizeof(t_token));
-    if(!new_t)
+	t_token	*new_t;
+	t_token	*current;
+
+	new_t = ft_calloc(1, sizeof(t_token));
+	if (!new_t)
 	{
-        return; 
+		return ;
 	}
-		
-	if(value[0] < 0)
+	if (value[0] < 0)
 	{
-		new_t->value = ft_calloc(2,sizeof(char));
+		new_t->value = ft_calloc(2, sizeof(char));
 		new_t->value[0] = remove_offset(value[0]);
 		free(value);
 	}
 	else
-    	new_t->value = value;
-    if(!minibox->tokens)
-        minibox->tokens = new_t;
-    else
-    {
-        current = minibox->tokens;
-        while (current->next)
-            current = current->next;
-        current->next = new_t;    
-    }
+		new_t->value = value;
+	if (!minibox->tokens)
+		minibox->tokens = new_t;
+	else
+	{
+		current = minibox->tokens;
+		while (current->next)
+			current = current->next;
+		current->next = new_t;
+	}
 }
 
+/*
+	called in a case if just a sequence of alphanumeric characters without any 
+	separators needs to be transformen into a token. uses call by reference
+	to update int i in a calling function to shift the string correctly
+*/
+static void	just_word(t_minibox *minibox, char *str, int *i)
+{
+	int	j;
+
+	if (ft_issep(remove_offset(*str)))
+	{
+		add_token(minibox, ft_substr(str, 0, 1));
+		*i = 1;
+	}
+	else
+	{
+		j = 0;
+		while (str[j])
+		{
+			if (ft_issep(remove_offset(str[j]))
+				|| ft_isqoute(remove_offset(str[j]))) 
+				break ;
+			j++;
+		}
+		*i = j;
+		add_token(minibox, ft_substr(str, 0, *i));
+	}
+}
 
 /*
 	receives the substing with a special character between words,
-	splits them into words and characters and adds new tokens to minibox
+	splits them into words and characters and adds new tokens to minibox->tokens
 */
-static void	split_by_sep(t_minibox *minibox, char *copy, int len)
+static void	split_by_sep(t_minibox *minibox, char *str, int i, int quote_state)
 {
-	int	quote_state;
-	
-	quote_state = OUT_Q;
-	while (*copy)
+	while (*str)
 	{
-        update_qoute_state(&quote_state, *copy);
+		update_qoute_state(&quote_state, *str);
 		if (quote_state == OUT_Q)
 		{
-			if (ft_issep(remove_offset(*copy)))
-			{
-				add_token(minibox, ft_substr(copy, 0, 1));
-				copy++;
-			}
-			else
-			{
-				len = 0;
-				while (copy[len])
-				{
-					if (ft_issep(remove_offset(copy[len])) || ft_isqoute(remove_offset(copy[len]))) 
-						break ; 
-					len++;
-				}
-				add_token(minibox, ft_substr(copy, 0, len));
-				copy += len;
-			}	
+			just_word(minibox, str, &i);
+			str += i;
 		}
 		else
 		{
-			len = 0;
-			while (copy[len])
+			i = 0;
+			while (str[i])
 			{
 				if (quote_state == OUT_Q)
-					break ; 	
-				update_qoute_state(&quote_state, copy[len]);
-				len++;
+					break ;
+				update_qoute_state(&quote_state, str[i]);
+				i++;
 			}
 			if (quote_state != OUT_Q)
-				add_token(minibox, ft_substr(copy, 0, len));
-			copy += len;
-
+				add_token(minibox, ft_substr(str, 0, i));
+			str += i;
 		}
 	}
 }
 
 /*
-	TODO: Make a linked list with the tokens grabbed from 
+	makes a linked list with the tokens grabbed from 
 	minibox->input_expaned
-
-    the result will be stored in the linked list:
-    minibox->tokens
+	the result will be stored in the linked list:
+	minibox->tokens
 */
 void	tokenize(t_minibox *minibox, int i)
 {
 	char	**no_space;
 
-	no_space = ft_split(minibox->input_expanded, NO_SPACE); //\n\v\t
+	no_space = ft_split(minibox->input_expanded, NO_SPACE);
 	while (no_space[i])
 	{
-		if (ft_strchr(no_space[i], add_offset('|')) || ft_strchr(no_space[i], add_offset('>')) || ft_strchr(no_space[i], add_offset('<')))
-			split_by_sep(minibox, no_space[i], 0);
-		else if (ft_strchr(no_space[i], add_offset('\'')) || ft_strchr(no_space[i], add_offset('"')))
-			split_by_sep(minibox, no_space[i], 0);
+		if (ft_strchr(no_space[i], add_offset('|'))
+			|| ft_strchr(no_space[i], add_offset('>'))
+			|| ft_strchr(no_space[i], add_offset('<'))
+			|| ft_strchr(no_space[i], add_offset('\''))
+			|| ft_strchr(no_space[i], add_offset('"')))
+		{
+			split_by_sep(minibox, no_space[i], 0, OUT_Q);
+		}
 		else
 			add_token(minibox, ft_strdup(no_space[i]));
 		i++;
 	}
-	// free_matrix(no_space, -1);
+	free_matrix(no_space, -1);
 	print_tokens(minibox);
 	minibox->tokens = NULL;
 }
