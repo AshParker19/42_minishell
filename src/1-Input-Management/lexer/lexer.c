@@ -6,25 +6,23 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 12:11:14 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/02 15:36:14 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/02 17:20:01 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// void	print_tokens(t_minibox *minibox)
-// {
-// 	t_token	*current;
+void	print_tokens(t_minibox *minibox)
+{
+	t_token	*current;
 
-// 	current = minibox->tokens;
-// 	printf("START PRINTING\n---\n");
-// 	while (current)
-// 	{
-// 		printf ("\t token:╟%s╢\n",  current->value);
-// 		current = current->next;
-// 	}
-// 	printf("---\nEND PRINTING\n");
-// }
+	current = minibox->tokens;
+	while (current)
+	{
+		printf ("type:(%d) \t token:(%s)\n", current->type, current->value);
+		current = current->next;
+	}
+}
 
 /* add a new token to the end of tokens linked list and assigns variables */
 static void	add_token(t_minibox *minibox, char *value, int token_type)
@@ -131,6 +129,15 @@ static void	split_by_sep(t_minibox *minibox, char *str, int i, int quote_state)
 	}
 }
 
+void	print_tokenizer_output(t_minibox *minibox)
+{
+	printf("\n ------------------------------------ \n");
+	printf("|           TOKENIZER                |\n");
+	printf(" ------------------------------------ \n");
+	print_tokens(minibox);
+	printf(" ------------------------------------ \n");
+}
+
 /*
 	makes a linked list with the tokens grabbed from 
 	minibox->input_expanded
@@ -157,6 +164,5 @@ void	tokenize(t_minibox *minibox, int i)
 		i++;
 	}
 	free_matrix(no_space, -1);
-	// print_tokens(minibox);
-	minibox->tokens = NULL;
+	// print_tokenizer_output(minibox);
 }

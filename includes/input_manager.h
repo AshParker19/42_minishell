@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 15:35:02 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/02 15:32:43 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/02 18:33:18 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ enum e_node_type
 {
     CMD_NODE,
     ARG_NODE,
+    PIPE_NODE,
     RED_IN,
     RED_IN_HD,
     RED_OUT_TR,
@@ -87,6 +88,15 @@ bool	ft_isqoute(char c);
 
 /* PARSER */
 void	parse(t_minibox *minibox);
+void	print_parser_output(t_minibox *minibox);
+t_tree  *ast_create_node(int node_type);
+void    delete_ast(t_tree *root);
+void    connect_subtree(t_tree **root, t_tree *node_to_add, int on_right);
+
+/* command.c */
+t_tree *command(t_minibox *minibox);
+
+/* token_list.c */
+t_tree *token_list_main(t_minibox *minibox);
 
 #endif
-

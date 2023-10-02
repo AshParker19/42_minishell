@@ -6,14 +6,13 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:38:32 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/02 12:23:26 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/02 17:17:32 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_parser_output(t_tree *root);
-void	add_token(t_minibox *minibox, char *value, int type);
+void	print_parser_output(t_minibox *minibox);
 
 // dealing with everything thats before exection
 void	manage_input(t_minibox *minibox)
@@ -34,18 +33,15 @@ void	manage_input(t_minibox *minibox)
             // Deal with exit satus!
             free_and_close_box(minibox, -1);
         }
-        // tokenize(minibox, 0);
-        minibox->tokens = NULL;
-        add_token(minibox, "ls", TEXT_TOKEN);
-        add_token(minibox, "-l", TEXT_TOKEN);
-        add_token(minibox, "-a", TEXT_TOKEN);
+        tokenize(minibox, 0);
         parse(minibox);
-        print_parser_output(minibox->root);
+        print_parser_output(minibox);
     }
 
     // somehow call something to execute everything
 
     // free
     //  input_original, input_trimmed, input_expanded, .....
+    minibox->tokens = NULL; //TODO: THIS WILL LEAK AND IS ONLY FOR TEST!
     free_input_strings(minibox);    
 }
