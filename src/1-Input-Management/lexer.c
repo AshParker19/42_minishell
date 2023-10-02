@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 12:11:14 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/01 10:08:28 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/02 15:25:53 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,15 @@ void	print_tokens(t_minibox *minibox)
 }
 
 /* add a new token to the end of tokens linked list and assigns variables */
-static void	add_token(t_minibox *minibox, char *value)
+static void	add_token(t_minibox *minibox, char *value, int token_type)
 {
 	t_token	*new_t;
 	t_token	*current;
 
 	new_t = ft_calloc(1, sizeof(t_token));
 	if (!new_t)
-	{
 		return ;
-	}
+	new_t->type = token_type;
 	if (value[0] < 0)
 	{
 		new_t->value = ft_calloc(2, sizeof(char));
@@ -54,6 +53,22 @@ static void	add_token(t_minibox *minibox, char *value)
 			current = current->next;
 		current->next = new_t;
 	}
+	
+}
+/*
+	accepts a not shifted character, shifts it back to a correct ASCII value
+	and hten compares to the separating charactes and returns a respective
+	token type (enum e_token_type value) 
+*/
+int	get_token_type(char c)
+{
+	if (remove_offset(c) == '|')
+		return (PIPE_TOKEN);
+	else if(remove_offset(c) == '<')
+		return (RED_IN_TOKEN);
+	else if(remove_offset(c) == '>')
+		return (RED_OUT_TOKEN);
+	return (WORD_TOKEN);		
 }
 
 /*
@@ -67,7 +82,7 @@ static void	just_word(t_minibox *minibox, char *str, int *i)
 
 	if (ft_issep(remove_offset(*str)))
 	{
-		add_token(minibox, ft_substr(str, 0, 1));
+		add_token(minibox, ft_substr(str, 0, 1), get_token_type(*str));
 		*i = 1;
 	}
 	else
@@ -81,7 +96,7 @@ static void	just_word(t_minibox *minibox, char *str, int *i)
 			j++;
 		}
 		*i = j;
-		add_token(minibox, ft_substr(str, 0, *i));
+		add_token(minibox, ft_substr(str, 0, *i), WORD_TOKEN);
 	}
 }
 
@@ -110,7 +125,7 @@ static void	split_by_sep(t_minibox *minibox, char *str, int i, int quote_state)
 				i++;
 			}
 			if (quote_state != OUT_Q)
-				add_token(minibox, ft_substr(str, 0, i));
+				add_token(minibox, ft_substr(str, 0, i), get_token_type(*str));
 			str += i;
 		}
 	}
@@ -138,10 +153,10 @@ void	tokenize(t_minibox *minibox, int i)
 			split_by_sep(minibox, no_space[i], 0, OUT_Q);
 		}
 		else
-			add_token(minibox, ft_strdup(no_space[i]));
+			add_token(minibox, ft_strdup(no_space[i]), WORD_TOKEN);
 		i++;
 	}
 	free_matrix(no_space, -1);
-	print_tokens(minibox);
+	// print_tokens(minibox);
 	minibox->tokens = NULL;
 }
