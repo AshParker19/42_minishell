@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 17:50:11 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/02 18:46:03 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/03 14:34:09 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_tree *command(t_minibox *minibox)
     if (!cmd_node)
         return (NULL);
     minibox->tmp_node = cmd_node;
-    token_list(minibox);
+    token_list_main(minibox);
     if (cmd_node && !minibox->tmp_node->content)
     {
         delete_ast(minibox->tmp_node);

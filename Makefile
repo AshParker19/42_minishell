@@ -46,6 +46,8 @@ SRCS = $(addprefix $(SRC_FOLDER), 				\
 	1-Input-Management/parser/command.c			\
 	1-Input-Management/parser/token_list.c		\
 	1-Input-Management/parser/redir.c			\
+	1-Input-Management/parser/redir_in.c		\
+	1-Input-Management/parser/redir_out.c		\
 	1-Input-Management/parser/parser_utils.c	\
 	2-Execution/builtins/cd.c					\
 	2-Execution/builtins/echo.c					\
