@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 20:24:39 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/03 20:46:37 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/04 17:58:32 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,42 +33,34 @@ t_tree *redir_out_main(t_minibox *minibox)
     return (NULL);
 }
 
+/* '<<' [file] */
 static t_tree *redir_out_case1(t_minibox *minibox)
 {
     t_tree  *red_out_ap_node;
 
-    if (!minibox->tmp_token)
+    if(!validate_token(minibox->tmp_token, 0 , RED_OUT_TOKEN))
         return (NULL);
-    if (minibox->tmp_token->type != RED_OUT_TOKEN)
+    if(!validate_token(minibox->tmp_token, 1 , RED_OUT_TOKEN))
         return (NULL);
-    if (!minibox->tmp_token->value)
-        return (NULL);
-    
-    if (!minibox->tmp_token->next)
-        return (NULL);
-    if (minibox->tmp_token->next->type != RED_OUT_TOKEN)
-        return (NULL);
-    if (!minibox->tmp_token->next->value)
-        return (NULL);
-    
+    if(!validate_token(minibox->tmp_token, 2 , WORD_TOKEN))
+        return(put_syntax_error(minibox->tmp_token->next->next));
     red_out_ap_node = ast_create_node(RED_OUT_AP);
-    red_out_ap_node->content = ft_strdup(">>");
+    red_out_ap_node->content = ft_strdup(minibox->tmp_token->next->next->value);
     minibox->tmp_token = minibox->tmp_token->next->next;
     return (red_out_ap_node);
 }
+
+/* '<' [file] */
 static t_tree *redir_out_case2(t_minibox *minibox)
 {
     t_tree  *red_out_tr_node;
     
-    if (!minibox->tmp_token)
-        return (NULL);
-    if (minibox->tmp_token->type != RED_OUT_TOKEN)
-        return (NULL);
-    if (!minibox->tmp_token->value)
-        return (NULL);
-
+    if(!validate_token(minibox->tmp_token, 0, RED_OUT_TOKEN))
+        return(NULL);
+    if(!validate_token(minibox->tmp_token, 1, WORD_TOKEN))
+        return(put_syntax_error(minibox->tmp_token->next));
     red_out_tr_node = ast_create_node(RED_OUT_TR);
-    red_out_tr_node->content = ft_strdup(">");
+    red_out_tr_node->content = ft_strdup(minibox->tmp_token->next->value);
     minibox->tmp_token = minibox->tmp_token->next;
     return (red_out_tr_node);
 }

@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 18:26:39 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/02 18:29:19 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/04 18:01:05 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,66 @@ t_tree *ast_create_node(int node_type)
     return (new_node);
 }
 
+// check function
+
+/*
+    input:
+    first token, amout of next, TOKEN TYPE
+
+*/
+bool    validate_token(t_token *token, int next_amount, int token_type)
+{
+	t_token	*temp;
+	int		i;
+
+	i = 0;
+	temp = token;
+	if (!temp)
+			return(false);
+	while(i < next_amount)
+	{
+		temp = temp->next;
+		if (!temp)
+			return(false);
+		i++;
+	}
+	if(!temp->value)
+		return(false);
+	if(temp->type != token_type)
+		return(false);
+
+	return(true);
+}
+/*
+	When the parser finds an error it should print a message and end the parsing
+	in a nice way.
+
+	FIXME: ATM its using exit(0)
+	TODO: ATM only for redir errors, maybe change it to all
+			possible parser errors
+
+	always returns null!
+*/
+void	*put_syntax_error(t_token *error_token)
+{
+	char    *err_msg;
+	
+	if(error_token && error_token->value)
+	{
+		err_msg = ft_strcat_multi(3,"syntax error near unexpected token `",
+			error_token->value,"'");
+		ft_putendl_fd (err_msg, 2);
+		free(err_msg);
+	}
+	else
+		ft_putendl_fd ("syntax error near unexpected token `newline'", 2);
+	exit(0); //TODO: Replace the exit with a flag or some other shit
+	//FIXME: free and exit from here somehow and destroy a tree
+	// delete_ast(minibox->tmp_node); ????
+
+	return(NULL);
+}
+
 void    delete_ast(t_tree *root)
 {
     if (root->left)
@@ -34,14 +94,14 @@ void    delete_ast(t_tree *root)
     free(root);
 }
 
-void    connect_subtree(t_tree **root, t_tree *node_to_add, int on_right)
+void    connect_subtree(t_tree **root, t_tree *node_to_add, int side)
 {
     t_tree *tmp;
 
     tmp = NULL;
     if (!root || !*root || !node_to_add)
         return ;
-    if (on_right)
+    if (side == RIGHT)
     {
         if ((*root)->right)
             tmp = (*root)->right;

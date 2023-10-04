@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 15:35:02 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/03 20:47:03 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/04 17:57:34 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,6 @@ enum e_token_type
     PIPE_TOKEN,
     RED_IN_TOKEN,
     RED_OUT_TOKEN,
-    // AND_TOKEN,
-    // OR_TOKEN,
-    EOF_TOKEN,
 };
 
 /* TOKEN TYPES FOR T_AST */
@@ -66,6 +63,13 @@ enum e_node_type
     RED_IN_HD,
     RED_OUT_TR,
     RED_OUT_AP
+};
+
+/* RIGHT OR LEFT BRANCH OF THE TREE */
+enum e_three_branch
+{
+    RIGHT,
+    LEFT
 };
 /******************************************************************************/
 
@@ -92,16 +96,23 @@ void	print_parser_output(t_minibox *minibox);
 t_tree  *ast_create_node(int node_type);
 void    delete_ast(t_tree *root);
 void    connect_subtree(t_tree **root, t_tree *node_to_add, int on_right);
+bool    validate_token(t_token *token, int next_amount, int token_type);
+void	*put_syntax_error(t_token *error_token);
 
-/* command.c */
-t_tree *command(t_minibox *minibox);
+/* functions for BNF notation to build an AST */
+/* job */
+t_tree *job_main(t_minibox *minibox);
 
-/* token_list.c */
+/* command */
+t_tree *command_main(t_minibox *minibox);
+
+/* token_list */
 t_tree *token_list_main(t_minibox *minibox);
 
-/* redir.c */
+/* redir */
 t_tree *redir_main(t_minibox *minibox);
 t_tree *redir_in_main(t_minibox *minibox);
 t_tree *redir_out_main(t_minibox *minibox);
+/**********************************************/
 
 #endif
