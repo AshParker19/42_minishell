@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 18:26:39 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/04 18:01:05 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/05 17:58:50 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,16 @@ t_tree *ast_create_node(int node_type)
     if (!new_node)
         return (NULL);
     new_node->type = node_type;
+	if(node_type == PIPE_NODE)
+		new_node->content = ft_strdup("|");
+	// else if(node_type == RED_IN )
+	// 	new_node->content = ft_strdup("<");
+	// else if(node_type == RED_OUT_TR)
+	// 	new_node->content = ft_strdup(">");
+	// else if(node_type == RED_IN_HD )
+	// 	new_node->content = ft_strdup("<<");
+	// else if(node_type == RED_OUT_AP)
+	// 	new_node->content = ft_strdup(">>");
     return (new_node);
 }
 
@@ -50,7 +60,6 @@ bool    validate_token(t_token *token, int next_amount, int token_type)
 		return(false);
 	if(temp->type != token_type)
 		return(false);
-
 	return(true);
 }
 /*
@@ -125,7 +134,7 @@ static void	display_ast(t_tree *root, int indent_level)
 
 	if (root == NULL)
 		return ;
-	distance = 10;
+	distance = 7;
 	indent_level += distance;
 	display_ast(root->right, indent_level);
 	code = root->type;
@@ -147,9 +156,9 @@ static void	display_ast(t_tree *root, int indent_level)
 	for (int i = distance; i < indent_level; i++)
 		printf(" ");
 	if (root->content)
-		printf("type: %s, data: %s\n", type, root->content);
+		printf("[%s] (%s)\n", type, root->content);
 	else
-		printf("type: %s\n", type);
+		printf("[%s]\n", type);
 	free(type);
 	display_ast(root->left, indent_level);
 }

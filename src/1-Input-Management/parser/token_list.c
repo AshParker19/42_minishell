@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 17:50:29 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/04 18:15:54 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/05 17:47:59 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,50 +16,46 @@ static t_tree *token_list_case1(t_minibox *minibox);
 static t_tree *token_list_case2(t_minibox *minibox);
 static t_tree *token_list_case3(t_minibox *minibox);
 
-t_tree *token_list_main(t_minibox *minibox)
+void token_list_main(t_minibox *minibox)
 {
     t_tree  *tl_node;
     t_token *backup;
 
     backup = minibox->tmp_token;
     if (!minibox->tmp_token)
-        return (NULL);
+        return ;
     tl_node = token_list_case1(minibox);
     if (tl_node)
-        return (tl_node);
+    {
+        // minibox->tmp_node = tl_node;
+        return ;
+    }
     minibox->tmp_token = backup;
     tl_node = token_list_case2(minibox);
     if (tl_node)
-        return (tl_node);
+    {
+        // minibox->tmp_node = tl_node;
+        return ;
+    }
     minibox->tmp_token = backup;
     tl_node = token_list_case3(minibox);
     if (tl_node)
-        return (tl_node);
-    return (NULL);
+    {
+        // minibox->tmp_node = tl_node;
+        return ;
+    }
 }
 /* [name]  <token list> */
 static t_tree *token_list_case1(t_minibox *minibox)
 {
-    if (minibox->tmp_node->content)
-        return (NULL);
+    if (!minibox->tmp_node || minibox->tmp_node->content)
+        return (NULL);    
     if(!validate_token(minibox->tmp_token, 0, WORD_TOKEN))
-        return(NULL);
+        return(NULL);    
     minibox->tmp_node->content = ft_strdup(minibox->tmp_token->value);
     minibox->tmp_token = minibox->tmp_token->next;
     token_list_main(minibox);
     return (minibox->tmp_node);
-
-
-    // if (!minibox->tmp_token)
-    //     return(NULL);
-    // if (minibox->tmp_token->type == WORD_TOKEN)
-    // {
-    //     minibox->tmp_node->content = ft_strdup(minibox->tmp_token->value);
-    //     minibox->tmp_token = minibox->tmp_token->next;
-    //     token_list_main(minibox);
-    //     return (minibox->tmp_node);
-    // }
-    return (NULL);
 }
 /* [token] <token list> */
 static t_tree *token_list_case2(t_minibox *minibox)
@@ -72,6 +68,8 @@ static t_tree *token_list_case2(t_minibox *minibox)
     arg_node->content = ft_strdup(minibox->tmp_token->value);
     minibox->tmp_token = minibox->tmp_token->next;
     token_list_main(minibox);
+    printf("\nroot %s\n", minibox->tmp_node->content);
+    printf("arg_node %s\n\n", arg_node->content);
     connect_subtree(&minibox->tmp_node, arg_node, RIGHT);
     return (arg_node);
 }

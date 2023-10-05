@@ -2,3 +2,6 @@ FIXED:  "hello "world --> set if as one token "hello world"
 FIXED:  echo $LESS "$LESS" '$LESS' "$LE''SS" --> should return -R -R $LESS ''SS
  ls"-l"|wc|grep|echo>>txt.txt<<EOF'A'"|">OUT --> tokens except quotes should separate each piece
 ls"-l" --> ls-l    EOF'A'"'|'" --> EOFA'|'
+
+
+< < should be error near < but atm it is error new newline

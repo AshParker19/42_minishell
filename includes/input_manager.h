@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 15:35:02 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/04 17:57:34 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/05 17:11:38 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ t_tree *job_main(t_minibox *minibox);
 t_tree *command_main(t_minibox *minibox);
 
 /* token_list */
-t_tree *token_list_main(t_minibox *minibox);
+void    token_list_main(t_minibox *minibox);
 
 /* redir */
 t_tree *redir_main(t_minibox *minibox);
