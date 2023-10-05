@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 18:26:39 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/05 17:58:50 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/05 20:29:20 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,6 @@ t_tree *ast_create_node(int node_type)
     return (new_node);
 }
 
-// check function
-
-/*
-    input:
-    first token, amout of next, TOKEN TYPE
-
-*/
 bool    validate_token(t_token *token, int next_amount, int token_type)
 {
 	t_token	*temp;
@@ -56,9 +49,7 @@ bool    validate_token(t_token *token, int next_amount, int token_type)
 			return(false);
 		i++;
 	}
-	if(!temp->value)
-		return(false);
-	if(temp->type != token_type)
+	if(!temp->value || temp->type != token_type)
 		return(false);
 	return(true);
 }
@@ -94,13 +85,20 @@ void	*put_syntax_error(t_token *error_token)
 
 void    delete_ast(t_tree *root)
 {
-    if (root->left)
-        delete_ast(root->left);
-    if (root->right)
-        delete_ast(root->right);
-    if (root->content)
-        free(root->content);
-    free(root);
+	if(root)
+	{
+		if (root->left)
+			delete_ast(root->left);
+		if (root->right)
+			delete_ast(root->right);
+		if (root->content)
+		{
+			free(root->content);
+			root->content = NULL;
+		}
+		free(root);
+		root = NULL;
+	}
 }
 
 void    connect_subtree(t_tree **root, t_tree *node_to_add, int side)

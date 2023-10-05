@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:38:32 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/02 17:17:32 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/05 20:56:00 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,9 @@ void	manage_input(t_minibox *minibox)
 
     // free
     //  input_original, input_trimmed, input_expanded, .....
-    minibox->tokens = NULL; //TODO: THIS WILL LEAK AND IS ONLY FOR TEST!
     free_input_strings(minibox);    
+    free_tokens(minibox);
+    minibox->tokens = NULL;
+    delete_ast(minibox->root);
+    minibox->root = NULL;
 }

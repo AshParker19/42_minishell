@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 20:24:39 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/04 17:58:32 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/05 18:55:25 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static t_tree *redir_out_case1(t_minibox *minibox)
         return(put_syntax_error(minibox->tmp_token->next->next));
     red_out_ap_node = ast_create_node(RED_OUT_AP);
     red_out_ap_node->content = ft_strdup(minibox->tmp_token->next->next->value);
-    minibox->tmp_token = minibox->tmp_token->next->next;
+    minibox->tmp_token = minibox->tmp_token->next->next->next;
     return (red_out_ap_node);
 }
 
@@ -61,6 +61,6 @@ static t_tree *redir_out_case2(t_minibox *minibox)
         return(put_syntax_error(minibox->tmp_token->next));
     red_out_tr_node = ast_create_node(RED_OUT_TR);
     red_out_tr_node->content = ft_strdup(minibox->tmp_token->next->value);
-    minibox->tmp_token = minibox->tmp_token->next;
+    minibox->tmp_token = minibox->tmp_token->next->next;
     return (red_out_tr_node);
 }
