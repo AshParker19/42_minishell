@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 18:26:39 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/06 17:19:16 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/06 19:24:31 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,5 +153,5 @@ void	print_parser_output(t_minibox *minibox)
 	printf("|               PARSER               |\n");
 	printf(" ------------------------------------ \n");
 	display_ast(minibox->root, 0);
-	printf(" ------------------------------------ \n");
+	printf(" ------------------------------------ \n\n");
 }

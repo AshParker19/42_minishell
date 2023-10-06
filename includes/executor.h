@@ -6,24 +6,29 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 17:55:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/09/29 18:19:41 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/06 19:35:48 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXECUTOR_H
 # define EXECUTOR_H
 
-// BUILTINS
-// TODO:
-// Alex will put all the buildin prototypes here...
+typedef struct s_exec
+{
+    char    **path_dirs;
+    char    **cmd_builtins;
+    // int     fd[2];
+    // int     dup_fd[2];
+    // int     p_fd;
+}   t_exec;
 
-void    test_builtins();
-void	builtin_cd(t_minibox *minibox, char *path);
-void    bultin_echo(char *txt);
-void    bultin_env(t_minibox *minibox);
-void    bultin_exit(void);
-void    bultin_export(t_minibox *minibox, char* key_value_pair);
-void    bultin_unset(t_minibox *minibox, char* key);
-void	builtin_pwd(void);
+
+/* executor.c */
+void    execute(t_minibox *minibox);
+
+/* executor_utils.c */
+void    load_executor(t_minibox *minibox);
+void	print_executor_output(t_minibox *minibox, int i);
+void    free_executor(t_minibox *minibox);
 
 #endif
