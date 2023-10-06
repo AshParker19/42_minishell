@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 17:50:29 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/06 10:58:24 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/06 17:19:56 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ static t_tree *token_list_case3(t_minibox *minibox)
         && !validate_token(minibox->tmp_token, 0, RED_OUT_TOKEN))
         return(NULL);
     redir_node = redir_main(minibox);
+    if (!redir_node)
+        return(NULL);
     token_list_main (minibox);
     connect_subtree(&minibox->tmp_node, redir_node, LEFT);
     return (redir_node);

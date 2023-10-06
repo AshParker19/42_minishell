@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 18:26:39 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/06 10:54:27 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/06 17:19:16 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,6 @@ t_tree *ast_create_node(int node_type)
     new_node->type = node_type;
 	if (node_type == PIPE_NODE)
 		new_node->content = ft_strdup("|");
-	// else if(node_type == RED_IN ) //TODO: it will not work because we need to copy the value of the next node as content but not the redir characters
-	// 	new_node->content = ft_strdup("<");
-	// else if(node_type == RED_OUT_TR)
-	// 	new_node->content = ft_strdup(">");
-	// else if(node_type == RED_IN_HD )
-	// 	new_node->content = ft_strdup("<<");
-	// else if(node_type == RED_OUT_AP)
-	// 	new_node->content = ft_strdup(">>");
     return (new_node);
 }
 
@@ -53,33 +45,26 @@ bool    validate_token(t_token *token, int next_amount, int token_type)
 		return (false);
 	return (true);
 }
-/*
-	When the parser finds an error it should print a message and end the parsing
-	in a nice way.
 
-	FIXME: ATM its using exit(0)
-	TODO: ATM only for redir errors, maybe change it to all
-			possible parser errors
-
-	always returns null!
-*/
-void	*put_syntax_error(t_token *error_token)
+void	*put_syntax_error(t_minibox *minibox, t_token *error_token)
 {
 	char    *err_msg;
 	
-	if(error_token && error_token->value)
+	if (minibox->error_status == false)
 	{
-		err_msg = ft_strcat_multi(3,"syntax error near unexpected token `",
-			error_token->value,"'");
-		ft_putendl_fd (err_msg, 2);
-		free(err_msg);
+		minibox->error_status = true;
+		if(error_token && error_token->value)
+		{
+			err_msg = ft_strcat_multi(3,"syntax error near unexpected token `",
+				error_token->value,"'");
+			ft_putendl_fd (err_msg, 2);
+			free(err_msg);
+		}
+		else
+			ft_putendl_fd ("syntax error near unexpected token `newline'", 2);
 	}
-	else
-		ft_putendl_fd ("syntax error near unexpected token `newline'", 2);
-	exit(0); //TODO: Replace the exit with a flag or some other shit
-	//FIXME: free and exit from here somehow and destroy a tree
-	// delete_ast(minibox->tmp_node); ????
-
+	if (error_token)
+		minibox->tmp_token = error_token->next;
 	return(NULL);
 }
 

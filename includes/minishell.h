@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2023/10/05 20:11:29 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/06 15:32:18 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ typedef struct s_minibox
     char        *input_quoted;
     char        *input_expanded;
     char        **global_vars;
+    bool        error_status;
     t_token     *tokens;
     t_token     *tmp_token;
     t_tree      *root;
@@ -90,6 +91,7 @@ void    free_vars(t_minibox *minibox);
 
 /* manage_minibox.c */
 void	initialize_box(t_minibox *minibox, char **env);
+void    free_cycle(t_minibox *minibox);
 void	free_matrix(char **matrix, int i);
 void    free_input_strings(t_minibox *minibox);
 void    free_tokens(t_minibox *minibox);

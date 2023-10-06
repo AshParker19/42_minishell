@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 17:50:11 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/06 11:41:20 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/06 17:07:24 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 t_tree *command_main(t_minibox *minibox)
 {
-    // TODO:
     minibox->tmp_node = ast_create_node(CMD_NODE);
     token_list_main(minibox);    
     if(minibox->tmp_node &&

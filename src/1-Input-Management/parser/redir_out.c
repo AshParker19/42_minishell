@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 20:24:39 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/05 18:55:25 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/06 15:46:04 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static t_tree *redir_out_case1(t_minibox *minibox)
     if(!validate_token(minibox->tmp_token, 1 , RED_OUT_TOKEN))
         return (NULL);
     if(!validate_token(minibox->tmp_token, 2 , WORD_TOKEN))
-        return(put_syntax_error(minibox->tmp_token->next->next));
+        return(put_syntax_error(minibox, minibox->tmp_token->next->next));
     red_out_ap_node = ast_create_node(RED_OUT_AP);
     red_out_ap_node->content = ft_strdup(minibox->tmp_token->next->next->value);
     minibox->tmp_token = minibox->tmp_token->next->next->next;
@@ -58,7 +58,7 @@ static t_tree *redir_out_case2(t_minibox *minibox)
     if(!validate_token(minibox->tmp_token, 0, RED_OUT_TOKEN))
         return(NULL);
     if(!validate_token(minibox->tmp_token, 1, WORD_TOKEN))
-        return(put_syntax_error(minibox->tmp_token->next));
+        return(put_syntax_error(minibox, minibox->tmp_token->next));
     red_out_tr_node = ast_create_node(RED_OUT_TR);
     red_out_tr_node->content = ft_strdup(minibox->tmp_token->next->value);
     minibox->tmp_token = minibox->tmp_token->next->next;

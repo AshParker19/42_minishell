@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 15:35:02 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/05 17:11:38 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/06 15:44:41 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ t_tree  *ast_create_node(int node_type);
 void    delete_ast(t_tree *root);
 void    connect_subtree(t_tree **root, t_tree *node_to_add, int on_right);
 bool    validate_token(t_token *token, int next_amount, int token_type);
-void	*put_syntax_error(t_token *error_token);
+void	*put_syntax_error(t_minibox *minibox, t_token *error_token);
 
 /* functions for BNF notation to build an AST */
 /* job */

@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 17:49:29 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/06 10:22:17 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/06 16:48:34 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ t_tree *job_main(t_minibox *minibox)
     t_tree  *job_node;
     t_token *backup;
     
-    backup = minibox->tmp_token; //TODO: Why?
     if (!minibox->tmp_token)
         return (NULL);
+    backup = minibox->tmp_token;
     job_node = job_case1(minibox);
     if (job_node)
         return (job_node);

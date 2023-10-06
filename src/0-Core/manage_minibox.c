@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:49:13 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/05 20:56:25 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/06 16:46:06 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	initialize_box(t_minibox *minibox, char **env)
 	minibox->input_trimmed = NULL;
 	minibox->input_quoted = NULL;
 	minibox->input_expanded = NULL;
+	minibox->error_status = false;
 	minibox->tokens = NULL;
 	minibox->root = NULL;
 	minibox->global_vars = NULL;
@@ -60,6 +61,15 @@ void free_tokens(t_minibox *minibox)
 		free(current);
 	}
 	minibox->tokens = NULL;
+}
+
+void free_cycle(t_minibox *minibox)
+{
+    free_input_strings(minibox);    
+    free_tokens(minibox);
+    minibox->tokens = NULL;
+    delete_ast(minibox->root);
+    minibox->root = NULL;
 }
 
 // TODO:
