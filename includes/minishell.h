@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2023/10/06 18:09:58 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/06 18:39:07 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@
 /******************************************************************************/
 /* list of local variables */
 typedef struct s_var t_var;
+typedef struct s_exec t_exec;
 
 typedef struct s_minibox
 {
@@ -67,6 +68,7 @@ typedef struct s_minibox
     t_token     *tmp_token;
     t_tree      *root;
     t_tree      *tmp_node;
+    t_exec      executor;
 }              t_minibox;
 
 /* list of variables (definition) */

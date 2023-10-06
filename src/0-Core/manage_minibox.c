@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manage_minibox.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:49:13 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/06 16:46:06 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/06 18:45:57 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,5 +82,6 @@ void free_and_close_box(t_minibox *minibox, int exit_status)
 	free_tokens(minibox);
 	delete_ast(minibox->root);
 	free_vars(minibox);
+	free_executor(minibox);
     exit(exit_status);
 }

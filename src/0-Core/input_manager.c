@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_manager.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:38:32 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/06 16:44:10 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/06 19:34:20 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,9 @@ void	manage_input(t_minibox *minibox)
     print_parser_output(minibox);
     if (minibox->error_status == false)
     {
-        //TODO: somehow call something to execute everything   
-        ;
+        print_executor_output(minibox, 0); 
+        execute(minibox);
+        print_executor_output(minibox, 1); 
     }
     free_cycle(minibox);
 }
