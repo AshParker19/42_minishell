@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2023/09/29 18:42:24 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/06 18:09:58 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,11 @@ typedef struct s_minibox
     char        *input_quoted;
     char        *input_expanded;
     char        **global_vars;
+    bool        error_status;
     t_token     *tokens;
+    t_token     *tmp_token;
     t_tree      *root;
+    t_tree      *tmp_node;
 }              t_minibox;
 
 /* list of variables (definition) */
@@ -73,6 +76,7 @@ typedef struct s_var
     char        *value;
     struct      s_var *next;
 }              t_var;
+
 /******************************************************************************/
 
 /* input_manager.c */
@@ -89,8 +93,10 @@ void    print_vars(t_minibox *minibox);
 
 /* manage_minibox.c */
 void	initialize_box(t_minibox *minibox, char **env);
-void    free_input_strings(t_minibox *minibox);
+void    free_cycle(t_minibox *minibox);
 void	free_matrix(char **matrix, int i);
+void    free_input_strings(t_minibox *minibox);
+void    free_tokens(t_minibox *minibox);
 void    free_and_close_box(t_minibox *minibox, int exit_status);
 
 #endif

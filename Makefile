@@ -9,7 +9,7 @@ DEBUG = 0
 
 # Compiler options
 CC = cc
-CFLAGS = -D DEBUG=$(DEBUG) -Wall -Werror -Wextra -g #-fsanitize=address -fsanitize-address-use-after-scope
+CFLAGS = -D DEBUG=$(DEBUG) -Wall -Werror -Wextra #-g -fsanitize=address -fsanitize-address-use-after-scope
 CLIBS = -L$(LIB_FOLDER) -lft -lm -lreadline
 CINCLUDES  = -I$(INCLUDE_FOLDER) 
 RM = rm -rf
@@ -30,26 +30,32 @@ LIB_FOLDER     = ./libft/
 
 # ->Files
 LIBFT = $(LIB_FOLDER)libft.a
-SRCS = $(addprefix $(SRC_FOLDER), 			\
-	0-Core/main.c							\
-	0-Core/env.c							\
-	0-Core/general_utils_1.c				\
-	0-Core/input_manager.c					\
-	0-Core/manage_minibox.c					\
-	0-Core/signals.c						\
-	1-Input-Management/expand_vars.c		\
-	1-Input-Management/lexer.c 				\
-	1-Input-Management/parser.c				\
-	1-Input-Management/utils.c				\
-	1-Input-Management/quotes_handler.c		\
-	2-Execution/builtins/cd.c				\
-	2-Execution/builtins/echo.c				\
-	2-Execution/builtins/pwd.c				\
-	2-Execution/builtins/export.c			\
-	2-Execution/builtins/unset.c			\
-	2-Execution/builtins/env.c				\
-	2-Execution/builtins/exit.c				\
-	2-Execution/builtins_tester.c			\
+SRCS = $(addprefix $(SRC_FOLDER), 				\
+	0-Core/main.c								\
+	0-Core/env.c								\
+	0-Core/general_utils_1.c					\
+	0-Core/input_manager.c						\
+	0-Core/manage_minibox.c						\
+	0-Core/signals.c							\
+	1-Input-Management/lexer/expand_vars.c		\
+	1-Input-Management/lexer/lexer.c 			\
+	1-Input-Management/lexer/quotes_handler.c	\
+	1-Input-Management/lexer/lexer_utils.c		\
+	1-Input-Management/parser/parser.c			\
+	1-Input-Management/parser/job.c				\
+	1-Input-Management/parser/command.c			\
+	1-Input-Management/parser/token_list.c		\
+	1-Input-Management/parser/redir.c			\
+	1-Input-Management/parser/redir_in.c		\
+	1-Input-Management/parser/redir_out.c		\
+	1-Input-Management/parser/parser_utils.c	\
+	2-Execution/builtins/cd.c					\
+	2-Execution/builtins/echo.c					\
+	2-Execution/builtins/pwd.c					\
+	2-Execution/builtins/export.c				\
+	2-Execution/builtins/unset.c				\
+	2-Execution/builtins/env.c					\
+	2-Execution/builtins/exit.c					\
 	)
 
 # Object files
@@ -76,7 +82,7 @@ $(LIBFT):
 	@$(MAKE) -sC $(LIB_FOLDER) DEBUG=$(DEBUG)
 
 clean:
-	@$(RM) $(OBJ_FOLDER)
+	@$(RM) $(OBJ_FOLDER) readline.supp
 	@echo "$(BLUE)┌────────────────────┐"
 	@echo "│    $(ORANGE)[✓] CLEANED!$(BLUE)    │"
 	@echo "$(BLUE)└────────────────────┘$(RESET)"
@@ -92,3 +98,8 @@ test: all
 
 norm:
 	norminette
+
+readline.supp:
+	wget https://raw.githubusercontent.com/benjaminbrassart/minishell/master/readline.supp
+valgrind:$(NAME) readline.supp
+	valgrind --leak-check=full --show-leak-kinds=all --suppressions=readline.supp ./$(NAME)
