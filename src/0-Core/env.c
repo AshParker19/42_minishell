@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:16:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/09/28 14:55:05 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/09/29 18:42:01 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
                 value
     add the new node to the end of the vars linked lis tin minibox
 */
-static void    add_var(t_minibox *minibox, char *key, char *value)
+void    add_var(t_minibox *minibox, char *key, char *value)
 {
     t_var   *new_var;
     t_var   *current;

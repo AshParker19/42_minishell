@@ -1,13 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bultin_unset.c                                     :+:      :+:    :+:   */
+/*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:33:25 by astein            #+#    #+#             */
-/*   Updated: 2023/09/17 16:30:06 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/09/29 18:52:06 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+
+// TODO: FREE NOT PROBERLY DONE!
+void    bultin_unset(t_minibox *minibox, char* key)
+{
+    t_var *temp;
+    t_var *temp_last;
+
+    temp = minibox->vars;
+    temp_last = temp;
+
+    while(temp)
+    {
+        if(ft_strlen(key) == ft_strlen(temp->key))
+        {
+            if(!ft_strncmp(key, temp->key, ft_strlen(key)))
+            {
+                if(temp_last == temp)
+                {
+                    // first node delete
+                    minibox->vars = temp->next;
+                }
+                else
+                    temp_last->next = temp->next;
+                free(temp);
+                break;
+            }
+        }
+        temp_last = temp;
+        temp = temp->next;
+    }
+}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2023/10/06 15:32:18 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/06 18:09:58 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,12 @@ typedef struct s_var
 void	manage_input(t_minibox *minibox);
 
 /* env.c */
+void    add_var(t_minibox *minibox, char *key, char *value);    
 void    load_vars(t_minibox *minibox);
 char    *get_var(t_minibox *minibox, char *key);
 void    set_var(t_minibox *minibox, char *key, char *value);
 void    free_vars(t_minibox *minibox);
+void    print_vars(t_minibox *minibox);
 
 
 /* manage_minibox.c */

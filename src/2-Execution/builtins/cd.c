@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bultin_cd.c                                        :+:      :+:    :+:   */
+/*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:32:31 by astein            #+#    #+#             */
-/*   Updated: 2023/09/21 17:12:39 by astein           ###   ########.fr       */
+/*   Updated: 2023/09/29 18:41:43 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,11 @@
  * 							directories always updates PWD/OLDPWD
  *  
  *	ATM OLDPWD is not being updated
+    UPDATE PWD in ENV?
 */
 
-void	builtin_cd(char *path)
+void	builtin_cd(t_minibox *minibox, char *path)
 {
+    (void)minibox;
     chdir(path);
 }
