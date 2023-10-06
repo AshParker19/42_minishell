@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 18:26:39 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/05 20:29:20 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/06 10:54:27 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ t_tree *ast_create_node(int node_type)
     if (!new_node)
         return (NULL);
     new_node->type = node_type;
-	if(node_type == PIPE_NODE)
+	if (node_type == PIPE_NODE)
 		new_node->content = ft_strdup("|");
-	// else if(node_type == RED_IN )
+	// else if(node_type == RED_IN ) //TODO: it will not work because we need to copy the value of the next node as content but not the redir characters
 	// 	new_node->content = ft_strdup("<");
 	// else if(node_type == RED_OUT_TR)
 	// 	new_node->content = ft_strdup(">");
@@ -42,16 +42,16 @@ bool    validate_token(t_token *token, int next_amount, int token_type)
 	temp = token;
 	if (!temp)
 			return(false);
-	while(i < next_amount)
+	while( i < next_amount)
 	{
 		temp = temp->next;
 		if (!temp)
 			return(false);
 		i++;
 	}
-	if(!temp->value || temp->type != token_type)
-		return(false);
-	return(true);
+	if (!temp->value || temp->type != token_type)
+		return (false);
+	return (true);
 }
 /*
 	When the parser finds an error it should print a message and end the parsing

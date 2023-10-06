@@ -82,7 +82,7 @@ $(LIBFT):
 	@$(MAKE) -sC $(LIB_FOLDER) DEBUG=$(DEBUG)
 
 clean:
-	@$(RM) $(OBJ_FOLDER)
+	@$(RM) $(OBJ_FOLDER) readline.supp
 	@echo "$(BLUE)┌────────────────────┐"
 	@echo "│    $(ORANGE)[✓] CLEANED!$(BLUE)    │"
 	@echo "$(BLUE)└────────────────────┘$(RESET)"
@@ -98,3 +98,9 @@ test: all
 
 norm:
 	norminette
+
+readline.supp:
+	wget https://raw.githubusercontent.com/benjaminbrassart/minishell/master/readline.supp
+
+valgrind:
+	valgrind --leak-check=full --show-leak-kinds=all --suppressions=readline.supp ./$(NAME)
