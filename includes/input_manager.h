@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 15:35:02 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/02 15:23:46 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/06 15:44:41 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef	struct s_token
 typedef struct	s_tree
 {
 	int				type;
+	char   			*content;
 	struct s_tree	*left;
 	struct s_tree	*right;
 }				t_tree;
@@ -50,9 +51,6 @@ enum e_token_type
     PIPE_TOKEN,
     RED_IN_TOKEN,
     RED_OUT_TOKEN,
-    // AND_TOKEN,
-    // OR_TOKEN,
-    EOF_TOKEN,
 };
 
 /* TOKEN TYPES FOR T_AST */
@@ -60,10 +58,18 @@ enum e_node_type
 {
     CMD_NODE,
     ARG_NODE,
+    PIPE_NODE,
     RED_IN,
     RED_IN_HD,
     RED_OUT_TR,
     RED_OUT_AP
+};
+
+/* RIGHT OR LEFT BRANCH OF THE TREE */
+enum e_three_branch
+{
+    RIGHT,
+    LEFT
 };
 /******************************************************************************/
 
@@ -86,6 +92,27 @@ bool	ft_isqoute(char c);
 
 /* PARSER */
 void	parse(t_minibox *minibox);
+void	print_parser_output(t_minibox *minibox);
+t_tree  *ast_create_node(int node_type);
+void    delete_ast(t_tree *root);
+void    connect_subtree(t_tree **root, t_tree *node_to_add, int on_right);
+bool    validate_token(t_token *token, int next_amount, int token_type);
+void	*put_syntax_error(t_minibox *minibox, t_token *error_token);
+
+/* functions for BNF notation to build an AST */
+/* job */
+t_tree *job_main(t_minibox *minibox);
+
+/* command */
+t_tree *command_main(t_minibox *minibox);
+
+/* token_list */
+void    token_list_main(t_minibox *minibox);
+
+/* redir */
+t_tree *redir_main(t_minibox *minibox);
+t_tree *redir_in_main(t_minibox *minibox);
+t_tree *redir_out_main(t_minibox *minibox);
+/**********************************************/
 
 #endif
-

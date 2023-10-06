@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 14:36:59 by anshovah          #+#    #+#             */
-/*   Updated: 2023/09/30 14:16:16 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/05 19:20:26 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void	mark_seps(t_minibox *minibox, int i, int quote_state)
     if (quote_state != OUT_Q)
     {
         ft_putstr_fd("Syntax error:\n", 2);
+        // exit(0); FIXME:
         // free_input_strings(minibox);
         // TODO: HERE WE SOMEHOW NEED TO STOP THE INPUT MANAGER
         // MAYBE WITH A RETURN BOOLEAN THAT MARK CONTEXT QUTES FAILED

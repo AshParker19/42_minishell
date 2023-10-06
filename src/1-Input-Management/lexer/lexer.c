@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 12:11:14 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/02 15:25:53 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/05 20:54:28 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,11 @@ void	print_tokens(t_minibox *minibox)
 	t_token	*current;
 
 	current = minibox->tokens;
-	printf("START PRINTING\n---\n");
 	while (current)
 	{
-		printf ("type:(%d) \t token:╟%s╢\n", current->type, current->value);
+		printf ("type:(%d) \t token:(%s)\n", current->type, current->value);
 		current = current->next;
 	}
-	printf("---\nEND PRINTING\n");
 }
 
 /* add a new token to the end of tokens linked list and assigns variables */
@@ -71,11 +69,11 @@ int	get_token_type(char c)
 	return (WORD_TOKEN);		
 }
 
-/*
-	called in a case if just a sequence of alphanumeric characters without any 
-	separators needs to be transformen into a token. uses call by reference
-	to update int i in a calling function to shift the string correctly
-*/
+// /*
+// 	called in a case if just a sequence of alphanumeric characters without any 
+// 	separators needs to be transformen into a token. uses call by reference
+// 	to update int i in a calling function to shift the string correctly
+// */
 static void	just_word(t_minibox *minibox, char *str, int *i)
 {
 	int	j;
@@ -131,9 +129,18 @@ static void	split_by_sep(t_minibox *minibox, char *str, int i, int quote_state)
 	}
 }
 
+void	print_tokenizer_output(t_minibox *minibox)
+{
+	printf("\n ------------------------------------ \n");
+	printf("|           TOKENIZER                |\n");
+	printf(" ------------------------------------ \n");
+	print_tokens(minibox);
+	printf(" ------------------------------------ \n");
+}
+
 /*
 	makes a linked list with the tokens grabbed from 
-	minibox->input_expaned
+	minibox->input_expanded
 	the result will be stored in the linked list:
 	minibox->tokens
 */
@@ -157,6 +164,5 @@ void	tokenize(t_minibox *minibox, int i)
 		i++;
 	}
 	free_matrix(no_space, -1);
-	// print_tokens(minibox);
-	minibox->tokens = NULL;
+	print_tokenizer_output(minibox);
 }

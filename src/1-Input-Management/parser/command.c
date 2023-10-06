@@ -1,32 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   command.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/07 16:06:17 by astein            #+#    #+#             */
-/*   Updated: 2023/10/02 12:09:41 by anshovah         ###   ########.fr       */
+/*   Created: 2023/10/02 17:50:11 by anshovah          #+#    #+#             */
+/*   Updated: 2023/10/06 17:07:24 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+# include "minishell.h"
 
-int	main(int ac, char **av, char **env)
+t_tree *command_main(t_minibox *minibox)
 {
-	t_minibox	minibox;
-	(void)ac;
-	(void)av;
-	initialize_box(&minibox, env);
-	load_vars(&minibox);
-	
-	while (1)
-	{
-		minibox.input_original = readline("MINI-HELL-> ");
-		if (!minibox.input_original)
-			return (0);
-		// do stuff with the command
-		manage_input(&minibox);
-	}
-	return (0);
+    minibox->tmp_node = ast_create_node(CMD_NODE);
+    token_list_main(minibox);    
+    if(minibox->tmp_node &&
+        (minibox->tmp_node->content || minibox->tmp_node->left))
+    {
+        return(minibox->tmp_node);
+    }
+    delete_ast(minibox->tmp_node);
+    return(NULL);
 }
