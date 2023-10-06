@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:54:41 by astein            #+#    #+#             */
-/*   Updated: 2023/10/06 19:41:51 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/06 19:45:03 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void    run_builtin(t_tree *cmd_node, int builtin_cmd_index)
     {
         if(cmd_node->right->content)
         {
-            temp = ft_strcat_multi(2, args_list, cmd_node->right->content)        ;
+            temp = ft_strcat_multi(3, args_list, " ", cmd_node->right->content)        ;
             free(args_list);
             args_list = temp;
         }    
@@ -54,7 +54,7 @@ void    run_builtin(t_tree *cmd_node, int builtin_cmd_index)
     }
     
     if(builtin_cmd_index == 0)
-        bultin_echo(cmd_node->right->content);   
+        bultin_echo(args_list);   
 
 
     free(args_list);
