@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:23:39 by astein            #+#    #+#             */
-/*   Updated: 2023/10/06 19:35:27 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/07 14:16:49 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,30 @@ void load_executor(t_minibox *minibox)
 	path = get_var(minibox, "PATH");
 	minibox->executor.path_dirs = ft_split(path, ':');
 	initialize_builtins(minibox);
+}
+
+void	initialize_executor(t_minibox *minibox)
+{	
+	minibox->executor.cmd_av = NULL;
+	minibox->executor.fd[0] = -1;
+	minibox->executor.fd[1] = -1;
+	minibox->executor.dup_fd[0] = -1;
+	minibox->executor.dup_fd[1] = -1;
+	minibox->executor.prev_fd = -1;
+}
+
+void	free_process(t_minibox *minibox)
+{
+	if (minibox->executor.cmd_av)
+		free_matrix(minibox->executor.cmd_av, -1);
+	if (minibox->executor.fd[0] != -1)
+		close (minibox->executor.fd[0]);
+	if (minibox->executor.fd[1] != -1)
+		close (minibox->executor.fd[1]);
+	if (minibox->executor.dup_fd[0])
+		close (minibox->executor.dup_fd[0]);
+	if (minibox->executor.dup_fd[1])
+		close (minibox->executor.dup_fd[1]);			 
 }
 
 /* Print the ouput of the AST built by the Parser*/
