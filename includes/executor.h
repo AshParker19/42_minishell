@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 17:55:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/07 15:10:30 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/08 15:43:48 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ typedef struct s_exec
     int     fd[2];
     int     dup_fd[2];
     int     prev_fd;
+    int     pid1;
+    int     pid2;
     int     exit_status;
 }   t_exec;
 
@@ -30,7 +32,7 @@ enum e_cmd_type
     CMD,
     CMD_PIPE,
     PIPE_CMD,
-    PIPE_CMD_PIPE
+    CMD_PIPE_CMD
 };
 
 enum e_pipe_end
