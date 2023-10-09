@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 17:55:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/09 18:12:31 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/09 20:34:41 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ enum e_pipe_end
 /* executor */
 void    execute(t_minibox *minibox);
 void    single_cmd(t_minibox *minibox, t_tree *cmd_node, char *cmd);
+void    run_cmd_system(t_minibox *minibox, t_tree *cmd_node);
 
 /* pipes */
 void    setup_use_pipe(t_minibox *minibox, int status);

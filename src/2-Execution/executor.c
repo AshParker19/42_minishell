@@ -6,13 +6,23 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:19:44 by astein            #+#    #+#             */
-/*   Updated: 2023/10/09 18:41:34 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/09 20:53:00 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
+static void    run_cmd_main(t_minibox *minibox, t_tree *cmd_node, int status)
+{
+    int builtin_cmd_index;
+    (void)status;
+    
+    builtin_cmd_index = check_if_builtin(minibox, cmd_node->content);
+    if (builtin_cmd_index != -1)
+        run_cmd_builtin(minibox, cmd_node, builtin_cmd_index);
+    else
+        run_cmd_system(minibox, cmd_node);
+}
 
 void    setup_io(t_minibox *minibox, int status)
 {
@@ -24,6 +34,9 @@ void    setup_io(t_minibox *minibox, int status)
 
 void exec_cmd(t_minibox *minibox, t_tree *node, int status)
 {
+    (void)minibox;
+    (void)node;
+    (void)status;
     // char    *cmd;
 
     // // TODO: check for builtin
@@ -60,6 +73,12 @@ static void setup_cmd(t_minibox *minibox, t_tree *cmd_node, int status)
     else
     {
         // else all the other cases
+        // setup_pipe 
+    	// setup_redir
+    	// fork (if nessesary)
+    	run_cmd_main(minibox, cmd_node, status);
+    	// in parent process
+		// wait() and catc
         
     }
 
@@ -69,19 +88,7 @@ static void setup_cmd(t_minibox *minibox, t_tree *cmd_node, int status)
     
 }
 
-static void    run_cmd_main(t_minibox *minibox, t_tree *cmd_node, int status)
-{
-    if (check_if_builtin(minibox, cmd_node->content) != -1)
-    {
-        
-    }
-    // check if bultin
-	// SI
-	// 	-> no need to fork (if no pipe or redir)
-	// 	run_cmd_buldin()
-	// NO
-	// 	run_cmd_system
-}
+
 
 void    execute(t_minibox *minibox)
 {
