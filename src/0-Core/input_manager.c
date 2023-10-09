@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_manager.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:38:32 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/06 19:34:20 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/09 17:46:23 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ void	manage_input(t_minibox *minibox)
     printf ("minibox->input_expanded:\t%s\n", minibox->input_expanded);
     if (ft_strlen(minibox->input_expanded) != 0)
     {
-        if (ft_strlen(minibox->input_expanded) == 4 && !ft_strncmp(minibox->input_expanded, "exit", 4))
+        if(ft_strcmp_strict("exit", minibox->input_expanded))
+        // if (ft_strlen(minibox->input_expanded) == 4 && !ft_strncmp(minibox->input_expanded, "exit", 4))
         {
             printf("Bye Bye fuckers!\n");
             // Deal with exit status!

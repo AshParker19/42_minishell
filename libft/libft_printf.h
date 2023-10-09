@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:11:36 by astein            #+#    #+#             */
-/*   Updated: 2023/09/28 19:33:36 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/09 17:09:56 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,7 @@ size_t				ft_strlcpy(char *dst, const char *src, size_t size);
 size_t				ft_strlcat(char *dst, const char *src, size_t size);
 char				*ft_strcat_multi(int amount_of_strs, ...);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
+t_bool				ft_strcmp_strict(const char *str_a, const char *str_b);
 char				*ft_strchr(const char *s, int c);
 char				*ft_strrchr(const char *s, int c);
 void				ft_str_replace_chr(char *str, char old, char new);

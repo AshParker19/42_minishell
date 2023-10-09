@@ -9,7 +9,7 @@ DEBUG = 0
 
 # Compiler options
 CC = cc
-CFLAGS = -D DEBUG=$(DEBUG) -Wall -Werror -Wextra -g #-fsanitize=address -fsanitize-address-use-after-scope
+CFLAGS = -D DEBUG=$(DEBUG) #-Wall -Werror -Wextra -g #-fsanitize=address -fsanitize-address-use-after-scope
 CLIBS = -L$(LIB_FOLDER) -lft -lm -lreadline
 CINCLUDES  = -I$(INCLUDE_FOLDER) 
 RM = rm -rf
@@ -51,9 +51,10 @@ SRCS = $(addprefix $(SRC_FOLDER), 				\
 	1-Input-Management/parser/parser_utils.c	\
 	2-Execution/executor.c						\
 	2-Execution/executor_utils.c				\
-	2-Execution/executor_utils2.c				\
+	2-Execution/utils_system.c					\
+	2-Execution/utils_builtin.c					\
 	2-Execution/pipes.c							\
-	2-Execution/builtins/builtins_utils.c		\
+	2-Execution/redirection.c					\
 	2-Execution/builtins/cd.c					\
 	2-Execution/builtins/echo.c					\
 	2-Execution/builtins/pwd.c					\

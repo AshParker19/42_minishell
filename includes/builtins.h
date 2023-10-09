@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 11:32:13 by astein            #+#    #+#             */
-/*   Updated: 2023/10/06 19:21:16 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/09 17:24:45 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,16 @@
 
 /* builtins_utils.c */
 void	initialize_builtins(t_minibox *minibox);
-int    check_if_builtin(t_minibox *minibox, char *cmd_name);
-void    run_builtin(t_tree *cmd_node, int builtin_cmd_index);
+int     check_if_builtin(t_minibox *minibox, char *cmd_name);
+void    run_cmd_builtin(t_minibox *minibox, t_tree *cmd_node, int cmd_index);
 
 void    test_builtins();
+void    builtin_echo(char *txt);
 void	builtin_cd(t_minibox *minibox, char *path);
-void    bultin_echo(char *txt);
-void    bultin_env(t_minibox *minibox);
-void    bultin_exit(void);
-void    bultin_export(t_minibox *minibox, char* key_value_pair);
-void    bultin_unset(t_minibox *minibox, char* key);
-void	builtin_pwd(void);
+void	builtin_pwd(char *args);
+void    builtin_export(t_minibox *minibox, char* key_value_pair);
+void    builtin_unset(t_minibox *minibox, char *key);
+void    builtin_env(t_minibox *minibox, char *args);
+void    builtin_exit(t_minibox *minibox, char *args);
+
 #endif

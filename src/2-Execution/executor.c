@@ -6,99 +6,98 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:19:44 by astein            #+#    #+#             */
-/*   Updated: 2023/10/08 19:22:22 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/09 18:41:34 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 
-void    execute_cmd(t_minibox *minibox, t_tree *tree_node)
+
+void    setup_io(t_minibox *minibox, int status)
 {
-    char    *cmd;
+    initialize_io(minibox);
+    setup_use_pipe(minibox, status);
+    minibox->executor.io.redir = minibox->root->left;
+}
+
+
+void exec_cmd(t_minibox *minibox, t_tree *node, int status)
+{
+    // char    *cmd;
+
+    // // TODO: check for builtin
     
-    get_cmd_av(minibox, tree_node);
-    cmd = find_cmd(minibox, tree_node->content, -1);
-    execve(cmd, minibox->executor.cmd_av, minibox->env);
-    perror ("execve");
-    // free_process(minibox);
-    free (cmd);
+    // setup_io(minibox, status);
+    // get_cmd_av(minibox, node);
+    // cmd = get_cmd_path(minibox, node->content, -1);
+    // if (minibox->executor.cmd_av[0])
+    //     free(minibox->executor.cmd_av[0]);
+    // minibox->executor.cmd_av[0] = cmd;
+    // setup_redir(minibox);
+    // // TODO: fork
+    // execve(minibox->executor.cmd_av[0], minibox->executor.cmd_av, minibox->env);
+    // // TODO:check if execve changes env, if yeas we need to reload the LL
+    // perror("Poop");
+    
+    // // while (minibox->executor.cmd_av[i])
+    // // {
+    // //     printf("%s\n", minibox->executor.cmd_av[i]);
+    // //     i++;
+    // // }
+    // // if (minibox->executor.io.redir)
+    // //     printf("Redir: %s\n", minibox->executor.io.redir->content);
 }
 
-void    execute_pipe(t_minibox *minibox, t_tree *tree_node)
+static void setup_cmd(t_minibox *minibox, t_tree *cmd_node, int status)
 {
-    if (!tree_node || tree_node->type != PIPE_NODE)
-        return ;
-    if (pipe(minibox->executor.fd) < 0)
+    int builtin_cmd_index;
+    
+    // check if only single buiiltin
+    builtin_cmd_index = check_if_builtin(minibox, cmd_node->content);
+    if (status == SINGLE_CMD && builtin_cmd_index != -1)
+        run_cmd_builtin(minibox, cmd_node, builtin_cmd_index); //TODO: exit status?
+    else
     {
-        perror("pipe");
-        return ; // TODO: exit from here somehow
+        // else all the other cases
+        
     }
-    if (minibox->executor.prev_fd != -1)
-        minibox->executor.prev_fd = minibox->executor.fd[WRITE_END];
-    minibox->executor.pid1 = fork();
-    if (minibox->executor.pid1 < 0)
-    {
-        perror("fork");
-        return ;
-    }
-    if (minibox->executor.pid1 == 0)
-    {
-        close (minibox->executor.fd[READ_END]);
-        minibox->executor.dup_fd[WRITE_END]    
-            = dup2(minibox->executor.fd[WRITE_END], STDOUT_FILENO);
-        close (minibox->executor.fd[WRITE_END]);
-        execute_cmd(minibox, tree_node->left);
-    }
-    minibox->executor.pid2 = fork();
-    if (minibox->executor.pid2 < 0)
-    {
-        perror("fork");
-        return ;
-    }
-    if (minibox->executor.pid2 == 0)
-    {
-        close (minibox->executor.fd[WRITE_END]);
-        minibox->executor.dup_fd[READ_END]
-            = dup2(minibox->executor.fd[READ_END], STDIN_FILENO);
-        close (minibox->executor.fd[READ_END]);
-        execute_cmd(minibox, tree_node->right);
-    }
-    close(minibox->executor.fd[READ_END]);
-    close(minibox->executor.fd[WRITE_END]);
-    waitpid(minibox->executor.pid1, &minibox->executor.exit_status, 0);
-    waitpid(minibox->executor.pid2, &minibox->executor.exit_status, 0);
+
+
+    
+    initialize_io(minibox);
+    
 }
 
-void    execute_recursively(t_minibox *minibox, t_tree *tree_node)
+static void    run_cmd_main(t_minibox *minibox, t_tree *cmd_node, int status)
 {
-    if (!tree_node)
-        return ;  
-    if (tree_node->type == PIPE_NODE)
-        execute_pipe(minibox, tree_node);
-    execute_recursively(minibox, tree_node->left);
-    execute_recursively(minibox, tree_node->right);
+    if (check_if_builtin(minibox, cmd_node->content) != -1)
+    {
+        
+    }
+    // check if bultin
+	// SI
+	// 	-> no need to fork (if no pipe or redir)
+	// 	run_cmd_buldin()
+	// NO
+	// 	run_cmd_system
 }
-
 
 void    execute(t_minibox *minibox)
 {
-    int builtin_cmd_index;
-    initialize_executor(minibox);
+    t_tree  *cur_node;
     
-    if(minibox->root->type == CMD_NODE)
-    {
-        builtin_cmd_index = check_if_builtin(minibox, minibox->root->content);
-        if(builtin_cmd_index != -1)
-            run_builtin(minibox->root, builtin_cmd_index);
-        else
-        {
-            single_cmd(minibox, minibox->root,
-                find_cmd(minibox, minibox->root->content, -1));
-            wait(NULL);                 
-        }
-    }
+    if (minibox->root->type == CMD_NODE)
+        setup_cmd(minibox, minibox->root, SINGLE_CMD);
     else
-        execute_recursively(minibox, minibox->root);
-    // free_process(minibox);    
+    {
+        setup_cmd(minibox, minibox->root->left, FIRST_CMD);
+        cur_node = minibox->root;
+        while(cur_node->right && (cur_node->type == PIPE_NODE))
+        {
+            setup_cmd(minibox, cur_node->left, MIDDLE_CMD);
+            cur_node = cur_node->right;
+        }
+        setup_cmd(minibox, cur_node,  LAST_CMD);
+    }
 }

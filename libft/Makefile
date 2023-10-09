@@ -58,6 +58,7 @@ SRCS = $(addprefix $(SRC_FOLDER), \
 	ft_str_replace_chars.c \
 	ft_strcat_multi.c \
 	ft_strchr.c \
+	ft_strcmp_strict.c \
 	ft_strdup.c \
 	ft_striteri.c \
 	ft_strjoin.c \
