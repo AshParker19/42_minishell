@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:16:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/09/29 18:42:01 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/09 17:48:36 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,13 +79,14 @@ char *get_var(t_minibox *minibox, char *key)
 
     while(current)
     {
-        if(ft_strlen(key) == ft_strlen(current->key))
+        if(ft_strcmp_strict(key, current->key))
+        // if(ft_strlen(key) == ft_strlen(current->key))
         {
-            if(!ft_strncmp(key, current->key, ft_strlen(key)))
-            {
+            // if(!ft_strncmp(key, current->key, ft_strlen(key)))
+            // {
                 value = current->value;
                 break;
-            }
+            // }
         }
         current = current->next;
     }
@@ -108,13 +109,14 @@ void set_var(t_minibox *minibox, char *key, char *value)
         current = minibox->vars;
         while(current)
         {
-            if(ft_strlen(key) == ft_strlen(current->key))   
+            if(ft_strcmp_strict(key, current->key))
+            // if(ft_strlen(key) == ft_strlen(current->key))   
             {
-                if(!ft_strncmp(key, current->key, ft_strlen(key)))
-                {
+                // if(!ft_strncmp(key, current->key, ft_strlen(key)))
+                // {
                     current->value = value;
                     break;
-                }
+                // }
             }
             current = current->next;
         }

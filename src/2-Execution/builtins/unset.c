@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:33:25 by astein            #+#    #+#             */
-/*   Updated: 2023/09/29 18:52:06 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/09 17:47:59 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 
 // TODO: FREE NOT PROBERLY DONE!
-void    bultin_unset(t_minibox *minibox, char* key)
+void    builtin_unset(t_minibox *minibox, char* key)
 {
     t_var *temp;
     t_var *temp_last;
@@ -24,9 +24,10 @@ void    bultin_unset(t_minibox *minibox, char* key)
 
     while(temp)
     {
-        if(ft_strlen(key) == ft_strlen(temp->key))
-        {
-            if(!ft_strncmp(key, temp->key, ft_strlen(key)))
+        if(ft_strcmp_strict(key, temp->key))
+        // if(ft_strlen(key) == ft_strlen(temp->key))
+        // {
+        //     if(!ft_strncmp(key, temp->key, ft_strlen(key)))
             {
                 if(temp_last == temp)
                 {
@@ -38,7 +39,7 @@ void    bultin_unset(t_minibox *minibox, char* key)
                 free(temp);
                 break;
             }
-        }
+        // }
         temp_last = temp;
         temp = temp->next;
     }

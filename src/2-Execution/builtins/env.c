@@ -3,19 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:33:46 by astein            #+#    #+#             */
-/*   Updated: 2023/09/29 18:40:18 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/09 17:24:39 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    bultin_env(t_minibox *minibox)
+void    builtin_env(t_minibox *minibox, char *args)
 {
     t_var *cur;
 
+    (void)args; // TODO:
     cur = minibox->vars;
     while(cur)
     {
