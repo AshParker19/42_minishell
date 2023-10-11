@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:23:39 by astein            #+#    #+#             */
-/*   Updated: 2023/10/09 18:12:10 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/11 11:29:18 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ void	free_process(t_minibox *minibox)
 	if (minibox->executor.io.dup_fd[WRITE_END] != -1)
 		close (minibox->executor.io.dup_fd[WRITE_END]);			 
 }
+
+
 
 /* Print the ouput of the AST built by the Parser*/
 void	print_executor_output(t_minibox *minibox, int i)

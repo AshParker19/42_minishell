@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 17:55:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/09 20:34:41 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/11 11:03:30 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ enum e_cmd_type
 
 enum e_pipe_end
 {
-    READ_END,
+    READ_END,  //     1 in   ->     0 out
     WRITE_END
 };
 

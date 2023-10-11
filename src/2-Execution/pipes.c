@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:23:27 by astein            #+#    #+#             */
-/*   Updated: 2023/10/09 17:53:13 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/10 17:24:36 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,7 @@
 
 void	setup_use_pipe(t_minibox *minibox, int status)
 {
-    if (status == SINGLE_CMD)
-    {
-        minibox->executor.io.use_pipe[READ_END] = ft_false;
-        minibox->executor.io.use_pipe[WRITE_END] = ft_false;
-    }
-    else if (status == FIRST_CMD)
+    if (status == FIRST_CMD)
     {
         minibox->executor.io.use_pipe[READ_END] = ft_false;
         minibox->executor.io.use_pipe[WRITE_END] = ft_true;

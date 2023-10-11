@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 13:07:56 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/09 20:54:11 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/11 14:08:21 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,16 +64,8 @@ void get_cmd_av(t_minibox *minibox, t_tree *cmd_node)
 void    run_cmd_system(t_minibox *minibox, t_tree *cmd_node)
 {
     get_cmd_av(minibox, cmd_node);
-    printf("%s\n",minibox->executor.cmd_av[0]);
-    int i = 0;
-    printf ("============\n");
-    while (minibox->executor.cmd_av[i])
-    {
-        printf ("%s\n", minibox->executor.cmd_av[i]);
-        i++;
-    }
-    if(!minibox->executor.cmd_av)
-        execve("ls\0", minibox->executor.cmd_av, minibox->env);
+    if(minibox->executor.cmd_av)
+        execve(minibox->executor.cmd_av[0], minibox->executor.cmd_av, minibox->env);
     perror ("execve");
     free_process(minibox);     
 }
