@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 17:55:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/11 11:03:30 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/12 14:36:16 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ typedef struct s_io
     t_tree  *redir;
     int     fd[2];
     int     dup_fd[2];
-    int     prev_fd;
 }   t_io;
 
 typedef struct s_exec
@@ -29,8 +28,7 @@ typedef struct s_exec
     char    **cmd_builtins;
     char    **cmd_av;
     t_io    io;
-    int     pid1;
-    int     pid2;
+    int     pid;
     int     exit_status;
 }   t_exec;
 
@@ -57,6 +55,7 @@ void    run_cmd_system(t_minibox *minibox, t_tree *cmd_node);
 
 /* pipes */
 void    setup_use_pipe(t_minibox *minibox, int status);
+void    setup_pipes(t_minibox *minibox);
 
 
 /* redirections */

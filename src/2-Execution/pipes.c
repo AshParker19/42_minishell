@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:23:27 by astein            #+#    #+#             */
-/*   Updated: 2023/10/10 17:24:36 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/12 14:36:03 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,12 @@
 
 void	setup_use_pipe(t_minibox *minibox, int status)
 {
-    if (status == FIRST_CMD)
+    if (status == SINGLE_CMD)
+    {
+        minibox->executor.io.use_pipe[READ_END] = ft_false;
+        minibox->executor.io.use_pipe[WRITE_END] = ft_false;
+    }
+    else if (status == FIRST_CMD)
     {
         minibox->executor.io.use_pipe[READ_END] = ft_false;
         minibox->executor.io.use_pipe[WRITE_END] = ft_true;
@@ -31,25 +36,13 @@ void	setup_use_pipe(t_minibox *minibox, int status)
     }
 }
 
-// // TODO: make this fucntion modular so I can call it in all the cases
-// void    single_cmd(t_minibox *minibox, t_tree *cmd_node, char *cmd)
-// {
-// 	int     pid;
-	
-// 	pid = 0;
-// 	//TODO: treat redirection
-// 	pid = fork();
-// 	if (pid < 0)
-// 	{
-// 		perror ("fork");
-// 		return ;
-// 	}
-// 	if (pid == 0)
-// 	{
-// 		get_cmd_av(minibox, cmd_node);
-// 		execve(cmd, minibox->executor.cmd_av, minibox->env);
-// 		perror ("execve");
-// 		free_process(minibox);
-// 		free (cmd);
-// 	}
-// }
+void    setup_pipes(t_minibox *minibox)
+{
+    if (minibox->executor.io.use_pipe[READ_END])
+        minibox->executor.io.dup_fd[READ_END]
+        = dup2(minibox->executor.io.fd[READ_END], STDIN_FILENO);
+    if (minibox->executor.io.use_pipe[WRITE_END])
+        minibox->executor.io.dup_fd[WRITE_END]
+        = dup2(minibox->executor.io.fd[WRITE_END], STDOUT_FILENO);
+}
+
