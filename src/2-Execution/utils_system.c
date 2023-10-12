@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 13:07:56 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/12 14:37:40 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/12 15:59:56 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,9 @@ void get_cmd_av(t_minibox *minibox, t_tree *cmd_node)
     free(cur_args_str);
 }
 
-void    run_cmd(t_minibox *minibox, t_tree *cmd_node)
+void    run_cmd_system(t_minibox *minibox, t_tree *cmd_node)
 {
+    // setup redirections
     minibox->executor.pid = fork();
     if (minibox->executor.pid == -1)
         exit(EXIT_FAILURE);
@@ -76,12 +77,6 @@ void    run_cmd(t_minibox *minibox, t_tree *cmd_node)
         perror ("execve");
         free_process(minibox);
     }
-}
-
-void    run_cmd_system(t_minibox *minibox, t_tree *cmd_node)
-{
-    // setup redirections
-    run_cmd(minibox, cmd_node);
     waitpid(minibox->executor.pid, &minibox->executor.exit_status, 0);
     free_process(minibox);
 }

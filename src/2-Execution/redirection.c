@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:47:15 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/09 16:48:42 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/12 16:35:20 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,11 @@ void    handle_redir(t_tree *node, int *in_fd, int *out_fd)
     }
     else if (node->type == RED_OUT_AP)
     {
-        
+        if (*out_fd != -1)
+            close(*out_fd);
+        *out_fd = open(node->content, O_WRONLY | O_CREAT | O_APPEND, 0666);
+        if (*out_fd == -1)
+            exit (EXIT_FAILURE);    
     }
 }
 

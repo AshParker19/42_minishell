@@ -6,23 +6,23 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:19:44 by astein            #+#    #+#             */
-/*   Updated: 2023/10/12 14:39:19 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/12 16:00:10 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void    run_cmd_main(t_minibox *minibox, t_tree *cmd_node, int status)
-{
-    int builtin_cmd_index;
-    (void)status;
+// static void    run_cmd_main(t_minibox *minibox, t_tree *cmd_node, int status)
+// {
+//     int builtin_cmd_index;
+//     (void)status;
     
-    builtin_cmd_index = check_if_builtin(minibox, cmd_node->content); //TODO: doesn't make sence to have it at 2 places
-    if (builtin_cmd_index != -1)
-        run_cmd_builtin(minibox, cmd_node, builtin_cmd_index);
-    else
-        run_cmd_system(minibox, cmd_node);
-}
+//     builtin_cmd_index = check_if_builtin(minibox, cmd_node->content); //TODO: doesn't make sence to have it at 2 places
+//     if (builtin_cmd_index != -1)
+//         run_cmd_builtin(minibox, cmd_node, builtin_cmd_index);
+//     else
+//         run_cmd_system(minibox, cmd_node);
+// }
 
 void    setup_io(t_minibox *minibox, t_tree *cmd_node, int status)
 {
@@ -99,8 +99,6 @@ void    execute_cmd(t_minibox *minibox, t_tree *tree_node, int status)
 
 void    execute(t_minibox *minibox)
 {
-    // t_tree  *cur_node;
-    
     if (minibox->root->type == CMD_NODE)
         execute_cmd(minibox, minibox->root, SINGLE_CMD);
     else
