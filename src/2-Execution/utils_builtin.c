@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_builtin.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:54:41 by astein            #+#    #+#             */
-/*   Updated: 2023/10/09 17:49:35 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/13 23:04:21 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,48 +37,40 @@ int    check_if_builtin(t_minibox *minibox, char *cmd_name)
     return (-1);
 }
 
-static char *strcat_args(t_tree *cmd_node)
+char *strcat_args(t_tree *arg_node)
 {
     char    *args_list;
     char    *temp;
 
     args_list = NULL; 
-    while(cmd_node->right)
+    while(arg_node)
     {
-        if(cmd_node->right->content)
+        if(arg_node->content)
         {
-            temp = ft_strcat_multi(3, args_list, " ", cmd_node->right->content);
+            if(!args_list)
+                temp = ft_strdup(arg_node->content);
+            else
+                temp = ft_strcat_multi(3, args_list, " ", arg_node->content);
             free(args_list);
             args_list = temp;
         }    
-        cmd_node = cmd_node->right;
+        arg_node = arg_node->right;
     }
     return(args_list);
 }
 
-static void choose_builtin(t_minibox *minibox, int cmd_index,  char *args)
-{
-    if(cmd_index == 0)
-        builtin_echo(args);
-    else if(cmd_index == 1)
-        builtin_cd(minibox, args);
-    else if(cmd_index == 2)
-        builtin_pwd(args);
-    else if(cmd_index == 3)
-        builtin_export(minibox, args);
-    else if(cmd_index == 4)
-        builtin_unset(minibox, args);
-    else if(cmd_index == 5)
-        builtin_env(minibox, args);
-    else if(cmd_index == 6)
-        builtin_exit(minibox, args);
-}
-
 void    run_cmd_builtin(t_minibox *minibox, t_tree *cmd_node, int cmd_index)
 {
-    char    *args_list;
+    void	(*f[7])(t_minibox *minibox, t_tree *arg_node);
     
-    args_list = strcat_args(cmd_node);
-    choose_builtin(minibox, cmd_index, args_list);
-    free(args_list);
+    if(cmd_index < 0 || cmd_index > 6)
+        return ; // TODO: exit print message
+    f[0] = builtin_echo;
+    f[1] = builtin_cd;
+	f[2] = builtin_pwd;
+	f[3] = builtin_export;
+	f[4] = builtin_unset;
+	f[5] = builtin_env;
+	f[6] = builtin_exit;
+    (*f[cmd_index])(minibox, cmd_node->right);
 }

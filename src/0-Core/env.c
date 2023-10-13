@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:16:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/09 17:48:36 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/13 19:50:02 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 /*
     this function crates a new node of t_var
+        FIRST NEED TO CHEK IF ALREADY EXIST
+            ->then just chanege
         new_var->key = key
         new_var->value
             if value=NULL
@@ -27,6 +29,12 @@ void    add_var(t_minibox *minibox, char *key, char *value)
     t_var   *new_var;
     t_var   *current;
     
+    if(get_var(minibox, key) != NULL)
+    {
+        set_var(minibox, key, value);
+        return ;
+    }
+
     new_var = ft_calloc(1, sizeof(t_var));
     if(!new_var)
         return; //TODO: deal with malloc failure

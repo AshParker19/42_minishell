@@ -6,13 +6,14 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2023/10/06 18:39:07 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/13 23:22:39 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# define PROMT  "minihell-> "
 /* system includes */
 # include <curses.h>
 # include <dirent.h>
