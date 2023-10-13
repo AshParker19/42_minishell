@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:19:44 by astein            #+#    #+#             */
-/*   Updated: 2023/10/13 11:04:26 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/13 18:35:34 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,33 +33,35 @@ void    setup_io(t_minibox *minibox, t_tree *cmd_node, int status)
 
 void    exec_pipe(t_minibox *minibox, t_tree *pipe_node)
 {
-    int pipe_fd[2];
+    int cur_pipe[2];
     int prev_pipe[2];
 
-    if (pipe(pipe_fd) == -1)
+    if (pipe(cur_pipe) == -1)
         exit(EXIT_FAILURE);
     // Setup the io struct with FIRST_CMD
     setup_io(minibox, pipe_node->left, FIRST_CMD);
-    minibox->executor.io.fd[1] = pipe_fd[1];
+    minibox->executor.io.cmd_fd[CMD_OUT] = cur_pipe[P_LEFT];
     run_cmd_system(minibox, pipe_node->left);
-    prev_pipe[0] = pipe_fd[0];
-    prev_pipe[1] = pipe_fd[1];
+    /*----------------------------------------*/
+    prev_pipe[P_RIGHT] = cur_pipe[P_RIGHT];
+    prev_pipe[P_LEFT] = cur_pipe[P_LEFT];
     pipe_node = pipe_node->right;
     while (pipe_node->type == PIPE_NODE) {
-        if (pipe(pipe_fd) == -1)
+        if (pipe(cur_pipe) == -1)
             exit(EXIT_FAILURE);
         // Setup the io struct with MIDDLE_CMD
         setup_io(minibox, pipe_node->left, MIDDLE_CMD);
-        minibox->executor.io.fd[0] = prev_pipe[0];
-        minibox->executor.io.fd[1] = pipe_fd[1];
+        minibox->executor.io.cmd_fd[CMD_IN] = prev_pipe[P_RIGHT];
+        minibox->executor.io.cmd_fd[CMD_OUT] = cur_pipe[P_LEFT];
         run_cmd_system(minibox, pipe_node->left);
-        prev_pipe[0] = pipe_fd[0];
-        prev_pipe[1] = pipe_fd[1];
+        prev_pipe[P_RIGHT] = cur_pipe[P_RIGHT];
+        prev_pipe[P_LEFT] = cur_pipe[P_LEFT];
         pipe_node = pipe_node->right;
     }
+    /*----------------------------------------*/
     // Setup the io struct with LAST_CMD
     setup_io(minibox, pipe_node, LAST_CMD);
-    minibox->executor.io.fd[0] = prev_pipe[0];
+    minibox->executor.io.cmd_fd[CMD_IN] = prev_pipe[P_RIGHT];
     run_cmd_system(minibox, pipe_node);
 }
 

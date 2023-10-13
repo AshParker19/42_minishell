@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 17:55:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/13 14:13:43 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/13 18:45:43 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ typedef struct s_io
 {
     t_bool  use_pipe[2];
     t_tree  *redir;
-    int     fd[2];
+    int     cmd_fd[2];
     int     dup_fd[2];
 }   t_io;
 
@@ -41,10 +41,16 @@ enum e_cmd_type
     LAST_CMD
 };
 
-enum e_pipe_end
+enum e_cmd_dir
 {
-    READ_END,  //     1 in   ->     0 out
-    WRITE_END
+    CMD_IN,       //    stdin 0    std out 1
+    CMD_OUT
+};
+
+enum e_pipe_side
+{
+    P_RIGHT,  //     1 in   ->     0 out
+    P_LEFT
 };
 
 /******************************************************************************/
