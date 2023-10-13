@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:19:44 by astein            #+#    #+#             */
-/*   Updated: 2023/10/12 16:00:10 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/13 11:04:26 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,5 +103,4 @@ void    execute(t_minibox *minibox)
         execute_cmd(minibox, minibox->root, SINGLE_CMD);
     else
         exec_pipe(minibox, minibox->root);
-
 }

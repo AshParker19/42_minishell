@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 17:55:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/12 14:36:16 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/13 14:13:43 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,9 @@ void    setup_pipes(t_minibox *minibox);
 /* redirections */
 void    handle_redir(t_tree *node, int *in_fd, int *out_fd);
 void    setup_redir(t_minibox *minibox);
+
+/* heredoc */
+void    heredoc(t_tree *redir_node, int *in_fd, char *line);
 
 /* executor_utils */
 void    load_executor(t_minibox *minibox);

@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:47:15 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/12 16:35:20 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/13 14:13:53 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,11 @@ void    handle_redir(t_tree *node, int *in_fd, int *out_fd)
     }
     else if (node->type == RED_IN_HD)
     {
-
+        if (*in_fd != -1)
+            close (*in_fd);
+        heredoc(node, in_fd, NULL);
+        if (*in_fd == -1)
+            exit(EXIT_FAILURE);
     }
     else if (node->type == RED_OUT_TR)
     {
@@ -59,7 +63,7 @@ void    setup_redir(t_minibox *minibox)
         tmp = tmp->left;
     }
     if (in_fd != -1)
-    {
+    { //TODO: store these dup2 in another variable so we don't rewrite them
         minibox->executor.io.dup_fd[READ_END] = dup2(in_fd, STDIN_FILENO);
         close (in_fd);
     }

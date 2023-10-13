@@ -55,6 +55,7 @@ SRCS = $(addprefix $(SRC_FOLDER), 				\
 	2-Execution/utils_builtin.c					\
 	2-Execution/pipes.c							\
 	2-Execution/redirection.c					\
+	2-Execution/heredoc.c						\
 	2-Execution/builtins/cd.c					\
 	2-Execution/builtins/echo.c					\
 	2-Execution/builtins/pwd.c					\
