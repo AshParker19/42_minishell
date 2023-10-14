@@ -6,44 +6,66 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:16:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/13 19:50:02 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/14 18:40:09 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/* checks if a variable with the key already exists*/
+static t_bool   is_var(t_minibox *minibox, char *key)
+{
+    t_var   *current;
+
+    current = minibox->vars;
+    while(current)
+    {
+        if(ft_strcmp_strict(key, current->key))
+            return (ft_true);
+        current = current->next;
+    }
+    return (ft_false);
+}
 
 /*
     this function crates a new node of t_var
         FIRST NEED TO CHEK IF ALREADY EXIST
             ->then just chanege
         new_var->key = key
-        new_var->value
-            if value=NULL
-                getenv
-            else
-                value
+        new_var->value = value
     add the new node to the end of the vars linked lis tin minibox
 */
-void    add_var(t_minibox *minibox, char *key, char *value)
+void    set_var_value(t_minibox *minibox, char *key, char *value)
 {
     t_var   *new_var;
     t_var   *current;
     
-    if(get_var(minibox, key) != NULL)
+    // we look if already exists -> then free the old one and connect the pointer to the parameter
+    current = minibox->vars;
+    if(is_var(minibox, key))
     {
-        set_var(minibox, key, value);
-        return ;
+        while(current)
+        {
+            if(ft_strcmp_strict(key, current->key))
+            {
+                if(current->value)
+                    free(current->value);
+                current->value = value;
+                return ;
+            }
+            current = current->next;
+        }
     }
 
+    // if not create...
     new_var = ft_calloc(1, sizeof(t_var));
-    if(!new_var)
+    if (!new_var)
         return; //TODO: deal with malloc failure
     new_var->key = key;
-    if(value)
-        new_var->value = value;
-    else
-        new_var->value = ft_strdup(getenv(key));
-    if(!minibox->vars)
+    new_var->value = value;
+
+    // add to list if new creatd
+    if (!minibox->vars)
         minibox->vars = new_var;
     else
     {
@@ -69,69 +91,109 @@ void load_vars(t_minibox *minibox)
         key = ft_strchr(minibox->env[i], '=');
         key = ft_substr(minibox->env[i], 0,
             ft_strlen(minibox->env[i]) - ft_strlen(key));
-        add_var(minibox, key, NULL);
+        set_var_value(minibox, key, ft_strdup(getenv(key)));
         i++;    
     }
 }
 
 /*
-    input a key and return the value or NULL if doesnt exist
+    input a key and return the POINTER to a value or NULL if doesnt exist
 */
-char *get_var(t_minibox *minibox, char *key)
+char *get_var_value(t_minibox *minibox, char *key)
 {
     t_var *current;
     char *value;
 
     current = minibox->vars;
     value = NULL;
-
     while(current)
     {
         if(ft_strcmp_strict(key, current->key))
-        // if(ft_strlen(key) == ft_strlen(current->key))
         {
-            // if(!ft_strncmp(key, current->key, ft_strlen(key)))
-            // {
-                value = current->value;
-                break;
-            // }
+            value = current->value;
+            break;
         }
         current = current->next;
     }
     return(value);
 }
 
-/*
-    input a key and a value
-    if key exists
-        -> only change value
-    if key doesnt exist
-        -> create new node in linkedlist and set value
-*/
-void set_var(t_minibox *minibox, char *key, char *value)
-{
-    t_var *current;
+// /*
+//     input a key and a value
+//     if key exists
+//         -> only change value
+//     if key doesnt exist
+//         -> create new node in linkedlist and set value
+// */
+// void set_var_value(t_minibox *minibox, char *key, char *value)
+// {
+//     t_var *current;
     
-    if(get_var(minibox, key))
+//     if(get_var_value(minibox, key))
+//     {
+//         current = minibox->vars;
+//         while(current)
+//         {
+//             if(ft_strcmp_strict(key, current->key))
+            
+//             {
+            
+//                     current->value = value;
+//                     break;
+//             }
+//             current = current->next;
+//         }
+//     }
+//     else
+//         add_var(minibox, key, value);
+// }  
+
+/* check if key exists in ll
+    if yes remove the node
+*/
+void delete_var(t_minibox *minibox, char *key)
+{
+    t_var   *current;
+    t_var   *temp;
+    
+    if(!minibox->vars)
+        return ;
+    // first check if key actually exists in ll
+    if(!is_var(minibox, key))
+        return ;
+
+    // delete head
+    if(ft_strcmp_strict(key, minibox->vars->key))
     {
-        current = minibox->vars;
-        while(current)
-        {
-            if(ft_strcmp_strict(key, current->key))
-            // if(ft_strlen(key) == ft_strlen(current->key))   
-            {
-                // if(!ft_strncmp(key, current->key, ft_strlen(key)))
-                // {
-                    current->value = value;
-                    break;
-                // }
-            }
-            current = current->next;
-        }
+        temp = minibox->vars;
+        minibox->vars = minibox->vars->next;
+        free_var(temp);
+        return ;
     }
-    else
-        add_var(minibox, key, value);
-}  
+    
+    // delete node in list
+    current = minibox->vars;
+    while(current->next)
+    {
+        if(ft_strcmp_strict(key, current->next->key))
+        {
+            temp = current->next;
+            current->next = current->next->next;
+            free_var(temp);
+            break ;
+        }
+        current = current->next;
+   }
+}
+
+void free_var(t_var *temp)
+{
+    if (temp->key)
+        free(temp->key);
+    if(temp->value)
+        free(temp->value);
+    free(temp);
+}
 
 /*
     Go through the linked list of t_var and free each node
@@ -146,11 +208,7 @@ void free_vars(t_minibox *minibox)
     {
         temp = current;
         current = current->next;
-        if (temp->key)
-            free(temp->key);
-        if(temp->value)
-            free(temp->value); // FIXME: getenv no free! overwrtitten value need free!
-        free(temp);
+        free_var(temp);
     }
 }
 

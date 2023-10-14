@@ -6,54 +6,93 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:32:31 by astein            #+#    #+#             */
-/*   Updated: 2023/10/14 00:10:50 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/14 19:53:36 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void cd_up(t_minibox *minibox)
-{
-    char    *path;
-    char    *old_pwd;
 
-    old_pwd = get_var(minibox, "PWD");
-    path = ft_strrchr(old_pwd, '/');
-    path = ft_substr(old_pwd, 0, ft_strlen(old_pwd) - ft_strlen(path));
-    free(old_pwd);
-    set_var(minibox, "PWD", path);
+static void print_error(char *path)
+{
+    char    *error_msg;
+    
+    error_msg = ft_strcat_multi(4, PROMT, ": cd: ", path, ": No such file or directory");    
+    ft_putendl_fd(error_msg, 2);
+    free(error_msg);
+}
+
+static void cd_up(t_minibox *minibox, char **temp_path)
+{
+    char    **folders;
+    char    *buffer;
+    int     i;
+    
+    buffer = NULL;
+    if(temp_path && *temp_path)
+        if (ft_strcmp_strict(*temp_path, "/"))
+            return ;
+    
+    folders = ft_split(*temp_path, '/');
+    i = 0;
+    free(*temp_path);
+    *temp_path = ft_strdup("/");
+    if(!folders)
+    {
+        while(*folders[i])
+        {
+            if(*folders[i+1])
+            {
+                buffer = ft_strcat_multi(3, *temp_path, "/", *folders[i]);
+                free(*temp_path);
+                *temp_path = buffer;
+            }
+            i++;
+        }
+    }
 }
 
 /*
-    The path is valid so splid and go there!
+    The path is valid so split and go there!
     path can't be NULL
 */
-static void cd_to_path(t_minibox *minibox, char *new_path)
+static void cd_to_path(t_minibox *minibox, char *target_path, char **temp_path)
 {
     char    **folders;
-    char    *old_pwd;
     int     i;
-    char    *temp;
+    char    *buffer;
     
-    // /usr/bin/./././../bin/lol
-    // src/../../../././../Documents/../Downloads
-    printf("HIII\n");
-    folders = ft_split(new_path, '/');
-    old_pwd = get_var(minibox, "PWD");
-    if(new_path[0] == '/')
-        set_var(minibox, "PWD", "/");
+    folders = ft_split(target_path, '/');
+    if(target_path[0] == '/')
+    {
+        printf("ABSOLUTE PATH!\n");
+        *temp_path = "/";
+    }
+    else
+        printf("RELATIVE PATH!\n");
     i = 0;
+    printf("CUR\t%s\nTARGET\t%s\n", *temp_path, target_path);
     while(folders[i])
     {
         if (ft_strcmp_strict(folders[i], ".."))
-            cd_up(minibox);
+            cd_up(minibox, temp_path);
         else if (ft_strcmp_strict(folders[i], "."))
             ;
         else
         {
-            temp = ft_strcat_multi(3, get_var(minibox, "PWD"), folders[i], "/");
-            set_var(minibox, "PWD", temp);
-            free(temp);
+            if (ft_strcmp_strict(*temp_path, "/"))
+            {
+                buffer = *temp_path;
+                *temp_path = ft_strcat_multi(2, *temp_path, folders[i]);
+                // free(buffer);
+            }
+            else
+            {
+                buffer = *temp_path;
+                *temp_path = ft_strcat_multi(3, *temp_path, "/", folders[i]);
+                free(buffer);
+            }
+            printf("new path (%s)\n", *temp_path);
         }
         i++;
     }
@@ -62,10 +101,9 @@ static void cd_to_path(t_minibox *minibox, char *new_path)
 
 static void change_pwd(t_minibox *minibox, char *new_path)
 {
-    free(get_var(minibox, "OLDPWD"));
-    set_var(minibox, "OLDPWD", get_var(minibox, "PWD"));
-    set_var(minibox, "PWD", ft_strdup(new_path));
-    // chdir(get_var(minibox, "PWD"));
+    set_var_value(minibox, "OLDPWD", ft_strdup(get_var_value(minibox, "PWD")));
+    set_var_value(minibox, "PWD", ft_strdup(new_path));
+    chdir(get_var_value(minibox, "PWD")); //TODO: NESSESARY?
 }
 
 
@@ -100,43 +138,40 @@ static void change_pwd(t_minibox *minibox, char *new_path)
 void	builtin_cd(t_minibox *minibox, t_tree *arg_node)
 {
     char *error_str;
-    char *path;
+    char *target_path;
+    char *temp_path;
+
+    temp_path = NULL;
 
     if (!arg_node)
-    {
-        printf("home %s\n", get_var(minibox, "HOME"));
-        change_pwd(minibox, get_var(minibox, "HOME"));
-    }
+        temp_path = get_var_value(minibox, "HOME");
     else if (arg_node->right)
     {
-        ft_putstr_fd(PROMT, 1);
-        ft_putendl_fd (" cd: too many arguments", 1);
+        ft_putstr_fd(PROMT, STDERR_FILENO);
+        ft_putendl_fd (": cd: too many arguments", STDERR_FILENO);
     }
     else
     {
-        path = arg_node->content;
-        if (access(path, F_OK) == -1)
+        target_path = arg_node->content;
+        if (target_path[0] == '~')
         {
-            error_str = ft_strcat_multi(4, PROMT, "cd: ", path, ": No such file or directory");
-            ft_putendl_fd (error_str, 1);
-            free(error_str);
+            if (target_path[1] == '/')
+            {
+                temp_path = get_var_value(minibox, "HOME");
+                target_path +=2;
+            }
+            else
+            {
+                print_error(target_path);
+                return ;
+            }       
         }
+        if (access(target_path, F_OK) == -1)
+            print_error(target_path);
         else
-            cd_to_path(minibox, path);
+            cd_to_path(minibox, target_path, &temp_path);    
     }
-        
-    // if(ft_strcmp_strict(path, "./"))
-    //     //relative path (maybe ././././../ in there
-    //     ;
-    // else if(ft_strcmp_strict(path, "."))
-    //         change_pwd(minibox, get_var(minibox,"PWD"));
-    // else if(ft_strcmp_strict(path, "/"))
-    //     // absolute path
-    //     ;
-    // else if(ft_strcmp_strict(path, "~"))
-        
-    // else if(ft_strcmp_strict(path, ".."))
-    //     cd_up(minibox);
-    
-   
+
+    if(temp_path)
+        change_pwd(minibox, temp_path);
 }
