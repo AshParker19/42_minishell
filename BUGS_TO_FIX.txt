@@ -5,3 +5,6 @@ ls"-l" --> ls-l    EOF'A'"'|'" --> EOFA'|'
 
 
 < < should be error near < but atm it is error new newline
+
+ < 1 --> double free()
+ puts ^M --> when press enter in a command like wc
