@@ -63,6 +63,7 @@ SRCS = $(addprefix $(SRC_FOLDER), 				\
 	2-Execution/builtins/unset.c				\
 	2-Execution/builtins/env.c					\
 	2-Execution/builtins/exit.c					\
+	2-Execution/builtins_tester.c				\
 	)
 
 # Object files

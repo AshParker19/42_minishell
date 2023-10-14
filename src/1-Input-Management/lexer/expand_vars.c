@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_vars.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 12:58:49 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/02 15:39:31 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/14 15:58:48 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	expand_variables(t_minibox *minibox, int k, int k_end, int quote_state)
                  k_end++;
 	        cur_key = ft_substr(minibox->input_quoted, k, k_end - k);
             // TODO: cur_key is "$" or "$?" -> treat special cases
-            cur_value = get_var(minibox, cur_key); //TODO: try to sent an address of a current index
+            cur_value = get_var_value(minibox, cur_key); //TODO: try to sent an address of a current index
             minibox->input_expanded = insert_value(minibox->input_expanded, cur_key, cur_value, OUT_Q);
             free(cur_key);    
         }            

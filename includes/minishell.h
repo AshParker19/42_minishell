@@ -6,13 +6,14 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2023/10/06 18:39:07 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/14 16:31:29 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# define PROMT  "minihell-> "
 /* system includes */
 # include <curses.h>
 # include <dirent.h>
@@ -87,10 +88,12 @@ void	manage_input(t_minibox *minibox);
 /* env.c */
 void    add_var(t_minibox *minibox, char *key, char *value);    
 void    load_vars(t_minibox *minibox);
-char    *get_var(t_minibox *minibox, char *key);
-void    set_var(t_minibox *minibox, char *key, char *value);
+char    *get_var_value(t_minibox *minibox, char *key);
+void    set_var_value(t_minibox *minibox, char *key, char *value);
+void    free_var(t_var *temp);
 void    free_vars(t_minibox *minibox);
 void    print_vars(t_minibox *minibox);
+void    delete_var(t_minibox *minibox, char *key);
 
 
 /* manage_minibox.c */

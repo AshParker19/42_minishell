@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:23:39 by astein            #+#    #+#             */
-/*   Updated: 2023/10/13 18:48:44 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/14 20:03:07 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void load_executor(t_minibox *minibox)
 {
 	char	*path;
 
-	path = get_var(minibox, "PATH");
+	path = get_var_value(minibox, "PATH");
 	minibox->executor.path_dirs = ft_split(path, ':');
 	initialize_builtins(minibox);
 	minibox->executor.cmd_av = NULL;

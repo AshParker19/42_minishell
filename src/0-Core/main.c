@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:06:17 by astein            #+#    #+#             */
-/*   Updated: 2023/10/09 17:48:17 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/13 23:20:13 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ int	main(int ac, char **av, char **env)
 	
 	while (1)
 	{
-		minibox.input_original = readline("MINI-HELL-> ");
+		minibox.input_original = readline(PROMT);
 		if (!minibox.input_original)
 			return (0);
 		// do stuff with the command
 		manage_input(&minibox);
 	}
-	return (0);
+	return (0);	
 }
