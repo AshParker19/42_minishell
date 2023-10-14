@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 17:49:29 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/06 16:48:34 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/14 13:33:21 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ static t_tree *job_case1(t_minibox *minibox)
     return(pipe);
 }
 
+/* command */
 static t_tree *job_case2(t_minibox *minibox)
 {
     t_tree  *job_node;

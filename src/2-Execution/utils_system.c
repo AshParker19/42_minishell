@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 13:07:56 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/13 13:33:21 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/14 15:05:03 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ void get_cmd_av(t_minibox *minibox, t_tree *cmd_node)
 
 void    run_cmd_system(t_minibox *minibox, t_tree *cmd_node)
 {
-    // setup redirections
+    char       *error_msg;
+    
     minibox->executor.pid = fork();
     if (minibox->executor.pid == -1)
         exit(EXIT_FAILURE);
@@ -74,7 +75,10 @@ void    run_cmd_system(t_minibox *minibox, t_tree *cmd_node)
         if(minibox->executor.cmd_av)
             execve(minibox->executor.cmd_av[0],
                 minibox->executor.cmd_av, minibox->env);
-        perror ("execve");
+        error_msg = ft_strcat_multi(3, "command '",
+            cmd_node->content, "' not found"); 
+        ft_putendl_fd(error_msg, 2);
+        free (error_msg);
         free_process(minibox);
     }
     waitpid(minibox->executor.pid, &minibox->executor.exit_status, 0);
