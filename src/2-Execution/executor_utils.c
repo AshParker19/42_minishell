@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:23:39 by astein            #+#    #+#             */
-/*   Updated: 2023/10/14 15:58:48 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/14 20:03:07 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ void load_executor(t_minibox *minibox)
 
 void	initialize_io(t_minibox *minibox)
 {	
-	minibox->executor.io.fd[READ_END] = -1;
-	minibox->executor.io.fd[WRITE_END] = -1;
-	minibox->executor.io.dup_fd[READ_END] = -1;
-	minibox->executor.io.dup_fd[WRITE_END] = -1;
-	minibox->executor.io.prev_fd = -1;
+	minibox->executor.io.redir = NULL;
+	minibox->executor.io.cmd_fd[CMD_IN] = -1;
+	minibox->executor.io.cmd_fd[CMD_OUT] = -1;
+	minibox->executor.io.dup_fd[CMD_IN] = -1;
+	minibox->executor.io.dup_fd[CMD_OUT] = -1;
 }
 
 void	free_process(t_minibox *minibox)
@@ -36,14 +36,16 @@ void	free_process(t_minibox *minibox)
 	// TODO: DOUBLE CHECK IF RIGHT
 	if (minibox->executor.cmd_av)
 		free_matrix(minibox->executor.cmd_av, -1);
-	if (minibox->executor.io.fd[READ_END] != -1)
-		close (minibox->executor.io.fd[READ_END]);
-	if (minibox->executor.io.fd[WRITE_END] != -1)
-		close (minibox->executor.io.fd[WRITE_END]);
-	if (minibox->executor.io.dup_fd[READ_END] != -1)
-		close (minibox->executor.io.dup_fd[READ_END]);
-	if (minibox->executor.io.dup_fd[WRITE_END] != -1)
-		close (minibox->executor.io.dup_fd[WRITE_END]);			 
+	if (minibox->executor.io.redir)
+		free (minibox->executor.io.redir);
+	if (minibox->executor.io.cmd_fd[CMD_IN] != -1)
+		close (minibox->executor.io.cmd_fd[CMD_IN]);
+	if (minibox->executor.io.cmd_fd[CMD_OUT] != -1)
+		close (minibox->executor.io.cmd_fd[CMD_OUT]);
+	if (minibox->executor.io.dup_fd[CMD_IN] != -1)
+		close (minibox->executor.io.dup_fd[CMD_IN]);
+	if (minibox->executor.io.dup_fd[CMD_OUT] != -1)
+		close (minibox->executor.io.dup_fd[CMD_OUT]);			 
 }
 
 

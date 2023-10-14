@@ -9,7 +9,7 @@ DEBUG = 0
 
 # Compiler options
 CC = cc
-CFLAGS = -D DEBUG=$(DEBUG) #-Wall -Werror -Wextra -g #-fsanitize=address -fsanitize-address-use-after-scope
+CFLAGS = -D DEBUG=$(DEBUG) -Wall -Werror -Wextra -g #-fsanitize=address -fsanitize-address-use-after-scope
 CLIBS = -L$(LIB_FOLDER) -lft -lm -lreadline
 CINCLUDES  = -I$(INCLUDE_FOLDER) 
 RM = rm -rf
@@ -55,6 +55,7 @@ SRCS = $(addprefix $(SRC_FOLDER), 				\
 	2-Execution/utils_builtin.c					\
 	2-Execution/pipes.c							\
 	2-Execution/redirection.c					\
+	2-Execution/heredoc.c						\
 	2-Execution/builtins/cd.c					\
 	2-Execution/builtins/echo.c					\
 	2-Execution/builtins/pwd.c					\
@@ -109,4 +110,4 @@ norm:
 readline.supp:
 	wget https://raw.githubusercontent.com/benjaminbrassart/minishell/master/readline.supp
 valgrind:$(NAME) readline.supp
-	valgrind --leak-check=full --show-leak-kinds=all --suppressions=readline.supp ./$(NAME)
+	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=readline.supp ./$(NAME)

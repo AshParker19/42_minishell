@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 13:07:56 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/11 14:08:21 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/14 15:05:03 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ static char    *get_cmd_path(t_minibox *minibox, char *cmd, int i)
     return (NULL);
 }
 
-
 void get_cmd_av(t_minibox *minibox, t_tree *cmd_node)
 {
     char    *cur_args_str;
@@ -63,18 +62,26 @@ void get_cmd_av(t_minibox *minibox, t_tree *cmd_node)
 
 void    run_cmd_system(t_minibox *minibox, t_tree *cmd_node)
 {
-    get_cmd_av(minibox, cmd_node);
-    if(minibox->executor.cmd_av)
-        execve(minibox->executor.cmd_av[0], minibox->executor.cmd_av, minibox->env);
-    perror ("execve");
-    free_process(minibox);     
+    char       *error_msg;
+    
+    minibox->executor.pid = fork();
+    if (minibox->executor.pid == -1)
+        exit(EXIT_FAILURE);
+    if (minibox->executor.pid == 0)
+    {
+        setup_pipes(minibox);
+        setup_redir(minibox);
+        get_cmd_av(minibox, cmd_node);
+        if(minibox->executor.cmd_av)
+            execve(minibox->executor.cmd_av[0],
+                minibox->executor.cmd_av, minibox->env);
+        error_msg = ft_strcat_multi(3, "command '",
+            cmd_node->content, "' not found"); 
+        ft_putendl_fd(error_msg, 2);
+        free (error_msg);
+        free_process(minibox);
+    }
+    waitpid(minibox->executor.pid, &minibox->executor.exit_status, 0);
+    free_process(minibox);
 }
 
-// void get_cmd_av(t_minibox *minibox, t_tree *root)
-// {
-//     int i = 0;
-//     for (t_tree *it = root; it; it = it->right, i++);
-//     minibox->executor.cmd_av = ft_calloc(i + 1, sizeof(char *));
-//     for (int i = 0; root; root = root->right, i++)
-//         minibox->executor.cmd_av[i] = ft_strdup(root->content);
-// }

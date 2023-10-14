@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 17:55:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/11 11:03:30 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/13 18:45:43 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,8 @@ typedef struct s_io
 {
     t_bool  use_pipe[2];
     t_tree  *redir;
-    int     fd[2];
+    int     cmd_fd[2];
     int     dup_fd[2];
-    int     prev_fd;
 }   t_io;
 
 typedef struct s_exec
@@ -29,8 +28,7 @@ typedef struct s_exec
     char    **cmd_builtins;
     char    **cmd_av;
     t_io    io;
-    int     pid1;
-    int     pid2;
+    int     pid;
     int     exit_status;
 }   t_exec;
 
@@ -43,10 +41,16 @@ enum e_cmd_type
     LAST_CMD
 };
 
-enum e_pipe_end
+enum e_cmd_dir
 {
-    READ_END,  //     1 in   ->     0 out
-    WRITE_END
+    CMD_IN,       //    stdin 0    std out 1
+    CMD_OUT
+};
+
+enum e_pipe_side
+{
+    P_RIGHT,  //     1 in   ->     0 out
+    P_LEFT
 };
 
 /******************************************************************************/
@@ -57,11 +61,15 @@ void    run_cmd_system(t_minibox *minibox, t_tree *cmd_node);
 
 /* pipes */
 void    setup_use_pipe(t_minibox *minibox, int status);
+void    setup_pipes(t_minibox *minibox);
 
 
 /* redirections */
 void    handle_redir(t_tree *node, int *in_fd, int *out_fd);
 void    setup_redir(t_minibox *minibox);
+
+/* heredoc */
+void    heredoc(t_tree *redir_node, int *in_fd, char *line);
 
 /* executor_utils */
 void    load_executor(t_minibox *minibox);
