@@ -66,6 +66,7 @@ SRCS = $(addprefix $(SRC_FOLDER), \
 	ft_strlcpy.c \
 	ft_strlen.c \
 	ft_strmapi.c \
+	ft_strcmp.c \
 	ft_strncmp.c \
 	ft_strnstr.c \
 	ft_strrchr.c \
@@ -73,6 +74,7 @@ SRCS = $(addprefix $(SRC_FOLDER), \
 	ft_substr.c \
 	ft_tolower.c \
 	ft_toupper.c \
+	ft_swap_strings.c \
 	get_next_line.c \
 	print_char.c \
 	print_dez_to_hexa.c \

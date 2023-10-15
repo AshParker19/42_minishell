@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manage_minibox.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:49:13 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/06 18:45:57 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/15 10:57:40 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	initialize_box(t_minibox *minibox, char **env)
 	minibox->error_status = false;
 	minibox->tokens = NULL;
 	minibox->root = NULL;
-	minibox->global_vars = NULL;
 	minibox->tmp_token = NULL;
 	minibox->tmp_node = NULL;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:33:09 by astein            #+#    #+#             */
-/*   Updated: 2023/10/14 19:25:30 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/15 13:48:21 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,62 @@ static void print_error(char *key)
 {
     char    *error_msg;
 
-    // 123===========
-    
-    // if(print_equal)
-    //     error_msg = ft_strcat_multi(4, PROMT , ": export: `", key, "=': not a valid identifier");
-    // else
     error_msg = ft_strcat_multi(4, PROMT , ": export: `", key, "': not a valid identifier");
     ft_putendl_fd(error_msg, 2);
     free(error_msg);
+}
+
+static int  env_counter(t_var *env_var)
+{
+    if (!env_var)
+        return (0);
+    else
+        return (1 + env_counter(env_var->next));
+}
+
+char    **bubble_sort(char *env_copy[], int env_count)
+{
+    int sorted;
+    int i;
+
+    sorted = 0;
+    while (!sorted)
+    {
+        sorted = 1;
+        i = -1;
+        while (++i < env_count - 1)
+        {
+            if (ft_strcmp(env_copy[i], env_copy[i + 1]) > 0)
+            {
+                ft_swap_strings(&env_copy[i], &env_copy[i + 1]);
+                sorted = 0;
+            }
+        }
+        env_count--;
+    }
+    return (env_copy); 
+}
+
+static void    sort_and_print_var(t_var *env_var, int env_count, int i)
+{
+    char    **env_copy;
+    
+    env_copy = ft_calloc(env_count + 1, sizeof(char *));
+    if (!env_copy)
+        return ;
+    while  (++i < env_count)
+    {
+        env_copy[i] = ft_strdup(env_var->key);
+        env_var = env_var->next;
+    }
+    env_copy = bubble_sort(env_copy, env_count);
+    if (!env_copy)
+        return ;
+    i = -1;
+    while (++i < env_count)
+        printf ("declare -x %s=\"%s\"\n", env_copy[i], getenv(env_copy[i]));
+    //FIXME: for some reason prints one more variable whose name is '_' at the end
+    free_matrix(env_copy, -1);    
 }
 
 void builtin_export(t_minibox *minibox, t_tree *arg_node)
@@ -51,9 +99,7 @@ void builtin_export(t_minibox *minibox, t_tree *arg_node)
     char    *value;
     
     if(!arg_node)
-    {
-        // TODO: SORT A TO Z
-    }
+        sort_and_print_var(minibox->vars, env_counter(minibox->vars), -1);
     while (arg_node)
     {
         equal_sign = NULL;

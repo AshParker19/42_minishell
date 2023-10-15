@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:19:44 by astein            #+#    #+#             */
-/*   Updated: 2023/10/14 15:19:02 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/15 12:47:09 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,9 +100,10 @@ void    execute_cmd(t_minibox *minibox, t_tree *tree_node, int status)
 }
 
 void    execute(t_minibox *minibox)
-{
-    if (minibox->root->type == CMD_NODE)
-        execute_cmd(minibox, minibox->root, SINGLE_CMD);
-    else
-        exec_pipe(minibox, minibox->root);   
+{   
+    builtin_export(minibox, NULL);
+    // if (minibox->root->type == CMD_NODE)
+    //     execute_cmd(minibox, minibox->root, SINGLE_CMD);
+    // else
+    //     exec_pipe(minibox, minibox->root);   
 }
