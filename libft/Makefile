@@ -11,10 +11,12 @@ ifndef DEBUG
 endif
 
 # Color codes
-RED = \033[0;31m
-GREEN = \033[0;32m
-ORANGE = \033[0;33m
-RESET = \033[0m
+RED    = 	\033[0;31m
+GREEN  = 	\033[0;32m
+ORANGE = 	\033[0;33m
+BLUE   = 	\033[34m
+PURPLE = 	\033[35m
+RESET  = 	\033[0m
 
 # Library name and source files
 NAME = libft.a
@@ -93,22 +95,19 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 	@ar -crs $@ $^
-	@echo "\n$(GREEN)$(NAME): library created$(RESET)"
+	@echo "\n$(BLUE)╔═════════════════════╗"
+	@echo "$(BLUE)║  $(GREEN)$(NAME):  created$(BLUE)  ║"
+	@echo "$(BLUE)╚═════════════════════╝"
 
 $(OBJS_FOLDER)%.o: $(SRC_FOLDER)%.c
 	@mkdir -p $(@D)
 	@echo -n "$(ORANGE).$(RESET)"
 	@$(CC) $(CFLAGS) -DDEBUG=$(DEBUG) -c $< -o $@
 
-
 clean:
 	@$(RM) $(OBJS) $(OBJS_BONUS)
-	@echo "$(RED)$(NAME): cleaned object files$(RESET)"
-
 
 fclean: clean
 	@$(RM) $(NAME)
-	@echo "$(RED)$(NAME): cleaned library$(RESET)"
-
 
 re: fclean all

@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 13:07:56 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/14 15:05:03 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/16 12:28:39 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ void    run_cmd_system(t_minibox *minibox, t_tree *cmd_node)
         free (error_msg);
         free_process(minibox);
     }
-    waitpid(minibox->executor.pid, &minibox->executor.exit_status, 0);
     free_process(minibox);
 }
 

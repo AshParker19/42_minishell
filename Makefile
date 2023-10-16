@@ -78,7 +78,12 @@ all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJS) 
 	@$(CC) $(OBJS) $(CFLAGS) $(CLIBS) $(CINCLUDES) -o $(NAME)
-	@echo "\n$(GREEN)$(NAME): created$(RESET)"
+	@echo "\n$(ORANGE)┌───────────────────────┐"
+	@echo "│ $(BLUE)Compiling:  minishell$(ORANGE) │"
+	@echo "$(ORANGE)└───────────────────────┘$(RESET)"
+	@echo "\n$(ORANGE)╔═════════════════════╗"
+	@echo "$(ORANGE)║ $(GREEN)$(NAME):  created$(ORANGE) ║"
+	@echo "$(ORANGE)╚═════════════════════╝"
 
 $(OBJ_FOLDER)%.o: $(SRC_FOLDER)%.c
 	@mkdir -p $(@D)
@@ -86,7 +91,9 @@ $(OBJ_FOLDER)%.o: $(SRC_FOLDER)%.c
 	@$(CC) $(CFLAGS) $(CINCLUDES)-c $< -o $@
 
 $(LIBFT):
-	@echo "$(ORANGE)compiling: $(LIBFT)\n$(RESET)"
+	@echo "$(BLUE)┌───────────────────────┐"
+	@echo "│  $(ORANGE)Compiling:  libft.a$(BLUE)  │"
+	@echo "$(BLUE)└───────────────────────┘$(RESET)"
 	@$(MAKE) -sC $(LIB_FOLDER) DEBUG=$(DEBUG)
 
 clean:
