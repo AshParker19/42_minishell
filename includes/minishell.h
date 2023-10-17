@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2023/10/14 16:31:29 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/17 15:16:10 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ typedef struct s_minibox
     char        *input_trimmed;
     char        *input_quoted;
     char        *input_expanded;
-    char        **global_vars;
     bool        error_status;
     t_token     *tokens;
     t_token     *tmp_token;
@@ -99,7 +98,7 @@ void    delete_var(t_minibox *minibox, char *key);
 /* manage_minibox.c */
 void	initialize_box(t_minibox *minibox, char **env);
 void    free_cycle(t_minibox *minibox);
-void	free_matrix(char **matrix, int i);
+// void	free_matrix(char **matrix, int i);
 void    free_input_strings(t_minibox *minibox);
 void    free_tokens(t_minibox *minibox);
 void    free_and_close_box(t_minibox *minibox, int exit_status);

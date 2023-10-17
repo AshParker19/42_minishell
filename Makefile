@@ -74,11 +74,13 @@ OBJS = $(SRCS:$(SRC_FOLDER)%.c=$(OBJ_FOLDER)%.o)
 # TARGETS
 .PHONY: all clean fclean re norm
 
-all: $(NAME)
+all:  $(NAME)
 
 $(NAME): $(LIBFT) $(OBJS) 
 	@$(CC) $(OBJS) $(CFLAGS) $(CLIBS) $(CINCLUDES) -o $(NAME)
-	@echo "\n$(GREEN)$(NAME): created$(RESET)"
+	@echo "\n$(ORANGE)╔═════════════════════╗"
+	@echo "$(ORANGE)║ $(GREEN)$(NAME):  created$(ORANGE) ║"
+	@echo "$(ORANGE)╚═════════════════════╝"
 
 $(OBJ_FOLDER)%.o: $(SRC_FOLDER)%.c
 	@mkdir -p $(@D)
@@ -86,7 +88,9 @@ $(OBJ_FOLDER)%.o: $(SRC_FOLDER)%.c
 	@$(CC) $(CFLAGS) $(CINCLUDES)-c $< -o $@
 
 $(LIBFT):
-	@echo "$(ORANGE)compiling: $(LIBFT)\n$(RESET)"
+	@echo "$(BLUE)┌───────────────────────┐"
+	@echo "│  $(ORANGE)Compiling:  libft.a$(BLUE)  │"
+	@echo "$(BLUE)└───────────────────────┘$(RESET)"
 	@$(MAKE) -sC $(LIB_FOLDER) DEBUG=$(DEBUG)
 
 clean:
@@ -111,3 +115,8 @@ readline.supp:
 	wget https://raw.githubusercontent.com/benjaminbrassart/minishell/master/readline.supp
 valgrind:$(NAME) readline.supp
 	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=readline.supp ./$(NAME)
+
+HEADER_PRINT:
+	@echo "\n$(ORANGE)┌───────────────────────┐"
+	@echo "│ $(BLUE)Compiling:  $(NAME)$(ORANGE) │"
+	@echo "$(ORANGE)└───────────────────────┘$(RESET)"

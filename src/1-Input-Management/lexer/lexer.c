@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 12:11:14 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/05 20:54:28 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/17 15:17:41 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,6 +163,6 @@ void	tokenize(t_minibox *minibox, int i)
 			add_token(minibox, ft_strdup(no_space[i]), WORD_TOKEN);
 		i++;
 	}
-	free_matrix(no_space, -1);
+	free_whatever("m", no_space);
 	print_tokenizer_output(minibox);
 }

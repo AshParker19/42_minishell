@@ -1,4 +1,7 @@
 /obj
+/minishell
+/libft/obj
+/libft/libft.a
 minishell
 .vscode
 en.subject.pdf

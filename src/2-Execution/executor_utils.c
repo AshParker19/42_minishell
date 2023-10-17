@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:23:39 by astein            #+#    #+#             */
-/*   Updated: 2023/10/14 20:03:07 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/17 16:35:56 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	free_process(t_minibox *minibox)
 {
 	// TODO: DOUBLE CHECK IF RIGHT
 	if (minibox->executor.cmd_av)
-		free_matrix(minibox->executor.cmd_av, -1);
+		free_whatever("m", minibox->executor.cmd_av);
 	if (minibox->executor.io.redir)
 		free (minibox->executor.io.redir);
 	if (minibox->executor.io.cmd_fd[CMD_IN] != -1)
@@ -66,7 +66,7 @@ void	print_executor_output(t_minibox *minibox, int i)
 
 void    free_executor(t_minibox *minibox)
 {
-	free_matrix(minibox->executor.path_dirs, -1);
-	free_matrix(minibox->executor.cmd_builtins, -1);
+	free_whatever("mm", minibox->executor.path_dirs,
+		minibox->executor.cmd_builtins);
 	//TODO: Close FDs
 }
