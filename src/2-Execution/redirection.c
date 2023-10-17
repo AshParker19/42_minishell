@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:47:15 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/13 18:51:10 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/17 20:37:06 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,13 @@ void    handle_redir(t_tree *redir_node, int *in_fd, int *out_fd)
     }
 }
 
-void    setup_redir(t_minibox *minibox)
+void    setup_redir(t_minibox *minibox, t_tree *redir_node)
 {
     int in_fd;
     int out_fd;
     t_tree *tmp;
 
-    tmp = minibox->executor.io.redir;
+    tmp = redir_node;
     in_fd = -1;
     out_fd = -1;
     while (tmp)

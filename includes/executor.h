@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 17:55:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/13 18:45:43 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/17 20:35:38 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,10 @@
 typedef struct s_io
 {
     t_bool  use_pipe[2];
-    t_tree  *redir;
+    // t_tree  *redir;
     int     cmd_fd[2];
     int     dup_fd[2];
+    int     prev_pipe[2];
 }   t_io;
 
 typedef struct s_exec
@@ -28,7 +29,7 @@ typedef struct s_exec
     char    **cmd_builtins;
     char    **cmd_av;
     t_io    io;
-    int     pid;
+    int     pid;    //FIXME:
     int     exit_status;
 }   t_exec;
 
@@ -66,7 +67,7 @@ void    setup_pipes(t_minibox *minibox);
 
 /* redirections */
 void    handle_redir(t_tree *node, int *in_fd, int *out_fd);
-void    setup_redir(t_minibox *minibox);
+void    setup_redir(t_minibox *minibox, t_tree *redir_node);
 
 /* heredoc */
 void    heredoc(t_tree *redir_node, int *in_fd, char *line);
@@ -76,6 +77,7 @@ void    load_executor(t_minibox *minibox);
 void	initialize_io(t_minibox *minibox);
 void	print_executor_output(t_minibox *minibox, int i); //TODO: remove at the end
 void    free_executor(t_minibox *minibox);
+int		cmd_counter(t_tree *tree_node);
 // char    *get_cmd_path(t_minibox *minibox, char *cmd, int i);
 void    get_cmd_av(t_minibox *minibox, t_tree *root);
 void	free_process(t_minibox *minibox);
