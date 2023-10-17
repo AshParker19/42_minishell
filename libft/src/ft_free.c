@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 13:39:45 by astein            #+#    #+#             */
-/*   Updated: 2023/05/09 15:38:12 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/17 15:15:37 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,27 +25,31 @@ static void	free_ptr(void *ptr)
 }
 
 /**
- * @brief	frees each entry of the array and the pointer to the array itself
+ * @brief	frees each entry of the matrix/array and the pointer to the array
+ * 			itself
  * 
- * @param	arr	array to be freed
+ * @param	matrix	matrix/array to be freed
  */
-static void	free_arr(void **arr)
+static void	free_matrix(void **matrix)
 {
 	int	arr_i;
 
 	arr_i = 0;
-	while (arr[arr_i])
+	if (matrix)
 	{
-		free(arr[arr_i]);
-		arr_i++;
-	}
-	free(arr);
+		while (matrix[arr_i])
+		{
+			free(matrix[arr_i]);
+			arr_i++;
+		}
+		free(matrix);	
+	}	
 }
 
 /**
  * @brief	to simplify the freeing process this function can free
  * 				(symbol 'p')	pointers
- * 				(symbol 'a')	arrays
+ * 				(symbol 'm')	matrix (char**)
  * 				(symbol 'l')	linked lists of the struct type 't_list'
  * 
  * 			EXAMPLE:
@@ -69,8 +73,8 @@ void	*free_whatever(char *str, ...)
 	{
 		if (*str == 'p')
 			free_ptr(va_arg(args, void *));
-		else if (*str == 'a')
-			free_arr(va_arg(args, void **));
+		else if (*str == 'm')
+			free_matrix(va_arg(args, void **));
 		else if (*str == 'l')
 			ft_lstclear(va_arg(args, t_list **), null_ptr);
 		else if (*str == 'c')

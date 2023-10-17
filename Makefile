@@ -74,13 +74,10 @@ OBJS = $(SRCS:$(SRC_FOLDER)%.c=$(OBJ_FOLDER)%.o)
 # TARGETS
 .PHONY: all clean fclean re norm
 
-all: $(NAME)
+all:  $(NAME)
 
 $(NAME): $(LIBFT) $(OBJS) 
 	@$(CC) $(OBJS) $(CFLAGS) $(CLIBS) $(CINCLUDES) -o $(NAME)
-	@echo "\n$(ORANGE)┌───────────────────────┐"
-	@echo "│ $(BLUE)Compiling:  minishell$(ORANGE) │"
-	@echo "$(ORANGE)└───────────────────────┘$(RESET)"
 	@echo "\n$(ORANGE)╔═════════════════════╗"
 	@echo "$(ORANGE)║ $(GREEN)$(NAME):  created$(ORANGE) ║"
 	@echo "$(ORANGE)╚═════════════════════╝"
@@ -118,3 +115,8 @@ readline.supp:
 	wget https://raw.githubusercontent.com/benjaminbrassart/minishell/master/readline.supp
 valgrind:$(NAME) readline.supp
 	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=readline.supp ./$(NAME)
+
+HEADER_PRINT:
+	@echo "\n$(ORANGE)┌───────────────────────┐"
+	@echo "│ $(BLUE)Compiling:  $(NAME)$(ORANGE) │"
+	@echo "$(ORANGE)└───────────────────────┘$(RESET)"

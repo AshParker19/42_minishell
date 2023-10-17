@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:32:31 by astein            #+#    #+#             */
-/*   Updated: 2023/10/14 19:53:36 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/17 15:20:13 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ static void cd_to_path(t_minibox *minibox, char *target_path, char **temp_path)
         }
         i++;
     }
-    free_matrix(folders, -1);
+    free_whatever("m", folders);
 }
 
 static void change_pwd(t_minibox *minibox, char *new_path)

@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:49:13 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/15 10:57:40 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/17 15:15:44 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,15 @@ void	initialize_box(t_minibox *minibox, char **env)
 	minibox->tmp_token = NULL;
 	minibox->tmp_node = NULL;
 }
-void	free_matrix(char **matrix, int i)
-{
-	if (matrix)
-	{
-		while (matrix[++i])
-			free (matrix[i]);
-		free (matrix);		
-	}
-}
+// void	free_matrix(char **matrix, int i)
+// {
+// 	if (matrix)
+// 	{
+// 		while (matrix[++i])
+// 			free (matrix[i]);
+// 		free (matrix);		
+// 	}
+// }
 
 void free_input_strings(t_minibox *minibox)
 {

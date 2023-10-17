@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_builtin.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:54:41 by astein            #+#    #+#             */
-/*   Updated: 2023/10/14 20:03:02 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/17 16:37:14 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,15 @@ void    run_cmd_builtin(t_minibox *minibox, t_tree *cmd_node, int cmd_index)
 {
     void	(*f[7])(t_minibox *minibox, t_tree *arg_node);
     
+    /*
+    TODO:
+    struct idea t_buildin
+        char    *builtin_name
+        *f()    pointer to a function
+
+    in minibox->executor
+        t_buildin[7]
+    */
     if(cmd_index < 0 || cmd_index > 6)
         return ; // TODO: exit print message
     f[0] = builtin_echo;

@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:33:09 by astein            #+#    #+#             */
-/*   Updated: 2023/10/15 13:48:21 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/17 15:20:36 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ static void    sort_and_print_var(t_var *env_var, int env_count, int i)
     while (++i < env_count)
         printf ("declare -x %s=\"%s\"\n", env_copy[i], getenv(env_copy[i]));
     //FIXME: for some reason prints one more variable whose name is '_' at the end
-    free_matrix(env_copy, -1);    
+    free_whatever("m", env_copy);
 }
 
 void builtin_export(t_minibox *minibox, t_tree *arg_node)
