@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2023/10/17 15:16:10 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/18 13:59:35 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,5 +102,8 @@ void    free_cycle(t_minibox *minibox);
 void    free_input_strings(t_minibox *minibox);
 void    free_tokens(t_minibox *minibox);
 void    free_and_close_box(t_minibox *minibox, int exit_status);
+
+/* general_utils.c */
+void    create_error_msg(const char *format, ...);
 
 #endif

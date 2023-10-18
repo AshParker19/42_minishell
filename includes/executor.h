@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 17:55:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/17 20:35:38 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/18 14:57:47 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ typedef struct s_exec
     char    **cmd_builtins;
     char    **cmd_av;
     t_io    io;
-    int     pid;    //FIXME:
+    int     *pid;
+    int     pid_index;
     int     exit_status;
 }   t_exec;
 
@@ -62,7 +63,9 @@ void    run_cmd_system(t_minibox *minibox, t_tree *cmd_node);
 
 /* pipes */
 void    setup_use_pipe(t_minibox *minibox, int status);
-void    setup_pipes(t_minibox *minibox);
+void    setup_pipes(t_minibox *minibox, int *cur_pipe);
+void    setup_process_std(t_minibox *minibox);
+
 
 
 /* redirections */
@@ -70,7 +73,7 @@ void    handle_redir(t_tree *node, int *in_fd, int *out_fd);
 void    setup_redir(t_minibox *minibox, t_tree *redir_node);
 
 /* heredoc */
-void    heredoc(t_tree *redir_node, int *in_fd, char *line);
+int    heredoc(t_tree *redir_node, int *cmd_in_fd, char *line);
 
 /* executor_utils */
 void    load_executor(t_minibox *minibox);

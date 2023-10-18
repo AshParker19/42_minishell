@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 13:07:56 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/17 20:11:23 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/18 14:11:21 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void    run_cmd_system(t_minibox *minibox, t_tree *cmd_node)
         ft_putendl_fd(error_msg, 2);
         free (error_msg);
         free_process(minibox);
+        exit(errno);
     // }
     // free_process(minibox);
 }
