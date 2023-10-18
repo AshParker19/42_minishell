@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:54:41 by astein            #+#    #+#             */
-/*   Updated: 2023/10/17 16:37:14 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/18 19:16:12 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,4 +82,5 @@ void    run_cmd_builtin(t_minibox *minibox, t_tree *cmd_node, int cmd_index)
 	f[5] = builtin_env;
 	f[6] = builtin_exit;
     (*f[cmd_index])(minibox, cmd_node->right);
+    write(2, "BUILTIN EXECUTED\n", 17);
 }

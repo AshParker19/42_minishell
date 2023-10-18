@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:32:31 by astein            #+#    #+#             */
-/*   Updated: 2023/10/17 15:20:13 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/18 16:33:02 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,88 +22,88 @@ static void print_error(char *path)
     free(error_msg);
 }
 
-static void cd_up(t_minibox *minibox, char **temp_path)
-{
-    char    **folders;
-    char    *buffer;
-    int     i;
+// static void cd_up(t_minibox *minibox, char **temp_path)
+// {
+//     char    **folders;
+//     char    *buffer;
+//     int     i;
     
-    buffer = NULL;
-    if(temp_path && *temp_path)
-        if (ft_strcmp_strict(*temp_path, "/"))
-            return ;
+//     buffer = NULL;
+//     if(temp_path && *temp_path)
+//         if (ft_strcmp_strict(*temp_path, "/"))
+//             return ;
     
-    folders = ft_split(*temp_path, '/');
-    i = 0;
-    free(*temp_path);
-    *temp_path = ft_strdup("/");
-    if(!folders)
-    {
-        while(*folders[i])
-        {
-            if(*folders[i+1])
-            {
-                buffer = ft_strcat_multi(3, *temp_path, "/", *folders[i]);
-                free(*temp_path);
-                *temp_path = buffer;
-            }
-            i++;
-        }
-    }
-}
+//     folders = ft_split(*temp_path, '/');
+//     i = 0;
+//     free(*temp_path);
+//     *temp_path = ft_strdup("/");
+//     if(!folders)
+//     {
+//         while(*folders[i])
+//         {
+//             if(*folders[i+1])
+//             {
+//                 buffer = ft_strcat_multi(3, *temp_path, "/", *folders[i]);
+//                 free(*temp_path);
+//                 *temp_path = buffer;
+//             }
+//             i++;
+//         }
+//     }
+// }
 
 /*
     The path is valid so split and go there!
     path can't be NULL
 */
-static void cd_to_path(t_minibox *minibox, char *target_path, char **temp_path)
-{
-    char    **folders;
-    int     i;
-    char    *buffer;
+// static void cd_to_path(t_minibox *minibox, char *target_path, char **temp_path)
+// {
+    // char    **folders;
+    // int     i;
+    // char    *buffer;
     
-    folders = ft_split(target_path, '/');
-    if(target_path[0] == '/')
-    {
-        printf("ABSOLUTE PATH!\n");
-        *temp_path = "/";
-    }
-    else
-        printf("RELATIVE PATH!\n");
-    i = 0;
-    printf("CUR\t%s\nTARGET\t%s\n", *temp_path, target_path);
-    while(folders[i])
-    {
-        if (ft_strcmp_strict(folders[i], ".."))
-            cd_up(minibox, temp_path);
-        else if (ft_strcmp_strict(folders[i], "."))
-            ;
-        else
-        {
-            if (ft_strcmp_strict(*temp_path, "/"))
-            {
-                buffer = *temp_path;
-                *temp_path = ft_strcat_multi(2, *temp_path, folders[i]);
-                // free(buffer);
-            }
-            else
-            {
-                buffer = *temp_path;
-                *temp_path = ft_strcat_multi(3, *temp_path, "/", folders[i]);
-                free(buffer);
-            }
-            printf("new path (%s)\n", *temp_path);
-        }
-        i++;
-    }
-    free_whatever("m", folders);
-}
+    // folders = ft_split(target_path, '/');
+    // if(target_path[0] == '/')
+    // {
+    //     printf("ABSOLUTE PATH!\n");
+    //     *temp_path = "/";
+    // }
+    // else
+    //     printf("RELATIVE PATH!\n");
+    // i = 0;
+    // printf("CUR\t%s\nTARGET\t%s\n", *temp_path, target_path);
+    // while(folders[i])
+    // {
+    //     if (ft_strcmp_strict(folders[i], ".."))
+    //         cd_up(minibox, temp_path);
+    //     else if (ft_strcmp_strict(folders[i], "."))
+    //         ;
+    //     else
+    //     {
+    //         if (ft_strcmp_strict(*temp_path, "/"))
+    //         {
+    //             buffer = *temp_path;
+    //             *temp_path = ft_strcat_multi(2, *temp_path, folders[i]);
+    //             // free(buffer);
+    //         }
+    //         else
+    //         {
+    //             buffer = *temp_path;
+    //             *temp_path = ft_strcat_multi(3, *temp_path, "/", folders[i]);
+    //             free(buffer);
+    //         }
+    //         printf("new path (%s)\n", *temp_path);
+    //     }
+    //     i++;
+    // }
+    // free_whatever("m", folders);
+// }
 
 static void change_pwd(t_minibox *minibox, char *new_path)
 {
     set_var_value(minibox, "OLDPWD", ft_strdup(get_var_value(minibox, "PWD")));
-    set_var_value(minibox, "PWD", ft_strdup(new_path));
-    chdir(get_var_value(minibox, "PWD")); //TODO: NESSESARY?
+    chdir(get_var_value(minibox, "PWD"));
+    set_var_value(minibox, "PWD", ft_strdup(getcwd(NULL, 0)));
 }
 
 
@@ -152,24 +152,24 @@ void	builtin_cd(t_minibox *minibox, t_tree *arg_node)
     }
     else
     {
-        target_path = arg_node->content;
-        if (target_path[0] == '~')
-        {
-            if (target_path[1] == '/')
-            {
-                temp_path = get_var_value(minibox, "HOME");
-                target_path +=2;
-            }
-            else
-            {
-                print_error(target_path);
-                return ;
-            }       
-        }
+        // target_path = arg_node->content;
+        // if (target_path[0] == '~')
+        // {
+        //     if (target_path[1] == '/')
+        //     {
+        //         temp_path = get_var_value(minibox, "HOME");
+        //         target_path +=2;
+        //     }
+        //     else
+        //     {
+        //         print_error(target_path);
+        //         return ;
+        //     }       
+        // }
         if (access(target_path, F_OK) == -1)
             print_error(target_path);
         else
-            cd_to_path(minibox, target_path, &temp_path);    
+            change_pwd(minibox, target_path);   
     }
 
     if(temp_path)

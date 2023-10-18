@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 17:55:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/18 14:57:47 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/18 17:32:29 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,5 +84,6 @@ int		cmd_counter(t_tree *tree_node);
 // char    *get_cmd_path(t_minibox *minibox, char *cmd, int i);
 void    get_cmd_av(t_minibox *minibox, t_tree *root);
 void	free_process(t_minibox *minibox);
+void reset_executor(t_minibox *minibox);
 
 #endif

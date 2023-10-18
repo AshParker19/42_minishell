@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 13:07:56 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/18 14:11:21 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/18 17:03:07 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ void    run_cmd_system(t_minibox *minibox, t_tree *cmd_node)
         if(minibox->executor.cmd_av)
             execve(minibox->executor.cmd_av[0],
                 minibox->executor.cmd_av, minibox->env);
+        write(2, "EXECVE FAILED!!!\n", 17);
         error_msg = ft_strcat_multi(3, "command '",
             cmd_node->content, "' not found"); 
         ft_putendl_fd(error_msg, 2);
