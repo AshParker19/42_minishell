@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2023/10/19 18:27:23 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/19 20:35:57 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef struct s_exec t_exec;
 
 typedef struct s_minibox
 {
+    // TODO: REMOVE THE VARS THAT ARE ONLY FOR ONE CYCLE!!!
     char        **env;
     t_var       *vars;
     

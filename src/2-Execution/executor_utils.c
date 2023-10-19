@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:23:39 by astein            #+#    #+#             */
-/*   Updated: 2023/10/19 18:30:20 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/19 21:27:38 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,7 @@ void reset_executor(t_minibox *minibox)
 	minibox->executor.io.prev_pipe[P_LEFT] = -1;
 	minibox->executor.io.prev_pipe[P_RIGHT] = -1;
 	minibox->executor.pid_index = 0;
-    minibox->executor.pid = ft_calloc(cmd_counter(minibox->root), sizeof(int));
-    if (!minibox->executor.pid)
-        return ; //TODO: EXIT NICELY
+	minibox->executor.pid = NULL;
 }
 
 void load_executor(t_minibox *minibox)
@@ -62,13 +60,7 @@ void	free_process(t_minibox *minibox)
 		close (minibox->executor.io.dup_fd[CMD_IN]);
 	if (minibox->executor.io.dup_fd[CMD_OUT] != -1)
 		close (minibox->executor.io.dup_fd[CMD_OUT]);
-	// if (minibox->executor.io.prev_pipe[P_LEFT] != -1)
-	// 	close (minibox->executor.io.prev_pipe[P_LEFT]);
-	// if (minibox->executor.io.prev_pipe[P_RIGHT] != -1)
-	// 	close (minibox->executor.io.prev_pipe[P_RIGHT]);			 
 }
-
-
 
 /* Print the ouput of the AST built by the Parser*/
 void	print_executor_output(t_minibox *minibox, int i)

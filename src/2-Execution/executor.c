@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:19:44 by astein            #+#    #+#             */
-/*   Updated: 2023/10/19 19:03:25 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/19 21:31:05 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,10 @@ void    execute_cmd(t_minibox *minibox, t_tree *cmd_node, int cmd_position)
     // preparing the preparing
     initialize_io(minibox);
     
+    // TODO: if cmd_node = ./minishell increment shell level
+    // FIXME: if we change minishell to frankenshell we have to change it here as well
+    
+
     // checks if we do NOT have a single builtin cmd -> then fork!
     if (cmd_position == SINGLE_CMD && is_cmd_builtin(minibox, cmd_node->content))
     {
@@ -129,6 +133,9 @@ void    execute(t_minibox *minibox) //TODO: do exit for builtins
     t_tree  *current;
     
     reset_executor(minibox);
+    minibox->executor.pid = ft_calloc(cmd_counter(minibox->root), sizeof(int));
+    if (!minibox->executor.pid)
+        return ; //TODO: EXIT NICELY
     current = minibox->root;
     if (current->type == CMD_NODE)
         execute_cmd(minibox, current, SINGLE_CMD);

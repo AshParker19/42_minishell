@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:38:32 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/19 16:10:42 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/19 21:20:48 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,22 +31,14 @@ void	manage_input(t_minibox *minibox)
             free_cycle(minibox);
             return ;
     }
-    if (ft_strlen(minibox->input_expanded) != 0)
-    {
-        if(ft_strcmp_strict("exit", minibox->input_expanded))
-        // if (ft_strlen(minibox->input_expanded) == 4 && !ft_strncmp(minibox->input_expanded, "exit", 4))
-        {
-            printf("Bye Bye fuckers!\n");
-            // Deal with exit status!
-            free_and_close_box(minibox, -1);
-        }
-    }
     tokenize(minibox, 0);
     parse(minibox);
+    if (minibox->root == CMD_NODE && ft_strcmp_strict(minibox->root->content, "exit"))
+        builtin_exit(minibox, minibox->root->right);
     print_parser_output(minibox);
     if (minibox->error_status == false)
     {
-        print_executor_output(minibox, 0); 
+        print_executor_output(minibox, 0);
         execute(minibox);
         print_executor_output(minibox, 1); 
     }

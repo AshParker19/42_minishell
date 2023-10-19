@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:32:13 by astein            #+#    #+#             */
-/*   Updated: 2023/10/19 15:22:07 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/19 19:52:24 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void builtin_echo(t_minibox *minibox, t_tree *arg_node)
 {
-    (void)minibox;
     bool    print_nl;
 
     print_nl = true;

@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 17:55:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/19 18:28:23 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/19 20:36:03 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,14 @@ typedef struct s_io
 
 typedef struct s_exec
 {
+    // TODO: REMOVE THE VARS THAT ARE ONLY FOR ONE CYCLE!!!
     char            **path_dirs;
-    // char            **cmd_builtins;
+    t_builtin_cmd   builtins[8];
     char            **cmd_av;
     t_io            io;
     int             *pid;
     int             pid_index;
     int             exit_status;
-    t_builtin_cmd   builtins[8];
 }   t_exec;
 
 
@@ -84,6 +84,6 @@ int		cmd_counter(t_tree *tree_node);
 // char    *get_cmd_path(t_minibox *minibox, char *cmd, int i);
 void    get_cmd_av(t_minibox *minibox, t_tree *root);
 void	free_process(t_minibox *minibox);
-void reset_executor(t_minibox *minibox);
+void    reset_executor(t_minibox *minibox);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:32:31 by astein            #+#    #+#             */
-/*   Updated: 2023/10/19 17:22:55 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/19 19:46:16 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,6 @@ static void change_pwd(t_minibox *minibox, char *new_path)
     chdir(new_path);
     set_var_value(minibox, "PWD", ft_strdup(getcwd(NULL, 0)));
 }
-
-
-
-// deal with
-//  no permission
-
-
 /**
  * 	CD =============================
  * 

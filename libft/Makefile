@@ -70,6 +70,7 @@ SRCS = $(addprefix $(SRC_FOLDER), \
 	ft_strmapi.c \
 	ft_strcmp.c \
 	ft_strncmp.c \
+	ft_str_is_numeric.c \
 	ft_strnstr.c \
 	ft_strrchr.c \
 	ft_strtrim.c \
