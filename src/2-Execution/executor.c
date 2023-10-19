@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:19:44 by astein            #+#    #+#             */
-/*   Updated: 2023/10/18 21:23:42 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/19 19:03:25 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,17 @@
 
 static void    run_cmd_main(t_minibox *minibox, t_tree *cmd_node)
 {
-    int builtin_index;
-    
-    builtin_index = check_if_builtin(minibox, cmd_node->content);
-    if (builtin_index != -1)
+    if (is_cmd_builtin(minibox, cmd_node->content))
     {
-        run_cmd_builtin(minibox, cmd_node, builtin_index);
+        run_cmd_builtin(minibox, cmd_node);
+        free_process(minibox);
         exit (0); //TODO: make exit status
     }
     else
+    {
         run_cmd_system(minibox, cmd_node);
+        free_process(minibox);
+    }
 }
 
 void    execute_cmd(t_minibox *minibox, t_tree *cmd_node, int cmd_position)
@@ -32,24 +33,25 @@ void    execute_cmd(t_minibox *minibox, t_tree *cmd_node, int cmd_position)
 
     // preparing the preparing
     initialize_io(minibox);
-    setup_use_pipe(minibox, cmd_position);
     
     // checks if we do NOT have a single builtin cmd -> then fork!
-    if (cmd_position == SINGLE_CMD && check_if_builtin(minibox, cmd_node->content) != -1)
+    if (cmd_position == SINGLE_CMD && is_cmd_builtin(minibox, cmd_node->content))
     {
-        // minibox->executor.io.cmd_fd[0] = dup(0);
-        // minibox->executor.io.cmd_fd[1] = dup(1);
+        minibox->executor.io.cmd_fd[CMD_IN] = STDIN_FILENO;
+        minibox->executor.io.cmd_fd[CMD_OUT] = STDOUT_FILENO;
         setup_redir(minibox, cmd_node->left);
-        setup_process_std(minibox);
-        run_cmd_builtin(minibox, cmd_node, check_if_builtin(minibox, cmd_node->content));
+        run_cmd_builtin(minibox, cmd_node);  
+        if (minibox->executor.io.cmd_fd[CMD_IN] != STDIN_FILENO)
+            close (minibox->executor.io.cmd_fd[CMD_IN]);
+        if (minibox->executor.io.cmd_fd[CMD_OUT] != STDOUT_FILENO)
+            close (minibox->executor.io.cmd_fd[CMD_OUT]);  
+        minibox->executor.io.cmd_fd[CMD_IN] = -1;
+        minibox->executor.io.cmd_fd[CMD_OUT] = -1;
         free_process(minibox);
-        // if (minibox->executor.io.cmd_fd[0] != -1)
-        //     close (minibox->executor.io.cmd_fd[0]);
-        // if (minibox->executor.io.cmd_fd[1] != -1)
-        //     close (minibox->executor.io.cmd_fd[1]);    
         return ;
     }
     // pipe
+    setup_use_pipe(minibox, cmd_position);
     if (cmd_position == FIRST_CMD || cmd_position == MIDDLE_CMD)
     {
         if (pipe(cur_pipe) == -1)
@@ -140,7 +142,5 @@ void    execute(t_minibox *minibox) //TODO: do exit for builtins
         }
         execute_cmd(minibox, current->right, LAST_CMD);   
     }
-    wait_for_execution(minibox);  
-    dbg_printf(no_block, "EXECUTION DONE\n");
-    // create_error_msg("ccc", "HI", "THERE", "CUN");
+    wait_for_execution(minibox);
 }

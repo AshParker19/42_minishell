@@ -95,9 +95,9 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 	@ar -crs $@ $^
-	@echo "\n$(BLUE)╔═════════════════════╗"
-	@echo "$(BLUE)║  $(GREEN)$(NAME):  created$(BLUE)  ║"
-	@echo "$(BLUE)╚═════════════════════╝"
+	@echo "\n$(BLUE)╔═══════════════════════╗"
+	@echo "$(BLUE)║   $(GREEN)$(NAME):  created$(BLUE)   ║"
+	@echo "$(BLUE)╚═══════════════════════╝"
 
 $(OBJS_FOLDER)%.o: $(SRC_FOLDER)%.c
 	@mkdir -p $(@D)

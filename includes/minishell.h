@@ -6,14 +6,15 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2023/10/18 13:59:35 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/19 18:27:23 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# define PROMT  "minihell-> "
+# define PROMT  "frankenshell-> "
+# define ERR_PROMT  "frankenshell: "
 /* system includes */
 # include <curses.h>
 # include <dirent.h>
@@ -38,8 +39,8 @@
 /* project includes */
 # include "../libft/libft_printf.h"
 # include "input_manager.h"
-# include "executor.h"
 # include "builtins.h"
+# include "executor.h"
 
 /******************************************************************************/
 /*    colors    */
@@ -52,6 +53,7 @@
 /******************************************************************************/
 /* list of local variables */
 typedef struct s_var t_var;
+typedef struct  s_builtin_cmd t_builtin_cmd;
 typedef struct s_exec t_exec;
 
 typedef struct s_minibox

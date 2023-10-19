@@ -6,18 +6,18 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 17:55:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/18 17:32:29 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/19 18:28:23 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXECUTOR_H
 # define EXECUTOR_H
 
-/******************************************************************************/
+// # include "minishell.h"
+
 typedef struct s_io
 {
     t_bool  use_pipe[2];
-    // t_tree  *redir;
     int     cmd_fd[2];
     int     dup_fd[2];
     int     prev_pipe[2];
@@ -25,13 +25,14 @@ typedef struct s_io
 
 typedef struct s_exec
 {
-    char    **path_dirs;
-    char    **cmd_builtins;
-    char    **cmd_av;
-    t_io    io;
-    int     *pid;
-    int     pid_index;
-    int     exit_status;
+    char            **path_dirs;
+    // char            **cmd_builtins;
+    char            **cmd_av;
+    t_io            io;
+    int             *pid;
+    int             pid_index;
+    int             exit_status;
+    t_builtin_cmd   builtins[8];
 }   t_exec;
 
 
@@ -58,7 +59,6 @@ enum e_pipe_side
 /******************************************************************************/
 /* executor */
 void    execute(t_minibox *minibox);
-void    single_cmd(t_minibox *minibox, t_tree *cmd_node, char *cmd);
 void    run_cmd_system(t_minibox *minibox, t_tree *cmd_node);
 
 /* pipes */

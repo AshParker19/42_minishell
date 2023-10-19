@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:33:09 by astein            #+#    #+#             */
-/*   Updated: 2023/10/17 15:20:36 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/19 16:50:40 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,14 @@ static t_bool validate_key(char *key)
     return (ft_true);
 }
 
-static void print_error(char *key)
-{
-    char    *error_msg;
+// static void print_error(char *key)
+// {
+//     char    *error_msg;
 
-    error_msg = ft_strcat_multi(4, PROMT , ": export: `", key, "': not a valid identifier");
-    ft_putendl_fd(error_msg, 2);
-    free(error_msg);
-}
+//     error_msg = ft_strcat_multi(4, ERRPROMT , ": export: `", key, "': not a valid identifier");
+//     ft_putendl_fd(error_msg, 2);
+//     free(error_msg);
+// }
 
 static int  env_counter(t_var *env_var)
 {
@@ -88,7 +88,9 @@ static void    sort_and_print_var(t_var *env_var, int env_count, int i)
     i = -1;
     while (++i < env_count)
         printf ("declare -x %s=\"%s\"\n", env_copy[i], getenv(env_copy[i]));
-    //FIXME: for some reason prints one more variable whose name is '_' at the end
+    // FIXME: for some reason prints one more variable whose name is '_' at the end
+    // FIXME: NOT USE getenv!!! WE need to use our linked list instead
+    // currently there is a problem if overwrite,unset ort add vars!
     free_whatever("m", env_copy);
 }
 
@@ -107,7 +109,8 @@ void builtin_export(t_minibox *minibox, t_tree *arg_node)
         if(!equal_sign)
         {
             if (!validate_key(arg_node->content))
-                print_error(arg_node->content);
+                create_error_msg("nnnn", ERR_PROMT, "export: `",
+                    arg_node->content, "': not a valid identifier");
             // dont do nothing because the = is missing
             // but still print error if needed
         }
@@ -119,9 +122,8 @@ void builtin_export(t_minibox *minibox, t_tree *arg_node)
             if (validate_key(key))
                 set_var_value(minibox, key, value);
             else
-            {
-               print_error(arg_node->content);
-            }
+                create_error_msg("nnnn", ERR_PROMT, "export: `",
+                    arg_node->content, "': not a valid identifier");
         }
         arg_node = arg_node->right;
     }

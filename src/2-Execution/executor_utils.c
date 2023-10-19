@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:23:39 by astein            #+#    #+#             */
-/*   Updated: 2023/10/18 19:36:08 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/19 18:30:20 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ void	print_executor_output(t_minibox *minibox, int i)
 
 void    free_executor(t_minibox *minibox)
 {
-	free_whatever("mm", minibox->executor.path_dirs,
-		minibox->executor.cmd_builtins);
+	free_whatever("m", minibox->executor.path_dirs);
 	//TODO: Close FDs
 }

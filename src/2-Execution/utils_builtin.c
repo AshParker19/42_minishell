@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:54:41 by astein            #+#    #+#             */
-/*   Updated: 2023/10/18 19:16:12 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/19 19:02:32 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,33 @@
 
 void	initialize_builtins(t_minibox *minibox)
 {
-	char	*cmd;
-
-	cmd = "echo|cd|pwd|export|unset|env|exit";
-	minibox->executor.cmd_builtins = ft_split(cmd, '|');
+    minibox->executor.builtins[0].cmd_name = "echo";
+    minibox->executor.builtins[0].func_name = builtin_echo;
+    minibox->executor.builtins[1].cmd_name = "cd";
+    minibox->executor.builtins[1].func_name = builtin_cd;
+    minibox->executor.builtins[2].cmd_name = "pwd";
+    minibox->executor.builtins[2].func_name = builtin_pwd;
+    minibox->executor.builtins[3].cmd_name = "export";
+    minibox->executor.builtins[3].func_name = builtin_export;
+    minibox->executor.builtins[4].cmd_name = "unset";
+    minibox->executor.builtins[4].func_name = builtin_unset;
+    minibox->executor.builtins[5].cmd_name = "env";
+    minibox->executor.builtins[5].func_name = builtin_env;
+    minibox->executor.builtins[6].cmd_name = "exit";
+    minibox->executor.builtins[6].func_name = builtin_exit;
+    minibox->executor.builtins[7].cmd_name = NULL;
+    minibox->executor.builtins[7].func_name = NULL;
 }
 
-int    check_if_builtin(t_minibox *minibox, char *cmd_name)
+t_bool  is_cmd_builtin(t_minibox *minibox, char *cmd)
 {
     int i;
-
-    i = 0;
-    while (minibox->executor.cmd_builtins[i])
-    {
-        if(ft_strcmp_strict(cmd_name, minibox->executor.cmd_builtins[i]))
-        // if (ft_strlen(cmd_name) == ft_strlen(minibox->executor.cmd_builtins[i]))
-            // if (!ft_strncmp(cmd_name, minibox->executor.cmd_builtins[i],
-                // ft_strlen(cmd_name)))
-                return (i);
-        i++;
-    }
-    return (-1);
+    
+    i = -1;
+    while (minibox->executor.builtins[++i].cmd_name)
+        if (ft_strcmp_strict(minibox->executor.builtins[i].cmd_name, cmd))
+            return (ft_true);
+    return (ft_false);
 }
 
 char *strcat_args(t_tree *arg_node)
@@ -59,28 +65,36 @@ char *strcat_args(t_tree *arg_node)
     return(args_list);
 }
 
-void    run_cmd_builtin(t_minibox *minibox, t_tree *cmd_node, int cmd_index)
+void    run_cmd_builtin(t_minibox *minibox, t_tree *cmd_node)
 {
-    void	(*f[7])(t_minibox *minibox, t_tree *arg_node);
+    int i;
     
-    /*
-    TODO:
-    struct idea t_buildin
-        char    *builtin_name
-        *f()    pointer to a function
+    i = -1;
+    while (minibox->executor.builtins[++i].cmd_name)
+        if (ft_strcmp_strict(minibox->executor.builtins[i].cmd_name, cmd_node->content))
+            minibox->executor.builtins[i].func_name(minibox, cmd_node->right);
+    // builtins[0].function_name(minibox, cmd_node->right);
 
-    in minibox->executor
-        t_buildin[7]
-    */
-    if(cmd_index < 0 || cmd_index > 6)
-        return ; // TODO: exit print message
-    f[0] = builtin_echo;
-    f[1] = builtin_cd;
-	f[2] = builtin_pwd;
-	f[3] = builtin_export;
-	f[4] = builtin_unset;
-	f[5] = builtin_env;
-	f[6] = builtin_exit;
-    (*f[cmd_index])(minibox, cmd_node->right);
-    write(2, "BUILTIN EXECUTED\n", 17);
+
+    // void	(*f[7])(t_minibox *minibox, t_tree *arg_node);
+    
+    // /*
+    // TODO:
+    // struct idea t_buildin
+    //     char    *builtin_name
+    //     *f()    pointer to a function
+
+    // in minibox->executor
+    //     t_buildin[7]
+    // */
+    // if(cmd_index < 0 || cmd_index > 6)
+    //     return ; // TODO: exit print message
+    // f[0] = builtin_echo;
+    // f[1] = builtin_cd;
+	// f[2] = builtin_pwd;
+	// f[3] = builtin_export;
+	// f[4] = builtin_unset;
+	// f[5] = builtin_env;
+	// f[6] = builtin_exit;
+    // (*f[cmd_index])(minibox, cmd_node->right);
 }

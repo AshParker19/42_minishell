@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:47:15 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/18 19:50:08 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/19 16:21:06 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,13 @@ void    setup_redir(t_minibox *minibox, t_tree *redir_node)
     }
     if (in_fd != -1)
     {
-        if (minibox->executor.io.cmd_fd[CMD_IN] != -1)
+        if (minibox->executor.io.cmd_fd[CMD_IN] != -1 && minibox->executor.io.cmd_fd[CMD_IN] != STDIN_FILENO)
             close(minibox->executor.io.cmd_fd[CMD_IN]);
         minibox->executor.io.cmd_fd[CMD_IN] = in_fd;
     }
     if (out_fd != -1)
     {
-        if (minibox->executor.io.cmd_fd[CMD_OUT] != -1)
+        if (minibox->executor.io.cmd_fd[CMD_OUT] != -1 && minibox->executor.io.cmd_fd[CMD_OUT] != STDOUT_FILENO)
             close(minibox->executor.io.cmd_fd[CMD_OUT]);
         minibox->executor.io.cmd_fd[CMD_OUT] = out_fd;
     }

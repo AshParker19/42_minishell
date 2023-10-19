@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:43:17 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/18 14:02:12 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/19 14:40:26 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,33 +14,41 @@
 
 /*
     create_error_msg("ccaca", "HI", "HI", ft_strup(), "HI", random_allocated_char)
-                    c = constant -> no free needed
-                    a = allocated -> need to be freed
+                    n = no =  constant string   -> free needed
+                    y = yes = allocated         -> need to be freed
 */
 void    create_error_msg(const char *format, ...)
 {
 	va_list	args;
-    char    *erorr_msg;
-    const char    *copy;
+    char    *error_msg;
+    char    *temp;
     char    *str;
-    int     count;
 
-    count = 0;
 	va_start(args, format);
-    // count_of_parts = ft_strlen(format);
-    copy = format;
-    while (*copy)
+    error_msg = NULL;
+    while (*format)
     {
         str = va_arg(args, char *);
-        while (*str)
+        if (str)
         {
-            count++;
-            str++;
+            if (!error_msg)
+                error_msg = ft_strdup(str);
+            else
+            {
+                temp = ft_strjoin(error_msg, str);
+                free (error_msg);
+                error_msg = temp;
+                if (*format == 'y')
+                    free (str);
+            }
         }
-        copy++;
+        format++;
     }
-    printf ("COUNT %d\n", count);
-    // msg = ft_strcat_multi(count_of_parts, va_arg(args, int));
-    
 	va_end(args);
+    if (error_msg)
+    {
+        ft_putendl_fd(error_msg, STDERR_FILENO);    
+        free (error_msg);
+    }
 }
+

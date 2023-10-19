@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 13:07:56 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/18 17:03:07 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/19 18:01:22 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,25 +64,16 @@ void    run_cmd_system(t_minibox *minibox, t_tree *cmd_node)
 {
     char       *error_msg;
     
-    // minibox->executor.pid = fork();
-    // if (minibox->executor.pid == -1)
-    //     exit(EXIT_FAILURE);
-    // if (minibox->executor.pid == 0)
-    // {
-    //     setup_pipes(minibox);
-    //     setup_redir(minibox);
+        if (minibox->executor.io.cmd_fd[CMD_IN] != -1)
+            close(minibox->executor.io.cmd_fd[CMD_IN]);
+        if (minibox->executor.io.cmd_fd[CMD_OUT] != -1)
+            close(minibox->executor.io.cmd_fd[CMD_OUT]);
         get_cmd_av(minibox, cmd_node);
         if(minibox->executor.cmd_av)
-            execve(minibox->executor.cmd_av[0],
-                minibox->executor.cmd_av, minibox->env);
-        write(2, "EXECVE FAILED!!!\n", 17);
-        error_msg = ft_strcat_multi(3, "command '",
-            cmd_node->content, "' not found"); 
-        ft_putendl_fd(error_msg, 2);
-        free (error_msg);
+            execve(minibox->executor.cmd_av[0], minibox->executor.cmd_av, minibox->env);
+        create_error_msg("nnn", "command '", cmd_node->content, "' not found");
         free_process(minibox);
         exit(errno);
-    // }
-    // free_process(minibox);
+        // TODO: EXIT 
 }
 

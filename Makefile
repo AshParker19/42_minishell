@@ -76,13 +76,13 @@ OBJS = $(SRCS:$(SRC_FOLDER)%.c=$(OBJ_FOLDER)%.o)
 
 all:  $(NAME)
 
-$(NAME): $(LIBFT) $(OBJS) 
+$(NAME): $(LIBFT) $(OBJS)
 	@$(CC) $(OBJS) $(CFLAGS) $(CLIBS) $(CINCLUDES) -o $(NAME)
-	@echo "\n$(ORANGE)╔═════════════════════╗"
-	@echo "$(ORANGE)║ $(GREEN)$(NAME):  created$(ORANGE) ║"
-	@echo "$(ORANGE)╚═════════════════════╝"
+	@echo "\n$(ORANGE)╔═══════════════════════╗"
+	@echo "$(ORANGE)║  $(GREEN)$(NAME):  created$(ORANGE)  ║"
+	@echo "$(ORANGE)╚═══════════════════════╝"
 
-$(OBJ_FOLDER)%.o: $(SRC_FOLDER)%.c
+$(OBJ_FOLDER)%.o: $(SRC_FOLDER)%.c 
 	@mkdir -p $(@D)
 	@echo -n "$(BLUE).$(RESET)"
 	@$(CC) $(CFLAGS) $(CINCLUDES)-c $< -o $@
@@ -95,9 +95,9 @@ $(LIBFT):
 
 clean:
 	@$(RM) $(OBJ_FOLDER) readline.supp
-	@echo "$(BLUE)┌────────────────────┐"
-	@echo "│    $(ORANGE)[✓] CLEANED!$(BLUE)    │"
-	@echo "$(BLUE)└────────────────────┘$(RESET)"
+	@echo "$(PURPLE)┌───────────────────────┐"
+	@echo "│     $(RED)[✓]  CLEANED!$(PURPLE)     │"
+	@echo "$(PURPLE)└───────────────────────┘$(RESET)"
 
 fclean: clean
 	@make -sC $(LIB_FOLDER) fclean
@@ -117,6 +117,6 @@ valgrind:$(NAME) readline.supp
 	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=readline.supp ./$(NAME)
 
 HEADER_PRINT:
-	@echo "\n$(ORANGE)┌───────────────────────┐"
+	@echo "$(ORANGE)┌───────────────────────┐"
 	@echo "│ $(BLUE)Compiling:  $(NAME)$(ORANGE) │"
 	@echo "$(ORANGE)└───────────────────────┘$(RESET)"
