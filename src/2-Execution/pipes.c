@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:23:27 by astein            #+#    #+#             */
-/*   Updated: 2023/10/19 16:23:56 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/20 16:15:14 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,15 +48,9 @@ void    setup_pipes(t_minibox *minibox, int *cur_pipe)
 void    setup_process_std(t_minibox *minibox)
 {
     if (minibox->executor.io.cmd_fd[CMD_IN] != -1)
-    {
         minibox->executor.io.dup_fd[CMD_IN]
             = dup2(minibox->executor.io.cmd_fd[CMD_IN], STDIN_FILENO);
-        // close(minibox->executor.io.cmd_fd[CMD_IN]);
-    }
     if (minibox->executor.io.cmd_fd[CMD_OUT] != -1)
-    {
         minibox->executor.io.dup_fd[CMD_OUT]
             = dup2(minibox->executor.io.cmd_fd[CMD_OUT], STDOUT_FILENO);
-        // close(minibox->executor.io.cmd_fd[CMD_OUT]);
-    }
 }

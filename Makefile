@@ -113,6 +113,12 @@ norm:
 
 readline.supp:
 	wget https://raw.githubusercontent.com/benjaminbrassart/minishell/master/readline.supp
+valmem:$(NAME) readline.supp
+	valgrind --leak-check=full --show-leak-kinds=all --suppressions=readline.supp ./$(NAME)
+
+valfd:$(NAME) readline.supp
+	valgrind --track-fds=yes --suppressions=readline.supp ./$(NAME)
+
 valgrind:$(NAME) readline.supp
 	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=readline.supp ./$(NAME)
 

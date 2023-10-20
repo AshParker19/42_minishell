@@ -6,14 +6,12 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 17:55:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/19 20:36:03 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/20 12:44:20 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXECUTOR_H
 # define EXECUTOR_H
-
-// # include "minishell.h"
 
 typedef struct s_io
 {
@@ -65,8 +63,6 @@ void    run_cmd_system(t_minibox *minibox, t_tree *cmd_node);
 void    setup_use_pipe(t_minibox *minibox, int status);
 void    setup_pipes(t_minibox *minibox, int *cur_pipe);
 void    setup_process_std(t_minibox *minibox);
-
-
 
 /* redirections */
 void    handle_redir(t_tree *node, int *in_fd, int *out_fd);

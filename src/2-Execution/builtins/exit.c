@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:33:57 by astein            #+#    #+#             */
-/*   Updated: 2023/10/19 20:14:23 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/20 16:22:08 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void    builtin_exit(t_minibox *minibox, t_tree *arg_node)
     // TODO: Deal with exit status!
 
     free_and_close_box(minibox, -100);
+    exit(0);
     
 
     // SHLVL

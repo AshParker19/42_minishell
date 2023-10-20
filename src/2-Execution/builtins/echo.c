@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:32:13 by astein            #+#    #+#             */
-/*   Updated: 2023/10/19 19:52:24 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/20 15:45:08 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ void builtin_echo(t_minibox *minibox, t_tree *arg_node)
         }
         while(arg_node)
         {
-            ft_putstr_fd(arg_node->content, minibox->executor.io.cmd_fd[CMD_OUT]);
+            ft_putstr_fd(arg_node->content,
+                minibox->executor.io.cmd_fd[CMD_OUT]);
             arg_node = arg_node->right;
             if(arg_node)
                 ft_putchar_fd(' ', minibox->executor.io.cmd_fd[CMD_OUT]);

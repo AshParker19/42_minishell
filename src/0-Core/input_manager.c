@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:38:32 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/19 21:20:48 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/20 16:25:15 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	manage_input(t_minibox *minibox)
     }
     tokenize(minibox, 0);
     parse(minibox);
-    if (minibox->root == CMD_NODE && ft_strcmp_strict(minibox->root->content, "exit"))
+    if (minibox->root->type == CMD_NODE && ft_strcmp_strict(minibox->root->content, "exit"))
         builtin_exit(minibox, minibox->root->right);
     print_parser_output(minibox);
     if (minibox->error_status == false)

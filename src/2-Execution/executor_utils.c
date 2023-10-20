@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:23:39 by astein            #+#    #+#             */
-/*   Updated: 2023/10/19 21:27:38 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/20 14:10:07 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	print_executor_output(t_minibox *minibox, int i)
 	{
 		printf("\n ------------------------------------ \n");
 		printf("|              EXECUTOR              |\n");
-		printf("|           cmd count: %d            |\n",cmd_counter(minibox->root));
+		printf("|           cmd count: %d             |\n",cmd_counter(minibox->root));
 		printf(" ------------------------------------ \n");	
 	}
 	else

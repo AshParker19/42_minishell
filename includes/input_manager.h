@@ -6,15 +6,12 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 15:35:02 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/19 18:28:26 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/20 12:43:57 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef INPUT_MANAGER_H
 # define INPUT_MANAGER_H
-
-// # include "minishell.h"
-
 
 /******************************************************************************/
 /* QUOTE STATES */
