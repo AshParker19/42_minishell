@@ -3,20 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 11:32:13 by astein            #+#    #+#             */
-/*   Updated: 2023/10/13 23:03:10 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/19 18:56:06 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILTINS_H
 # define BUILTINS_H
 
+typedef void	(*t_builtin_function)(t_minibox *minibox, t_tree *arg_node);
+
+typedef struct 	s_builtin_cmd
+{
+    char				*cmd_name;
+    t_builtin_function	func_name;
+}           t_builtin_cmd;
+
 /* builtins_utils.c */
 void	initialize_builtins(t_minibox *minibox);
-int     check_if_builtin(t_minibox *minibox, char *cmd_name);
-void    run_cmd_builtin(t_minibox *minibox, t_tree *cmd_node, int cmd_index);
+t_bool  is_cmd_builtin(t_minibox *minibox, char *cmd);
+void    run_cmd_builtin(t_minibox *minibox, t_tree *cmd_node);
 char    *strcat_args(t_tree *arg_node);
 
 void    test_builtins();

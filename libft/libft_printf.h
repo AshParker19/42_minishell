@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:11:36 by astein            #+#    #+#             */
-/*   Updated: 2023/10/15 13:12:45 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/19 20:02:25 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,8 @@ char				*ft_strtrim(char const *s1, char const *set);
 char				*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 char				*ft_chr2str(char c);
 void    			ft_swap_strings(char **a, char **b);
+t_bool				ft_str_is_numeric(char *str);
+
 
 //******************************************************************************
 //			Memory Functions

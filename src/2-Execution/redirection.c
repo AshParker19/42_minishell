@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:47:15 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/13 18:51:10 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/19 16:21:06 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void    handle_redir(t_tree *redir_node, int *in_fd, int *out_fd)
     {
         if (*in_fd != -1)
             close (*in_fd);
-        heredoc(redir_node, in_fd, NULL);
+        heredoc(redir_node, in_fd, NULL); //TODO: if return 1 - handle errors
         if (*in_fd == -1)
             exit(EXIT_FAILURE);
     }
@@ -48,13 +48,13 @@ void    handle_redir(t_tree *redir_node, int *in_fd, int *out_fd)
     }
 }
 
-void    setup_redir(t_minibox *minibox)
+void    setup_redir(t_minibox *minibox, t_tree *redir_node)
 {
     int in_fd;
     int out_fd;
     t_tree *tmp;
 
-    tmp = minibox->executor.io.redir;
+    tmp = redir_node;
     in_fd = -1;
     out_fd = -1;
     while (tmp)
@@ -63,13 +63,15 @@ void    setup_redir(t_minibox *minibox)
         tmp = tmp->left;
     }
     if (in_fd != -1)
-    { //TODO: store these dup2 in another variable so we don't rewrite them
-        minibox->executor.io.dup_fd[CMD_IN] = dup2(in_fd, STDIN_FILENO);
-        close (in_fd);
+    {
+        if (minibox->executor.io.cmd_fd[CMD_IN] != -1 && minibox->executor.io.cmd_fd[CMD_IN] != STDIN_FILENO)
+            close(minibox->executor.io.cmd_fd[CMD_IN]);
+        minibox->executor.io.cmd_fd[CMD_IN] = in_fd;
     }
     if (out_fd != -1)
     {
-        minibox->executor.io.dup_fd[CMD_OUT] = dup2(out_fd, STDOUT_FILENO);
-        close (out_fd);
+        if (minibox->executor.io.cmd_fd[CMD_OUT] != -1 && minibox->executor.io.cmd_fd[CMD_OUT] != STDOUT_FILENO)
+            close(minibox->executor.io.cmd_fd[CMD_OUT]);
+        minibox->executor.io.cmd_fd[CMD_OUT] = out_fd;
     }
 }

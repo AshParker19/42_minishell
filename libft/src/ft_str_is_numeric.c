@@ -1,34 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_str_is_numeric.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/07 16:06:17 by astein            #+#    #+#             */
-/*   Updated: 2023/10/18 17:07:53 by anshovah         ###   ########.fr       */
+/*   Created: 2023/10/19 19:58:08 by anshovah          #+#    #+#             */
+/*   Updated: 2023/10/19 20:01:55 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../libft_printf.h"
 
-int	main(int ac, char **av, char **env)
+/*
+    Checks each char in a string
+        true    = if all chars are numeric
+        false   = otherwise
+                = if str is NULL
+*/
+t_bool  ft_str_is_numeric(char *str)
 {
-	t_minibox	minibox;
-	(void)ac;
-	(void)av;
-	initialize_box(&minibox, env);
-	load_vars(&minibox);
-	load_executor(&minibox);
-	// test_builtins(&minibox);
-	
-	while (1)
-	{
-		minibox.input_original = readline(PROMT);
-		if (!minibox.input_original)
-			return (0);
-		// do stuff with the command
-		manage_input(&minibox);
-	}
-	return (0);	
+    if (!str)
+        return (ft_false);
+    while (*str)
+    {
+        if (!ft_isdigit(*str))
+            return (ft_false);
+        str++;
+    }
+    return (ft_true);
 }
+
