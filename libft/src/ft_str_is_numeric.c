@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   ft_str_is_numeric.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/19 19:58:08 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/19 20:01:55 by anshovah         ###   ########.fr       */
+/*   Created: 2023/10/20 20:14:28 by astein            #+#    #+#             */
+/*   Updated: 2023/10/20 20:14:29 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../libft_printf.h"
 

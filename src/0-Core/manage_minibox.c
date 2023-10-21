@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manage_minibox.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:49:13 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/19 21:30:00 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/20 18:11:37 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,10 @@ void free_cycle(t_minibox *minibox)
     delete_ast(minibox->root);
     minibox->root = NULL;
 	if (minibox->executor.pid)
+	{
 		free (minibox->executor.pid);
+		minibox->executor.pid = NULL;
+	}
 	dbg_printf(no_block, "FREED CYCLE READY TO GO AGAIN!\n");
 }
 

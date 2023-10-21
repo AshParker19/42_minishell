@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2023/10/19 20:35:57 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/20 21:57:56 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,11 @@ void    free_var(t_var *temp);
 void    free_vars(t_minibox *minibox);
 void    print_vars(t_minibox *minibox);
 void    delete_var(t_minibox *minibox, char *key);
+void	increment_shlvl(t_minibox *minibox);
+char    **env_to_matrix(t_minibox *minibox);
 
+/* signals.c */
+void    initialize_signals();
 
 /* manage_minibox.c */
 void	initialize_box(t_minibox *minibox, char **env);
