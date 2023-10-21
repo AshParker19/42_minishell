@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:19:44 by astein            #+#    #+#             */
-/*   Updated: 2023/10/20 16:28:38 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/21 10:22:44 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ static void single_cmd(t_minibox *minibox)
 
 static void perform_child(t_minibox *minibox, t_tree *cmd_node, int cmd_pos, int *cur_pipe)
 {
-	// dprintf(2, "CHILD(%s) \tPID(%d)\n", cmd_node->content, getpid());
-	// if (cmd_pos == LAST_CMD && is_cmd_builtin(minibox, cmd_node->content))
+	if (cmd_pos == SINGLE_CMD && ft_strcmp_strict("./minishell", cmd_node->content))
+		increment_shlvl(minibox);	
 	if (is_cmd_builtin(minibox, cmd_node->content))
 	{
 		minibox->executor.io.cmd_fd[CMD_IN] = STDIN_FILENO;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:06:17 by astein            #+#    #+#             */
-/*   Updated: 2023/10/18 17:07:53 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/20 17:41:34 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	main(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 	initialize_box(&minibox, env);
+	initialize_signals();
 	load_vars(&minibox);
 	load_executor(&minibox);
 	// test_builtins(&minibox);
@@ -26,9 +27,10 @@ int	main(int ac, char **av, char **env)
 	{
 		minibox.input_original = readline(PROMT);
 		if (!minibox.input_original)
-			return (0);
-		// do stuff with the command
-		manage_input(&minibox);
+			builtin_exit(&minibox, NULL);
+		else
+			// do stuff with the command
+			manage_input(&minibox);
 	}
 	return (0);	
 }

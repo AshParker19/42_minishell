@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:33:09 by astein            #+#    #+#             */
-/*   Updated: 2023/10/19 20:31:15 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/21 10:20:34 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,6 @@ static t_bool validate_key(char *key)
         key++;    
     }
     return (ft_true);
-}
-
-static int  env_counter(t_var *env_var)
-{
-    if (!env_var)
-        return (0);
-    else
-        return (1 + env_counter(env_var->next));
 }
 
 static char    **bubble_sort(char *env_copy[], int env_count)
@@ -61,24 +53,36 @@ static char    **bubble_sort(char *env_copy[], int env_count)
     return (env_copy); 
 }
 
-static void    sort_and_print_var(t_minibox *minibox, int count_vars, int i)
+static int  env_counter(t_var *env_var)
+{
+    if (!env_var)
+        return (0);
+    else
+        return (1 + env_counter(env_var->next));
+}
+
+static void    sort_and_print_var(t_minibox *minibox)
 {
     char    **env_matrix;
-    t_var   *current_var;
+    // t_var   *current_var;
 
-    current_var = minibox->vars;
+    // current_var = minibox->vars;
     
-    env_matrix = ft_calloc(count_vars + 1, sizeof(char *));
-    if (!env_matrix)
-        return ;
-    while  (++i < count_vars)
-    {
-        env_matrix[i] = ft_strdup(current_var->key);
-        current_var = current_var->next;
-    }
+    // env_matrix = ft_calloc(count_vars + 1, sizeof(char *));
+    // if (!env_matrix)
+    //     return ;
+    // while  (++i < count_vars)
+    // {
+    //     env_matrix[i] = ft_strdup(current_var->key);
+    //     current_var = current_var->next;
+    // }
+    int count_vars;
+    count_vars = env_counter(minibox->vars);
+    env_matrix = env_to_matrix(minibox);
     env_matrix = bubble_sort(env_matrix, count_vars);
     if (!env_matrix)
         return ;
+    int i;
     i = -1;
     while (++i < count_vars)
         printf ("declare -x %s=\"%s\"\n", env_matrix[i],
@@ -93,7 +97,7 @@ void builtin_export(t_minibox *minibox, t_tree *arg_node)
     char    *value;
     
     if(!arg_node)
-        sort_and_print_var(minibox, env_counter(minibox->vars), -1);
+        sort_and_print_var(minibox);
     while (arg_node)
     {
         equal_sign = NULL;

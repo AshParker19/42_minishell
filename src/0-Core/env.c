@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:16:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/20 16:33:15 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/21 10:24:57 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,23 @@ static t_bool   is_var(t_minibox *minibox, char *key)
         current = current->next;
     }
     return (ft_false);
+}
+
+void	increment_shlvl(t_minibox *minibox)
+{
+	int     cur_shlvl_int;
+    char    *cur_shlvl_str;
+    char    *cur_real_shlvl_str;
+	
+    cur_shlvl_str = get_var_value(minibox, "SHLVL");
+	cur_shlvl_int = ft_atoi(cur_shlvl_str);
+    cur_real_shlvl_str = getenv("SHLVL");
+	if (cur_shlvl_int == 0)
+        cur_shlvl_int = 1;
+    else
+        cur_shlvl_int++;
+    set_var_value(minibox, "SHLVL", ft_itoa(cur_shlvl_int));
+    cur_real_shlvl_str = ft_itoa(cur_shlvl_int);
 }
 
 /*
@@ -131,6 +148,24 @@ char *get_var_value(t_minibox *minibox, char *key)
     
 //     if(get_var_value(minibox, key))
 //     {
+
+// 	if (arg_node)
+// 		create_error_msg("nnn", "env: ‘", arg_node->content,
+// 			"’: No such file or directory");
+// 	else
+// 	{
+// 		cur = minibox->vars;
+// 		while (cur)
+// 		{
+// 			ft_putstr_fd(cur->key, 1);
+// 			ft_putchar_fd('=', 1);
+// 			if (cur->value)
+// 				ft_putstr_fd(cur->value, 1);
+// 			ft_putchar_fd('\n', 1);
+// 			cur = cur->next;
+// 		}
+// 	}
+// }
 //         current = minibox->vars;
 //         while(current)
 //         {
@@ -212,3 +247,31 @@ void free_vars(t_minibox *minibox)
     }
 }
 
+static int  env_counter(t_var *env_var)
+{
+    if (!env_var)
+        return (0);
+    else
+        return (1 + env_counter(env_var->next));
+}
+
+char **env_to_matrix(t_minibox *minibox)
+{
+    char    **env_matrix;
+    t_var   *current_var;
+    int     count_vars;
+    int     i;
+
+    i = -1;
+    count_vars = env_counter(minibox->vars);
+    current_var = minibox->vars;
+    env_matrix = ft_calloc(count_vars + 1, sizeof(char *));
+    if (!env_matrix)
+        return (NULL);
+    while (++i < count_vars)
+    {
+        env_matrix[i] = ft_strcat_multi(3, current_var->key, "=" , current_var->value);
+        current_var = current_var->next;
+    }
+    return (env_matrix);
+}
