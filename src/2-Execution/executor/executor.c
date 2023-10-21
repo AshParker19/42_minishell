@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:19:44 by astein            #+#    #+#             */
-/*   Updated: 2023/10/21 10:22:44 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/21 13:24:52 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,4 +149,7 @@ void    execute(t_minibox *minibox) //TODO: do exit for builtins
 		execute_cmd(minibox, current->right, LAST_CMD);   
 	}
 	wait_for_execution(minibox);
+	if (WIFEXITED(minibox->executor.exit_status))
+		minibox->executor.exit_status
+			= WEXITSTATUS(minibox->executor.exit_status);
 }

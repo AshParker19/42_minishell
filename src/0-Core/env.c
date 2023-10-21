@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:16:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/21 10:24:57 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/21 12:30:17 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /* checks if a variable with the key already exists*/
 static t_bool   is_var(t_minibox *minibox, char *key)
 {
-    t_var   *current;
+    t_env_var   *current;
 
     current = minibox->vars;
     while(current)
@@ -54,8 +54,8 @@ void	increment_shlvl(t_minibox *minibox)
 */
 void    set_var_value(t_minibox *minibox, char *key, char *value)
 {
-    t_var   *new_var;
-    t_var   *current;
+    t_env_var   *new_var;
+    t_env_var   *current;
     
     // we look if already exists -> then free the old one and connect the pointer to the parameter
     current = minibox->vars;
@@ -75,7 +75,7 @@ void    set_var_value(t_minibox *minibox, char *key, char *value)
     }
 
     // if not create...
-    new_var = ft_calloc(1, sizeof(t_var));
+    new_var = ft_calloc(1, sizeof(t_env_var));
     if (!new_var)
         return; //TODO: deal with malloc failure
     new_var->key = key;
@@ -118,7 +118,7 @@ void load_vars(t_minibox *minibox)
 */
 char *get_var_value(t_minibox *minibox, char *key)
 {
-    t_var *current;
+    t_env_var *current;
     char *value;
 
     current = minibox->vars;
@@ -188,8 +188,8 @@ char *get_var_value(t_minibox *minibox, char *key)
 */
 void delete_var(t_minibox *minibox, char *key)
 {
-    t_var   *current;
-    t_var   *temp;
+    t_env_var   *current;
+    t_env_var   *temp;
     
     if(!minibox->vars)
         return ;
@@ -221,7 +221,7 @@ void delete_var(t_minibox *minibox, char *key)
    }
 }
 
-void free_var(t_var *temp)
+void free_var(t_env_var *temp)
 {
     if (temp->key)
         free(temp->key);
@@ -235,8 +235,8 @@ void free_var(t_var *temp)
 */
 void free_vars(t_minibox *minibox)
 {
-    t_var *current;
-    t_var *temp;
+    t_env_var *current;
+    t_env_var *temp;
 
     current = minibox->vars;
     while(current)
@@ -247,7 +247,7 @@ void free_vars(t_minibox *minibox)
     }
 }
 
-static int  env_counter(t_var *env_var)
+static int  env_counter(t_env_var *env_var)
 {
     if (!env_var)
         return (0);
@@ -258,7 +258,7 @@ static int  env_counter(t_var *env_var)
 char **env_to_matrix(t_minibox *minibox)
 {
     char    **env_matrix;
-    t_var   *current_var;
+    t_env_var   *current_var;
     int     count_vars;
     int     i;
 

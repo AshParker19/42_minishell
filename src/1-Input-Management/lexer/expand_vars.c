@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_vars.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 12:58:49 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/14 15:58:48 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/21 21:27:55 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ char    *insert_value(char *input, char *key, char *value, int quote_state)
 {
     char    *first_part;
     char    *rest_part;
-    char    *inserted;
     int     first_part_len;
+    char    *inserted;
 
     rest_part = input;
     while(*rest_part)
@@ -59,6 +59,22 @@ char    *insert_value(char *input, char *key, char *value, int quote_state)
     return (inserted);
 }
 
+// char    *insert_exit_status(char *input, char *question_mark, int exit_status)
+// {
+//     char    *rest_part;
+//     char    *first_part;
+//     int     first_part_len;
+    
+//     rest_part = ft_strchr(question_mark, '?');
+//     printf ("REST 1 %s\n", rest_part);
+//     rest_part++;
+//     printf ("REST 2 %s\n", rest_part);
+//     printf ("LEN111 %zu\n", ft_strlen(rest_part));
+    
+//     printf ("INPUTA %s\n", first_part);
+//     return (NULL);
+// }
+
 /*
 	traverses through the input string, locates all the variable
 	names checking for a dollar sign, then replaces all the variable names
@@ -71,24 +87,28 @@ void	expand_variables(t_minibox *minibox, int k, int k_end, int quote_state)
     char    cur_char;
     
     minibox->input_expanded = ft_strdup(minibox->input_quoted);
-    while(minibox->input_quoted[k])
+    while (minibox->input_quoted[k])
     {
         cur_char = minibox->input_quoted[k];
         update_qoute_state(&quote_state, cur_char);
-        if(quote_state != add_offset('\'') && cur_char == '$')
+        if (quote_state != add_offset('\'') && cur_char == '$')
         {
             k++;
-            k_end = k;
-            while ((ft_isalnum(minibox->input_quoted[k_end])
-                ||  minibox->input_quoted[k_end] == '_'))
-                 k_end++;
-	        cur_key = ft_substr(minibox->input_quoted, k, k_end - k);
-            // TODO: cur_key is "$" or "$?" -> treat special cases
-            cur_value = get_var_value(minibox, cur_key); //TODO: try to sent an address of a current index
-            minibox->input_expanded = insert_value(minibox->input_expanded, cur_key, cur_value, OUT_Q);
-            free(cur_key);    
+            // if (minibox->input_quoted[k] == '?')
+            //    minibox->input_expanded =
+            //     insert_exit_status(minibox->input_expanded, &minibox->input_quoted[k], minibox->executor.exit_status);
+            // else
+            // {
+                k_end = k;
+                while ((ft_isalnum(minibox->input_quoted[k_end])
+                    ||  minibox->input_quoted[k_end] == '_'))
+                    k_end++;
+                cur_key = ft_substr(minibox->input_quoted, k, k_end - k);
+                cur_value = get_var_value(minibox, cur_key); //TODO: try to sent an address of a current index
+                minibox->input_expanded = insert_value(minibox->input_expanded, cur_key, cur_value, OUT_Q);
+                free(cur_key);    
+            // }
         }            
         k++;
     }
 }
-

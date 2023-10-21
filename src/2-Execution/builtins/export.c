@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:33:09 by astein            #+#    #+#             */
-/*   Updated: 2023/10/21 10:20:34 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/21 12:30:17 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static char    **bubble_sort(char *env_copy[], int env_count)
     return (env_copy); 
 }
 
-static int  env_counter(t_var *env_var)
+static int  env_counter(t_env_var *env_var)
 {
     if (!env_var)
         return (0);

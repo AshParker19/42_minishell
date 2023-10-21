@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:33:46 by astein            #+#    #+#             */
-/*   Updated: 2023/10/20 20:40:13 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/21 12:30:17 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	builtin_env(t_minibox *minibox, t_tree *arg_node)
 {
 	char	*error_msg;
-	t_var	*cur;
+	t_env_var	*cur;
 
 	if (arg_node)
 		create_error_msg("nnn", "env: ‘", arg_node->content,

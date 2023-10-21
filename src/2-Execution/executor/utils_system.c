@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_system.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 13:07:56 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/21 10:16:57 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/21 13:00:21 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void    run_cmd_system(t_minibox *minibox, t_tree *cmd_node)
             execve(minibox->executor.cmd_av[0], minibox->executor.cmd_av, env_to_matrix(minibox));
         create_error_msg("nnn", "command '", cmd_node->content, "' not found");
         free_process(minibox);
-        exit(errno);
+        exit(127);
         // TODO: EXIT 
 }
 
