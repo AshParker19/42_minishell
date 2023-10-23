@@ -3,22 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   ft_str_is_numeric.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 20:14:28 by astein            #+#    #+#             */
-/*   Updated: 2023/10/20 20:14:29 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/23 18:32:31 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../libft_printf.h"
 
-/*
-    Checks each char in a string
-        true    = if all chars are numeric
-        false   = otherwise
-                = if str is NULL
-*/
+/**
+ * @brief   Checks each char in a string if is nummeric
+ * 
+ * @param   str string to check
+ * @return  t_bool 
+ *              ft_true    = if all chars are numeric
+ *              ft_false   = otherwise or if str is NULL
+ */
 t_bool  ft_str_is_numeric(char *str)
 {
     if (!str)

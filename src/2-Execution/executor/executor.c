@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:19:44 by astein            #+#    #+#             */
-/*   Updated: 2023/10/23 17:00:31 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/23 21:05:21 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ static t_bool single_cmd(t_minibox *minibox)
 		minibox->executor.io.cmd_fd[CMD_OUT] = -1;
 		return (ft_false);
 	}
-	dprintf (2, "NOT HERE\n")	;
 	run_cmd_builtin(minibox, minibox->root);  
 	if (minibox->executor.io.cmd_fd[CMD_IN] != STDIN_FILENO)
 		close (minibox->executor.io.cmd_fd[CMD_IN]);

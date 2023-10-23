@@ -6,17 +6,53 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:16:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/21 12:30:17 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/23 19:02:44 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* checks if a variable with the key already exists*/
+/**
+ * @brief   THS FILE DEALS WITH ALL ENVIROMENT VARIABLE RELATED TOPICS
+ * 
+ * 	The head of the linked list (ll) is stored in minibox->vars
+ * 	The ll nodes data structure is 't_env_var'
+ * 	...a classic key value pair
+ *	 key and value are both ALLOCATED MEMMORY and need to be freed on exit
+ * 
+ *  MANAGEMENT
+ *  'load_vars'			creates the ll on startup
+ * 	'free_vars'			iterates the ll (minibox->vars) and frees all nodes
+ * 	'free_var'			called by 'free_vars' to free one node of the ll
+ * 
+ *  READ FUNCTIONS
+ *  'is_var'			checks if the argument 'key' is present in list
+ * 	'get_var_value'		
+ * 	'env_counter'
+ * 	'env_to_matrix'
+ * 
+ *  WRITE FUNCTIONS
+ * 	'set_var_value'
+ * 	'increment_shlvl'
+ * 	'delete_var'
+ */
+
+/**
+ * @brief	
+ * 
+ * @param 	minibox	minibox is a struct that stores all runtime related infos
+ * @param 	key 	the variable key to look for
+ * @return 	t_bool
+ * 				ft_true		if the 'key' was found in linked list
+ * 				ft_false	if the 'key" wasn"t found in linked list
+ * 							if the 'ket' is NULL
+ */
 static t_bool   is_var(t_minibox *minibox, char *key)
 {
     t_env_var   *current;
 
+	if (!key)
+		return (ft_false);
     current = minibox->vars;
     while(current)
     {
@@ -27,8 +63,18 @@ static t_bool   is_var(t_minibox *minibox, char *key)
     return (ft_false);
 }
 
+/**
+ * @brief	Should be called if minishell is run in itself (nested)
+ * 			This function tries to increase the shell level (SHLVL) in the ll
+ * 			if the var 'SHLVL' doesnt exist or isnt numeric it set the value
+ * 			alwaxs to 1
+ * 
+ * @param	minibox	minibox is a struct that stores all runtime related infos
+ */
 void	increment_shlvl(t_minibox *minibox)
 {
+	// FIXME: what happens if we unset SHLVL???
+	// guess we need to reset it here
 	int     cur_shlvl_int;
     char    *cur_shlvl_str;
     char    *cur_real_shlvl_str;
@@ -52,6 +98,16 @@ void	increment_shlvl(t_minibox *minibox)
         new_var->value = value
     add the new node to the end of the vars linked lis tin minibox
 */
+
+/**
+ * @brief	This function
+ * 				- adds a new key value pair to the end of the ll
+ * 				- changes the value of an existing key
+ * 
+ * @param	minibox	minibox is a struct that stores all runtime related infos
+ * @param	key		key of the (new) key value pair
+ * @param	value	value of the (new) key value pair
+ */
 void    set_var_value(t_minibox *minibox, char *key, char *value)
 {
     t_env_var   *new_var;
@@ -97,6 +153,16 @@ void    set_var_value(t_minibox *minibox, char *key, char *value)
     Transforming the env into a linked list
     -> store the linked list in minibox
 */
+
+/**
+ * @brief	This function must only be called at startup and creates a ll out
+ * 			of the main param 'env' which can be accessed via miniox->env
+ * 			
+ * 			The head of the created ll will be stored in minibox->vars via the
+ * 			function 'set_var_value'
+ * 
+ * @param	minibox	minibox is a struct that stores all runtime related infos
+ */
 void load_vars(t_minibox *minibox)
 {
     int     i;
@@ -113,9 +179,14 @@ void load_vars(t_minibox *minibox)
     }
 }
 
-/*
-    input a key and return the POINTER to a value or NULL if doesnt exist
-*/
+/**
+ * @brief	Returns a pointer to the given key. if key doesnt exists NULL
+ * 
+ * @param	minibox	minibox is a struct that stores all runtime related infos
+ * @param	key		key of the desired key value pair
+ * @return	char*	POINTER to the value of the param 'key'
+ * 					NULL if key doesnt exist
+ */
 char *get_var_value(t_minibox *minibox, char *key)
 {
     t_env_var *current;
@@ -135,57 +206,17 @@ char *get_var_value(t_minibox *minibox, char *key)
     return(value);
 }
 
-// /*
-//     input a key and a value
-//     if key exists
-//         -> only change value
-//     if key doesnt exist
-//         -> create new node in linkedlist and set value
-// */
-// void set_var_value(t_minibox *minibox, char *key, char *value)
-// {
-//     t_var *current;
-    
-//     if(get_var_value(minibox, key))
-//     {
-
-// 	if (arg_node)
-// 		create_error_msg("nnn", "env: ‘", arg_node->content,
-// 			"’: No such file or directory");
-// 	else
-// 	{
-// 		cur = minibox->vars;
-// 		while (cur)
-// 		{
-// 			ft_putstr_fd(cur->key, 1);
-// 			ft_putchar_fd('=', 1);
-// 			if (cur->value)
-// 				ft_putstr_fd(cur->value, 1);
-// 			ft_putchar_fd('\n', 1);
-// 			cur = cur->next;
-// 		}
-// 	}
-// }
-//         current = minibox->vars;
-//         while(current)
-//         {
-//             if(ft_strcmp_strict(key, current->key))
-            
-//             {
-            
-//                     current->value = value;
-//                     break;
-//             }
-//             current = current->next;
-//         }
-//     }
-//     else
-//         add_var(minibox, key, value);
-// }  
-
 /* check if key exists in ll
     if yes remove the node
 */
+
+/**
+ * @brief	This function checks if the 'key' exists in the ll and delets the
+ * 			node from the ll using the function 'free_var'
+ * 
+ * @param	minibox	minibox is a struct that stores all runtime related infos
+ * @param	key		key of the node which should be deleted
+ */
 void delete_var(t_minibox *minibox, char *key)
 {
     t_env_var   *current;
@@ -221,6 +252,11 @@ void delete_var(t_minibox *minibox, char *key)
    }
 }
 
+/**
+ * @brief	frees the 'key', the 'value' and the given node itself
+ * 			//TODO: Maybe return NULL to set the pointer from the calling function to null
+ * @param	temp	var node to be freed
+ */
 void free_var(t_env_var *temp)
 {
     if (temp->key)
@@ -233,6 +269,12 @@ void free_var(t_env_var *temp)
 /*
     Go through the linked list of t_var and free each node
 */
+
+/**
+ * @brief	
+ * 
+ * @param	minibox minibox is a struct that stores all runtime related infos
+ */
 void free_vars(t_minibox *minibox)
 {
     t_env_var *current;
@@ -247,6 +289,12 @@ void free_vars(t_minibox *minibox)
     }
 }
 
+/**
+ * @brief	
+ * 
+ * @param	env_var	
+ * @return	int 	
+ */
 static int  env_counter(t_env_var *env_var)
 {
     if (!env_var)
@@ -255,6 +303,12 @@ static int  env_counter(t_env_var *env_var)
         return (1 + env_counter(env_var->next));
 }
 
+/**
+ * @brief	
+ * 
+ * @param	minibox	minibox is a struct that stores all runtime related infos
+ * @return char**	
+ */
 char **env_to_matrix(t_minibox *minibox)
 {
     char    **env_matrix;
