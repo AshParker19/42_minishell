@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2023/10/21 15:07:12 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/23 18:01:02 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define MINISHELL_H
 
 /* promt strings */
-# define PROMT      "frankenshell-> "
+# define PROMT      "frankenshell-->  "
 # define ERR_PROMT  "frankenshell: "
 
 /* system includes */

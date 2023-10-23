@@ -6,77 +6,106 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 13:07:56 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/23 15:02:49 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/23 18:06:57 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char    *get_cmd_path(t_minibox *minibox, char *cmd, int i)
+/*
+abs = true = full path absoulte path
+abs = false = relatvie path*/
+static char    *get_cmd_path(t_minibox *minibox, char *cmd, int i, t_bool abs)
 {
-    int     check;
-    char    *path;
-    
-    if (ft_strchr(cmd, '/'))
-    {
-        check = access(cmd, F_OK);
-        if (!check)
-            return (ft_strdup(cmd));
-        return (NULL);    
-    }
-    while (minibox->executor.path_dirs[++i])
-    {
-        path = ft_strcat_multi(3, minibox->executor.path_dirs[i], "/", cmd);
-        check = access(path, F_OK);
-        if (!check)
-            return (path);
-        else
-            free (path);    
-    }
-    return (NULL);
+	int     check;
+	char    *path;
+	char    *path_temp;
+	
+	path = NULL;
+	if (ft_strchr(cmd, '/'))
+	{
+		check = access(cmd, F_OK);
+		if (!check)
+			path = ft_strdup(cmd);
+	}
+	else
+	{
+		while (minibox->executor.path_dirs[++i])
+		{
+			path = ft_strcat_multi(3, minibox->executor.path_dirs[i], "/", cmd);
+			check = access(path, F_OK);
+			if (!check)
+				break ;
+			else
+			{
+				free (path);    
+				path = NULL;
+			}
+		}
+	}
+	// always null or absolute path
+	if (!path)
+		return (NULL);
+	else
+	{
+		if (abs)
+			return (path);
+		else
+		{
+			path_temp = ft_strrchr(path, '/');
+			path_temp++;
+			path_temp = ft_strdup(path_temp);
+			free (path);
+			return (path_temp);
+		}
+	}
 }
 
 void get_cmd_av(t_minibox *minibox, t_tree *cmd_node)
 {
-    char    *cur_args_str;
-    char    *temp;
-    
-    if (!cmd_node && !cmd_node->content) //TODO: not sure if it need a content
-        return ;
-    cur_args_str = get_cmd_path(minibox, cmd_node->content, -1);
-    if (!cur_args_str)
-        return ;
-    while (cmd_node->right)
-    {
-        if (cmd_node->right->content)
-        {
-            temp = ft_strcat_multi(3, cur_args_str, "|", cmd_node->right->content);
-            free (cur_args_str);
-            cur_args_str = temp;
-        }
-        cmd_node = cmd_node->right;
-    }
-    minibox->executor.cmd_av = ft_split(cur_args_str, '|');
-    free(cur_args_str);
+	char    *cur_args_str;
+	char    *temp;
+	
+	if (!cmd_node && !cmd_node->content) //TODO: not sure if it need a content
+		return ;
+	cur_args_str = get_cmd_path(minibox, cmd_node->content, -1, ft_false);
+	if (!cur_args_str)
+		return ;
+	while (cmd_node->right)
+	{
+		if (cmd_node->right->content)
+		{
+			temp = ft_strcat_multi(3, cur_args_str, "|", cmd_node->right->content);
+			free (cur_args_str);
+			cur_args_str = temp;
+		}
+		cmd_node = cmd_node->right;
+	}
+	minibox->executor.cmd_av = ft_split(cur_args_str, '|');
+	free(cur_args_str);
 }
 
 void    run_cmd_system(t_minibox *minibox, t_tree *cmd_node)
 {
-    char       *error_msg;
-    
-        if (minibox->executor.io.cmd_fd[CMD_IN] != -1)
-            close(minibox->executor.io.cmd_fd[CMD_IN]);
-        if (minibox->executor.io.cmd_fd[CMD_OUT] != -1)
-            close(minibox->executor.io.cmd_fd[CMD_OUT]);
-        get_cmd_av(minibox, cmd_node);
-        if(minibox->executor.cmd_av)
-            execve(minibox->executor.cmd_av[0], minibox->executor.cmd_av, env_to_matrix(minibox));
-        if (ft_strrchr(cmd_node->content, '/'))    
-            create_error_msg("nnn", "command '", ft_strrchr(cmd_node->content, '/'), "' not found");
-        else
-            create_error_msg("nnn", "command '", cmd_node->content, "' not found");
-        free_process(minibox);
-        exit(127);
-        // TODO: EXIT 
+	char	*error_msg;
+	char	*abs_cmd_path;
+	
+		if (minibox->executor.io.cmd_fd[CMD_IN] != -1)
+			close(minibox->executor.io.cmd_fd[CMD_IN]);
+		if (minibox->executor.io.cmd_fd[CMD_OUT] != -1)
+			close(minibox->executor.io.cmd_fd[CMD_OUT]);
+		abs_cmd_path = NULL;
+		get_cmd_av(minibox, cmd_node);
+		if(minibox->executor.cmd_av)
+		{
+			abs_cmd_path = get_cmd_path(minibox, cmd_node->content, -1, ft_true);
+			execve(abs_cmd_path, minibox->executor.cmd_av, env_to_matrix(minibox));
+		}
+		if (abs_cmd_path)
+			free (abs_cmd_path);
+		create_error_msg("nnn", "command '", cmd_node->content, "' not found");
+		free_process(minibox);
+		exit(127);
+		// TODO: EXIT 
 }
 
