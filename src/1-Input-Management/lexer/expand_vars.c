@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 12:58:49 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/21 21:27:55 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/23 14:59:01 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char    *insert_value(char *input, char *key, char *value, int quote_state)
     char    *inserted;
 
     rest_part = input;
-    while(*rest_part)
+    while (*rest_part)
     {
         update_qoute_state(&quote_state, *rest_part);
         if (quote_state != add_offset('\'') && *rest_part == '$')
@@ -106,7 +106,7 @@ void	expand_variables(t_minibox *minibox, int k, int k_end, int quote_state)
                 cur_key = ft_substr(minibox->input_quoted, k, k_end - k);
                 cur_value = get_var_value(minibox, cur_key); //TODO: try to sent an address of a current index
                 minibox->input_expanded = insert_value(minibox->input_expanded, cur_key, cur_value, OUT_Q);
-                free(cur_key);    
+                free(cur_key);     
             // }
         }            
         k++;

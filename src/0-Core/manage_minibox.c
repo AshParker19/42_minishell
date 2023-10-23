@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manage_minibox.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:49:13 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/20 18:11:37 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/23 16:20:58 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void free_cycle(t_minibox *minibox)
     minibox->tokens = NULL;
     delete_ast(minibox->root);
     minibox->root = NULL;
+	free_process(minibox);
 	if (minibox->executor.pid)
 	{
 		free (minibox->executor.pid);
