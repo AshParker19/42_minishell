@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 15:35:02 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/23 20:39:31 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/24 13:28:38 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,6 @@ void	mark_seps(t_minibox *minibox, int i, int quote_state);
 void 	update_qoute_state(int *quote_state, char cur_char);
 
 /* VARIABLES EXPANSION */
-char    find_limiter(char *input, int i);
-char    *insert_value(char *input, char *key, char *value, int quote_state);
 void	expand_variables(t_minibox *minibox, int k, int k_end, int quote_state);
 
 /* LEXER */

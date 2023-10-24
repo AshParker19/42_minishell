@@ -6,12 +6,21 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:00:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/18 15:19:11 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/24 15:45:09 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
 
+// TODO: 
+//  - deal with var expansion (if LIM isnt qouted)
+//  - deal with \ as a flag for $ \ and ` to be ignored
+//          so if inside the herdoc a is inputed b should remain
+//              a               b
+//              Hello\\World    Hello\World
+//              Hello $LESS     Hello -R
+//              Hello \$LESS    Hello $LESS
+//              Hello `World
 int    heredoc(t_tree *redir_node, int *cmd_in_fd, char *line)
 {
     char    *delimiter;
