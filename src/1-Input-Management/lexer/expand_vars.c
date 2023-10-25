@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 12:58:49 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/24 19:55:46 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/25 17:04:28 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,23 +69,35 @@ static void found_dollar(t_minibox *minibox, int quote_s, int *k, char cur_c)
 */
 void	expand_variables(t_minibox *minibox, int k, int k_end, int quote_state)
 {
-    char    *cur_key;
-    char    *cur_value;
     char    cur_char;
-    int     old_qoute_state;
-    int     end_of_key;
-    char    *temp_key;
+    int     consecutive_lt;
+
+    consecutive_lt = 0;
     
-    temp_key = NULL;
     minibox->input_expanded = NULL;
     while (minibox->input_quoted[k])
     {
         cur_char = minibox->input_quoted[k];
         update_qoute_state(&quote_state, cur_char);
-        if (quote_state != add_offset('\'') && cur_char == '$')
-            found_dollar(minibox, quote_state, &k, cur_char);
+        if (quote_state == OUT_Q)
+        {
+            if (remove_offset(cur_char) == '<')
+                consecutive_lt ++;
+            else
+                consecutive_lt = 0;
+        }
+        if (consecutive_lt == 2)
+        {
+            append_str(minibox, ft_chr2str(cur_char));
+            append_str(minibox, extract_limiter(minibox, &k, &quote_state));
+        }
         else
-           append_str(minibox, ft_chr2str(cur_char));
+        {
+            if (quote_state != add_offset('\'') && cur_char == '$')
+                found_dollar(minibox, quote_state, &k, cur_char);
+            else
+            append_str(minibox, ft_chr2str(cur_char));    
+        }
         k++;
     }
 }

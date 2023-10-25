@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 15:35:02 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/24 13:28:38 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/25 16:14:25 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,10 @@ void 	update_qoute_state(int *quote_state, char cur_char);
 
 /* VARIABLES EXPANSION */
 void	expand_variables(t_minibox *minibox, int k, int k_end, int quote_state);
+
+/* HEREDOC UTILS*/
+char    *extract_limiter(t_minibox *minibox, int *k, int *quote_state);
+
 
 /* LEXER */
 void	tokenize(t_minibox *minibox, int i);

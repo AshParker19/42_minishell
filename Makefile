@@ -41,6 +41,7 @@ SRCS = $(addprefix $(SRC_FOLDER), 				\
 	1-Input-Management/lexer/lexer.c 			\
 	1-Input-Management/lexer/quotes_handler.c	\
 	1-Input-Management/lexer/lexer_utils.c		\
+	1-Input-Management/lexer/utils_heredoc.c	\
 	1-Input-Management/parser/parser.c			\
 	1-Input-Management/parser/job.c				\
 	1-Input-Management/parser/command.c			\
