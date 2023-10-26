@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_manager.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:38:32 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/23 17:06:45 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/26 19:53:25 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ void	print_parser_output(t_minibox *minibox);
 void	manage_input(t_minibox *minibox)
 {
     minibox->error_status = false;
-    add_history(minibox->input_original);
-    printf("minibox->input_original:\t(%s)\n", minibox->input_original);
-    minibox->input_trimmed = ft_strtrim(minibox->input_original, " \n\t\v");
+    add_history(minibox->inp_orig);
+    printf("minibox->input_original:\t(%s)\n", minibox->inp_orig);
+    minibox->input_trimmed = ft_strtrim(minibox->inp_orig, " \n\t\v");
     printf("minibox->input_trimmed:\t\t(%s)\n", minibox->input_trimmed);
     mark_seps(minibox, 0, 0);
     printf("minibox->input_quoted:\t\t(%s)\n", minibox->input_quoted);

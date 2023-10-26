@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2023/10/23 22:01:08 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/26 19:53:25 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ typedef struct s_minibox
     char        **env;
     t_env_var   *vars;
     
-    char        *input_original;
+    char        *inp_orig;
     char        *input_trimmed;
     char        *input_quoted;
     char        *input_expanded;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_heredoc.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 15:45:25 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/25 18:21:21 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/26 19:20:19 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ char *extract_limiter(t_minibox *minibox, int *k, int *quote_state)
 {
     char    cur_char;
     char    *lim;
-    char    *lim_temp;
     t_bool  lim_start;
 
     lim = NULL;
@@ -94,15 +93,13 @@ char *extract_limiter(t_minibox *minibox, int *k, int *quote_state)
             if (*quote_state == OUT_Q)
                 if (ft_issep(cur_char) || add_offset(cur_char) == NO_SPACE)
                     break ;
-            lim_temp = ft_strcat_multi(2, lim, ft_chr2str(cur_char));
-            free_whatever("p", lim);
-            lim = lim_temp;
+            lim = append_str(lim, ft_chr2str(cur_char),ft_true);
         }
         (*k)++;
     }
-    printf("---\nTHIS IS OUR LIM BEFORE TREATING $\": (%s)\n", lim);
+    // printf("---\nTHIS IS OUR LIM BEFORE TREATING $\": (%s)\n", lim);
     lim = treat_case_dollar(lim);
-    printf("---\nTHIS IS OUR LIM: (%s)\n", lim);
+    // printf("---\nTHIS IS OUR LIM: (%s)\n", lim);
     (*k)--;
     return (lim);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manage_minibox.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:49:13 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/23 16:20:58 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/26 19:53:25 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	initialize_box(t_minibox *minibox, char **env)
 {
 	minibox->env = env;
 	minibox->vars = NULL;
-	minibox->input_original = NULL;
+	minibox->inp_orig = NULL;
 	minibox->input_trimmed = NULL;
 	minibox->input_quoted = NULL;
 	minibox->input_expanded = NULL;
@@ -38,8 +38,8 @@ void	initialize_box(t_minibox *minibox, char **env)
 
 void free_input_strings(t_minibox *minibox)
 {
-	if (minibox->input_original)
-		free(minibox->input_original);
+	if (minibox->inp_orig)
+		free(minibox->inp_orig);
 	if (minibox->input_trimmed)
 		free(minibox->input_trimmed);
 	if (minibox->input_quoted)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:23:39 by astein            #+#    #+#             */
-/*   Updated: 2023/10/23 21:36:32 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/26 19:23:28 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ void	free_process(t_minibox *minibox)
 		close (minibox->executor.io.dup_fd[CMD_IN]);
 	if (minibox->executor.io.dup_fd[CMD_OUT] != -1)
 		close (minibox->executor.io.dup_fd[CMD_OUT]);
+
+	
 }
 
 /* Print the ouput of the AST built by the Parser*/

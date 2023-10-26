@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:06:17 by astein            #+#    #+#             */
-/*   Updated: 2023/10/21 15:47:05 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/26 19:53:25 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ int	main(int ac, char **av, char **env)
 	
 	while (1)
 	{
-		minibox.input_original = readline(PROMT);
-		if (!minibox.input_original)
+		minibox.inp_orig = readline(PROMT);
+		if (!minibox.inp_orig)
 			builtin_exit(&minibox, NULL);
 		else
 			// do stuff with the command

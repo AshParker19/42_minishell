@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:47:15 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/23 16:57:02 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/26 16:17:29 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static t_bool    handle_redir(t_minibox *minibox, t_tree *redir_node, int *in_fd
     {
         if (*in_fd != -1)
             close (*in_fd);
-        heredoc(redir_node, in_fd, NULL); //TODO: if return 1 - handle errors
+        heredoc(minibox, redir_node, in_fd, NULL); //TODO: if return 1 - handle errors
         if (*in_fd == -1)
             return (error_exit_child(minibox));
     }
