@@ -27,6 +27,53 @@ output: qouted input
 replacing all ```$ABC``` with corresponing values (they can bee null)
 only outside of single qouted block!
 
+>>>>>>>>>>
+
+PROJEKT: FIX THE VAR EXPANSION, HEREDOCS AND TOKENIZER IN ONE GO!
+
+1. TRIM
+2. MARK QUOTES AND SPACES
+3.1 VAR EXPANSION
+	- leave all as it is (care about qoute state for expansion...etc.)
+	- add a function that detects somehow the presense of "<<"    keep in mind that it CANT be like "<        <" atm out tokenizer accepts this case
+		if we find << we switsh to anotger var expension mode -> 3.2 extract_limiter
+		
+3.2 extract_limiter (var expansion for << case)
+	- same as 3.1 with some small changes!
+	- this function automaticlly switches back to 3.1 if the end of the limiter of << was found! (IT SHOULD RETURN HOW MANY CHARS BELONG TO THE LIM SO THAT 3.1 KNOWS WHERE TO CONTINUE)
+		- its over if we are
+			- outside of qoute state
+			- find a non printable char
+			- or input is over (e.g. << lol)
+	- this function first doesnt do anything else but creating a new string with everything that belomgs to the Limiter (so no Var expansion, no qoute removing)
+	- instead its just copying the read chars to a new string we could call "limiter"
+		- important! here we need to remove_offest of all quotes!    ? -> "
+	- when we found the end of the LIMITTER we need to somehow check all the qoutes
+		- IMPORTANT: A delimiter does never expand its variables in bash: so $LESS as a limiter stays  fucking $LESS
+			- only execption is if the $ is infront of an contextual qoute (like << $'USER' or << $"USER") then
+				- remove dollar and continue
+		- to deal with the qoutes inside the limiter those rules apply
+			- remeove contextual qoutes
+			- leave none contextual qoutes
+			- if found any qoute at all! MARK IT and pass it over to the heredoc so the heredoc know to ignore var expension
+				- IDEA: the contextual qoutes by now are real qoutes (no garbage)
+					- maybe we can just leave them in the string and the tokenizer will not delete it
+						-> so it might end up in the value of the redir node?
+						-> herdoc can trimm them off and then doest do expansion
+						
+4. TOKENIZE
+	- works atm okayish but
+	- after the expansion maybe we need to merge nodes together (like A=s and l$A should return ls)
+	- we need to check if there are spaces between cmd and arg (like ls"-l" -> should be (ls-l: command not found)
+	- MARTIM SAYS:
+		ONLY VALID TOKEN SEPERATORS ARE (they always need to be outside of quotes)
+			- whitspaces
+			- pipes 
+			- redirs
+5. PARSE
+6. EXECUTION
+>>>>>>>>>>
+
 #### Tokenize
 seting up a linked list. seperators are
 - pipes (```|```)
