@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 12:11:14 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/17 15:17:41 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/21 15:02:06 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,11 @@ int	get_token_type(char c)
 	return (WORD_TOKEN);		
 }
 
-// /*
-// 	called in a case if just a sequence of alphanumeric characters without any 
-// 	separators needs to be transformen into a token. uses call by reference
-// 	to update int i in a calling function to shift the string correctly
-// */
+/*
+	called in a case if just a sequence of alphanumeric characters without any 
+	separators needs to be transformen into a token. uses call by reference
+	to update int i in a calling function to shift the string correctly
+*/
 static void	just_word(t_minibox *minibox, char *str, int *i)
 {
 	int	j;

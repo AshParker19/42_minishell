@@ -41,6 +41,7 @@ SRCS = $(addprefix $(SRC_FOLDER), 				\
 	1-Input-Management/lexer/lexer.c 			\
 	1-Input-Management/lexer/quotes_handler.c	\
 	1-Input-Management/lexer/lexer_utils.c		\
+	1-Input-Management/lexer/utils_heredoc.c	\
 	1-Input-Management/parser/parser.c			\
 	1-Input-Management/parser/job.c				\
 	1-Input-Management/parser/command.c			\
@@ -49,13 +50,13 @@ SRCS = $(addprefix $(SRC_FOLDER), 				\
 	1-Input-Management/parser/redir_in.c		\
 	1-Input-Management/parser/redir_out.c		\
 	1-Input-Management/parser/parser_utils.c	\
-	2-Execution/executor.c						\
-	2-Execution/executor_utils.c				\
-	2-Execution/utils_system.c					\
-	2-Execution/utils_builtin.c					\
-	2-Execution/pipes.c							\
-	2-Execution/redirection.c					\
-	2-Execution/heredoc.c						\
+	2-Execution/executor/executor.c				\
+	2-Execution/executor/executor_utils.c		\
+	2-Execution/executor/utils_system.c			\
+	2-Execution/executor/utils_builtin.c		\
+	2-Execution/executor/pipes.c				\
+	2-Execution/executor/redirection.c			\
+	2-Execution/executor/heredoc.c				\
 	2-Execution/builtins/cd.c					\
 	2-Execution/builtins/echo.c					\
 	2-Execution/builtins/pwd.c					\
@@ -63,7 +64,6 @@ SRCS = $(addprefix $(SRC_FOLDER), 				\
 	2-Execution/builtins/unset.c				\
 	2-Execution/builtins/env.c					\
 	2-Execution/builtins/exit.c					\
-	2-Execution/builtins_tester.c				\
 	)
 
 # Object files

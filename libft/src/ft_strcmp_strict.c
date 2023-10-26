@@ -3,23 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strcmp_strict.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 20:14:43 by astein            #+#    #+#             */
-/*   Updated: 2023/10/20 20:14:45 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/23 18:34:05 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft_printf.h"
 
-/* This function takes two strings and compares:
-    - they need to have the same length
-    - and all characters have to match
-
-    return bool
-        true    if they match
-        false   if they don't
-*/
+/**
+ * @brief   This function takes two strings and compares:
+ *              - they need to have the same length
+ *              - and all characters have to match
+ * 
+ * @param   str_a   string to compare
+ * @param   str_b   string to compare
+ * @return  t_bool
+ *              ft_true    if they match (all chars and length)
+ *              ft_false   if they don't and if any doesnt exist
+ */
 t_bool  ft_strcmp_strict(const char *str_a, const char *str_b)
 {
     if(!str_a || !str_b)

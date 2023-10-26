@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:06:17 by astein            #+#    #+#             */
-/*   Updated: 2023/10/20 17:41:34 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/21 15:47:05 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	main(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 	initialize_box(&minibox, env);
-	initialize_signals();
+	// initialize_signals();
 	load_vars(&minibox);
 	load_executor(&minibox);
 	// test_builtins(&minibox);

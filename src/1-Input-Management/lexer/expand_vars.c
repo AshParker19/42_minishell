@@ -3,92 +3,101 @@
 /*                                                        :::      ::::::::   */
 /*   expand_vars.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 12:58:49 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/14 15:58:48 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/25 17:04:28 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
 
-/*
-    used to find the end of an var key.
-    a key ends if the next char is not alphanum or underscore
-    returns: the character which is located after a "word"
-*/
-char    find_limiter(char *input, int i)
+static void append_str(t_minibox *minibox, char *add_str)
 {
-    input++;
-    while (ft_isalnum(input[i]) || input[i] == '_')
-        i++;
-    return (input[i]);    
+    char    *temp;
+
+    temp =  ft_strcat_multi(2, minibox->input_expanded, add_str);
+    free(minibox->input_expanded);
+    minibox->input_expanded = temp;
 }
 
-/*
-    if a variable key was correct this fucntion gets the parts of the string 
-    which are located before and after the variable name, then expands 
-    the variable, and then join all the 3 parts, if a key wasn't correct, 
-    it joins what was before and after the variable
-*/
-char    *insert_value(char *input, char *key, char *value, int quote_state)
+static void found_key(t_minibox *minibox, int *k)
 {
-    char    *first_part;
-    char    *rest_part;
-    char    *inserted;
-    int     first_part_len;
+    int     end_of_key;
+    char    *temp_key;
+    
+    end_of_key = *k;
+    while (minibox->input_quoted[end_of_key]
+            && (ft_isalnum(minibox->input_quoted[end_of_key])
+            || minibox->input_quoted[end_of_key] == '_'))
+                end_of_key++;
+    temp_key = ft_substr(minibox->input_quoted, *k, end_of_key - *k);
+    append_str(minibox, get_var_value(minibox, temp_key));
+    free(temp_key);
+    *k = end_of_key - 1;
+}
 
-    rest_part = input;
-    while(*rest_part)
+static void found_dollar(t_minibox *minibox, int quote_s, int *k, char cur_c)
+{
+    int     old_qoute_s;
+    
+    old_qoute_s = quote_s;
+    (*k)++;
+    cur_c = minibox->input_quoted[*k];
+    if (cur_c != '\0')
     {
-        update_qoute_state(&quote_state, *rest_part);
-        if (quote_state != add_offset('\'') && *rest_part == '$')
-            break;
-        rest_part++;
+        update_qoute_state(&quote_s, cur_c);
+        if (quote_s != old_qoute_s)
+            append_str(minibox, ft_chr2str(cur_c));
+        else if (cur_c == '?')
+            append_str(minibox, ft_itoa(minibox->executor.exit_status));
+        else if (cur_c == NO_SPACE || ft_isspace(cur_c))
+            append_str(minibox, "$ ");//TODO: we this fixes the "echo      $    ?" double space issue; we need to chek again why we had it there before removeing it!!!
+        else if (ft_isalnum(cur_c) || cur_c == ' ')
+            found_key(minibox, k);
+        else if(cur_c == '\'' || cur_c == '"')
+            append_str(minibox, ft_strjoin(ft_chr2str('$'), ft_chr2str(cur_c))); //FIXME: this shit is gonna leak as fuck
     }
-    rest_part = ft_strchr(rest_part, find_limiter(rest_part, 0));
-    first_part_len = ft_strlen(input)
-		- ft_strlen(rest_part) - (ft_strlen(key) + 1); 
-    first_part = ft_substr(input, 0, first_part_len);
-    if (value)
-        inserted = ft_strcat_multi(3, first_part, value, rest_part);
     else
-        inserted = ft_strcat_multi(2, first_part, rest_part);
-    free (input);
-	free (first_part);
-    return (inserted);
+        append_str(minibox, ft_chr2str('$'));
 }
 
 /*
 	traverses through the input string, locates all the variable
 	names checking for a dollar sign, then replaces all the variable names
-    by their values which are received from environment
+    by their values which are received from the environment
 */
 void	expand_variables(t_minibox *minibox, int k, int k_end, int quote_state)
 {
-    char    *cur_key;
-    char    *cur_value;
     char    cur_char;
+    int     consecutive_lt;
+
+    consecutive_lt = 0;
     
-    minibox->input_expanded = ft_strdup(minibox->input_quoted);
-    while(minibox->input_quoted[k])
+    minibox->input_expanded = NULL;
+    while (minibox->input_quoted[k])
     {
         cur_char = minibox->input_quoted[k];
         update_qoute_state(&quote_state, cur_char);
-        if(quote_state != add_offset('\'') && cur_char == '$')
+        if (quote_state == OUT_Q)
         {
-            k++;
-            k_end = k;
-            while ((ft_isalnum(minibox->input_quoted[k_end])
-                ||  minibox->input_quoted[k_end] == '_'))
-                 k_end++;
-	        cur_key = ft_substr(minibox->input_quoted, k, k_end - k);
-            // TODO: cur_key is "$" or "$?" -> treat special cases
-            cur_value = get_var_value(minibox, cur_key); //TODO: try to sent an address of a current index
-            minibox->input_expanded = insert_value(minibox->input_expanded, cur_key, cur_value, OUT_Q);
-            free(cur_key);    
-        }            
+            if (remove_offset(cur_char) == '<')
+                consecutive_lt ++;
+            else
+                consecutive_lt = 0;
+        }
+        if (consecutive_lt == 2)
+        {
+            append_str(minibox, ft_chr2str(cur_char));
+            append_str(minibox, extract_limiter(minibox, &k, &quote_state));
+        }
+        else
+        {
+            if (quote_state != add_offset('\'') && cur_char == '$')
+                found_dollar(minibox, quote_state, &k, cur_char);
+            else
+            append_str(minibox, ft_chr2str(cur_char));    
+        }
         k++;
     }
 }
-

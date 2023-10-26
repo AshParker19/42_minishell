@@ -6,18 +6,74 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:00:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/18 15:19:11 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/25 19:00:29 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
 
+/**
+ * @brief   a heredoc doesnt do var expansion for its input if the limiter
+ *          contains any quotes!
+ * 
+ *          this function does two things:
+ *              - it returns a bool regarding if there are any qoutes in the lim
+ * 
+ *          INPUT                   RETURN      ADUJSTED LIM
+ *          Hello" World"           -> ft_true  -> Hello World
+ *          Hello World             -> ft_false -> Hello World
+ *          "He''o World"           -> ft_true  -> He''o World
+ * 
+ * @param str 
+ * @return t_bool 
+ */
+static  t_bool check_qoutes(char *str)
+{
+    int qoute_state;
+    t_bool  found_qoutes;
+    int     i;
+    i = -1;
+    char *temp_lim;
+
+    temp_lim =NULL;
+
+    found_qoutes = ft_false;
+    while (str[++i])
+    {
+        if (str[i] == '\'' || str[i] == '"')
+            found_qoutes = ft_true;
+        // copy form str to temp_lim
+        // update the qoute state with updateqoute (think of add ? remove offset)
+        // if qoutes are contextual just dont copy them to temp_lim
+    }
+    free(str);
+    str = ft_strdup(temp_lim);
+    free(temp_lim);
+    return (found_qoutes);
+}
+
+// TODO: 
+//  - deal with var expansion (if LIM isnt qouted)
+//  - deal with \ as a flag for $ \ and ` to be ignored
+//          so if inside the herdoc a is inputed b should remain
+//              a               b
+//              Hello\\World    Hello\World
+//              Hello $LESS     Hello -R
+//              Hello \$LESS    Hello $LESS
+//              Hello `World
 int    heredoc(t_tree *redir_node, int *cmd_in_fd, char *line)
 {
     char    *delimiter;
     int     fd[2];
     int     status;
+    t_bool  expand_vars;
 
+    expand_vars = ft_false;
+
+    // 1. check if it needs to do var expansion
+    // 2. read until limiter (lim without qoutes!)
+    // 3. do the expansion if nessesary
+    
     if (pipe(fd) < 0)
         return (1);
     signal(SIGINT, SIG_IGN);
@@ -29,6 +85,7 @@ int    heredoc(t_tree *redir_node, int *cmd_in_fd, char *line)
         signal(SIGINT, SIG_DFL);
         close(fd[P_RIGHT]);
         delimiter = ft_strjoin(redir_node->content, "\n");
+        expand_vars = check_qoutes(&delimiter); 
         while (true)
         {
             write (STDIN_FILENO, "> ", 2);

@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 15:35:02 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/20 12:43:57 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/25 16:14:25 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,17 +76,19 @@ void	mark_seps(t_minibox *minibox, int i, int quote_state);
 void 	update_qoute_state(int *quote_state, char cur_char);
 
 /* VARIABLES EXPANSION */
-char    find_limiter(char *input, int i);
-char    *insert_value(char *input, char *key, char *value, int quote_state);
 void	expand_variables(t_minibox *minibox, int k, int k_end, int quote_state);
+
+/* HEREDOC UTILS*/
+char    *extract_limiter(t_minibox *minibox, int *k, int *quote_state);
+
 
 /* LEXER */
 void	tokenize(t_minibox *minibox, int i);
 int		add_offset(int c);
 int		remove_offset(int c);
-bool	ft_isspace(char c);
-bool	ft_issep(char c);
-bool	ft_isqoute(char c);
+t_bool	ft_isspace(char c);
+t_bool	ft_issep(char c);
+t_bool	ft_isqoute(char c);
 
 /* PARSER */
 void	parse(t_minibox *minibox);
@@ -94,7 +96,7 @@ void	print_parser_output(t_minibox *minibox);
 t_tree  *ast_create_node(int node_type);
 void    delete_ast(t_tree *root);
 void    connect_subtree(t_tree **root, t_tree *node_to_add, int on_right);
-bool    validate_token(t_token *token, int next_amount, int token_type);
+t_bool    validate_token(t_token *token, int next_amount, int token_type);
 void	*put_syntax_error(t_minibox *minibox, t_token *error_token);
 
 /* functions for BNF notation to build an AST */

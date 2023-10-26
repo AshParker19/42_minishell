@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 18:26:39 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/06 19:24:31 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/23 20:39:35 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_tree *ast_create_node(int node_type)
     return (new_node);
 }
 
-bool    validate_token(t_token *token, int next_amount, int token_type)
+t_bool    validate_token(t_token *token, int next_amount, int token_type)
 {
 	t_token	*temp;
 	int		i;

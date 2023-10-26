@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_manager.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:38:32 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/20 18:08:56 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/23 17:06:45 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	manage_input(t_minibox *minibox)
             free_cycle(minibox);
             return ;
     }
-    tokenize(minibox, 0);
+    tokenize(minibox, 0); // TODO: we dont check if it returns error
     parse(minibox);
     if (minibox->root->type == CMD_NODE && ft_strcmp_strict(minibox->root->content, "exit"))
         builtin_exit(minibox, minibox->root->right);

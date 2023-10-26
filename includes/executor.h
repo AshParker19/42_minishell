@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 17:55:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/20 12:44:20 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/23 16:10:31 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ enum e_pipe_side
 
 /******************************************************************************/
 /* executor */
-void    execute(t_minibox *minibox);
+t_bool  execute(t_minibox *minibox);
 void    run_cmd_system(t_minibox *minibox, t_tree *cmd_node);
 
 /* pipes */
@@ -65,8 +65,7 @@ void    setup_pipes(t_minibox *minibox, int *cur_pipe);
 void    setup_process_std(t_minibox *minibox);
 
 /* redirections */
-void    handle_redir(t_tree *node, int *in_fd, int *out_fd);
-void    setup_redir(t_minibox *minibox, t_tree *redir_node);
+t_bool    setup_redir(t_minibox *minibox, t_tree *redir_node);
 
 /* heredoc */
 int    heredoc(t_tree *redir_node, int *cmd_in_fd, char *line);

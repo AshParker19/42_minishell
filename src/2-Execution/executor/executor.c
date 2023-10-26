@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:19:44 by astein            #+#    #+#             */
-/*   Updated: 2023/10/21 10:22:44 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/23 21:05:21 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,26 @@ static void    run_cmd_main(t_minibox *minibox, t_tree *cmd_node)
 	else
 	{
 		run_cmd_system(minibox, cmd_node);
-		free_process(minibox);
+		free_process(minibox);	
 	}
 }
 /*
 	
 */
-static void single_cmd(t_minibox *minibox)
+static t_bool single_cmd(t_minibox *minibox)
 {
 	minibox->executor.io.cmd_fd[CMD_IN] = STDIN_FILENO;
 	minibox->executor.io.cmd_fd[CMD_OUT] = STDOUT_FILENO;
-	setup_redir(minibox, minibox->root->left);
+	if (!setup_redir(minibox, minibox->root->left))
+	{
+		if (minibox->executor.io.cmd_fd[CMD_IN] != STDIN_FILENO)
+			close (minibox->executor.io.cmd_fd[CMD_IN]);
+		if (minibox->executor.io.cmd_fd[CMD_OUT] != STDOUT_FILENO)
+			close (minibox->executor.io.cmd_fd[CMD_OUT]);  
+		minibox->executor.io.cmd_fd[CMD_IN] = -1;
+		minibox->executor.io.cmd_fd[CMD_OUT] = -1;
+		return (ft_false);
+	}
 	run_cmd_builtin(minibox, minibox->root);  
 	if (minibox->executor.io.cmd_fd[CMD_IN] != STDIN_FILENO)
 		close (minibox->executor.io.cmd_fd[CMD_IN]);
@@ -45,6 +54,7 @@ static void single_cmd(t_minibox *minibox)
 	minibox->executor.io.cmd_fd[CMD_IN] = -1;
 	minibox->executor.io.cmd_fd[CMD_OUT] = -1;
 	free_process(minibox);
+	return (ft_true);
 }
 
 static void perform_child(t_minibox *minibox, t_tree *cmd_node, int cmd_pos, int *cur_pipe)
@@ -57,13 +67,15 @@ static void perform_child(t_minibox *minibox, t_tree *cmd_node, int cmd_pos, int
 		minibox->executor.io.cmd_fd[CMD_OUT] = STDOUT_FILENO;
 	}
 	setup_pipes(minibox, cur_pipe);
-	setup_redir(minibox, cmd_node->left);
+	if (!setup_redir(minibox, cmd_node->left))
+		free_and_close_box(minibox, minibox->executor.exit_status);
 	setup_process_std(minibox);
 	if (cmd_pos == FIRST_CMD || cmd_pos == MIDDLE_CMD)
 		close(cur_pipe[P_RIGHT]);
 	if (cmd_pos != FIRST_CMD && minibox->executor.io.prev_pipe[P_RIGHT] != -1)
 		close(minibox->executor.io.prev_pipe[P_RIGHT]);
 	run_cmd_main(minibox, cmd_node);
+	free_and_close_box(minibox, minibox->executor.exit_status);
 }
 
 static void	perform_parent(t_minibox *minibox, t_tree *cmd_node, int cmd_pos, int *cur_pipe)
@@ -78,7 +90,7 @@ static void	perform_parent(t_minibox *minibox, t_tree *cmd_node, int cmd_pos, in
 	free_process(minibox);	
 }
 
-void    execute_cmd(t_minibox *minibox, t_tree *cmd_node, int cmd_pos)
+t_bool    execute_cmd(t_minibox *minibox, t_tree *cmd_node, int cmd_pos)
 {
 	int cur_pipe[2];
 
@@ -87,7 +99,7 @@ void    execute_cmd(t_minibox *minibox, t_tree *cmd_node, int cmd_pos)
 	// FIXME: if we change minishell to frankenshell we have to change it here as well
 	// checks if we do NOT have a single builtin cmd -> then fork!
 	if (cmd_pos == SINGLE_CMD && is_cmd_builtin(minibox, cmd_node->content))
-		single_cmd(minibox);
+		return (single_cmd(minibox));
 	else
 	{
 		setup_use_pipe(minibox, cmd_pos);
@@ -105,6 +117,7 @@ void    execute_cmd(t_minibox *minibox, t_tree *cmd_node, int cmd_pos)
 		else
 			perform_parent(minibox, cmd_node, cmd_pos, cur_pipe);
 	}
+	return (ft_true);
 }
 
 void    wait_for_execution(t_minibox *minibox)
@@ -127,17 +140,20 @@ void    wait_for_execution(t_minibox *minibox)
  * 
  *  then calls execute_cmd and waits until all childs died
 */
-void    execute(t_minibox *minibox) //TODO: do exit for builtins
+t_bool    execute(t_minibox *minibox) //TODO: do exit for builtins
 {   
 	t_tree  *current;
 	
 	reset_executor(minibox);
 	minibox->executor.pid = ft_calloc(cmd_counter(minibox->root), sizeof(int));
 	if (!minibox->executor.pid)
-		return ; //TODO: EXIT NICELY
+		return (ft_false);
 	current = minibox->root;
 	if (current->type == CMD_NODE)
-		execute_cmd(minibox, current, SINGLE_CMD);
+	{
+		if (!execute_cmd(minibox, current, SINGLE_CMD))
+			return (ft_false);
+	}
 	else
 	{
 		execute_cmd(minibox, current->left, FIRST_CMD);
@@ -149,4 +165,10 @@ void    execute(t_minibox *minibox) //TODO: do exit for builtins
 		execute_cmd(minibox, current->right, LAST_CMD);   
 	}
 	wait_for_execution(minibox);
+	if (WIFEXITED(minibox->executor.exit_status))
+		minibox->executor.exit_status
+			= WEXITSTATUS(minibox->executor.exit_status);
+	return (ft_true);
 }
+
+

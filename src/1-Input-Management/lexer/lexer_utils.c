@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   im_utils.c                                         :+:      :+:    :+:   */
+/*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 15:05:22 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/01 11:43:10 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/23 20:39:12 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,19 +31,20 @@ int	remove_offset(int c)
 */
 
 /* if the receiving character is single or double quote */
-bool	ft_isqoute(char c)
+t_bool	ft_isqoute(char c)
 {
 	return (c == '\'' || c == '"');
 }
 
 /* if it is one of the separators */
-bool	ft_issep(char c)
+
+t_bool	ft_issep(char c)
 {
 	return (c == '|' || c == '>' || c == '<');
 }
 
 /* if it is one of the whitespaces */
-bool	ft_isspace(char c)
+t_bool	ft_isspace(char c)
 {
 	return (c == ' ' || c == '\n' || c == '\t' || c == '\v');
 }

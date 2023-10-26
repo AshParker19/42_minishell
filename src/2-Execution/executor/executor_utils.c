@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:23:39 by astein            #+#    #+#             */
-/*   Updated: 2023/10/20 14:10:07 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/23 21:36:32 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void load_executor(t_minibox *minibox)
 	path = get_var_value(minibox, "PATH");
 	minibox->executor.path_dirs = ft_split(path, ':');
 	initialize_builtins(minibox);
+	minibox->executor.exit_status = EXIT_SUCCESS;
 }
 
 int		cmd_counter(t_tree *tree_node)
@@ -51,7 +52,10 @@ void	free_process(t_minibox *minibox)
 {
 	// TODO: DOUBLE CHECK IF RIGHT
 	if (minibox->executor.cmd_av)
+	{
 		free_whatever("m", minibox->executor.cmd_av);
+		minibox->executor.cmd_av = NULL;
+	}
 	if (minibox->executor.io.cmd_fd[CMD_IN] != -1)
 		close (minibox->executor.io.cmd_fd[CMD_IN]);	
 	if (minibox->executor.io.cmd_fd[CMD_OUT] != -1)

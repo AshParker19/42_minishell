@@ -6,13 +6,21 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:47:15 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/19 16:21:06 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/23 16:57:02 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
 
-void    handle_redir(t_tree *redir_node, int *in_fd, int *out_fd)
+static   t_bool error_exit_child(t_minibox *minibox)
+{
+    create_error_msg("nn", ERR_PROMT, strerror(errno));
+    // if (minibox->executor.pid_index != -1)
+        // exit(EXIT_FAILURE); //TODO: Handle errors
+    return (ft_false);
+}
+
+static t_bool    handle_redir(t_minibox *minibox, t_tree *redir_node, int *in_fd, int *out_fd)
 {
     if (redir_node->type == RED_IN)
     {
@@ -20,7 +28,7 @@ void    handle_redir(t_tree *redir_node, int *in_fd, int *out_fd)
             close(*in_fd);
         *in_fd = open(redir_node->content, O_RDONLY, 0666);
         if (*in_fd == -1)
-            exit(EXIT_FAILURE); //TODO: Handle errors
+            return (error_exit_child(minibox));
     }
     else if (redir_node->type == RED_IN_HD)
     {
@@ -28,7 +36,7 @@ void    handle_redir(t_tree *redir_node, int *in_fd, int *out_fd)
             close (*in_fd);
         heredoc(redir_node, in_fd, NULL); //TODO: if return 1 - handle errors
         if (*in_fd == -1)
-            exit(EXIT_FAILURE);
+            return (error_exit_child(minibox));
     }
     else if (redir_node->type == RED_OUT_TR)
     {
@@ -36,19 +44,22 @@ void    handle_redir(t_tree *redir_node, int *in_fd, int *out_fd)
             close(*out_fd);
         *out_fd = open(redir_node->content, O_WRONLY | O_CREAT | O_TRUNC, 0666);
         if (*out_fd == -1)
-            exit(EXIT_FAILURE); //TODO: Handle errors
+            return (error_exit_child(minibox));
     }
     else if (redir_node->type == RED_OUT_AP)
     {
         if (*out_fd != -1)
             close(*out_fd);
         *out_fd = open(redir_node->content, O_WRONLY | O_CREAT | O_APPEND, 0666);
-        if (*out_fd == -1)
-            exit (EXIT_FAILURE);    
+            return (error_exit_child(minibox));
     }
+    return (ft_true);
 }
 
-void    setup_redir(t_minibox *minibox, t_tree *redir_node)
+/*
+returns if file could be opened correct
+*/
+t_bool    setup_redir(t_minibox *minibox, t_tree *redir_node)
 {
     int in_fd;
     int out_fd;
@@ -59,7 +70,8 @@ void    setup_redir(t_minibox *minibox, t_tree *redir_node)
     out_fd = -1;
     while (tmp)
     {
-        handle_redir(tmp, &in_fd, &out_fd);
+        if (!handle_redir(minibox, tmp, &in_fd, &out_fd))
+            return (ft_false);
         tmp = tmp->left;
     }
     if (in_fd != -1)
@@ -74,4 +86,5 @@ void    setup_redir(t_minibox *minibox, t_tree *redir_node)
             close(minibox->executor.io.cmd_fd[CMD_OUT]);
         minibox->executor.io.cmd_fd[CMD_OUT] = out_fd;
     }
+    return (ft_true);
 }
