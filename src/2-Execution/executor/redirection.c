@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:47:15 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/27 15:36:00 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/27 22:13:38 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static   t_bool error_exit_child(t_mbox *mbox)
 {
-    create_error_msg("nn", ERR_PROMT, strerror(errno));
+    create_error_msg("nn", ERR_PROMT, strerror(errno)); //FIXME: prints some crap to the terminal
     // if (mbox->executor.pid_index != -1)
         // exit(EXIT_FAILURE); //TODO: Handle errors
     return (ft_false);

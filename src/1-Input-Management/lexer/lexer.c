@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 12:11:14 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/27 15:14:01 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/27 23:42:42 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,39 @@ void	print_tokens(t_mbox *mbox)
 		cur = cur->next;
 	}
 }
+/**
+ * @brief	accepts a string which could contain shifted values and cheks if:
+ * 				- contains only one char
+ * 					- and is a shiffted special char  '|', '<', '>'
+ * 						-> shift it back -> return it
+ * 					- else
+ * 						-> return original character
+ * 				- else 
+ 					remove all the shifted chars hence they are context quotes
+ * 
+ * @param	str		str to be checked
+ * @return	char* 	clean string
+ */
+static	char	*check_shifted_values(char *str)
+{
+	char 	*temp;
+	int		i;
+	
+	if (!str)
+		return (NULL);
+	temp = NULL;
+	if (ft_strlen(str) == 1 && str[0] < 0)
+		temp = ft_chr2str(remove_offset(str[0]));
+	else
+	{
+		i = -1;
+		while (str[++i])
+			if (str[i] != add_offset('\'') && str[i] != add_offset('"'))
+				temp = append_str(temp, ft_chr2str(str[i]), ft_true);	
+	}
+	free (str);		
+	return (temp);
+}
 
 /* add a new token to the end of tokens linked list and assigns variables */
 static void	add_token(t_mbox *mbox, char *value, int token_type)
@@ -34,14 +67,8 @@ static void	add_token(t_mbox *mbox, char *value, int token_type)
 	if (!new_t)
 		return ;
 	new_t->type = token_type;
-	if (value[0] < 0)
-	{
-		new_t->value = ft_calloc(2, sizeof(char));
-		new_t->value[0] = remove_offset(value[0]);
-		free(value);
-	}
-	else
-		new_t->value = value;
+	value = check_shifted_values(value);
+	new_t->value = value;
 	if (!mbox->tokens)
 		mbox->tokens = new_t;
 	else
@@ -51,7 +78,6 @@ static void	add_token(t_mbox *mbox, char *value, int token_type)
 			cur = cur->next;
 		cur->next = new_t;
 	}
-	
 }
 /*
 	accepts a not shifted character, shifts it back to a correct ASCII value
@@ -77,7 +103,7 @@ int	get_token_type(char c)
 static void	just_word(t_mbox *mbox, char *str, int *i)
 {
 	int	j;
-
+	// heloo?????|????wc
 	if (ft_issep(remove_offset(*str)))
 	{
 		add_token(mbox, ft_substr(str, 0, 1), get_token_type(*str));
@@ -88,8 +114,9 @@ static void	just_word(t_mbox *mbox, char *str, int *i)
 		j = 0;
 		while (str[j])
 		{
-			if (ft_issep(remove_offset(str[j]))
-				|| ft_isqoute(remove_offset(str[j]))) 
+			// if (ft_issep(remove_offset(str[j]))
+			// 	|| ft_isqoute(remove_offset(str[j]))) 
+			if (ft_issep(remove_offset(str[j]))) 
 				break ;
 			j++;
 		}
@@ -125,6 +152,8 @@ static void	split_by_sep(t_mbox *mbox, char *str, int i, int quote_state)
 			if (quote_state != OUT_Q)
 				add_token(mbox, ft_substr(str, 0, i), get_token_type(*str));
 			str += i;
+
+			// FIXME: JUST CHANGE THAT QOUTES DONT START A NEW TOKEN!
 		}
 	}
 }
@@ -138,12 +167,56 @@ void	print_tokenizer_output(t_mbox *mbox)
 	printf(" ------------------------------------ \n");
 }
 
-/*
-	makes a linked list with the tokens grabbed from 
-	mbox->inp_expand
-	the result will be stored in the linked list:
-	mbox->tokens
-*/
+/**
+ * @brief	cheeck spreadsheet!
+ * 			if the last char 	of str1 is a >
+ * 			and the first chr 	of str2 is a >
+ * 			then we have something like "echo hi > > lol"
+ * 			-> this is an error so exit cycle
+ * 
+ * @return t_bool 
+ */
+static t_bool	check_special_case_redir_symbol(char *str1, char *str2)
+{
+	t_bool	is_correct;
+
+	is_correct = ft_true;
+	if (!str1 || !str2)
+		return (is_correct);
+		
+	if (str1[ft_strlen(str1) - 1] == add_offset('>')
+		&& str2[0] == add_offset('>'))
+	{
+		create_error_msg("n", "syntax error near unexpected token `>'");
+		is_correct = ft_false;
+	}
+
+	if (str1[ft_strlen(str1) - 1] == add_offset('<')
+		&& str2[0] == add_offset('<'))
+	{
+		create_error_msg("n", "syntax error near unexpected token `<'");
+		is_correct = ft_false;
+	}
+	return (is_correct);
+}
+
+/**
+ * @brief	creates a linked list (ll) with tokens generated from
+ * 				'mbox->inp_expand'
+ * 			the head of the ll will be stored in
+ * 				'mbox->tokens'
+ * 
+ * 			RULE:
+ * 
+ *			NOTE:	- contextual qoutes and seperators ('|', '<', '>')
+ 						will be neg ascii values; here represeted by '?'
+					- tokens will be seperated by ';'
+ * 			EXAMPLES: 
+ * 				(echo ?HELLO WORLD?)	->	(echo;Hello World;)
+ * 	
+ * @param mbox 
+ * @param i 
+ */
 void	tokenize(t_mbox *mbox, int i)
 {
 	char	**no_space;
@@ -151,6 +224,11 @@ void	tokenize(t_mbox *mbox, int i)
 	no_space = ft_split(mbox->inp_expand, NO_SPACE);
 	while (no_space[i])
 	{
+		if (!check_special_case_redir_symbol(no_space[i], no_space[i+1]))
+		{
+			free_whatever("m", no_space);
+			free_cycle(mbox);
+		}
 		if (ft_strchr(no_space[i], add_offset('|'))
 			|| ft_strchr(no_space[i], add_offset('>'))
 			|| ft_strchr(no_space[i], add_offset('<'))

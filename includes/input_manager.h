@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_manager.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 15:35:02 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/27 15:13:16 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/27 19:45:33 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ char    *extract_limiter(t_mbox *mbox, int *k, int *quote_state);
 void	tokenize(t_mbox *mbox, int i);
 int		add_offset(int c);
 int		remove_offset(int c);
-t_bool	ft_isspace(char c);
+t_bool	ft_isspace(char c); //TODO: put all the ws chars from 7 to 13 in if statemnet
 t_bool	ft_issep(char c);
 t_bool	ft_isqoute(char c);
 

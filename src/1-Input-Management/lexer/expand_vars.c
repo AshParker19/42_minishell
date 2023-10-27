@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_vars.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 12:58:49 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/27 15:13:16 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/27 19:48:04 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,42 @@
 //     mbox->input_expanded = temp;
 // }
 
+
+
+/**
+ * @brief	this function loops trough a string and sets all characters
+ * 			which are whitespaces to NO_SPACE
+ * 
+ * 			the parameter 'str' will be freed!
+ * 
+ * @param	str		
+ * @return	char*	the string with all spaces marked as NO_SPACE
+ */
+static	char *mark_ws(char *str)
+{
+	int		i;
+	char	*temp;
+
+	temp = NULL;
+	i = -1;
+
+	while (str[++i])
+	{
+		if (ft_isspace(str[i]))
+			temp = append_str(temp, ft_chr2str(NO_SPACE), ft_true);
+		else
+			temp = append_str(temp, ft_chr2str(str[i]), ft_true);
+	}
+	free(str);
+	return(temp);
+}
+
 //TODO: make it less hard code so we can use it in herdoc
-static void found_key(t_mbox *mbox, int *k)
+static void found_key(t_mbox *mbox, int quote_s, int *k)
 {
     int     end_of_key;
     char    *temp_key;
+	char	*temp_value;
     
     end_of_key = *k;
     while (mbox->inp_shift[end_of_key]
@@ -35,8 +66,15 @@ static void found_key(t_mbox *mbox, int *k)
             || mbox->inp_shift[end_of_key] == '_'))
                 end_of_key++;
     temp_key = ft_substr(mbox->inp_shift, *k, end_of_key - *k);
-    mbox->inp_expand = append_str(mbox->inp_expand, get_var_value(mbox, temp_key), ft_false);
-    // appppppend_str(mbox, get_var_value(mbox, temp_key));
+	// A="ls    -l"
+	// IF THE KEY IS INSIDE OF QOUTES WE DONT CHANGE WHITESPACES
+	// 			echo "HI $A LOL"	-> HI ls     -l LOL
+	// IF THE KEY IS OUTSIDE OF QQOUTES WE REMOVE WS
+	// 			$A | wc				-> ls -l | wc	-> 42 0 0
+	temp_value = ft_strdup(get_var_value(mbox, temp_key));
+	if (quote_s == OUT_Q)
+		temp_value = mark_ws(temp_value);
+	mbox->inp_expand = append_str(mbox->inp_expand, temp_value , ft_true);
     free(temp_key);
     *k = end_of_key - 1;
 }
@@ -61,7 +99,7 @@ static void found_dollar(t_mbox *mbox, int quote_s, int *k, char cur_c)
             mbox->inp_expand = append_str(mbox->inp_expand, "$", ft_false);
             // appppppend_str(mbox, "$ ");//TODO: we this fixes the "echo      $    ?" double space issue; we need to chek again why we had it there before removeing it!!!
         else if (ft_isalnum(cur_c) || cur_c == ' ')
-            found_key(mbox, k);
+            found_key(mbox, quote_s, k);
         else if(cur_c == '\'' || cur_c == '"')
         {
             mbox->inp_expand = append_str(mbox->inp_expand, "$", ft_false);

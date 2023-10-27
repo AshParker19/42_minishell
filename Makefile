@@ -9,7 +9,7 @@ DEBUG = 0
 
 # Compiler options
 CC = cc
-CFLAGS = -D DEBUG=$(DEBUG) -g#-Wall -Werror -Wextra  #-fsanitize=address -fsanitize-address-use-after-scope
+CFLAGS = -D DEBUG=$(DEBUG) -pg -g#-Wall -Werror -Wextra  #-fsanitize=address -fsanitize-address-use-after-scope
 CLIBS = -L$(LIB_FOLDER) -lft -lm -lreadline
 CINCLUDES  = -I$(INCLUDE_FOLDER) 
 RM = rm -rf
@@ -126,3 +126,8 @@ HEADER_PRINT:
 	@echo "$(ORANGE)┌───────────────────────┐"
 	@echo "│ $(BLUE)Compiling:  $(NAME)$(ORANGE) │"
 	@echo "$(ORANGE)└───────────────────────┘$(RESET)"
+
+DOT:
+	gprof minishell
+	gprof ./minishell | /nfs/homes/astein/Downloads/gprof2dot/gprof2dot.py | xclip -selection clipboard
+	echo "DONE - NOW IS IN CLIPBOARD"
