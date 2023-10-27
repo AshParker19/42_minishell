@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 15:45:25 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/26 19:20:19 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/27 15:13:16 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,10 @@ static  char *treat_case_dollar(char *lim)
 /**
  * @brief the k when calling the function will ppoint to the 2nd <
  * 
- * @param minibox 
+ * @param mbox 
  * @return char* 
  */
-char *extract_limiter(t_minibox *minibox, int *k, int *quote_state)
+char *extract_limiter(t_mbox *mbox, int *k, int *quote_state)
 {
     char    cur_char;
     char    *lim;
@@ -79,9 +79,9 @@ char *extract_limiter(t_minibox *minibox, int *k, int *quote_state)
     lim = NULL;
     lim_start = ft_false;
     (*k)++;
-    while (minibox->input_quoted[*k])
+    while (mbox->inp_shift[*k])
     {
-        cur_char = minibox->input_quoted[*k];
+        cur_char = mbox->inp_shift[*k];
         update_qoute_state(quote_state, cur_char);
         // printf("FIND LIMITER: k (%d) CUR CHAR (%c) CUR QOUTE STATE(%d)\n", *k, cur_char, *quote_state);
         if (cur_char != NO_SPACE)

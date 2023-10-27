@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:32:31 by astein            #+#    #+#             */
-/*   Updated: 2023/10/19 19:46:16 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/27 15:13:17 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void change_pwd(t_minibox *minibox, char *new_path)
+static void change_pwd(t_mbox *mbox, char *new_path)
 {
-    set_var_value(minibox, "OLDPWD", ft_strdup(get_var_value(minibox, "PWD")));
+    set_var_value(mbox, "OLDPWD", ft_strdup(get_var_value(mbox, "PWD")));
     chdir(new_path);
-    set_var_value(minibox, "PWD", ft_strdup(getcwd(NULL, 0)));
+    set_var_value(mbox, "PWD", ft_strdup(getcwd(NULL, 0)));
 }
 /**
  * 	CD =============================
@@ -39,12 +39,12 @@ static void change_pwd(t_minibox *minibox, char *new_path)
     cd Documents/../../astein/Downloads/../../../../../..
 
 */
-void	builtin_cd(t_minibox *minibox, t_tree *arg_node)
+void	builtin_cd(t_mbox *mbox, t_tree *arg_node)
 {
     struct stat path_stat;
 
     if (!arg_node)
-        change_pwd(minibox, get_var_value(minibox, "HOME"));
+        change_pwd(mbox, get_var_value(mbox, "HOME"));
     else if (arg_node->right)
         create_error_msg("nn", ERR_PROMT, "cd: too many arguments");
     else
@@ -55,7 +55,7 @@ void	builtin_cd(t_minibox *minibox, t_tree *arg_node)
             if (S_ISDIR(path_stat.st_mode))
             {
                 if (access(arg_node->content, X_OK) == 0) 
-                    change_pwd(minibox, arg_node->content);
+                    change_pwd(mbox, arg_node->content);
                 else
                     create_error_msg("nnnn", ERR_PROMT, "cd: ", arg_node->content,
                     ": Permission denied");

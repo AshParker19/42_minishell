@@ -12,7 +12,7 @@
 
 // #include "minishell.h"
 
-// void test_builtins(t_minibox *minibox)
+// void test_builtins(t_mbox *mbox)
 // {
 //     char *s;
     
@@ -44,67 +44,67 @@
     
 //     s = "/nfs/homes/";
 //     printf("\nTEST: >%s<\n", s);
-//     builtin_cd(minibox, s);
-//     printf("PDW\t=%s\n",get_var(minibox, "PWD"));
-//     printf("OLDPDW\t=%s\n",get_var(minibox, "OLDPWD"));
+//     builtin_cd(mbox, s);
+//     printf("PDW\t=%s\n",get_var(mbox, "PWD"));
+//     printf("OLDPDW\t=%s\n",get_var(mbox, "OLDPWD"));
     
 //     s = ".";
 //     printf("\nTEST: >%s<\n", s);
-//     builtin_cd(minibox, s);
-//     printf("PDW\t=%s\n",get_var(minibox, "PWD"));
-//     printf("OLDPDW\t=%s\n",get_var(minibox, "OLDPWD"));
+//     builtin_cd(mbox, s);
+//     printf("PDW\t=%s\n",get_var(mbox, "PWD"));
+//     printf("OLDPDW\t=%s\n",get_var(mbox, "OLDPWD"));
 
 //     s = "..";
 //     printf("\nTEST: >%s<\n", s);
-//     builtin_cd(minibox, s);
-//     printf("PDW\t=%s\n",get_var(minibox, "PWD"));
-//     printf("OLDPDW\t=%s\n",get_var(minibox, "OLDPWD"));
+//     builtin_cd(mbox, s);
+//     printf("PDW\t=%s\n",get_var(mbox, "PWD"));
+//     printf("OLDPDW\t=%s\n",get_var(mbox, "OLDPWD"));
 
 //     s = NULL;
 //     printf("\nTEST: >%s<\n", s);
-//     builtin_cd(minibox, s);
-//     printf("PDW\t=%s\n",get_var(minibox, "PWD"));
-//     printf("OLDPDW\t=%s\n",get_var(minibox, "OLDPWD"));
+//     builtin_cd(mbox, s);
+//     printf("PDW\t=%s\n",get_var(mbox, "PWD"));
+//     printf("OLDPDW\t=%s\n",get_var(mbox, "OLDPWD"));
     
 //     s = "Downloads";
 //     printf("\nTEST: >%s<\n", s);
-//     builtin_cd(minibox, s);
-//     printf("PDW\t=%s\n",get_var(minibox, "PWD"));
-//     printf("OLDPDW\t=%s\n",get_var(minibox, "OLDPWD"));
+//     builtin_cd(mbox, s);
+//     printf("PDW\t=%s\n",get_var(mbox, "PWD"));
+//     printf("OLDPDW\t=%s\n",get_var(mbox, "OLDPWD"));
 
     
 //     s = "~";
 //     printf("\nTEST: >%s<\n", s);
-//     builtin_cd(minibox, s);
-//     printf("PDW\t=%s\n",get_var(minibox, "PWD"));
-//     printf("OLDPDW\t=%s\n",get_var(minibox, "OLDPWD"));
+//     builtin_cd(mbox, s);
+//     printf("PDW\t=%s\n",get_var(mbox, "PWD"));
+//     printf("OLDPDW\t=%s\n",get_var(mbox, "OLDPWD"));
 
 //     s = "..";
 //     printf("\nTEST: >%s<\n", s);
-//     builtin_cd(minibox, s);
-//     printf("PDW\t=%s\n",get_var(minibox, "PWD"));
-//     printf("OLDPDW\t=%s\n",get_var(minibox, "OLDPWD"));
+//     builtin_cd(mbox, s);
+//     printf("PDW\t=%s\n",get_var(mbox, "PWD"));
+//     printf("OLDPDW\t=%s\n",get_var(mbox, "OLDPWD"));
 
 
 //     // put_header("X", "TEST EXPORT\n---\n\n");
-//     // builtin_export(minibox, "AleX=AnatoliI");
+//     // builtin_export(mbox, "AleX=AnatoliI");
 
 //     // put_header("X", "TEST ENV\n---\n\n");
-//     // builtin_env(minibox, NULL);
-//     // builtin_env(minibox, "NULL");
+//     // builtin_env(mbox, NULL);
+//     // builtin_env(mbox, "NULL");
 
 //     // put_header("X", "TEST PWD\n---\n\n");
 //     // builtin_pwd(NULL);
 //     // builtin_pwd("NULL");
 
 //     // put_header("X", "TEST UNSET\n---\n\n");
-//     // builtin_unset(minibox, "AleX");
-//     // builtin_unset(minibox, "PAGER");
-//     // builtin_unset(minibox, "GJS_DEBUG_TOPICS=JS");   //FIXME: DELETE FIRST NODE DOESNT WORK YET!
-//     // builtin_unset(minibox, "askjdkasdasdkasdkasdkasdmas");
+//     // builtin_unset(mbox, "AleX");
+//     // builtin_unset(mbox, "PAGER");
+//     // builtin_unset(mbox, "GJS_DEBUG_TOPICS=JS");   //FIXME: DELETE FIRST NODE DOESNT WORK YET!
+//     // builtin_unset(mbox, "askjdkasdasdkasdkasdkasdmas");
     
 //     // put_header("X", "TEST ENV\n---\n\n");
-//     // builtin_env(minibox, NULL);
+//     // builtin_env(mbox, NULL);
 
 //     // put_header("X", "TEST EXIT\n---\n\n");
 //     // put_header("X", "NO TEST MADE YET!\n");

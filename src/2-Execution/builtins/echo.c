@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:32:13 by astein            #+#    #+#             */
-/*   Updated: 2023/10/20 15:45:08 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/27 15:13:17 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void builtin_echo(t_minibox *minibox, t_tree *arg_node)
+void builtin_echo(t_mbox *mbox, t_tree *arg_node)
 {
     bool    print_nl;
 
@@ -27,12 +27,12 @@ void builtin_echo(t_minibox *minibox, t_tree *arg_node)
         while(arg_node)
         {
             ft_putstr_fd(arg_node->content,
-                minibox->executor.io.cmd_fd[CMD_OUT]);
+                mbox->executor.io.cmd_fd[CMD_OUT]);
             arg_node = arg_node->right;
             if(arg_node)
-                ft_putchar_fd(' ', minibox->executor.io.cmd_fd[CMD_OUT]);
+                ft_putchar_fd(' ', mbox->executor.io.cmd_fd[CMD_OUT]);
         }
     }
     if (print_nl)
-        ft_putchar_fd('\n', minibox->executor.io.cmd_fd[CMD_OUT]);    
+        ft_putchar_fd('\n', mbox->executor.io.cmd_fd[CMD_OUT]);    
 }

@@ -6,7 +6,7 @@ some little bash copy....
 
 ## Setup
 
-### minibox
+### mbox
 blabla
 
 ### Store the Enviorment Variables

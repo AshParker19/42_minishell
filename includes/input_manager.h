@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_manager.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 15:35:02 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/25 16:14:25 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/27 15:13:16 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 /******************************************************************************/
 
 /* data types from other header files */
-typedef struct s_minibox t_minibox;
+typedef struct s_mbox t_mbox;
 
 /******************************************************************************/
 /* TOKEN HOLDER */
@@ -72,18 +72,18 @@ enum e_three_branch
 /******************************************************************************/
 
 /* HANDLE QUOTES */
-void	mark_seps(t_minibox *minibox, int i, int quote_state);
+void	mark_seps(t_mbox *mbox, int i, int quote_state);
 void 	update_qoute_state(int *quote_state, char cur_char);
 
 /* VARIABLES EXPANSION */
-void	expand_variables(t_minibox *minibox, int k, int k_end, int quote_state);
+void	expand_variables(t_mbox *mbox, int k, int k_end, int quote_state);
 
 /* HEREDOC UTILS*/
-char    *extract_limiter(t_minibox *minibox, int *k, int *quote_state);
+char    *extract_limiter(t_mbox *mbox, int *k, int *quote_state);
 
 
 /* LEXER */
-void	tokenize(t_minibox *minibox, int i);
+void	tokenize(t_mbox *mbox, int i);
 int		add_offset(int c);
 int		remove_offset(int c);
 t_bool	ft_isspace(char c);
@@ -91,28 +91,28 @@ t_bool	ft_issep(char c);
 t_bool	ft_isqoute(char c);
 
 /* PARSER */
-void	parse(t_minibox *minibox);
-void	print_parser_output(t_minibox *minibox);
+void	parse(t_mbox *mbox);
+void	print_parser_output(t_mbox *mbox);
 t_tree  *ast_create_node(int node_type);
 void    delete_ast(t_tree *root);
 void    connect_subtree(t_tree **root, t_tree *node_to_add, int on_right);
 t_bool    validate_token(t_token *token, int next_amount, int token_type);
-void	*put_syntax_error(t_minibox *minibox, t_token *error_token);
+void	*put_syntax_error(t_mbox *mbox, t_token *error_token);
 
 /* functions for BNF notation to build an AST */
 /* job */
-t_tree *job_main(t_minibox *minibox);
+t_tree *job_main(t_mbox *mbox);
 
 /* command */
-t_tree *command_main(t_minibox *minibox);
+t_tree *command_main(t_mbox *mbox);
 
 /* token_list */
-void    token_list_main(t_minibox *minibox);
+void    token_list_main(t_mbox *mbox);
 
 /* redir */
-t_tree *redir_main(t_minibox *minibox);
-t_tree *redir_in_main(t_minibox *minibox);
-t_tree *redir_out_main(t_minibox *minibox);
+t_tree *redir_main(t_mbox *mbox);
+t_tree *redir_in_main(t_mbox *mbox);
+t_tree *redir_out_main(t_mbox *mbox);
 /**********************************************/
 
 #endif

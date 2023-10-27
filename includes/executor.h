@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 17:55:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/26 16:17:39 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/27 15:33:52 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,29 +56,29 @@ enum e_pipe_side
 
 /******************************************************************************/
 /* executor */
-t_bool  execute(t_minibox *minibox);
-void    run_cmd_system(t_minibox *minibox, t_tree *cmd_node);
+t_bool  execute(t_mbox *mbox);
+void    run_cmd_system(t_mbox *mbox, t_tree *cmd_node);
 
 /* pipes */
-void    setup_use_pipe(t_minibox *minibox, int status);
-void    setup_pipes(t_minibox *minibox, int *cur_pipe);
-void    setup_process_std(t_minibox *minibox);
+void    setup_use_pipe(t_mbox *mbox, int status);
+void    setup_pipes(t_mbox *mbox, int *cur_pipe);
+void    setup_process_std(t_mbox *mbox);
 
 /* redirections */
-t_bool    setup_redir(t_minibox *minibox, t_tree *redir_node);
+t_bool    setup_redir(t_mbox *mbox, t_tree *redir_node);
 
 /* heredoc */
-int    heredoc(t_minibox *minibox, t_tree *redir_node, int *cmd_in_fd, char *line);
+int    heredoc(t_mbox *mbox, t_tree *redir_node, int *cmd_in_fd);
 
 /* executor_utils */
-void    load_executor(t_minibox *minibox);
-void	initialize_io(t_minibox *minibox);
-void	print_executor_output(t_minibox *minibox, int i); //TODO: remove at the end
-void    free_executor(t_minibox *minibox);
+void    load_executor(t_mbox *mbox);
+void	initialize_io(t_mbox *mbox);
+void	print_executor_output(t_mbox *mbox, int i); //TODO: remove at the end
+void    free_executor(t_mbox *mbox);
 int		cmd_counter(t_tree *tree_node);
-// char    *get_cmd_path(t_minibox *minibox, char *cmd, int i);
-void    get_cmd_av(t_minibox *minibox, t_tree *root);
-void	free_process(t_minibox *minibox);
-void    reset_executor(t_minibox *minibox);
+// char    *get_cmd_path(t_mbox *mbox, char *cmd, int i);
+void    get_cmd_av(t_mbox *mbox, t_tree *root);
+void	free_process(t_mbox *mbox);
+void    reset_executor(t_mbox *mbox);
 
 #endif

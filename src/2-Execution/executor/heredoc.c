@@ -6,11 +6,35 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:00:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/26 19:46:32 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/27 16:34:44 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
+
+/**
+ * @brief	This file deals with all heredoc related topics
+ *			the only non static function 'heredoc' will be only called by
+ *			'redirection.c'
+ *			
+ *			This file will perform 4 tasks:
+ *				1. 'check_lim_qoutes'
+ *					checks if there are any qoutes in the LIM if so it so
+ *                  that 3. know if to expand
+ *						- removes all contextual qoutes
+ *				
+ *				2. 'fork' - > 'heredoc_child'
+ *					spawns a child process that will run until the LIM is found
+ *					after writing all (expanded) lines into the FD we free the
+ *					child and return to 'redirection.c'
+ *				
+ *				3.	(if the result of 1. is true)
+ *					after each read line the var expansion will take place
+ *					via 'expand_heredoc_input' and 'get_key'
+ *
+ *              4.  SIGNALS TODO:
+ */
+
 
 /**
  * @brief   this function gets a string and should return a copied str of the
@@ -28,33 +52,60 @@ static  char *get_key(char *str, int *i)
     key = NULL;
     if (!str)
         return (key);
+    if (!ft_isalpha(str[(*i)+1]) && str[(*i)+1] != '_')
+    {
+        (*i)--;
+        return(key);
+    }
     while(str[*i])
     {
-        if (!key)
-        {
-            if (ft_isalpha(str[*i]) || str[*i]=='_')
-                key = append_str(key, ft_chr2str(str[*i]), ft_true);
-            else
-            {
-                (*i)--; //TODO: CHECK!
-                return(ft_chr2str('$'));
-            }
-        }
+        if (ft_isalnum(str[*i]) || str[*i] == '_')
+            key = append_str(key, ft_chr2str(str[*i]), ft_true);
         else
         {
-            if (ft_isalnum(str[*i]) || str[*i]=='_')
-                key = append_str(key, ft_chr2str(str[*i]), ft_true);
-            else
-            {
-                (*i)--; //TODO: CHECK!
-                return(key);
-            }
+            (*i)--;
+            return (key);
         }
         (*i)++;
-    }        
+    }   
     return (key);
 }
+// static  char *get_key(char *str, int *i)
+// {
+//     char    *key;
+//     t_bool  found_key;
 
+//     found_key = ft_false;
+//     key = NULL;
+//     if (!str)
+//         return (key);
+//     while(str[*i])
+//     {
+//         if (found_key)
+//             break;
+//         if (!key)
+//         {
+//             if (ft_isalpha(str[*i]) || str[*i]=='_')
+//                 key = append_str(key, ft_chr2str(str[*i]), ft_true);
+//             else
+//             {
+//                 found_key = ft_true;
+//                 return(ft_chr2str('$'));
+//             }
+//         }
+//         else
+//         {
+//             if (ft_isalnum(str[*i]) || str[*i]=='_')
+//                 key = append_str(key, ft_chr2str(str[*i]), ft_true);
+//             else
+//                 found_key = ft_true;
+//         }
+//         (*i)++;
+//     }   
+//     if (found_key)
+//         (*i)--;     
+//     return (key);
+// }
 
 
 /**
@@ -72,24 +123,24 @@ static  char *get_key(char *str, int *i)
  *              $ LESS      ->  $ LESS
  *              $?          ->  0   (last exit status)
  *              $$          ->  $$
+ *              $$$LESS     ->  $$-R
  *
  * @param   str     
  * @return  char*   
  */
-static char   *expand_heredoc_input(t_minibox *minibox, char *str)
+static char   *expand_heredoc_input(t_mbox *mbox, char *str)
 {
     int     i;
     t_bool  found_dollar;
     char    *expanded_str;
     char    *key;
     
-    i = 0;
+    i = -1;
     found_dollar = ft_false;
     expanded_str = NULL;
     key = NULL;
-    while (str[i])
+    while (str[++i])
     {
-        // 1. look for dollar
         if (!found_dollar && str[i] == '$')
             found_dollar = ft_true;
         else
@@ -98,12 +149,14 @@ static char   *expand_heredoc_input(t_minibox *minibox, char *str)
             {
                 found_dollar = ft_false;
                 key = get_key(str, &i);
-                if (ft_strcmp_strict(key, "$"))
+                if (!key)
+                    expanded_str = append_str(expanded_str, "$", ft_false);
+                else if (ft_strcmp_strict(key, "$"))
                     expanded_str = append_str(expanded_str, key, ft_false);
                 else
                 {
                     printf("FOUND KEY IN HEREDOC!!! (%s)\n", key);
-                    expanded_str = append_str(expanded_str, get_var_value(minibox, key), ft_false);
+                    expanded_str = append_str(expanded_str, get_var_value(mbox, key), ft_false);
                     printf("expanded string (%s)\n", expanded_str);
                 }
                 free(key);
@@ -111,7 +164,6 @@ static char   *expand_heredoc_input(t_minibox *minibox, char *str)
             else
                 expanded_str = append_str(expanded_str, ft_chr2str(str[i]), ft_true);
         }
-        i++;
     }
     free (str);
     return (expanded_str);
@@ -126,6 +178,9 @@ static char   *expand_heredoc_input(t_minibox *minibox, char *str)
  *              - it returns a bool regarding if there are any qoutes in the lim
  *              - changes str to the context qoute free str
  * 
+ *          To create the str without context qoutes a new str is generated
+ *          copied char by char if the char is NOT a context qoute
+ * 
  *          INPUT                   RETURN      ADUJSTED LIM
  *          Hello" World"           -> ft_true  -> Hello World
  *          Hello World             -> ft_false -> Hello World
@@ -136,28 +191,24 @@ static char   *expand_heredoc_input(t_minibox *minibox, char *str)
  */
 static  t_bool check_lim_qoutes(char **str)
 {
+    t_bool  expand_vars;
     int     quote_state;
     int     old_quote_state;
-    t_bool  expand_vars;
     int     i;
     char    *temp_lim;
-    char    cur_char;
 
-    i = 0;
-    temp_lim = NULL;
-    old_quote_state = 0;
-    quote_state = 0;
     expand_vars = ft_true;
-    while ((*str)[i])
+    i = -1;
+    temp_lim = NULL;
+    quote_state = OUT_Q;
+    while ((*str)[++i])
     {
-        cur_char = (*str)[i];
         old_quote_state = quote_state;
-        update_qoute_state(&quote_state, add_offset(cur_char));
-        if (cur_char == '\'' || cur_char == '"')
+        update_qoute_state(&quote_state, add_offset((*str)[i]));
+        if ((*str)[i] == '\'' || (*str)[i] == '"')
             expand_vars = ft_false;
         if (old_quote_state == quote_state)
-            temp_lim = append_str(temp_lim, ft_chr2str(cur_char), ft_true);
-        i++;
+            temp_lim = append_str(temp_lim, ft_chr2str((*str)[i]), ft_true);
     }
     free(*str);
     *str = ft_strdup(temp_lim);
@@ -165,67 +216,51 @@ static  t_bool check_lim_qoutes(char **str)
     return (expand_vars);
 }
 
+static  void heredoc_child(t_mbox *mbox, int *fd, char *delimiter)
+{
+    char    *cur_line;
+    t_bool  expand_vars;
+    
+    signal(SIGINT, SIG_DFL);
+    close(fd[P_RIGHT]);
+    delimiter = ft_strjoin(delimiter, "\n");
+    expand_vars = check_lim_qoutes(&delimiter); 
+    while (true)
+    {
+        write (STDIN_FILENO, "> ", 2);
+        cur_line = get_next_line(STDIN_FILENO);
+        if (ft_strcmp_strict(cur_line, delimiter))
+        {
+            free (cur_line);
+            break ;
+        }
+        if (expand_vars && cur_line)
+            cur_line = expand_heredoc_input(mbox, cur_line);
+        write (fd[P_LEFT], cur_line, ft_strlen(cur_line));
+        free(cur_line);
+    }
+    close (fd[P_LEFT]); // close because it was WRITE END
+    free (delimiter);
+    free_process(mbox);
+    free_and_close_box(mbox, EXIT_SUCCESS);
+}
+
 // TODO: 
 //  - deal with var expansion (if LIM isnt qouted)
-//  - deal with \ as a flag for $ \ and ` to be ignored
-//          so if inside the herdoc a is inputed b should remain
-//              a               b
-//              Hello\\World    Hello\World
-//              Hello $LESS     Hello -R
-//              Hello \$LESS    Hello $LESS
-//              Hello `World
-// 
 //  if the var expansion turns out to be excatlly the lim str it still doesnt exit!
-int    heredoc(t_minibox *minibox, t_tree *redir_node, int *cmd_in_fd, char *line)
+int    heredoc(t_mbox *mbox, t_tree *redir_node, int *cmd_in_fd)
 {
-    char    *delimiter;
     int     fd[2];
     int     status;
-    t_bool  expand_vars;
 
-    expand_vars = ft_false;
-
-    // 1. check if it needs to do var expansion
-    // 2. read until limiter (lim without qoutes!)
-    // 3. do the expansion if nessesary
-    
     if (pipe(fd) < 0)
-        return (1);
+        return (1);//TODO:
     signal(SIGINT, SIG_IGN);
     int pid = fork();
     if (pid < 0)
-        return (1);
+        return (1);//TODO:
     if (pid == 0)
-    {
-        signal(SIGINT, SIG_DFL);
-        close(fd[P_RIGHT]);
-        delimiter = ft_strjoin(redir_node->content, "\n");
-        expand_vars = check_lim_qoutes(&delimiter); 
-        dprintf(2, "EXPAND VARS IN HEREDOC: %d\n", expand_vars);
-        while (true) //TODO: kill myself
-        {
-            write (STDIN_FILENO, "> ", 2);
-            line = get_next_line(STDIN_FILENO);
-            if (ft_strcmp_strict(line, delimiter))
-            {
-                free (line);
-                break ;
-            }
-            if (expand_vars && line)
-                line = expand_heredoc_input(minibox, line);
-            write (fd[P_LEFT], line, ft_strlen(line));
-            free(line);
-        }
-        close (fd[P_LEFT]); // close because it was WRITE END
-        free (delimiter);
-        // TODO:
-	    // not sure if this is correct here
-	    // i need it for the heredoc...
-	    if (minibox->executor.pid)
-		    free( minibox->executor.pid);
-        free_process(minibox);
-        free_and_close_box(minibox, EXIT_SUCCESS);
-    }
+        heredoc_child(mbox, fd, redir_node->content);
     close(fd[P_LEFT]);
     waitpid(pid, &status, 0);
     signal(SIGINT, SIG_DFL);
@@ -235,5 +270,5 @@ int    heredoc(t_minibox *minibox, t_tree *redir_node, int *cmd_in_fd, char *lin
         status = 1;
     if (status == 0)
         *cmd_in_fd = fd[P_RIGHT]; // info was written to the reaad end and will be redirected later using dup2
-    return (status);
+    return (status); //TODO:
 }

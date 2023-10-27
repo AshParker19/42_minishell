@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:33:46 by astein            #+#    #+#             */
-/*   Updated: 2023/10/21 12:30:17 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/27 15:13:17 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	builtin_env(t_minibox *minibox, t_tree *arg_node)
+void	builtin_env(t_mbox *mbox, t_tree *arg_node)
 {
 	char	*error_msg;
 	t_env_var	*cur;
@@ -22,7 +22,7 @@ void	builtin_env(t_minibox *minibox, t_tree *arg_node)
 			"’: No such file or directory");
 	else
 	{
-		cur = minibox->vars;
+		cur = mbox->vars;
 		while (cur)
 		{
 			ft_putstr_fd(cur->key, 1);

@@ -35,7 +35,7 @@ SRCS = $(addprefix $(SRC_FOLDER), 				\
 	0-Core/env.c								\
 	0-Core/general_utils_1.c					\
 	0-Core/input_manager.c						\
-	0-Core/manage_minibox.c						\
+	0-Core/manage_mbox.c						\
 	0-Core/signals.c							\
 	1-Input-Management/lexer/expand_vars.c		\
 	1-Input-Management/lexer/lexer.c 			\

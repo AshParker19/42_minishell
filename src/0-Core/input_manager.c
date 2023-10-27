@@ -6,41 +6,41 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:38:32 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/26 19:53:25 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/27 15:13:17 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_parser_output(t_minibox *minibox);
+void	print_parser_output(t_mbox *mbox);
 
 // dealing with everything thats before exection
-void	manage_input(t_minibox *minibox)
+void	manage_input(t_mbox *mbox)
 {
-    minibox->error_status = false;
-    add_history(minibox->inp_orig);
-    printf("minibox->input_original:\t(%s)\n", minibox->inp_orig);
-    minibox->input_trimmed = ft_strtrim(minibox->inp_orig, " \n\t\v");
-    printf("minibox->input_trimmed:\t\t(%s)\n", minibox->input_trimmed);
-    mark_seps(minibox, 0, 0);
-    printf("minibox->input_quoted:\t\t(%s)\n", minibox->input_quoted);
-    expand_variables(minibox, 0, 0, OUT_Q);
-    printf("minibox->input_expanded:\t(%s)\n", minibox->input_expanded);
-    if (*minibox->input_expanded == '\0')
+    mbox->error_status = false;
+    add_history(mbox->inp_orig);
+    printf("mbox->input_original:\t(%s)\n", mbox->inp_orig);
+    mbox->inp_trim = ft_strtrim(mbox->inp_orig, " \n\t\v");
+    printf("mbox->inp_trim:\t\t(%s)\n", mbox->inp_trim);
+    mark_seps(mbox, 0, 0);
+    printf("mbox->inp_shift:\t\t(%s)\n", mbox->inp_shift);
+    expand_variables(mbox, 0, 0, OUT_Q);
+    printf("mbox->inp_expand:\t(%s)\n", mbox->inp_expand);
+    if (*mbox->inp_expand == '\0')
     {
-            free_cycle(minibox);
+            free_cycle(mbox);
             return ;
     }
-    tokenize(minibox, 0); // TODO: we dont check if it returns error
-    parse(minibox);
-    if (minibox->root->type == CMD_NODE && ft_strcmp_strict(minibox->root->content, "exit"))
-        builtin_exit(minibox, minibox->root->right);
-    print_parser_output(minibox);
-    if (minibox->error_status == false)
+    tokenize(mbox, 0); // TODO: we dont check if it returns error
+    parse(mbox);
+    if (mbox->root->type == CMD_NODE && ft_strcmp_strict(mbox->root->content, "exit"))
+        builtin_exit(mbox, mbox->root->right);
+    print_parser_output(mbox);
+    if (mbox->error_status == false)
     {
-        print_executor_output(minibox, 0);
-        execute(minibox);
-        print_executor_output(minibox, 1); 
+        print_executor_output(mbox, 0);
+        execute(mbox);
+        print_executor_output(mbox, 1); 
     }
-    free_cycle(minibox);
+    free_cycle(mbox);
 }

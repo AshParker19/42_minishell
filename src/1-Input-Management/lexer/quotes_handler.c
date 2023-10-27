@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 14:36:59 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/05 19:20:26 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/27 15:14:01 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /*
     accepts an address of quote_state to update it using call by reference
-    and accepts the current char of yhe srting. checks the current quote state
+    and accepts the cur char of yhe srting. checks the cur quote state
     and compares it to single or double quotes characters.
     if quote_state is OUT_Q, means no quote were found before and is it is now
         change quote state to aacording value(single or double quote)
@@ -43,26 +43,26 @@ void update_qoute_state(int *quote_state, char cur_char)
 }
 /*
     traverses through the string and if a quotes_state is Q_OUT,
-    checks if a current character is one of the separated ones 
+    checks if a cur character is one of the separated ones 
     and if so it shifts it to negative ASCII values
 */
-void	mark_seps(t_minibox *minibox, int i, int quote_state)
+void	mark_seps(t_mbox *mbox, int i, int quote_state)
 {
-    minibox->input_quoted = ft_strdup(minibox->input_trimmed);
-    while (minibox->input_quoted[i])
+    mbox->inp_shift = ft_strdup(mbox->inp_trim);
+    while (mbox->inp_shift[i])
     {
-        if(quote_state == OUT_Q && ft_isqoute(minibox->input_quoted[i]))
+        if(quote_state == OUT_Q && ft_isqoute(mbox->inp_shift[i]))
         {
-            minibox->input_quoted[i] = add_offset(minibox->input_quoted[i]);
-            quote_state = minibox->input_quoted[i];
+            mbox->inp_shift[i] = add_offset(mbox->inp_shift[i]);
+            quote_state = mbox->inp_shift[i];
         }
-        else if(quote_state == OUT_Q && ft_issep(minibox->input_quoted[i]))
-            minibox->input_quoted[i] = add_offset(minibox->input_quoted[i]);
-        else if(quote_state == OUT_Q && ft_isspace(minibox->input_quoted[i]))
-            minibox->input_quoted[i] = NO_SPACE;
-        else if(quote_state == add_offset(minibox->input_quoted[i]))
+        else if(quote_state == OUT_Q && ft_issep(mbox->inp_shift[i]))
+            mbox->inp_shift[i] = add_offset(mbox->inp_shift[i]);
+        else if(quote_state == OUT_Q && ft_isspace(mbox->inp_shift[i]))
+            mbox->inp_shift[i] = NO_SPACE;
+        else if(quote_state == add_offset(mbox->inp_shift[i]))
         {
-            minibox->input_quoted[i] = add_offset(minibox->input_quoted[i]);
+            mbox->inp_shift[i] = add_offset(mbox->inp_shift[i]);
             quote_state = OUT_Q;
         }
         i++;
@@ -72,7 +72,7 @@ void	mark_seps(t_minibox *minibox, int i, int quote_state)
     {
         ft_putstr_fd("Syntax error:\n", 2);
         // exit(0); FIXME:
-        // free_input_strings(minibox);
+        // free_input_strings(mbox);
         // TODO: HERE WE SOMEHOW NEED TO STOP THE INPUT MANAGER
         // MAYBE WITH A RETURN BOOLEAN THAT MARK CONTEXT QUTES FAILED
     }

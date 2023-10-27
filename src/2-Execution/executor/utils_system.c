@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_system.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 13:07:56 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/23 18:06:57 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/27 15:13:17 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*
 abs = true = full path absoulte path
 abs = false = relatvie path*/
-static char    *get_cmd_path(t_minibox *minibox, char *cmd, int i, t_bool abs)
+static char    *get_cmd_path(t_mbox *mbox, char *cmd, int i, t_bool abs)
 {
 	int     check;
 	char    *path;
@@ -30,9 +30,9 @@ static char    *get_cmd_path(t_minibox *minibox, char *cmd, int i, t_bool abs)
 	}
 	else
 	{
-		while (minibox->executor.path_dirs[++i])
+		while (mbox->executor.path_dirs[++i])
 		{
-			path = ft_strcat_multi(3, minibox->executor.path_dirs[i], "/", cmd);
+			path = ft_strcat_multi(3, mbox->executor.path_dirs[i], "/", cmd);
 			check = access(path, F_OK);
 			if (!check)
 				break ;
@@ -61,14 +61,14 @@ static char    *get_cmd_path(t_minibox *minibox, char *cmd, int i, t_bool abs)
 	}
 }
 
-void get_cmd_av(t_minibox *minibox, t_tree *cmd_node)
+void get_cmd_av(t_mbox *mbox, t_tree *cmd_node)
 {
 	char    *cur_args_str;
 	char    *temp;
 	
 	if (!cmd_node && !cmd_node->content) //TODO: not sure if it need a content
 		return ;
-	cur_args_str = get_cmd_path(minibox, cmd_node->content, -1, ft_false);
+	cur_args_str = get_cmd_path(mbox, cmd_node->content, -1, ft_false);
 	if (!cur_args_str)
 		return ;
 	while (cmd_node->right)
@@ -81,30 +81,30 @@ void get_cmd_av(t_minibox *minibox, t_tree *cmd_node)
 		}
 		cmd_node = cmd_node->right;
 	}
-	minibox->executor.cmd_av = ft_split(cur_args_str, '|');
+	mbox->executor.cmd_av = ft_split(cur_args_str, '|');
 	free(cur_args_str);
 }
 
-void    run_cmd_system(t_minibox *minibox, t_tree *cmd_node)
+void    run_cmd_system(t_mbox *mbox, t_tree *cmd_node)
 {
 	char	*error_msg;
 	char	*abs_cmd_path;
 	
-		if (minibox->executor.io.cmd_fd[CMD_IN] != -1)
-			close(minibox->executor.io.cmd_fd[CMD_IN]);
-		if (minibox->executor.io.cmd_fd[CMD_OUT] != -1)
-			close(minibox->executor.io.cmd_fd[CMD_OUT]);
+		if (mbox->executor.io.cmd_fd[CMD_IN] != -1)
+			close(mbox->executor.io.cmd_fd[CMD_IN]);
+		if (mbox->executor.io.cmd_fd[CMD_OUT] != -1)
+			close(mbox->executor.io.cmd_fd[CMD_OUT]);
 		abs_cmd_path = NULL;
-		get_cmd_av(minibox, cmd_node);
-		if(minibox->executor.cmd_av)
+		get_cmd_av(mbox, cmd_node);
+		if(mbox->executor.cmd_av)
 		{
-			abs_cmd_path = get_cmd_path(minibox, cmd_node->content, -1, ft_true);
-			execve(abs_cmd_path, minibox->executor.cmd_av, env_to_matrix(minibox));
+			abs_cmd_path = get_cmd_path(mbox, cmd_node->content, -1, ft_true);
+			execve(abs_cmd_path, mbox->executor.cmd_av, env_to_matrix(mbox));
 		}
 		if (abs_cmd_path)
 			free (abs_cmd_path);
 		create_error_msg("nnn", "command '", cmd_node->content, "' not found");
-		free_process(minibox);
+		free_process(mbox);
 		exit(127);
 		// TODO: EXIT 
 }

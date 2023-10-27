@@ -3,42 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   utils_builtin.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:54:41 by astein            #+#    #+#             */
-/*   Updated: 2023/10/20 12:42:13 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/27 15:13:17 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	initialize_builtins(t_minibox *minibox)
+void	initialize_builtins(t_mbox *mbox)
 {
-    minibox->executor.builtins[0].cmd_name = "echo";
-    minibox->executor.builtins[0].func_name = builtin_echo;
-    minibox->executor.builtins[1].cmd_name = "cd";
-    minibox->executor.builtins[1].func_name = builtin_cd;
-    minibox->executor.builtins[2].cmd_name = "pwd";
-    minibox->executor.builtins[2].func_name = builtin_pwd;
-    minibox->executor.builtins[3].cmd_name = "export";
-    minibox->executor.builtins[3].func_name = builtin_export;
-    minibox->executor.builtins[4].cmd_name = "unset";
-    minibox->executor.builtins[4].func_name = builtin_unset;
-    minibox->executor.builtins[5].cmd_name = "env";
-    minibox->executor.builtins[5].func_name = builtin_env;
-    minibox->executor.builtins[6].cmd_name = "exit";
-    minibox->executor.builtins[6].func_name = builtin_exit;
-    minibox->executor.builtins[7].cmd_name = NULL;
-    minibox->executor.builtins[7].func_name = NULL;
+    mbox->executor.builtins[0].cmd_name = "echo";
+    mbox->executor.builtins[0].func_name = builtin_echo;
+    mbox->executor.builtins[1].cmd_name = "cd";
+    mbox->executor.builtins[1].func_name = builtin_cd;
+    mbox->executor.builtins[2].cmd_name = "pwd";
+    mbox->executor.builtins[2].func_name = builtin_pwd;
+    mbox->executor.builtins[3].cmd_name = "export";
+    mbox->executor.builtins[3].func_name = builtin_export;
+    mbox->executor.builtins[4].cmd_name = "unset";
+    mbox->executor.builtins[4].func_name = builtin_unset;
+    mbox->executor.builtins[5].cmd_name = "env";
+    mbox->executor.builtins[5].func_name = builtin_env;
+    mbox->executor.builtins[6].cmd_name = "exit";
+    mbox->executor.builtins[6].func_name = builtin_exit;
+    mbox->executor.builtins[7].cmd_name = NULL;
+    mbox->executor.builtins[7].func_name = NULL;
 }
 
-t_bool  is_cmd_builtin(t_minibox *minibox, char *cmd)
+t_bool  is_cmd_builtin(t_mbox *mbox, char *cmd)
 {
     int i;
     
     i = -1;
-    while (minibox->executor.builtins[++i].cmd_name)
-        if (ft_strcmp_strict(minibox->executor.builtins[i].cmd_name, cmd))
+    while (mbox->executor.builtins[++i].cmd_name)
+        if (ft_strcmp_strict(mbox->executor.builtins[i].cmd_name, cmd))
             return (ft_true);
     return (ft_false);
 }
@@ -65,13 +65,13 @@ t_bool  is_cmd_builtin(t_minibox *minibox, char *cmd)
 //     return(args_list);
 // }
 
-void    run_cmd_builtin(t_minibox *minibox, t_tree *cmd_node)
+void    run_cmd_builtin(t_mbox *mbox, t_tree *cmd_node)
 {
     int i;
     
     i = -1;
-    while (minibox->executor.builtins[++i].cmd_name)
-        if (ft_strcmp_strict(minibox->executor.builtins[i].cmd_name,
+    while (mbox->executor.builtins[++i].cmd_name)
+        if (ft_strcmp_strict(mbox->executor.builtins[i].cmd_name,
             cmd_node->content))
-            minibox->executor.builtins[i].func_name(minibox, cmd_node->right);
+            mbox->executor.builtins[i].func_name(mbox, cmd_node->right);
 }

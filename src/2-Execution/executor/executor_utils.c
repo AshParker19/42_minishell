@@ -6,29 +6,29 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:23:39 by astein            #+#    #+#             */
-/*   Updated: 2023/10/26 19:23:28 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/27 16:31:20 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void reset_executor(t_minibox *minibox)
+void reset_executor(t_mbox *mbox)
 {
-	minibox->executor.cmd_av = NULL;
-	minibox->executor.io.prev_pipe[P_LEFT] = -1;
-	minibox->executor.io.prev_pipe[P_RIGHT] = -1;
-	minibox->executor.pid_index = 0;
-	minibox->executor.pid = NULL;
+	mbox->executor.cmd_av = NULL;
+	mbox->executor.io.prev_pipe[P_LEFT] = -1;
+	mbox->executor.io.prev_pipe[P_RIGHT] = -1;
+	mbox->executor.pid_index = 0;
+	mbox->executor.pid = NULL;
 }
 
-void load_executor(t_minibox *minibox)
+void load_executor(t_mbox *mbox)
 {
 	char	*path;
 
-	path = get_var_value(minibox, "PATH");
-	minibox->executor.path_dirs = ft_split(path, ':');
-	initialize_builtins(minibox);
-	minibox->executor.exit_status = EXIT_SUCCESS;
+	path = get_var_value(mbox, "PATH");
+	mbox->executor.path_dirs = ft_split(path, ':');
+	initialize_builtins(mbox);
+	mbox->executor.exit_status = EXIT_SUCCESS;
 }
 
 int		cmd_counter(t_tree *tree_node)
@@ -40,51 +40,55 @@ int		cmd_counter(t_tree *tree_node)
 	return (1 + cmd_counter(tree_node->right));	
 }
 
-void	initialize_io(t_minibox *minibox)
+void	initialize_io(t_mbox *mbox)
 {	
-	minibox->executor.io.cmd_fd[CMD_IN] = -1;
-	minibox->executor.io.cmd_fd[CMD_OUT] = -1;
-	minibox->executor.io.dup_fd[CMD_IN] = -1;
-	minibox->executor.io.dup_fd[CMD_OUT] = -1;
+	mbox->executor.io.cmd_fd[CMD_IN] = -1;
+	mbox->executor.io.cmd_fd[CMD_OUT] = -1;
+	mbox->executor.io.dup_fd[CMD_IN] = -1;
+	mbox->executor.io.dup_fd[CMD_OUT] = -1;
 }
 
-void	free_process(t_minibox *minibox)
+void	free_process(t_mbox *mbox)
 {
 	// TODO: DOUBLE CHECK IF RIGHT
-	if (minibox->executor.cmd_av)
+	if (mbox->executor.cmd_av)
 	{
-		free_whatever("m", minibox->executor.cmd_av);
-		minibox->executor.cmd_av = NULL;
+		free_whatever("m", mbox->executor.cmd_av);
+		mbox->executor.cmd_av = NULL;
 	}
-	if (minibox->executor.io.cmd_fd[CMD_IN] != -1)
-		close (minibox->executor.io.cmd_fd[CMD_IN]);	
-	if (minibox->executor.io.cmd_fd[CMD_OUT] != -1)
-		close (minibox->executor.io.cmd_fd[CMD_OUT]);
-	if (minibox->executor.io.dup_fd[CMD_IN] != -1)
-		close (minibox->executor.io.dup_fd[CMD_IN]);
-	if (minibox->executor.io.dup_fd[CMD_OUT] != -1)
-		close (minibox->executor.io.dup_fd[CMD_OUT]);
-
+	if (mbox->executor.io.cmd_fd[CMD_IN] != -1)
+		close (mbox->executor.io.cmd_fd[CMD_IN]);	
+	if (mbox->executor.io.cmd_fd[CMD_OUT] != -1)
+		close (mbox->executor.io.cmd_fd[CMD_OUT]);
+	if (mbox->executor.io.dup_fd[CMD_IN] != -1)
+		close (mbox->executor.io.dup_fd[CMD_IN]);
+	if (mbox->executor.io.dup_fd[CMD_OUT] != -1)
+		close (mbox->executor.io.dup_fd[CMD_OUT]);
+	// if (mbox->executor.pid)		// TODO: // not sure if this is correct here
+	// {
+	// 	free( mbox->executor.pid);
+	// 	mbox->executor.pid = NULL;
+	// }
 	
 }
 
 /* Print the ouput of the AST built by the Parser*/
-void	print_executor_output(t_minibox *minibox, int i)
+void	print_executor_output(t_mbox *mbox, int i)
 {
-    (void)minibox;
+    (void)mbox;
 	if(i == 0)
 	{
 		printf("\n ------------------------------------ \n");
 		printf("|              EXECUTOR              |\n");
-		printf("|           cmd count: %d             |\n",cmd_counter(minibox->root));
+		printf("|           cmd count: %d             |\n",cmd_counter(mbox->root));
 		printf(" ------------------------------------ \n");	
 	}
 	else
 		printf(" ------------------------------------ \n");
 }
 
-void    free_executor(t_minibox *minibox)
+void    free_executor(t_mbox *mbox)
 {
-	free_whatever("m", minibox->executor.path_dirs);
+	free_whatever("m", mbox->executor.path_dirs);
 	//TODO: Close FDs
 }

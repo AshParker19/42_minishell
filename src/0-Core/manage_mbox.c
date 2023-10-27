@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   manage_minibox.c                                   :+:      :+:    :+:   */
+/*   manage_mbox.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:49:13 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/26 19:53:25 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/27 15:14:01 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	initialize_box(t_minibox *minibox, char **env)
+void	initialize_box(t_mbox *minibox, char **env)
 {
 	minibox->env = env;
 	minibox->vars = NULL;
 	minibox->inp_orig = NULL;
-	minibox->input_trimmed = NULL;
-	minibox->input_quoted = NULL;
-	minibox->input_expanded = NULL;
+	minibox->inp_trim = NULL;
+	minibox->inp_shift = NULL;
+	minibox->inp_expand = NULL;
 	minibox->error_status = false;
 	minibox->tokens = NULL;
 	minibox->root = NULL;
@@ -36,33 +36,33 @@ void	initialize_box(t_minibox *minibox, char **env)
 // 	}
 // }
 
-void free_input_strings(t_minibox *minibox)
+void free_input_strings(t_mbox *minibox)
 {
 	if (minibox->inp_orig)
 		free(minibox->inp_orig);
-	if (minibox->input_trimmed)
-		free(minibox->input_trimmed);
-	if (minibox->input_quoted)
-		free (minibox->input_quoted);
-	if (minibox->input_expanded)
-		free(minibox->input_expanded);
+	if (minibox->inp_trim)
+		free(minibox->inp_trim);
+	if (minibox->inp_shift)
+		free (minibox->inp_shift);
+	if (minibox->inp_expand)
+		free(minibox->inp_expand);
 }
 
-void free_tokens(t_minibox *minibox)
+void free_tokens(t_mbox *minibox)
 {
-	t_token *current;
+	t_token *cur;
 
 	while(minibox->tokens)
 	{
-		current = minibox->tokens;
+		cur = minibox->tokens;
 		minibox->tokens = minibox->tokens->next;
-		free(current->value);
-		free(current);
+		free(cur->value);
+		free(cur);
 	}
 	minibox->tokens = NULL;
 }
 
-void free_cycle(t_minibox *minibox)
+void free_cycle(t_mbox *minibox)
 {
     free_input_strings(minibox);    
     free_tokens(minibox);
@@ -82,7 +82,7 @@ void free_cycle(t_minibox *minibox)
 // Function should check all members of the minibox struct 
 // and frees them if they are inizialised
 // exits program
-void free_and_close_box(t_minibox *minibox, int exit_status)
+void free_and_close_box(t_mbox *minibox, int exit_status)
 {
 	free_input_strings(minibox);
 	free_tokens(minibox);

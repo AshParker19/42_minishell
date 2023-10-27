@@ -3,32 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 12:11:14 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/21 15:02:06 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/27 15:14:01 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_tokens(t_minibox *minibox)
+void	print_tokens(t_mbox *mbox)
 {
-	t_token	*current;
+	t_token	*cur;
 
-	current = minibox->tokens;
-	while (current)
+	cur = mbox->tokens;
+	while (cur)
 	{
-		printf ("type:(%d) \t token:(%s)\n", current->type, current->value);
-		current = current->next;
+		printf ("type:(%d) \t token:(%s)\n", cur->type, cur->value);
+		cur = cur->next;
 	}
 }
 
 /* add a new token to the end of tokens linked list and assigns variables */
-static void	add_token(t_minibox *minibox, char *value, int token_type)
+static void	add_token(t_mbox *mbox, char *value, int token_type)
 {
 	t_token	*new_t;
-	t_token	*current;
+	t_token	*cur;
 
 	new_t = ft_calloc(1, sizeof(t_token));
 	if (!new_t)
@@ -42,14 +42,14 @@ static void	add_token(t_minibox *minibox, char *value, int token_type)
 	}
 	else
 		new_t->value = value;
-	if (!minibox->tokens)
-		minibox->tokens = new_t;
+	if (!mbox->tokens)
+		mbox->tokens = new_t;
 	else
 	{
-		current = minibox->tokens;
-		while (current->next)
-			current = current->next;
-		current->next = new_t;
+		cur = mbox->tokens;
+		while (cur->next)
+			cur = cur->next;
+		cur->next = new_t;
 	}
 	
 }
@@ -74,13 +74,13 @@ int	get_token_type(char c)
 	separators needs to be transformen into a token. uses call by reference
 	to update int i in a calling function to shift the string correctly
 */
-static void	just_word(t_minibox *minibox, char *str, int *i)
+static void	just_word(t_mbox *mbox, char *str, int *i)
 {
 	int	j;
 
 	if (ft_issep(remove_offset(*str)))
 	{
-		add_token(minibox, ft_substr(str, 0, 1), get_token_type(*str));
+		add_token(mbox, ft_substr(str, 0, 1), get_token_type(*str));
 		*i = 1;
 	}
 	else
@@ -94,22 +94,22 @@ static void	just_word(t_minibox *minibox, char *str, int *i)
 			j++;
 		}
 		*i = j;
-		add_token(minibox, ft_substr(str, 0, *i), WORD_TOKEN);
+		add_token(mbox, ft_substr(str, 0, *i), WORD_TOKEN);
 	}
 }
 
 /*
 	receives the substing with a special character between words,
-	splits them into words and characters and adds new tokens to minibox->tokens
+	splits them into words and characters and adds new tokens to mbox->tokens
 */
-static void	split_by_sep(t_minibox *minibox, char *str, int i, int quote_state)
+static void	split_by_sep(t_mbox *mbox, char *str, int i, int quote_state)
 {
 	while (*str)
 	{
 		update_qoute_state(&quote_state, *str);
 		if (quote_state == OUT_Q)
 		{
-			just_word(minibox, str, &i);
+			just_word(mbox, str, &i);
 			str += i;
 		}
 		else
@@ -123,32 +123,32 @@ static void	split_by_sep(t_minibox *minibox, char *str, int i, int quote_state)
 				i++;
 			}
 			if (quote_state != OUT_Q)
-				add_token(minibox, ft_substr(str, 0, i), get_token_type(*str));
+				add_token(mbox, ft_substr(str, 0, i), get_token_type(*str));
 			str += i;
 		}
 	}
 }
 
-void	print_tokenizer_output(t_minibox *minibox)
+void	print_tokenizer_output(t_mbox *mbox)
 {
 	printf("\n ------------------------------------ \n");
 	printf("|           TOKENIZER                |\n");
 	printf(" ------------------------------------ \n");
-	print_tokens(minibox);
+	print_tokens(mbox);
 	printf(" ------------------------------------ \n");
 }
 
 /*
 	makes a linked list with the tokens grabbed from 
-	minibox->input_expanded
+	mbox->inp_expand
 	the result will be stored in the linked list:
-	minibox->tokens
+	mbox->tokens
 */
-void	tokenize(t_minibox *minibox, int i)
+void	tokenize(t_mbox *mbox, int i)
 {
 	char	**no_space;
 
-	no_space = ft_split(minibox->input_expanded, NO_SPACE);
+	no_space = ft_split(mbox->inp_expand, NO_SPACE);
 	while (no_space[i])
 	{
 		if (ft_strchr(no_space[i], add_offset('|'))
@@ -157,12 +157,12 @@ void	tokenize(t_minibox *minibox, int i)
 			|| ft_strchr(no_space[i], add_offset('\''))
 			|| ft_strchr(no_space[i], add_offset('"')))
 		{
-			split_by_sep(minibox, no_space[i], 0, OUT_Q);
+			split_by_sep(mbox, no_space[i], 0, OUT_Q);
 		}
 		else
-			add_token(minibox, ft_strdup(no_space[i]), WORD_TOKEN);
+			add_token(mbox, ft_strdup(no_space[i]), WORD_TOKEN);
 		i++;
 	}
 	free_whatever("m", no_space);
-	print_tokenizer_output(minibox);
+	print_tokenizer_output(mbox);
 }

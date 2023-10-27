@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:33:09 by astein            #+#    #+#             */
-/*   Updated: 2023/10/21 12:30:17 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/27 15:14:01 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,24 +61,24 @@ static int  env_counter(t_env_var *env_var)
         return (1 + env_counter(env_var->next));
 }
 
-static void    sort_and_print_var(t_minibox *minibox)
+static void    sort_and_print_var(t_mbox *mbox)
 {
     char    **env_matrix;
-    // t_var   *current_var;
+    // t_var   *cur_var;
 
-    // current_var = minibox->vars;
+    // cur_var = mbox->vars;
     
     // env_matrix = ft_calloc(count_vars + 1, sizeof(char *));
     // if (!env_matrix)
     //     return ;
     // while  (++i < count_vars)
     // {
-    //     env_matrix[i] = ft_strdup(current_var->key);
-    //     current_var = current_var->next;
+    //     env_matrix[i] = ft_strdup(cur_var->key);
+    //     cur_var = cur_var->next;
     // }
     int count_vars;
-    count_vars = env_counter(minibox->vars);
-    env_matrix = env_to_matrix(minibox);
+    count_vars = env_counter(mbox->vars);
+    env_matrix = env_to_matrix(mbox);
     env_matrix = bubble_sort(env_matrix, count_vars);
     if (!env_matrix)
         return ;
@@ -86,18 +86,18 @@ static void    sort_and_print_var(t_minibox *minibox)
     i = -1;
     while (++i < count_vars)
         printf ("declare -x %s=\"%s\"\n", env_matrix[i],
-            get_var_value(minibox, env_matrix[i]));
+            get_var_value(mbox, env_matrix[i]));
     free_whatever("m", env_matrix);
 }
 
-void builtin_export(t_minibox *minibox, t_tree *arg_node)
+void builtin_export(t_mbox *mbox, t_tree *arg_node)
 {
     char    *equal_sign;
     char    *key;
     char    *value;
     
     if(!arg_node)
-        sort_and_print_var(minibox);
+        sort_and_print_var(mbox);
     while (arg_node)
     {
         equal_sign = NULL;
@@ -114,7 +114,7 @@ void builtin_export(t_minibox *minibox, t_tree *arg_node)
                 ft_strlen(arg_node->content) - ft_strlen(equal_sign));
             value = ft_substr(equal_sign, 1, ft_strlen(equal_sign)-1);
             if (validate_key(key))
-                set_var_value(minibox, key, value);
+                set_var_value(mbox, key, value);
             else
                 create_error_msg("nnnn", ERR_PROMT, "export: `",
                     arg_node->content, "': not a valid identifier");

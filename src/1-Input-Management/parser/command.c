@@ -3,24 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   command.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 17:50:11 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/06 17:07:24 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/27 15:13:17 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
 
-t_tree *command_main(t_minibox *minibox)
+t_tree *command_main(t_mbox *mbox)
 {
-    minibox->tmp_node = ast_create_node(CMD_NODE);
-    token_list_main(minibox);    
-    if(minibox->tmp_node &&
-        (minibox->tmp_node->content || minibox->tmp_node->left))
+    mbox->tmp_node = ast_create_node(CMD_NODE);
+    token_list_main(mbox);    
+    if(mbox->tmp_node &&
+        (mbox->tmp_node->content || mbox->tmp_node->left))
     {
-        return(minibox->tmp_node);
+        return(mbox->tmp_node);
     }
-    delete_ast(minibox->tmp_node);
+    delete_ast(mbox->tmp_node);
     return(NULL);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 18:26:39 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/23 20:39:35 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/27 15:13:16 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,13 @@ t_bool    validate_token(t_token *token, int next_amount, int token_type)
 	return (true);
 }
 
-void	*put_syntax_error(t_minibox *minibox, t_token *error_token)
+void	*put_syntax_error(t_mbox *mbox, t_token *error_token)
 {
 	char    *err_msg;
 	
-	if (minibox->error_status == false)
+	if (mbox->error_status == false)
 	{
-		minibox->error_status = true;
+		mbox->error_status = true;
 		if(error_token && error_token->value)
 		{
 			err_msg = ft_strcat_multi(3,"syntax error near unexpected token `",
@@ -64,7 +64,7 @@ void	*put_syntax_error(t_minibox *minibox, t_token *error_token)
 			ft_putendl_fd ("syntax error near unexpected token `newline'", 2);
 	}
 	if (error_token)
-		minibox->tmp_token = error_token->next;
+		mbox->tmp_token = error_token->next;
 	return(NULL);
 }
 
@@ -147,11 +147,11 @@ static void	display_ast(t_tree *root, int indent_level)
 }
 
 /* Print the ouput of the AST built by the Parser*/
-void	print_parser_output(t_minibox *minibox)
+void	print_parser_output(t_mbox *mbox)
 {
 	printf("\n ------------------------------------ \n");
 	printf("|               PARSER               |\n");
 	printf(" ------------------------------------ \n");
-	display_ast(minibox->root, 0);
+	display_ast(mbox->root, 0);
 	printf(" ------------------------------------ \n\n");
 }
