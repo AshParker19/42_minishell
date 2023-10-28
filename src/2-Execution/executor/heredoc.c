@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:00:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/28 14:46:58 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/28 15:23:38 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ static  char *get_key(t_mbox *mbox, char *str, int *i)
 /**
  * @brief   this function will be called for each line that will be inserted
  *          into the heredoc. its purpose is to look for dollar signs and
- *          expand all vars. therefore it returns the expandend string
+ *          expand all env_vars. therefore it returns the expandend string
  * 
  *          and frees the original one!
  * 

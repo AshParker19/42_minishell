@@ -30,40 +30,40 @@ LIB_FOLDER     = ./libft/
 
 # ->Files
 LIBFT = $(LIB_FOLDER)libft.a
-SRCS = $(addprefix $(SRC_FOLDER), 				\
-	0-Core/main.c								\
-	0-Core/env.c								\
-	0-Core/general_utils_1.c					\
-	0-Core/input_manager.c						\
-	0-Core/manage_mbox.c						\
-	0-Core/signals.c							\
-	1-Input-Management/lexer/expand_vars.c		\
-	1-Input-Management/lexer/lexer.c 			\
-	1-Input-Management/lexer/quotes_handler.c	\
-	1-Input-Management/lexer/lexer_utils.c		\
-	1-Input-Management/lexer/utils_heredoc.c	\
-	1-Input-Management/parser/parser.c			\
-	1-Input-Management/parser/job.c				\
-	1-Input-Management/parser/command.c			\
-	1-Input-Management/parser/token_list.c		\
-	1-Input-Management/parser/redir.c			\
-	1-Input-Management/parser/redir_in.c		\
-	1-Input-Management/parser/redir_out.c		\
-	1-Input-Management/parser/parser_utils.c	\
-	2-Execution/executor/executor.c				\
-	2-Execution/executor/executor_utils.c		\
-	2-Execution/executor/utils_system.c			\
-	2-Execution/executor/utils_builtin.c		\
-	2-Execution/executor/pipes.c				\
-	2-Execution/executor/redirection.c			\
-	2-Execution/executor/heredoc.c				\
-	2-Execution/builtins/cd.c					\
-	2-Execution/builtins/echo.c					\
-	2-Execution/builtins/pwd.c					\
-	2-Execution/builtins/export.c				\
-	2-Execution/builtins/unset.c				\
-	2-Execution/builtins/env.c					\
-	2-Execution/builtins/exit.c					\
+SRCS = $(addprefix $(SRC_FOLDER), 					\
+	0-Core/main.c									\
+	0-Core/env.c									\
+	0-Core/general_utils_1.c						\
+	0-Core/input_manager.c							\
+	0-Core/manage_mbox.c							\
+	0-Core/signals.c								\
+	1-Input-Management/tokenizer/expand_vars.c		\
+	1-Input-Management/tokenizer/tokenizer.c 		\
+	1-Input-Management/tokenizer/quotes_handler.c	\
+	1-Input-Management/tokenizer/tokenizer_utils.c	\
+	1-Input-Management/tokenizer/utils_heredoc.c	\
+	1-Input-Management/parser/parser.c				\
+	1-Input-Management/parser/job.c					\
+	1-Input-Management/parser/command.c				\
+	1-Input-Management/parser/token_list.c			\
+	1-Input-Management/parser/redir.c				\
+	1-Input-Management/parser/redir_in.c			\
+	1-Input-Management/parser/redir_out.c			\
+	1-Input-Management/parser/parser_utils.c		\
+	2-Execution/executor/executor.c					\
+	2-Execution/executor/executor_utils.c			\
+	2-Execution/executor/utils_system.c				\
+	2-Execution/executor/utils_builtin.c			\
+	2-Execution/executor/pipes.c					\
+	2-Execution/executor/redirection.c				\
+	2-Execution/executor/heredoc.c					\
+	2-Execution/builtins/cd.c						\
+	2-Execution/builtins/echo.c						\
+	2-Execution/builtins/pwd.c						\
+	2-Execution/builtins/export.c					\
+	2-Execution/builtins/unset.c					\
+	2-Execution/builtins/env.c						\
+	2-Execution/builtins/exit.c						\
 	)
 
 # Object files

@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:23:39 by astein            #+#    #+#             */
-/*   Updated: 2023/10/28 14:37:43 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/28 15:37:23 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,7 @@ void reset_executor(t_mbox *mbox)
 
 void load_executor(t_mbox *mbox)
 {
-	char	*path;
-
-	path = get_var_value(mbox, "PATH");
-	mbox->executor.path_dirs = ft_split(path, ':');
+	
 	initialize_builtins(mbox);
 }
 
@@ -88,6 +85,7 @@ void	print_executor_output(t_mbox *mbox, int i)
 
 void    free_executor(t_mbox *mbox)
 {
-	free_whatever("m", mbox->executor.path_dirs);
 	//TODO: Close FDs
 }
+
+// nfs/homes/astein/local/bin:/nfs/homes/astein/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin

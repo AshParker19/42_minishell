@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:49:13 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/28 14:37:07 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/28 15:28:28 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	initialize_box(t_mbox *mbox, char **env)
 {
 	mbox->env = env;
-	mbox->vars = NULL;
+	mbox->env_vars = NULL;
 	mbox->inp_orig = NULL;
 	mbox->inp_trim = NULL;
 	mbox->inp_shift = NULL;
@@ -26,15 +26,6 @@ void	initialize_box(t_mbox *mbox, char **env)
 	mbox->tmp_token = NULL;
 	mbox->tmp_node = NULL;
 }
-// void	free_matrix(char **matrix, int i)
-// {
-// 	if (matrix)
-// 	{
-// 		while (matrix[++i])
-// 			free (matrix[i]);
-// 		free (matrix);		
-// 	}
-// }
 
 void free_input_strings(t_mbox *mbox)
 {

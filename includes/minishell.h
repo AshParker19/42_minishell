@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2023/10/28 14:36:14 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/28 15:24:06 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@
 /* info for mbox */
 typedef struct s_env_var t_env_var;
 typedef struct s_builtin_cmd t_builtin_cmd;
-// typedef struct  s_1_cycle t_1_cycle;
 typedef struct s_exec t_exec;
 
 /* 
@@ -67,7 +66,7 @@ typedef struct s_mbox
 {
     // TODO: REMOVE THE VARS THAT ARE ONLY FOR ONE CYCLE!!!
     char        **env;
-    t_env_var   *vars;
+    t_env_var   *env_vars;
     
     char        *inp_orig;
     char        *inp_trim;
@@ -88,11 +87,6 @@ typedef struct s_env_var
     char        *value;
     struct      s_env_var *next;
 }              t_env_var;
-
-// typedef struct  s_1_cycle 
-// {
-    
-// }                t_1_cycle;
 
 /******************************************************************************/
 

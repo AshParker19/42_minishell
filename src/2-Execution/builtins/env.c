@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:33:46 by astein            #+#    #+#             */
-/*   Updated: 2023/10/28 14:27:38 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/28 15:23:38 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	builtin_env(t_mbox *mbox, t_tree *arg_node)
 			"’: No such file or directory");
 	else
 	{
-		cur = mbox->vars;
+		cur = mbox->env_vars;
 		while (cur)
 		{
 			if (!ft_strcmp_strict(cur->key, "?"))

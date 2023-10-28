@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 17:55:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/27 23:57:53 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/28 15:30:07 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,12 @@ typedef struct s_io
 typedef struct s_exec
 {
     // TODO: REMOVE THE VARS THAT ARE ONLY FOR ONE CYCLE!!!
-    char            **path_dirs;
+    // char            **path_dirs;
     t_builtin_cmd   builtins[8];
     char            **cmd_av;
     t_io            io;
     int             *pid;
     int             pid_index;
-    // int             exit_status;
 }   t_exec;
 
 

@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:16:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/28 14:14:10 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/28 15:23:38 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 /**
  * @brief   THS FILE DEALS WITH ALL ENVIROMENT VARIABLE RELATED TOPICS
  * 
- * 	The head of the linked list (ll) is stored in mbox->vars
+ * 	The head of the linked list (ll) is stored in mbox->env_vars
  * 	The ll nodes data structure is 't_env_var'
  * 	...a classic key value pair
  *	 key and value are both ALLOCATED MEMMORY and need to be freed on exit
  * 
  *  MANAGEMENT
  *  'load_vars'			creates the ll on startup
- * 	'free_vars'			iterates the ll (mbox->vars) and frees all nodes
+ * 	'free_vars'			iterates the ll (mbox->env_vars) and frees all nodes
  * 	'free_var'			called by 'free_vars' to free one node of the ll
  * 
  *  READ FUNCTIONS
@@ -53,7 +53,7 @@ static t_bool   is_var(t_mbox *mbox, char *key)
 
 	if (!key)
 		return (ft_false);
-    cur = mbox->vars;
+    cur = mbox->env_vars;
     while(cur)
     {
         if(ft_strcmp_strict(key, cur->key))
@@ -96,7 +96,7 @@ void	increment_shlvl(t_mbox *mbox)
             ->then just chanege
         new_var->key = key
         new_var->value = value
-    add the new node to the end of the vars linked lis tin mbox
+    add the new node to the end of the env_vars linked lis tin mbox
 */
 
 /**
@@ -114,7 +114,7 @@ void    set_var_value(t_mbox *mbox, char *key, char *value)
     t_env_var   *cur;
     
     // we look if already exists -> then free the old one and connect the pointer to the parameter
-    cur = mbox->vars;
+    cur = mbox->env_vars;
     if(is_var(mbox, key))
     {
         while(cur)
@@ -138,11 +138,11 @@ void    set_var_value(t_mbox *mbox, char *key, char *value)
     new_var->value = value;
 
     // add to list if new creatd
-    if (!mbox->vars)
-        mbox->vars = new_var;
+    if (!mbox->env_vars)
+        mbox->env_vars = new_var;
     else
     {
-        cur = mbox->vars;
+        cur = mbox->env_vars;
         while (cur->next)
             cur = cur->next;
         cur->next = new_var;    
@@ -158,7 +158,7 @@ void    set_var_value(t_mbox *mbox, char *key, char *value)
  * @brief	This function must only be called at startup and creates a ll out
  * 			of the main param 'env' which can be accessed via miniox->env
  * 			
- * 			The head of the created ll will be stored in mbox->vars via the
+ * 			The head of the created ll will be stored in mbox->env_vars via the
  * 			function 'set_var_value'
  * 
  * @param	mbox	mbox is a struct that stores all runtime related infos
@@ -193,7 +193,7 @@ char *get_var_value(t_mbox *mbox, char *key)
     t_env_var *cur;
     char *value;
 
-    cur = mbox->vars;
+    cur = mbox->env_vars;
     value = NULL;
     while(cur)
     {
@@ -223,23 +223,23 @@ void delete_var(t_mbox *mbox, char *key)
     t_env_var   *cur;
     t_env_var   *temp;
     
-    if(!mbox->vars)
+    if(!mbox->env_vars)
         return ;
     // first check if key actually exists in ll
     if(!is_var(mbox, key))
         return ;
 
     // delete head
-    if(ft_strcmp_strict(key, mbox->vars->key))
+    if(ft_strcmp_strict(key, mbox->env_vars->key))
     {
-        temp = mbox->vars;
-        mbox->vars = mbox->vars->next;
+        temp = mbox->env_vars;
+        mbox->env_vars = mbox->env_vars->next;
         free_var(temp);
         return ;
     }
     
     // delete node in list
-    cur = mbox->vars;
+    cur = mbox->env_vars;
     while(cur->next)
     {
         if(ft_strcmp_strict(key, cur->next->key))
@@ -281,7 +281,7 @@ void free_vars(t_mbox *mbox)
     t_env_var *cur;
     t_env_var *temp;
 
-    cur = mbox->vars;
+    cur = mbox->env_vars;
     while(cur)
     {
         temp = cur;
@@ -318,8 +318,8 @@ char **env_to_matrix(t_mbox *mbox)
     int     i;
 
     i = -1;
-    count_vars = env_counter(mbox->vars);
-    cur_var = mbox->vars;
+    count_vars = env_counter(mbox->env_vars);
+    cur_var = mbox->env_vars;
     env_matrix = ft_calloc(count_vars + 1, sizeof(char *));
     if (!env_matrix)
         return (NULL);

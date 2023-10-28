@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:33:09 by astein            #+#    #+#             */
-/*   Updated: 2023/10/28 14:28:57 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/28 15:23:38 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static void    sort_and_print_var(t_mbox *mbox)
     char    **env_matrix;
     // t_var   *cur_var;
 
-    // cur_var = mbox->vars;
+    // cur_var = mbox->env_vars;
     
     // env_matrix = ft_calloc(count_vars + 1, sizeof(char *));
     // if (!env_matrix)
@@ -77,7 +77,7 @@ static void    sort_and_print_var(t_mbox *mbox)
     //     cur_var = cur_var->next;
     // }
     int count_vars;
-    count_vars = env_counter(mbox->vars) - 1;
+    count_vars = env_counter(mbox->env_vars) - 1;
     env_matrix = env_to_matrix(mbox);
     env_matrix = bubble_sort(env_matrix, count_vars);
     if (!env_matrix)

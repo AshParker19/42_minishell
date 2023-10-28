@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_manager.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 15:35:02 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/27 19:45:33 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/28 15:12:48 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	expand_variables(t_mbox *mbox, int k, int k_end, int quote_state);
 char    *extract_limiter(t_mbox *mbox, int *k, int *quote_state);
 
 
-/* LEXER */
+/* TOKENIZER */
 void	tokenize(t_mbox *mbox, int i);
 int		add_offset(int c);
 int		remove_offset(int c);

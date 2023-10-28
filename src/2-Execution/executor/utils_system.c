@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 13:07:56 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/27 15:13:17 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/28 15:44:51 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,14 @@ static char    *get_cmd_path(t_mbox *mbox, char *cmd, int i, t_bool abs)
 	int     check;
 	char    *path;
 	char    *path_temp;
+	char    **path_dirs;
 	
+	path_dirs = ft_split(get_var_value(mbox, "PATH"), ':');
+	if(!path_dirs)
+	{
+		create_error_msg("nnn", ERR_PROMT, cmd, ": No such file or directory");
+		exit(0);//TODO: check frees and exit status
+	}
 	path = NULL;
 	if (ft_strchr(cmd, '/'))
 	{
@@ -30,9 +37,9 @@ static char    *get_cmd_path(t_mbox *mbox, char *cmd, int i, t_bool abs)
 	}
 	else
 	{
-		while (mbox->executor.path_dirs[++i])
+		while (path_dirs[++i])
 		{
-			path = ft_strcat_multi(3, mbox->executor.path_dirs[i], "/", cmd);
+			path = ft_strcat_multi(3, path_dirs[i], "/", cmd);
 			check = access(path, F_OK);
 			if (!check)
 				break ;
@@ -44,6 +51,7 @@ static char    *get_cmd_path(t_mbox *mbox, char *cmd, int i, t_bool abs)
 		}
 	}
 	// always null or absolute path
+	free_whatever("m", path_dirs);
 	if (!path)
 		return (NULL);
 	else
