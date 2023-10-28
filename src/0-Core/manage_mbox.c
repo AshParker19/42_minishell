@@ -6,25 +6,25 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:49:13 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/27 15:14:01 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/28 14:37:07 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	initialize_box(t_mbox *minibox, char **env)
+void	initialize_box(t_mbox *mbox, char **env)
 {
-	minibox->env = env;
-	minibox->vars = NULL;
-	minibox->inp_orig = NULL;
-	minibox->inp_trim = NULL;
-	minibox->inp_shift = NULL;
-	minibox->inp_expand = NULL;
-	minibox->error_status = false;
-	minibox->tokens = NULL;
-	minibox->root = NULL;
-	minibox->tmp_token = NULL;
-	minibox->tmp_node = NULL;
+	mbox->env = env;
+	mbox->vars = NULL;
+	mbox->inp_orig = NULL;
+	mbox->inp_trim = NULL;
+	mbox->inp_shift = NULL;
+	mbox->inp_expand = NULL;
+	mbox->error_status = false;
+	mbox->tokens = NULL;
+	mbox->root = NULL;
+	mbox->tmp_token = NULL;
+	mbox->tmp_node = NULL;
 }
 // void	free_matrix(char **matrix, int i)
 // {
@@ -36,58 +36,61 @@ void	initialize_box(t_mbox *minibox, char **env)
 // 	}
 // }
 
-void free_input_strings(t_mbox *minibox)
+void free_input_strings(t_mbox *mbox)
 {
-	if (minibox->inp_orig)
-		free(minibox->inp_orig);
-	if (minibox->inp_trim)
-		free(minibox->inp_trim);
-	if (minibox->inp_shift)
-		free (minibox->inp_shift);
-	if (minibox->inp_expand)
-		free(minibox->inp_expand);
+	if (mbox->inp_orig)
+		free(mbox->inp_orig);
+	if (mbox->inp_trim)
+		free(mbox->inp_trim);
+	if (mbox->inp_shift)
+		free (mbox->inp_shift);
+	if (mbox->inp_expand)
+		free(mbox->inp_expand);
 }
 
-void free_tokens(t_mbox *minibox)
+void free_tokens(t_mbox *mbox)
 {
 	t_token *cur;
 
-	while(minibox->tokens)
+	while(mbox->tokens)
 	{
-		cur = minibox->tokens;
-		minibox->tokens = minibox->tokens->next;
+		cur = mbox->tokens;
+		mbox->tokens = mbox->tokens->next;
 		free(cur->value);
 		free(cur);
 	}
-	minibox->tokens = NULL;
+	mbox->tokens = NULL;
 }
 
-void free_cycle(t_mbox *minibox)
+void free_cycle(t_mbox *mbox)
 {
-    free_input_strings(minibox);    
-    free_tokens(minibox);
-    minibox->tokens = NULL;
-    delete_ast(minibox->root);
-    minibox->root = NULL;
-	free_process(minibox);
-	if (minibox->executor.pid)
+    free_input_strings(mbox);    
+    free_tokens(mbox);
+    mbox->tokens = NULL;
+    delete_ast(mbox->root);
+    mbox->root = NULL;
+	free_process(mbox);
+	if (mbox->executor.pid)
 	{
-		free (minibox->executor.pid);
-		minibox->executor.pid = NULL;
+		free (mbox->executor.pid);
+		mbox->executor.pid = NULL;
 	}
 	dbg_printf(no_block, "FREED CYCLE READY TO GO AGAIN!\n");
 }
 
 // TODO:
-// Function should check all members of the minibox struct 
+// Function should check all members of the mbox struct 
 // and frees them if they are inizialised
 // exits program
-void free_and_close_box(t_mbox *minibox, int exit_status)
+void free_and_close_box(t_mbox *mbox)
 {
-	free_input_strings(minibox);
-	free_tokens(minibox);
-	delete_ast(minibox->root);
-	free_vars(minibox);
-	free_executor(minibox);
+	int	exit_status;
+	
+	exit_status = ft_atoi(get_var_value(mbox, "?"));
+	free_input_strings(mbox);
+	free_tokens(mbox);
+	delete_ast(mbox->root);
+	free_vars(mbox);
+	free_executor(mbox);
     exit(exit_status);
 }

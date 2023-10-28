@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:19:44 by astein            #+#    #+#             */
-/*   Updated: 2023/10/27 15:14:01 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/28 14:37:23 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,14 +68,14 @@ static void perform_child(t_mbox *mbox, t_tree *cmd_node, int cmd_pos, int *cur_
 	}
 	setup_pipes(mbox, cur_pipe);
 	if (!setup_redir(mbox, cmd_node->left))
-		free_and_close_box(mbox, mbox->executor.exit_status);
+		free_and_close_box(mbox);
 	setup_process_std(mbox);
 	if (cmd_pos == FIRST_CMD || cmd_pos == MIDDLE_CMD)
 		close(cur_pipe[P_RIGHT]);
 	if (cmd_pos != FIRST_CMD && mbox->executor.io.prev_pipe[P_RIGHT] != -1)
 		close(mbox->executor.io.prev_pipe[P_RIGHT]);
 	run_cmd_main(mbox, cmd_node);
-	free_and_close_box(mbox, mbox->executor.exit_status);
+	free_and_close_box(mbox);
 }
 
 static void	perform_parent(t_mbox *mbox, t_tree *cmd_node, int cmd_pos, int *cur_pipe)
@@ -123,10 +123,16 @@ t_bool    execute_cmd(t_mbox *mbox, t_tree *cmd_node, int cmd_pos)
 void    wait_for_execution(t_mbox *mbox)
 {
 	int i;
+	int	exit_status;
 	
 	i = -1;
 	while (++i < cmd_counter(mbox->root))
-		waitpid(mbox->executor.pid[i], &mbox->executor.exit_status, 0);
+	{
+		waitpid(mbox->executor.pid[i], &exit_status, 0);
+		set_var_value(mbox, "?", ft_itoa(exit_status));		
+	}
+	if (WIFEXITED(exit_status))
+		set_var_value(mbox, "?", ft_itoa(WEXITSTATUS(exit_status)));
 }
 
 /*
@@ -165,9 +171,6 @@ t_bool    execute(t_mbox *mbox) //TODO: do exit for builtins
 		execute_cmd(mbox, cur->right, LAST_CMD);   
 	}
 	wait_for_execution(mbox);
-	if (WIFEXITED(mbox->executor.exit_status))
-		mbox->executor.exit_status
-			= WEXITSTATUS(mbox->executor.exit_status);
 	return (ft_true);
 }
 

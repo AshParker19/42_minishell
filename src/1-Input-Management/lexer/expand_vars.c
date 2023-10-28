@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_vars.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 12:58:49 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/27 19:48:04 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/28 14:50:22 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,25 +91,20 @@ static void found_dollar(t_mbox *mbox, int quote_s, int *k, char cur_c)
         update_qoute_state(&quote_s, cur_c);
         if (quote_s != old_qoute_s)
             mbox->inp_expand = append_str(mbox->inp_expand, ft_chr2str(cur_c), ft_true);
-            // appppppend_str(mbox, ft_chr2str(cur_c));
         else if (cur_c == '?')
-            mbox->inp_expand = append_str(mbox->inp_expand, ft_itoa(mbox->executor.exit_status), ft_true);
-            // appppppend_str(mbox, ft_itoa(mbox->executor.exit_status));
+            mbox->inp_expand = append_str(mbox->inp_expand, get_var_value(mbox, "?"), ft_false);
         else if (cur_c == NO_SPACE || ft_isspace(cur_c))
             mbox->inp_expand = append_str(mbox->inp_expand, "$", ft_false);
-            // appppppend_str(mbox, "$ ");//TODO: we this fixes the "echo      $    ?" double space issue; we need to chek again why we had it there before removeing it!!!
         else if (ft_isalnum(cur_c) || cur_c == ' ')
             found_key(mbox, quote_s, k);
         else if(cur_c == '\'' || cur_c == '"')
         {
             mbox->inp_expand = append_str(mbox->inp_expand, "$", ft_false);
             mbox->inp_expand = append_str(mbox->inp_expand, ft_chr2str(cur_c), ft_true);
-            // appppppend_str(mbox, ft_strjoin(ft_chr2str('$'), ft_chr2str(cur_c))); //FIXME: this shit is gonna leak as fuck
         }
     }
     else
         mbox->inp_expand = append_str(mbox->inp_expand, ft_chr2str('$'), ft_true);
-        // appppppend_str(mbox, ft_chr2str('$'));
 }
 
 /*
@@ -140,8 +135,6 @@ void	expand_variables(t_mbox *mbox, int k, int k_end, int quote_state)
         {
             mbox->inp_expand = append_str(mbox->inp_expand, ft_chr2str(cur_char), ft_true);
             mbox->inp_expand = append_str(mbox->inp_expand, extract_limiter(mbox, &k, &quote_state), ft_true);
-            // appppppend_str(mbox, ft_chr2str(cur_char));
-            // appppppend_str(mbox, extract_limiter(mbox, &k, &quote_state));
         }
         else
         {
@@ -149,7 +142,6 @@ void	expand_variables(t_mbox *mbox, int k, int k_end, int quote_state)
                 found_dollar(mbox, quote_state, &k, cur_char);
             else
             mbox->inp_expand = append_str(mbox->inp_expand, ft_chr2str(cur_char), ft_true);
-            // appppppend_str(mbox, ft_chr2str(cur_char));    
         }
         k++;
     }

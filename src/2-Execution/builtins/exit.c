@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:33:57 by astein            #+#    #+#             */
-/*   Updated: 2023/10/27 15:13:17 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/28 14:38:42 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void    builtin_exit(t_mbox *mbox, t_tree *arg_node)
     // TODO: NOT SURE IF I CAN DO IT HERE, BECAUSE THE ENV NEEDS TO CHANGE IN THE PARENT NOT IN THE CHILD!
     // TODO: Deal with exit status!
 
-    free_and_close_box(mbox, -100);
+    free_and_close_box(mbox);
     exit(0);
     
 

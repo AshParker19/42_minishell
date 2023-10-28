@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:16:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/27 15:14:01 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/28 14:14:10 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,6 +177,7 @@ void load_vars(t_mbox *mbox)
         set_var_value(mbox, key, ft_strdup(getenv(key)));
         i++;    
     }
+    set_var_value(mbox, ft_chr2str('?'), ft_chr2str('0'));
 }
 
 /**
@@ -324,8 +325,11 @@ char **env_to_matrix(t_mbox *mbox)
         return (NULL);
     while (++i < count_vars)
     {
-        env_matrix[i] = ft_strcat_multi(3, cur_var->key, "=" , cur_var->value);
-        cur_var = cur_var->next;
+		if (!ft_strcmp_strict(cur_var->key, "?"))
+		{
+			env_matrix[i] = ft_strcat_multi(3, cur_var->key, "=" , cur_var->value);
+			cur_var = cur_var->next;
+		}
     }
     return (env_matrix);
 }

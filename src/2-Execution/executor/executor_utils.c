@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:23:39 by astein            #+#    #+#             */
-/*   Updated: 2023/10/27 16:31:20 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/28 14:37:43 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ void load_executor(t_mbox *mbox)
 	path = get_var_value(mbox, "PATH");
 	mbox->executor.path_dirs = ft_split(path, ':');
 	initialize_builtins(mbox);
-	mbox->executor.exit_status = EXIT_SUCCESS;
 }
 
 int		cmd_counter(t_tree *tree_node)

@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:33:46 by astein            #+#    #+#             */
-/*   Updated: 2023/10/27 15:13:17 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/28 14:27:38 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,14 @@ void	builtin_env(t_mbox *mbox, t_tree *arg_node)
 		cur = mbox->vars;
 		while (cur)
 		{
-			ft_putstr_fd(cur->key, 1);
-			ft_putchar_fd('=', 1);
-			if (cur->value)
-				ft_putstr_fd(cur->value, 1);
-			ft_putchar_fd('\n', 1);
+			if (!ft_strcmp_strict(cur->key, "?"))
+			{
+				ft_putstr_fd(cur->key, 1);
+				ft_putchar_fd('=', 1);
+				if (cur->value)
+					ft_putstr_fd(cur->value, 1);
+				ft_putchar_fd('\n', 1);
+			}
 			cur = cur->next;
 		}
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:00:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/27 22:08:11 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/28 14:46:58 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,18 @@
  * @param str 
  * @return char* 
  */
-static  char *get_key(char *str, int *i)
+static  char *get_key(t_mbox *mbox, char *str, int *i)
 {
     char    *key;
 
     key = NULL;
     if (!str)
         return (key);
+    if (str[*i] == '?')
+    {
+        
+        return (ft_chr2str('?'));
+    }
     if (!ft_isalpha(str[(*i)+1]) && str[(*i)+1] != '_')
     {
         (*i)--;
@@ -148,7 +153,7 @@ static char   *expand_heredoc_input(t_mbox *mbox, char *str)
             if (found_dollar)
             {
                 found_dollar = ft_false;
-                key = get_key(str, &i);
+                key = get_key(mbox, str, &i);
                 if (!key)
                     expanded_str = append_str(expanded_str, "$", ft_false);
                 else if (ft_strcmp_strict(key, "$"))
@@ -242,7 +247,7 @@ static  void heredoc_child(t_mbox *mbox, int *fd, char *delimiter)
     close (fd[P_LEFT]); // close because it was WRITE END
     free (delimiter);
     free_process(mbox);
-    free_and_close_box(mbox, EXIT_SUCCESS);
+    free_and_close_box(mbox);
 }
 
 // TODO: 

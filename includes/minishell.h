@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2023/10/27 15:13:16 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/28 14:36:14 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ void    free_cycle(t_mbox *mbox);
 // void	free_matrix(char **matrix, int i);
 void    free_input_strings(t_mbox *mbox);
 void    free_tokens(t_mbox *mbox);
-void    free_and_close_box(t_mbox *mbox, int exit_status);
+void    free_and_close_box(t_mbox *mbox);
 
 /* general_utils.c */
 void    create_error_msg(const char *format, ...);
