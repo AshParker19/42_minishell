@@ -6,18 +6,18 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 17:50:45 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/27 15:13:17 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/28 15:57:45 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
 
-static t_tree *redir_case1(t_mbox *mbox);
-static t_tree *redir_case2(t_mbox *mbox);
+static t_ast *redir_case1(t_mbox *mbox);
+static t_ast *redir_case2(t_mbox *mbox);
 
-t_tree *redir_main(t_mbox *mbox)
+t_ast *redir_main(t_mbox *mbox)
 {
-    t_tree  *redir_node;
+    t_ast  *redir_node;
     t_token *backup;
 
     if (!mbox->tmp_token)
@@ -34,9 +34,9 @@ t_tree *redir_main(t_mbox *mbox)
 }
 
 /* <redir in> */
-static t_tree *redir_case1(t_mbox *mbox)
+static t_ast *redir_case1(t_mbox *mbox)
 {
-    t_tree  *redir_in_node;
+    t_ast  *redir_in_node;
 
     if (!mbox->tmp_token)
         return (NULL);
@@ -48,9 +48,9 @@ static t_tree *redir_case1(t_mbox *mbox)
     return (redir_in_node);
 }
 /* <redir out> */
-static t_tree *redir_case2(t_mbox *mbox)
+static t_ast *redir_case2(t_mbox *mbox)
 {
-    t_tree  *redir_out_node;
+    t_ast  *redir_out_node;
 
     if (!mbox->tmp_token)
         return (NULL);

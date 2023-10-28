@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:33:57 by astein            #+#    #+#             */
-/*   Updated: 2023/10/28 14:38:42 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/28 18:03:17 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 // TODO: return the last child exit satus
 // TODO: check signal
 // TODO: CHANGE env SHLVL to -=1
-void    builtin_exit(t_mbox *mbox, t_tree *arg_node)
+void    builtin_exit(t_mbox *mbox, t_ast *arg_node)
 {
     printf("exit\n");
     if (arg_node && !ft_str_is_numeric(arg_node->content))
@@ -25,9 +25,7 @@ void    builtin_exit(t_mbox *mbox, t_tree *arg_node)
     // TODO: NOT SURE IF I CAN DO IT HERE, BECAUSE THE ENV NEEDS TO CHANGE IN THE PARENT NOT IN THE CHILD!
     // TODO: Deal with exit status!
 
-    free_and_close_box(mbox);
-    exit(0);
-    
+    free_and_close_box_v2(mbox);
 
     // SHLVL
     // 1

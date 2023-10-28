@@ -3,14 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   general_utils_1.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:43:17 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/19 14:40:26 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/28 19:08:16 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/**
+ * @brief   this function frees and resets everthting thats needed to process
+ *          one cycle
+ * 
+ *          NOTE:   only be called from 'main' before reading a new line
+ * 
+ * @param mbox 
+ */
+void    reset_cycle(t_mbox *mbox)
+{
+    free_cycle_v2 (mbox);
+	mbox->executor.io.prev_pipe[P_LEFT] = -1;
+	mbox->executor.io.prev_pipe[P_RIGHT] = -1;
+	mbox->executor.pid_index = 0;
+}
 
 /*
     create_error_msg("ccaca", "HI", "HI", ft_strup(), "HI", random_allocated_char)

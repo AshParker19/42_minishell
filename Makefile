@@ -9,7 +9,7 @@ DEBUG = 0
 
 # Compiler options
 CC = cc
-CFLAGS = -D DEBUG=$(DEBUG) -pg -g#-Wall -Werror -Wextra  #-fsanitize=address -fsanitize-address-use-after-scope
+CFLAGS = -D DEBUG=$(DEBUG) -g# -gp -Wall -Werror -Wextra  #-fsanitize=address -fsanitize-address-use-after-scope
 CLIBS = -L$(LIB_FOLDER) -lft -lm -lreadline
 CINCLUDES  = -I$(INCLUDE_FOLDER) 
 RM = rm -rf
@@ -113,6 +113,7 @@ norm:
 
 readline.supp:
 	wget https://raw.githubusercontent.com/benjaminbrassart/minishell/master/readline.supp
+
 valmem:$(NAME) readline.supp
 	valgrind --leak-check=full --show-leak-kinds=all --suppressions=readline.supp ./$(NAME)
 

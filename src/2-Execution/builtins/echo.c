@@ -6,20 +6,20 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:32:13 by astein            #+#    #+#             */
-/*   Updated: 2023/10/27 15:13:17 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/28 19:24:39 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void builtin_echo(t_mbox *mbox, t_tree *arg_node)
+void builtin_echo(t_mbox *mbox, t_ast *arg_node)
 {
     bool    print_nl;
 
     print_nl = true;
     if(arg_node)
     {
-        if (ft_strcmp_strict(arg_node->content, "-n"))
+        if (str_cmp_strct(arg_node->content, "-n"))
         {
             print_nl = false;
             arg_node = arg_node->right;

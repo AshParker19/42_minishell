@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 14:36:59 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/27 15:14:01 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/28 19:19:50 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ void update_qoute_state(int *quote_state, char cur_char)
     checks if a cur character is one of the separated ones 
     and if so it shifts it to negative ASCII values
 */
-void	mark_seps(t_mbox *mbox, int i, int quote_state)
+// TODO: RENAME FUCNTIOn
+t_bool  mark_seps(t_mbox *mbox, int i, int quote_state)
 {
     mbox->inp_shift = ft_strdup(mbox->inp_trim);
     while (mbox->inp_shift[i])
@@ -67,13 +68,10 @@ void	mark_seps(t_mbox *mbox, int i, int quote_state)
         }
         i++;
     }
-    //check if quotes are closed
     if (quote_state != OUT_Q)
     {
-        ft_putstr_fd("Syntax error:\n", 2);
-        // exit(0); FIXME:
-        // free_input_strings(mbox);
-        // TODO: HERE WE SOMEHOW NEED TO STOP THE INPUT MANAGER
-        // MAYBE WITH A RETURN BOOLEAN THAT MARK CONTEXT QUTES FAILED
+        create_error_msg("n", "Syntax error: unclosed quotes");
+        return (ft_false);
     }
+    return (ft_true);
 }

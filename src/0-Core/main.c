@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:06:17 by astein            #+#    #+#             */
-/*   Updated: 2023/10/27 15:13:17 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/28 19:09:01 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,17 @@ int	main(int ac, char **av, char **env)
 {
 	t_mbox	mbox;
 	(void)ac;
-	(void)av;
-	initialize_box(&mbox, env);
+	(void)av; //TODO: print shit with arg --info
+	initialize_box_v2(&mbox, env);
 	// initialize_signals();
-	load_vars(&mbox);
-	load_executor(&mbox);
+	load_vars_v2(&mbox);
+	initialize_builtins(&mbox);
+	// free_cycle_v2(&mbox); //TODO: move it somewhere better place
 	// test_builtins(&mbox);
 	
 	while (1)
 	{
+		reset_cycle(&mbox);//TODO:
 		mbox.inp_orig = readline(PROMT);
 		if (!mbox.inp_orig)
 			builtin_exit(&mbox, NULL);

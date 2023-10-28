@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:32:31 by astein            #+#    #+#             */
-/*   Updated: 2023/10/27 15:13:17 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/28 15:57:45 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void change_pwd(t_mbox *mbox, char *new_path)
     cd Documents/../../astein/Downloads/../../../../../..
 
 */
-void	builtin_cd(t_mbox *mbox, t_tree *arg_node)
+void	builtin_cd(t_mbox *mbox, t_ast *arg_node)
 {
     struct stat path_stat;
 

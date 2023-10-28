@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:16:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/28 15:23:38 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/28 19:24:39 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@
  *	 key and value are both ALLOCATED MEMMORY and need to be freed on exit
  * 
  *  MANAGEMENT
- *  'load_vars'			creates the ll on startup
- * 	'free_vars'			iterates the ll (mbox->env_vars) and frees all nodes
- * 	'free_var'			called by 'free_vars' to free one node of the ll
+ *  'load_vars_v2'			creates the ll on startup
+ * 	'free_vars_v2'			iterates the ll (mbox->env_vars) and frees all nodes
+ * 	'free_var_v2'			called by 'free_vars_v2' to free one node of the ll
  * 
  *  READ FUNCTIONS
  *  'is_var'			checks if the argument 'key' is present in list
@@ -56,7 +56,7 @@ static t_bool   is_var(t_mbox *mbox, char *key)
     cur = mbox->env_vars;
     while(cur)
     {
-        if(ft_strcmp_strict(key, cur->key))
+        if(str_cmp_strct(key, cur->key))
             return (ft_true);
         cur = cur->next;
     }
@@ -119,7 +119,7 @@ void    set_var_value(t_mbox *mbox, char *key, char *value)
     {
         while(cur)
         {
-            if(ft_strcmp_strict(key, cur->key))
+            if(str_cmp_strct(key, cur->key))
             {
                 if(cur->value)
                     free(cur->value);
@@ -156,14 +156,18 @@ void    set_var_value(t_mbox *mbox, char *key, char *value)
 
 /**
  * @brief	This function must only be called at startup and creates a ll out
- * 			of the main param 'env' which can be accessed via miniox->env
+ * 			of the main param 'env' which can be accessed via 'mbox->env'
  * 			
- * 			The head of the created ll will be stored in mbox->env_vars via the
+ * 			The head of the created ll will be stored in 'mbox->env_vars' via the
  * 			function 'set_var_value'
+ * 
+ *          NOTE: only called once by 'main' on startup
+ *  
+ *          NOTE: a special node for the exit status with key '?' will be added
  * 
  * @param	mbox	mbox is a struct that stores all runtime related infos
  */
-void load_vars(t_mbox *mbox)
+void load_vars_v2(t_mbox *mbox)
 {
     int     i;
     char    *key;
@@ -197,7 +201,7 @@ char *get_var_value(t_mbox *mbox, char *key)
     value = NULL;
     while(cur)
     {
-        if(ft_strcmp_strict(key, cur->key))
+        if(str_cmp_strct(key, cur->key))
         {
             value = cur->value;
             break;
@@ -213,7 +217,7 @@ char *get_var_value(t_mbox *mbox, char *key)
 
 /**
  * @brief	This function checks if the 'key' exists in the ll and delets the
- * 			node from the ll using the function 'free_var'
+ * 			node from the ll using the function 'free_var_v2'
  * 
  * @param	mbox	mbox is a struct that stores all runtime related infos
  * @param	key		key of the node which should be deleted
@@ -230,11 +234,11 @@ void delete_var(t_mbox *mbox, char *key)
         return ;
 
     // delete head
-    if(ft_strcmp_strict(key, mbox->env_vars->key))
+    if(str_cmp_strct(key, mbox->env_vars->key))
     {
         temp = mbox->env_vars;
         mbox->env_vars = mbox->env_vars->next;
-        free_var(temp);
+        free_var_v2(temp);
         return ;
     }
     
@@ -242,11 +246,11 @@ void delete_var(t_mbox *mbox, char *key)
     cur = mbox->env_vars;
     while(cur->next)
     {
-        if(ft_strcmp_strict(key, cur->next->key))
+        if(str_cmp_strct(key, cur->next->key))
         {
             temp = cur->next;
             cur->next = cur->next->next;
-            free_var(temp);
+            free_var_v2(temp);
             break ;
         }
         cur = cur->next;
@@ -255,39 +259,44 @@ void delete_var(t_mbox *mbox, char *key)
 
 /**
  * @brief	frees the 'key', the 'value' and the given node itself
- * 			//TODO: Maybe return NULL to set the pointer from the calling function to null
+ * 
+ *          NOTE: function should only be called by 'free_vars_v2'
+ * 
  * @param	temp	var node to be freed
  */
-void free_var(t_env_var *temp)
+void    *free_var_v2(t_env_var *temp)
 {
     if (temp->key)
         free(temp->key);
     if(temp->value)
         free(temp->value);
     free(temp);
+    return (NULL);
 }
 
-/*
-    Go through the linked list of t_var and free each node
-*/
 
 /**
- * @brief	
+ * @brief	traverses through the linked list of t_var and frees:
+ *              - content via 'free_var_v2'
+ *              - node itself
+ *          
+ *          NOTE: function should only be called by 'free_and_close_box_v2'
  * 
  * @param	mbox mbox is a struct that stores all runtime related infos
  */
-void free_vars(t_mbox *mbox)
+void free_vars_v2(t_mbox *mbox)
 {
     t_env_var *cur;
     t_env_var *temp;
 
     cur = mbox->env_vars;
-    while(cur)
+    while (cur)
     {
         temp = cur;
         cur = cur->next;
-        free_var(temp);
+        temp = free_var_v2(temp);
     }
+    mbox->env_vars = NULL;
 }
 
 /**
@@ -325,7 +334,7 @@ char **env_to_matrix(t_mbox *mbox)
         return (NULL);
     while (++i < count_vars)
     {
-		if (!ft_strcmp_strict(cur_var->key, "?"))
+		if (!str_cmp_strct(cur_var->key, "?"))
 		{
 			env_matrix[i] = ft_strcat_multi(3, cur_var->key, "=" , cur_var->value);
 			cur_var = cur_var->next;

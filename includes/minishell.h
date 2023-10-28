@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2023/10/28 15:24:06 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/28 19:00:46 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,8 @@ typedef struct s_mbox
     bool        error_status;
     t_token     *tokens;
     t_token     *tmp_token;
-    t_tree      *root;
-    t_tree      *tmp_node;
+    t_ast      *root;
+    t_ast      *tmp_node;
     t_exec      executor;
 }              t_mbox;
 
@@ -95,11 +95,11 @@ void	manage_input(t_mbox *mbox);
 
 /* env.c */
 void    add_var(t_mbox *mbox, char *key, char *value);    
-void    load_vars(t_mbox *mbox);
+void    load_vars_v2(t_mbox *mbox);
 char    *get_var_value(t_mbox *mbox, char *key);
 void    set_var_value(t_mbox *mbox, char *key, char *value);
-void    free_var(t_env_var *temp);
-void    free_vars(t_mbox *mbox);
+void    *free_var_v2(t_env_var *temp);
+void    free_vars_v2(t_mbox *mbox);
 void    print_vars(t_mbox *mbox);
 void    delete_var(t_mbox *mbox, char *key);
 void	increment_shlvl(t_mbox *mbox);
@@ -109,14 +109,14 @@ char    **env_to_matrix(t_mbox *mbox);
 void    initialize_signals();
 
 /* manage_mbox.c */
-void	initialize_box(t_mbox *mbox, char **env);
-void    free_cycle(t_mbox *mbox);
-// void	free_matrix(char **matrix, int i);
-void    free_input_strings(t_mbox *mbox);
-void    free_tokens(t_mbox *mbox);
-void    free_and_close_box(t_mbox *mbox);
+void	initialize_box_v2(t_mbox *mbox, char **env);
+void    free_cycle_v2(t_mbox *mbox);
+void    free_input_strings_v2(t_mbox *mbox);
+void    free_tokens_v2(t_mbox *mbox);
+void    free_and_close_box_v2(t_mbox *mbox);
 
 /* general_utils.c */
 void    create_error_msg(const char *format, ...);
+void    reset_cycle(t_mbox *mbox);
 
 #endif

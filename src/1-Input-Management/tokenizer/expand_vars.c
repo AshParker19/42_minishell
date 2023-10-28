@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 12:58:49 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/28 14:50:22 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/28 17:56:53 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ static void found_dollar(t_mbox *mbox, int quote_s, int *k, char cur_c)
 	names checking for a dollar sign, then replaces all the variable names
     by their values which are received from the environment
 */
-void	expand_variables(t_mbox *mbox, int k, int k_end, int quote_state)
+t_bool  expand_variables(t_mbox *mbox, int k, int k_end, int quote_state)
 {
     char    cur_char;
     int     consecutive_lt;
@@ -145,4 +145,9 @@ void	expand_variables(t_mbox *mbox, int k, int k_end, int quote_state)
         }
         k++;
     }
+    
+    // TODO: if expanded is NULLE RETURN FALS
+    if (!mbox->inp_expand)
+        return (ft_false);
+    return (ft_true);    
 }

@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 17:55:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/28 15:30:07 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/28 19:07:46 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ typedef struct s_io
 
 typedef struct s_exec
 {
-    // TODO: REMOVE THE VARS THAT ARE ONLY FOR ONE CYCLE!!!
-    // char            **path_dirs;
     t_builtin_cmd   builtins[8];
     char            **cmd_av;
     t_io            io;
@@ -56,7 +54,7 @@ enum e_pipe_side
 /******************************************************************************/
 /* executor */
 t_bool  execute(t_mbox *mbox);
-void    run_cmd_system(t_mbox *mbox, t_tree *cmd_node);
+void    run_cmd_system(t_mbox *mbox, t_ast *cmd_node);
 
 /* pipes */
 void    setup_use_pipe(t_mbox *mbox, int status);
@@ -64,20 +62,21 @@ void    setup_pipes(t_mbox *mbox, int *cur_pipe);
 void    setup_process_std(t_mbox *mbox);
 
 /* redirections */
-t_bool    setup_redir(t_mbox *mbox, t_tree *redir_node);
+t_bool    setup_redir(t_mbox *mbox, t_ast *redir_node);
 
 /* heredoc */
-int    heredoc(t_mbox *mbox, t_tree *redir_node, int *cmd_in_fd);
+int    heredoc(t_mbox *mbox, t_ast *redir_node, int *cmd_in_fd);
 
 /* executor_utils */
 void    load_executor(t_mbox *mbox);
 void	initialize_io(t_mbox *mbox);
 void	print_executor_output(t_mbox *mbox, int i); //TODO: remove at the end
 void    free_executor(t_mbox *mbox);
-int		cmd_counter(t_tree *tree_node);
+int		cmd_counter(t_ast *ast_node);
 // char    *get_cmd_path(t_mbox *mbox, char *cmd, int i);
-void    get_cmd_av(t_mbox *mbox, t_tree *root);
-void	free_process(t_mbox *mbox);
-void    reset_executor(t_mbox *mbox);
+void    get_cmd_av(t_mbox *mbox, t_ast *root);
+void	close_process_fds_v2(t_mbox *mbox);
 
+
+void	free_process_v2(t_mbox *mbox);
 #endif

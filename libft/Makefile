@@ -2,7 +2,7 @@
 
 # Compiler options
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -g -pg #-fsanitize=address -fsanitize-address-use-after-scope
+CFLAGS = -Wall -Werror -Wextra -g #-pg -fsanitize=address -fsanitize-address-use-after-scope
 RM = rm -f
 
 # DEBUG Messages on/off

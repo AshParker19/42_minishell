@@ -6,18 +6,18 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 20:24:39 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/27 15:13:17 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/28 15:57:45 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
 
-static t_tree *redir_out_case1(t_mbox *mbox);
-static t_tree *redir_out_case2(t_mbox *mbox);
+static t_ast *redir_out_case1(t_mbox *mbox);
+static t_ast *redir_out_case2(t_mbox *mbox);
 
-t_tree *redir_out_main(t_mbox *mbox)
+t_ast *redir_out_main(t_mbox *mbox)
 {
-    t_tree  *red_out_node;
+    t_ast  *red_out_node;
     t_token *backup;
 
     backup = mbox->tmp_token;
@@ -34,9 +34,9 @@ t_tree *redir_out_main(t_mbox *mbox)
 }
 
 /* '<<' [file] */
-static t_tree *redir_out_case1(t_mbox *mbox)
+static t_ast *redir_out_case1(t_mbox *mbox)
 {
-    t_tree  *red_out_ap_node;
+    t_ast  *red_out_ap_node;
 
     if(!validate_token(mbox->tmp_token, 0 , RED_OUT_TOKEN))
         return (NULL);
@@ -51,9 +51,9 @@ static t_tree *redir_out_case1(t_mbox *mbox)
 }
 
 /* '<' [file] */
-static t_tree *redir_out_case2(t_mbox *mbox)
+static t_ast *redir_out_case2(t_mbox *mbox)
 {
-    t_tree  *red_out_tr_node;
+    t_ast  *red_out_tr_node;
     
     if(!validate_token(mbox->tmp_token, 0, RED_OUT_TOKEN))
         return(NULL);

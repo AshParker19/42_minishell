@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:19:44 by astein            #+#    #+#             */
-/*   Updated: 2023/10/28 14:37:23 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/28 19:24:39 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,18 @@
 /*
 	decides if the command to be executed is a builtin cmd or a system cmd
 */
-static void    run_cmd_main(t_mbox *mbox, t_tree *cmd_node)
+static void    run_cmd_main(t_mbox *mbox, t_ast *cmd_node)
 {
 	if (is_cmd_builtin(mbox, cmd_node->content))
 	{
 		run_cmd_builtin(mbox, cmd_node);
-		free_process(mbox);
+		close_process_fds_v2(mbox);
 		exit (0); //TODO: make exit status
 	}
 	else
 	{
 		run_cmd_system(mbox, cmd_node);
-		free_process(mbox);	
+		close_process_fds_v2(mbox);	
 	}
 }
 /*
@@ -53,13 +53,13 @@ static t_bool single_cmd(t_mbox *mbox)
 		close (mbox->executor.io.cmd_fd[CMD_OUT]);  
 	mbox->executor.io.cmd_fd[CMD_IN] = -1;
 	mbox->executor.io.cmd_fd[CMD_OUT] = -1;
-	free_process(mbox);
+	close_process_fds_v2(mbox);
 	return (ft_true);
 }
 
-static void perform_child(t_mbox *mbox, t_tree *cmd_node, int cmd_pos, int *cur_pipe)
+static void perform_child(t_mbox *mbox, t_ast *cmd_node, int cmd_pos, int *cur_pipe)
 {
-	if (cmd_pos == SINGLE_CMD && ft_strcmp_strict("./minishell", cmd_node->content))
+	if (cmd_pos == SINGLE_CMD && str_cmp_strct("./minishell", cmd_node->content))
 		increment_shlvl(mbox);	
 	if (is_cmd_builtin(mbox, cmd_node->content))
 	{
@@ -68,17 +68,17 @@ static void perform_child(t_mbox *mbox, t_tree *cmd_node, int cmd_pos, int *cur_
 	}
 	setup_pipes(mbox, cur_pipe);
 	if (!setup_redir(mbox, cmd_node->left))
-		free_and_close_box(mbox);
+		free_and_close_box_v2(mbox);
 	setup_process_std(mbox);
 	if (cmd_pos == FIRST_CMD || cmd_pos == MIDDLE_CMD)
 		close(cur_pipe[P_RIGHT]);
 	if (cmd_pos != FIRST_CMD && mbox->executor.io.prev_pipe[P_RIGHT] != -1)
 		close(mbox->executor.io.prev_pipe[P_RIGHT]);
 	run_cmd_main(mbox, cmd_node);
-	free_and_close_box(mbox);
+	free_and_close_box_v2(mbox);
 }
 
-static void	perform_parent(t_mbox *mbox, t_tree *cmd_node, int cmd_pos, int *cur_pipe)
+static void	perform_parent(t_mbox *mbox, t_ast *cmd_node, int cmd_pos, int *cur_pipe)
 {
 	if (cmd_pos == FIRST_CMD || cmd_pos == MIDDLE_CMD)
 		close(cur_pipe[P_LEFT]);
@@ -87,10 +87,10 @@ static void	perform_parent(t_mbox *mbox, t_tree *cmd_node, int cmd_pos, int *cur
 	mbox->executor.pid_index++;
 	mbox->executor.io.prev_pipe[P_RIGHT] = cur_pipe[P_RIGHT];
 	mbox->executor.io.prev_pipe[P_LEFT] = cur_pipe[P_LEFT];
-	free_process(mbox);	
+	close_process_fds_v2(mbox);	
 }
 
-t_bool    execute_cmd(t_mbox *mbox, t_tree *cmd_node, int cmd_pos)
+t_bool    execute_cmd(t_mbox *mbox, t_ast *cmd_node, int cmd_pos)
 {
 	int cur_pipe[2];
 
@@ -148,9 +148,8 @@ void    wait_for_execution(t_mbox *mbox)
 */
 t_bool    execute(t_mbox *mbox) //TODO: do exit for builtins
 {   
-	t_tree  *cur;
+	t_ast  *cur;
 	
-	reset_executor(mbox);
 	mbox->executor.pid = ft_calloc(cmd_counter(mbox->root), sizeof(int));
 	if (!mbox->executor.pid)
 		return (ft_false);

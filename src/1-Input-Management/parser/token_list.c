@@ -6,19 +6,19 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 17:50:29 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/27 15:13:16 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/28 15:57:45 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
 
-static t_tree *token_list_case1(t_mbox *mbox);
-static t_tree *token_list_case2(t_mbox *mbox);
-static t_tree *token_list_case3(t_mbox *mbox);
+static t_ast *token_list_case1(t_mbox *mbox);
+static t_ast *token_list_case2(t_mbox *mbox);
+static t_ast *token_list_case3(t_mbox *mbox);
 
 void token_list_main(t_mbox *mbox)
 {
-    t_tree  *tl_node;
+    t_ast  *tl_node;
     t_token *backup;
 
     backup = mbox->tmp_token;
@@ -35,7 +35,7 @@ void token_list_main(t_mbox *mbox)
     tl_node = token_list_case3(mbox);
 }
 /* [name]  <token list> */
-static t_tree *token_list_case1(t_mbox *mbox)
+static t_ast *token_list_case1(t_mbox *mbox)
 {
     if (!mbox->tmp_node || mbox->tmp_node->content)
         return (NULL);    
@@ -47,9 +47,9 @@ static t_tree *token_list_case1(t_mbox *mbox)
     return (mbox->tmp_node);
 }
 /* [token] <token list> */
-static t_tree *token_list_case2(t_mbox *mbox)
+static t_ast *token_list_case2(t_mbox *mbox)
 {
-    t_tree  *arg_node;
+    t_ast  *arg_node;
 
     if(!validate_token(mbox->tmp_token, 0, WORD_TOKEN))
         return(NULL);
@@ -62,9 +62,9 @@ static t_tree *token_list_case2(t_mbox *mbox)
 }
 
 /* <redir> <token list> */ 
-static t_tree *token_list_case3(t_mbox *mbox)
+static t_ast *token_list_case3(t_mbox *mbox)
 {   
-    t_tree  *redir_node;
+    t_ast  *redir_node;
     
     if(!validate_token(mbox->tmp_token, 0, RED_IN_TOKEN)
         && !validate_token(mbox->tmp_token, 0, RED_OUT_TOKEN))

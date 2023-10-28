@@ -6,13 +6,13 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:32:55 by astein            #+#    #+#             */
-/*   Updated: 2023/10/27 15:13:17 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/28 15:57:45 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	builtin_pwd(t_mbox *mbox, t_tree *arg_node)
+void	builtin_pwd(t_mbox *mbox, t_ast *arg_node)
 {
 	(void) mbox;
     (void) arg_node;

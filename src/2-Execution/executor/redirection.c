@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:47:15 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/27 22:13:38 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/28 15:57:45 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static   t_bool error_exit_child(t_mbox *mbox)
     return (ft_false);
 }
 
-static t_bool    handle_redir(t_mbox *mbox, t_tree *redir_node, int *in_fd, int *out_fd)
+static t_bool    handle_redir(t_mbox *mbox, t_ast *redir_node, int *in_fd, int *out_fd)
 {
     if (redir_node->type == RED_IN)
     {
@@ -59,11 +59,11 @@ static t_bool    handle_redir(t_mbox *mbox, t_tree *redir_node, int *in_fd, int 
 /*
 returns if file could be opened correct
 */
-t_bool    setup_redir(t_mbox *mbox, t_tree *redir_node)
+t_bool    setup_redir(t_mbox *mbox, t_ast *redir_node)
 {
     int in_fd;
     int out_fd;
-    t_tree *tmp;
+    t_ast *tmp;
 
     tmp = redir_node;
     in_fd = -1;

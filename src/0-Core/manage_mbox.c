@@ -6,13 +6,21 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:49:13 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/28 15:28:28 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/28 19:12:25 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+# include "minishell.h"
 
-void	initialize_box(t_mbox *mbox, char **env)
+/**
+ * @brief	sets all variables in mbox to ini values
+ * 
+ * 			NOTE: only called once by 'main' on startup
+ * 
+ * @param mbox 
+ * @param env 
+ */
+void	initialize_box_v2(t_mbox *mbox, char **env)
 {
 	mbox->env = env;
 	mbox->env_vars = NULL;
@@ -20,68 +28,59 @@ void	initialize_box(t_mbox *mbox, char **env)
 	mbox->inp_trim = NULL;
 	mbox->inp_shift = NULL;
 	mbox->inp_expand = NULL;
-	mbox->error_status = false;
+	mbox->error_status = ft_false;
 	mbox->tokens = NULL;
-	mbox->root = NULL;
 	mbox->tmp_token = NULL;
+	mbox->root = NULL;
 	mbox->tmp_node = NULL;
+	initialize_io(mbox);
+	mbox->executor.pid = NULL;
+	mbox->executor.cmd_av = NULL;
 }
 
-void free_input_strings(t_mbox *mbox)
+/**
+ * @brief	This is the main freeing function which we call after each cycle of treating
+ * 			an input promt.
+ * 			It frees all allocated memory and closes all fds related to one cycle:
+ * 				- free_input_strings_v2
+ * 				- free_tokens_v2
+ * 				- free_ast_v2
+ * 				- close_process_fds_v2
+ * 
+ * @param	mbox 
+ */
+void	free_cycle_v2(t_mbox *mbox)
 {
-	if (mbox->inp_orig)
-		free(mbox->inp_orig);
-	if (mbox->inp_trim)
-		free(mbox->inp_trim);
-	if (mbox->inp_shift)
-		free (mbox->inp_shift);
-	if (mbox->inp_expand)
-		free(mbox->inp_expand);
-}
-
-void free_tokens(t_mbox *mbox)
-{
-	t_token *cur;
-
-	while(mbox->tokens)
-	{
-		cur = mbox->tokens;
-		mbox->tokens = mbox->tokens->next;
-		free(cur->value);
-		free(cur);
-	}
-	mbox->tokens = NULL;
-}
-
-void free_cycle(t_mbox *mbox)
-{
-    free_input_strings(mbox);    
-    free_tokens(mbox);
-    mbox->tokens = NULL;
-    delete_ast(mbox->root);
+	if (!mbox)
+		return ;
+    free_input_strings_v2(mbox);    
+    free_tokens_v2(mbox);
+	free_ast_v2(mbox->root);
     mbox->root = NULL;
-	free_process(mbox);
-	if (mbox->executor.pid)
-	{
-		free (mbox->executor.pid);
-		mbox->executor.pid = NULL;
-	}
-	dbg_printf(no_block, "FREED CYCLE READY TO GO AGAIN!\n");
+	close_process_fds_v2(mbox);
+	free_process_v2(mbox);
+	// return (NULL);
 }
 
 // TODO:
 // Function should check all members of the mbox struct 
 // and frees them if they are inizialised
 // exits program
-void free_and_close_box(t_mbox *mbox)
+/**
+ * @brief	check all members of the mbox struct at the end of the program 
+ * 			and frees them if they are inizialised.
+ * 			then exits with the proper exit status
+ * 
+ * @param	mbox 
+ */
+void free_and_close_box_v2(t_mbox *mbox)
 {
 	int	exit_status;
 	
+	if (!mbox)
+		return ;
 	exit_status = ft_atoi(get_var_value(mbox, "?"));
-	free_input_strings(mbox);
-	free_tokens(mbox);
-	delete_ast(mbox->root);
-	free_vars(mbox);
-	free_executor(mbox);
+	free_cycle_v2(mbox);
+	free_vars_v2(mbox);
     exit(exit_status);
 }

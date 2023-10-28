@@ -6,17 +6,17 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 18:26:39 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/27 15:13:16 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/28 17:34:28 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
 
-t_tree *ast_create_node(int node_type)
+t_ast *ast_create_node(int node_type)
 {
-    t_tree *new_node;
+    t_ast *new_node;
 
-    new_node = ft_calloc(1, sizeof(t_tree));
+    new_node = ft_calloc(1, sizeof(t_ast));
     if (!new_node)
         return (NULL);
     new_node->type = node_type;
@@ -50,9 +50,9 @@ void	*put_syntax_error(t_mbox *mbox, t_token *error_token)
 {
 	char    *err_msg;
 	
-	if (mbox->error_status == false)
+	if (mbox->error_status == ft_false)
 	{
-		mbox->error_status = true;
+		mbox->error_status = ft_true;
 		if(error_token && error_token->value)
 		{
 			err_msg = ft_strcat_multi(3,"syntax error near unexpected token `",
@@ -68,14 +68,22 @@ void	*put_syntax_error(t_mbox *mbox, t_token *error_token)
 	return(NULL);
 }
 
-void    delete_ast(t_tree *root)
+/**
+ * @brief	recursively traverses trough the tree:
+ * 				- frees all content of the nodes
+ * 				- the nodes themselves
+ * 
+ * 			NOTE: function should only be called by 'free_cycle'
+ * @param root 
+ */
+void    free_ast_v2(t_ast *root)
 {
 	if(root)
 	{
 		if (root->left)
-			delete_ast(root->left);
+			free_ast_v2(root->left);
 		if (root->right)
-			delete_ast(root->right);
+			free_ast_v2(root->right);
 		if (root->content)
 		{
 			free(root->content);
@@ -86,9 +94,9 @@ void    delete_ast(t_tree *root)
 	}
 }
 
-void    connect_subtree(t_tree **root, t_tree *node_to_add, int side)
+void    connect_subtree(t_ast **root, t_ast *node_to_add, int side)
 {
-    t_tree *tmp;
+    t_ast *tmp;
 
     tmp = NULL;
     if (!root || !*root || !node_to_add)
@@ -109,7 +117,7 @@ void    connect_subtree(t_tree **root, t_tree *node_to_add, int side)
     }
 }
 
-static void	display_ast(t_tree *root, int indent_level)
+static void	display_ast(t_ast *root, int indent_level)
 {
 	char	*type;
 	int		code;
@@ -154,4 +162,36 @@ void	print_parser_output(t_mbox *mbox)
 	printf(" ------------------------------------ \n");
 	display_ast(mbox->root, 0);
 	printf(" ------------------------------------ \n\n");
+}
+
+/**
+ * @brief	this function frees and NULLs all 4 input strings, if they have
+ * 			been allocated before
+ * 
+ * 			NOTE: function should only be called by 'free_cycle'
+ * 
+ * @param mbox 
+ */
+void free_input_strings_v2(t_mbox *mbox)
+{
+	if (mbox->inp_orig)
+	{
+		free(mbox->inp_orig);
+		mbox->inp_orig = NULL;
+	}
+	if (mbox->inp_trim)
+	{
+		free(mbox->inp_trim);
+		mbox->inp_trim = NULL;
+	}
+	if (mbox->inp_shift)
+	{
+		free (mbox->inp_shift);
+		mbox->inp_shift = NULL;
+	}
+	if (mbox->inp_expand)
+	{
+		free(mbox->inp_expand);
+		mbox->inp_expand = NULL;
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 12:11:14 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/28 15:12:55 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/28 18:00:07 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,7 +217,7 @@ static t_bool	check_special_case_redir_symbol(char *str1, char *str2)
  * @param mbox 
  * @param i 
  */
-void	tokenize(t_mbox *mbox, int i)
+t_bool	tokenize(t_mbox *mbox, int i)
 {
 	char	**no_space;
 
@@ -227,7 +227,7 @@ void	tokenize(t_mbox *mbox, int i)
 		if (!check_special_case_redir_symbol(no_space[i], no_space[i+1]))
 		{
 			free_whatever("m", no_space);
-			free_cycle(mbox);
+			free_cycle_v2(mbox);
 		}
 		if (ft_strchr(no_space[i], add_offset('|'))
 			|| ft_strchr(no_space[i], add_offset('>'))
@@ -243,4 +243,7 @@ void	tokenize(t_mbox *mbox, int i)
 	}
 	free_whatever("m", no_space);
 	print_tokenizer_output(mbox);
+	if (!mbox->tokens)
+		return (ft_false); //TODO: check return values of all the funcs and check if the list didnt fail in the middle
+	return (ft_true);	
 }

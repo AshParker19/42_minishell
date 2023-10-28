@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 13:07:56 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/28 15:44:51 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/28 17:05:44 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static char    *get_cmd_path(t_mbox *mbox, char *cmd, int i, t_bool abs)
 	}
 }
 
-void get_cmd_av(t_mbox *mbox, t_tree *cmd_node)
+void get_cmd_av(t_mbox *mbox, t_ast *cmd_node)
 {
 	char    *cur_args_str;
 	char    *temp;
@@ -93,7 +93,7 @@ void get_cmd_av(t_mbox *mbox, t_tree *cmd_node)
 	free(cur_args_str);
 }
 
-void    run_cmd_system(t_mbox *mbox, t_tree *cmd_node)
+void    run_cmd_system(t_mbox *mbox, t_ast *cmd_node)
 {
 	char	*error_msg;
 	char	*abs_cmd_path;
@@ -112,7 +112,7 @@ void    run_cmd_system(t_mbox *mbox, t_tree *cmd_node)
 		if (abs_cmd_path)
 			free (abs_cmd_path);
 		create_error_msg("nnn", "command '", cmd_node->content, "' not found");
-		free_process(mbox);
+		close_process_fds_v2(mbox);
 		exit(127);
 		// TODO: EXIT 
 }

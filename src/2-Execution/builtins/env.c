@@ -6,13 +6,13 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:33:46 by astein            #+#    #+#             */
-/*   Updated: 2023/10/28 15:23:38 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/28 19:24:39 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	builtin_env(t_mbox *mbox, t_tree *arg_node)
+void	builtin_env(t_mbox *mbox, t_ast *arg_node)
 {
 	char	*error_msg;
 	t_env_var	*cur;
@@ -25,7 +25,7 @@ void	builtin_env(t_mbox *mbox, t_tree *arg_node)
 		cur = mbox->env_vars;
 		while (cur)
 		{
-			if (!ft_strcmp_strict(cur->key, "?"))
+			if (!str_cmp_strct(cur->key, "?"))
 			{
 				ft_putstr_fd(cur->key, 1);
 				ft_putchar_fd('=', 1);

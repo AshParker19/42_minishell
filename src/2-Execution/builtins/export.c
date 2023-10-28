@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:33:09 by astein            #+#    #+#             */
-/*   Updated: 2023/10/28 15:23:38 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/28 15:57:45 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ static void    sort_and_print_var(t_mbox *mbox)
     free_whatever("m", env_matrix);
 }
 
-void builtin_export(t_mbox *mbox, t_tree *arg_node)
+void builtin_export(t_mbox *mbox, t_ast *arg_node)
 {
     char    *equal_sign;
     char    *key;

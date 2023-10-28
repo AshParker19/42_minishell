@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:00:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/28 15:23:38 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/28 19:24:39 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,7 @@ static char   *expand_heredoc_input(t_mbox *mbox, char *str)
                 key = get_key(mbox, str, &i);
                 if (!key)
                     expanded_str = append_str(expanded_str, "$", ft_false);
-                else if (ft_strcmp_strict(key, "$"))
+                else if (str_cmp_strct(key, "$"))
                     expanded_str = append_str(expanded_str, key, ft_false);
                 else
                 {
@@ -234,7 +234,7 @@ static  void heredoc_child(t_mbox *mbox, int *fd, char *delimiter)
     {
         write (STDIN_FILENO, "> ", 2);
         cur_line = get_next_line(STDIN_FILENO);
-        if (ft_strcmp_strict(cur_line, delimiter))
+        if (str_cmp_strct(cur_line, delimiter))
         {
             free (cur_line);
             break ;
@@ -246,14 +246,14 @@ static  void heredoc_child(t_mbox *mbox, int *fd, char *delimiter)
     }
     close (fd[P_LEFT]); // close because it was WRITE END
     free (delimiter);
-    free_process(mbox);
-    free_and_close_box(mbox);
+    close_process_fds_v2(mbox);
+    free_and_close_box_v2(mbox);
 }
 
 // TODO: 
 //  - deal with var expansion (if LIM isnt qouted)
 //  if the var expansion turns out to be excatlly the lim str it still doesnt exit!
-int    heredoc(t_mbox *mbox, t_tree *redir_node, int *cmd_in_fd)
+int    heredoc(t_mbox *mbox, t_ast *redir_node, int *cmd_in_fd)
 {
     int     fd[2];
     int     status;

@@ -6,12 +6,20 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:54:41 by astein            #+#    #+#             */
-/*   Updated: 2023/10/27 15:13:17 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/28 19:24:39 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/**
+ * @brief   initialize the array of 't_builtin_cmd' aka function pointers and
+ *          function name
+ * 
+ *          NOTE: only called once by 'main' on startup
+ * 
+ * @param mbox 
+ */
 void	initialize_builtins(t_mbox *mbox)
 {
     mbox->executor.builtins[0].cmd_name = "echo";
@@ -38,40 +46,18 @@ t_bool  is_cmd_builtin(t_mbox *mbox, char *cmd)
     
     i = -1;
     while (mbox->executor.builtins[++i].cmd_name)
-        if (ft_strcmp_strict(mbox->executor.builtins[i].cmd_name, cmd))
+        if (str_cmp_strct(mbox->executor.builtins[i].cmd_name, cmd))
             return (ft_true);
     return (ft_false);
 }
 
-// char *strcat_args(t_tree *arg_node)
-// {
-//     char    *args_list;
-//     char    *temp;
-
-//     args_list = NULL; 
-//     while(arg_node)
-//     {
-//         if(arg_node->content)
-//         {
-//             if(!args_list)
-//                 temp = ft_strdup(arg_node->content);
-//             else
-//                 temp = ft_strcat_multi(3, args_list, " ", arg_node->content);
-//             free(args_list);
-//             args_list = temp;
-//         }    
-//         arg_node = arg_node->right;
-//     }
-//     return(args_list);
-// }
-
-void    run_cmd_builtin(t_mbox *mbox, t_tree *cmd_node)
+void    run_cmd_builtin(t_mbox *mbox, t_ast *cmd_node)
 {
     int i;
     
     i = -1;
     while (mbox->executor.builtins[++i].cmd_name)
-        if (ft_strcmp_strict(mbox->executor.builtins[i].cmd_name,
+        if (str_cmp_strct(mbox->executor.builtins[i].cmd_name,
             cmd_node->content))
             mbox->executor.builtins[i].func_name(mbox, cmd_node->right);
 }
