@@ -31,39 +31,40 @@ LIB_FOLDER     = ./libft/
 # ->Files
 LIBFT = $(LIB_FOLDER)libft.a
 SRCS = $(addprefix $(SRC_FOLDER), 					\
-	0-Core/main.c									\
-	0-Core/env.c									\
-	0-Core/general_utils_1.c						\
-	0-Core/input_manager.c							\
-	0-Core/manage_mbox.c							\
-	0-Core/signals.c								\
-	1-Input-Management/tokenizer/expand_vars.c		\
-	1-Input-Management/tokenizer/tokenizer.c 		\
-	1-Input-Management/tokenizer/quotes_handler.c	\
-	1-Input-Management/tokenizer/tokenizer_utils.c	\
-	1-Input-Management/tokenizer/utils_heredoc.c	\
-	1-Input-Management/parser/parser.c				\
-	1-Input-Management/parser/job.c					\
-	1-Input-Management/parser/command.c				\
-	1-Input-Management/parser/token_list.c			\
-	1-Input-Management/parser/redir.c				\
-	1-Input-Management/parser/redir_in.c			\
-	1-Input-Management/parser/redir_out.c			\
-	1-Input-Management/parser/parser_utils.c		\
-	2-Execution/executor/executor.c					\
-	2-Execution/executor/executor_utils.c			\
-	2-Execution/executor/utils_system.c				\
-	2-Execution/executor/utils_builtin.c			\
-	2-Execution/executor/pipes.c					\
-	2-Execution/executor/redirection.c				\
-	2-Execution/executor/heredoc.c					\
-	2-Execution/builtins/cd.c						\
-	2-Execution/builtins/echo.c						\
-	2-Execution/builtins/pwd.c						\
-	2-Execution/builtins/export.c					\
-	2-Execution/builtins/unset.c					\
-	2-Execution/builtins/env.c						\
-	2-Execution/builtins/exit.c						\
+	0_core/main.c									\
+	0_core/environment.c							\
+	0_core/env_utils.c								\
+	0_core/general_utils_1.c						\
+	0_core/input_manager.c							\
+	0_core/manage_mbox.c							\
+	0_core/signals.c								\
+	1_input_manager/1_0_tokenizer/expand_vars.c		\
+	1_input_manager/1_0_tokenizer/tokenizer.c 		\
+	1_input_manager/1_0_tokenizer/quote_handler.c	\
+	1_input_manager/1_0_tokenizer/tokenizer_utils.c	\
+	1_input_manager/1_0_tokenizer/utils_heredoc.c	\
+	1_input_manager/1_1_parser/parser.c				\
+	1_input_manager/1_1_parser/job.c				\
+	1_input_manager/1_1_parser/command.c			\
+	1_input_manager/1_1_parser/token_list.c			\
+	1_input_manager/1_1_parser/redir.c				\
+	1_input_manager/1_1_parser/redir_in.c			\
+	1_input_manager/1_1_parser/redir_out.c			\
+	1_input_manager/1_1_parser/parser_utils.c		\
+	2_executor/executor.c							\
+	2_executor/executor_utils.c						\
+	2_executor/utils_system.c						\
+	2_executor/utils_builtin.c						\
+	2_executor/pipes.c								\
+	2_executor/redirection.c						\
+	2_executor/heredoc.c							\
+	3_builtins/cd.c									\
+	3_builtins/echo.c								\
+	3_builtins/pwd.c								\
+	3_builtins/export.c								\
+	3_builtins/unset.c								\
+	3_builtins/env.c								\
+	3_builtins/exit.c								\
 	)
 
 # Object files
@@ -132,3 +133,6 @@ DOT:
 	gprof minishell
 	gprof ./minishell | /nfs/homes/astein/Downloads/gprof2dot/gprof2dot.py | xclip -selection clipboard
 	echo "DONE - NOW IS IN CLIPBOARD"
+
+stats:
+	./count_stats.sh
