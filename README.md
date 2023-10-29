@@ -6,14 +6,14 @@ some little bash copy....
 
 ## Setup
 
-### minibox
+### mbox
 blabla
 
 ### Store the Enviorment Variables
 linkes list bla bla
 
 ## One Cycle
-### Lexer
+### Tokenizer
 #### Trim String
 input: some string from readline (not NULL)
 output: no whitespaces at front or end

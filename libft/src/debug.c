@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 23:11:27 by astein            #+#    #+#             */
-/*   Updated: 2023/07/28 15:32:51 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/27 15:14:01 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
  * 			'start_block', 'err_block', 'success_block' and 'end_block' msgs
  * 			will be highlighted with color and keywords.
  * 
- * 			the current indent level is stored in the static var 'cur_indent'.
+ * 			the cur indent level is stored in the static var 'cur_indent'.
  * 
  * 			NOTE: modified for push_swap: on error no tabs! (first if)
  * 

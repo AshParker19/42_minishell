@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2023/10/23 22:01:08 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/29 01:36:01 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 /* promt strings */
 # define PROMT      "frankenshell--> "
 # define ERR_PROMT  "frankenshell: "
+// # define TODO: came up with smething creative for an infunite loop in main
 
 /* system includes */
 # include <curses.h>
@@ -53,33 +54,32 @@
 # define PURPLE 	"\x1b[35m"
 # define RESET 		"\033[0m"
 /******************************************************************************/
-/* info for minibox */
+/* info for mbox */
 typedef struct s_env_var t_env_var;
 typedef struct s_builtin_cmd t_builtin_cmd;
-// typedef struct  s_1_cycle t_1_cycle;
 typedef struct s_exec t_exec;
 
 /* 
     the main structure of the program: it is being passed as an argument to all
     the fucntions so all the data can be accesed where it needed
  */
-typedef struct s_minibox
+typedef struct s_mbox
 {
     // TODO: REMOVE THE VARS THAT ARE ONLY FOR ONE CYCLE!!!
     char        **env;
-    t_env_var   *vars;
+    t_env_var   *env_vars;
     
-    char        *input_original;
-    char        *input_trimmed;
-    char        *input_quoted;
-    char        *input_expanded;
+    char        *inp_orig;
+    char        *inp_trim;
+    char        *inp_shift;
+    char        *inp_expand;
     bool        error_status;
     t_token     *tokens;
     t_token     *tmp_token;
-    t_tree      *root;
-    t_tree      *tmp_node;
+    t_ast      *root;
+    t_ast      *tmp_node;
     t_exec      executor;
-}              t_minibox;
+}              t_mbox;
 
 /* list of environment variables (definition) */
 typedef struct s_env_var
@@ -89,40 +89,37 @@ typedef struct s_env_var
     struct      s_env_var *next;
 }              t_env_var;
 
-// typedef struct  s_1_cycle 
-// {
-    
-// }                t_1_cycle;
-
 /******************************************************************************/
 
 /* input_manager.c */
-void	manage_input(t_minibox *minibox);
+void	manage_input(t_mbox *mbox);
 
 /* env.c */
-void    add_var(t_minibox *minibox, char *key, char *value);    
-void    load_vars(t_minibox *minibox);
-char    *get_var_value(t_minibox *minibox, char *key);
-void    set_var_value(t_minibox *minibox, char *key, char *value);
-void    free_var(t_env_var *temp);
-void    free_vars(t_minibox *minibox);
-void    print_vars(t_minibox *minibox);
-void    delete_var(t_minibox *minibox, char *key);
-void	increment_shlvl(t_minibox *minibox);
-char    **env_to_matrix(t_minibox *minibox);
+void    load_vars_v2(t_mbox *mbox);
+char    *get_var_value(t_mbox *mbox, char *key);
+void    set_var_value(t_mbox *mbox, char *key, char *value);
+void    delete_var(t_mbox *mbox, char *key);
+void    free_vars_v2(t_mbox *mbox);
+
+/* env_utils.c */
+t_bool   is_var(t_mbox *mbox, char *key);
+void	increment_shlvl(t_mbox *mbox);
+char    **env_to_matrix(t_mbox *mbox);
+void    *free_var_v2(t_env_var *temp);
+
 
 /* signals.c */
 void    initialize_signals();
 
-/* manage_minibox.c */
-void	initialize_box(t_minibox *minibox, char **env);
-void    free_cycle(t_minibox *minibox);
-// void	free_matrix(char **matrix, int i);
-void    free_input_strings(t_minibox *minibox);
-void    free_tokens(t_minibox *minibox);
-void    free_and_close_box(t_minibox *minibox, int exit_status);
+/* manage_mbox.c */
+void	initialize_box_v2(t_mbox *mbox, char **env);
+void    free_cycle_v2(t_mbox *mbox);
+void    free_input_strings_v2(t_mbox *mbox);
+void    free_tokens_v2(t_mbox *mbox);
+void    free_and_close_box_v2(t_mbox *mbox);
 
 /* general_utils.c */
 void    create_error_msg(const char *format, ...);
+void    reset_cycle(t_mbox *mbox);
 
 #endif

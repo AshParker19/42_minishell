@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strcat_multi.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 16:32:33 by astein            #+#    #+#             */
-/*   Updated: 2023/05/09 15:38:12 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/26 18:53:35 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,4 +96,27 @@ char	*ft_strcat_multi(int amount_of_strs, ...)
 	va_end(args);
 	fill_result_str(strs, result);
 	return (result);
+}
+
+/**
+ * @brief   this function just calls ft_strcat_multi but in addition it frees
+ *          the first first str so you can call it like
+ 
+ *          str = append_str(str, str_b, ft_true)
+ * 
+ * @param   cur_str 
+ * @param   add_str 
+ * @param   free_add_str 
+ * @return  char* 
+ */
+char *append_str(char *cur_str, char *add_str, t_bool free_add_str)
+{
+    char    *temp;
+
+    temp =  ft_strcat_multi(2, cur_str, add_str);
+    if (cur_str)
+        free(cur_str);
+    if (free_add_str)
+        free(add_str);
+    return (temp);
 }

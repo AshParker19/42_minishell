@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp_strict.c                                 :+:      :+:    :+:   */
+/*   str_cmp_strct.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -23,7 +23,7 @@
  *              ft_true    if they match (all chars and length)
  *              ft_false   if they don't and if any doesnt exist
  */
-t_bool  ft_strcmp_strict(const char *str_a, const char *str_b)
+t_bool  str_cmp_strct(const char *str_a, const char *str_b)
 {
     if(!str_a || !str_b)
         return (ft_false);

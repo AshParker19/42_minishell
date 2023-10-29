@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft_printf.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:11:36 by astein            #+#    #+#             */
-/*   Updated: 2023/10/19 20:02:25 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/28 19:24:39 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,9 +125,10 @@ size_t				ft_strlen(const char *s);
 size_t				ft_strlcpy(char *dst, const char *src, size_t size);
 size_t				ft_strlcat(char *dst, const char *src, size_t size);
 char				*ft_strcat_multi(int amount_of_strs, ...);
+char 				*append_str(char *cur_str, char *add_str, t_bool free_add_str);
 int					ft_strcmp(char *s1, char *s2);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
-t_bool				ft_strcmp_strict(const char *str_a, const char *str_b);
+t_bool				str_cmp_strct(const char *str_a, const char *str_b);
 char				*ft_strchr(const char *s, int c);
 char				*ft_strrchr(const char *s, int c);
 void				ft_str_replace_chr(char *str, char old, char new);

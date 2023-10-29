@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_manager.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 15:35:02 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/25 16:14:25 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/10/28 18:01:21 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 /******************************************************************************/
 
 /* data types from other header files */
-typedef struct s_minibox t_minibox;
+typedef struct s_mbox t_mbox;
 
 /******************************************************************************/
 /* TOKEN HOLDER */
@@ -34,13 +34,13 @@ typedef	struct s_token
 }				t_token;
 
 /* ABSTRACT SYNTAX TREE TO ESTABLISH THE ORDER OF EXECUTION */
-typedef struct	s_tree
+typedef struct	s_ast
 {
 	int				type;
 	char   			*content;
-	struct s_tree	*left;
-	struct s_tree	*right;
-}				t_tree;
+	struct s_ast	*left;
+	struct s_ast	*right;
+}				t_ast;
 
 /* TOKEN TYPES FOR THE T_TOKEN LIST */
 enum e_token_type
@@ -63,7 +63,7 @@ enum e_node_type
     RED_OUT_AP
 };
 
-/* RIGHT OR LEFT BRANCH OF THE TREE */
+/* RIGHT OR LEFT BRANCH OF THE AST */
 enum e_three_branch
 {
     RIGHT,
@@ -72,47 +72,47 @@ enum e_three_branch
 /******************************************************************************/
 
 /* HANDLE QUOTES */
-void	mark_seps(t_minibox *minibox, int i, int quote_state);
+t_bool  mark_seps(t_mbox *mbox, int i, int quote_state);
 void 	update_qoute_state(int *quote_state, char cur_char);
 
 /* VARIABLES EXPANSION */
-void	expand_variables(t_minibox *minibox, int k, int k_end, int quote_state);
+t_bool  expand_variables(t_mbox *mbox, int k, int k_end, int quote_state);
 
 /* HEREDOC UTILS*/
-char    *extract_limiter(t_minibox *minibox, int *k, int *quote_state);
+char    *extract_limiter(t_mbox *mbox, int *k, int *quote_state);
 
 
-/* LEXER */
-void	tokenize(t_minibox *minibox, int i);
+/* TOKENIZER */
+t_bool	tokenize(t_mbox *mbox, int i);
 int		add_offset(int c);
 int		remove_offset(int c);
-t_bool	ft_isspace(char c);
+t_bool	ft_isspace(char c); //TODO: put all the ws chars from 7 to 13 in if statemnet
 t_bool	ft_issep(char c);
 t_bool	ft_isqoute(char c);
 
 /* PARSER */
-void	parse(t_minibox *minibox);
-void	print_parser_output(t_minibox *minibox);
-t_tree  *ast_create_node(int node_type);
-void    delete_ast(t_tree *root);
-void    connect_subtree(t_tree **root, t_tree *node_to_add, int on_right);
+t_bool	parse(t_mbox *mbox);
+void	print_parser_output(t_mbox *mbox);
+t_ast  *ast_create_node(int node_type);
+void    free_ast_v2(t_ast *root);
+void    connect_subtree(t_ast **root, t_ast *node_to_add, int on_right);
 t_bool    validate_token(t_token *token, int next_amount, int token_type);
-void	*put_syntax_error(t_minibox *minibox, t_token *error_token);
+void	*put_syntax_error(t_mbox *mbox, t_token *error_token);
 
 /* functions for BNF notation to build an AST */
 /* job */
-t_tree *job_main(t_minibox *minibox);
+t_ast *job_main(t_mbox *mbox);
 
 /* command */
-t_tree *command_main(t_minibox *minibox);
+t_ast *command_main(t_mbox *mbox);
 
 /* token_list */
-void    token_list_main(t_minibox *minibox);
+void    token_list_main(t_mbox *mbox);
 
 /* redir */
-t_tree *redir_main(t_minibox *minibox);
-t_tree *redir_in_main(t_minibox *minibox);
-t_tree *redir_out_main(t_minibox *minibox);
+t_ast *redir_main(t_mbox *mbox);
+t_ast *redir_in_main(t_mbox *mbox);
+t_ast *redir_out_main(t_mbox *mbox);
 /**********************************************/
 
 #endif
