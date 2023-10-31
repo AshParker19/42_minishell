@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:19:44 by astein            #+#    #+#             */
-/*   Updated: 2023/10/28 23:01:48 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/31 21:20:14 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ static void    run_cmd_main(t_mbox *mbox, t_ast *cmd_node)
 	{
 		run_cmd_builtin(mbox, cmd_node);
 		close_process_fds_v2(mbox); // FIXME: change it to close and free box
-		exit (0); //TODO: make exit status
+		free_and_close_box_v2(mbox);
+		// exit (0); //TODO: make exit status
 	}
 	else
 	{
@@ -60,6 +61,7 @@ static t_bool single_cmd(t_mbox *mbox)
 
 static void perform_child(t_mbox *mbox, t_ast *cmd_node, int cmd_pos, int *cur_pipe)
 {
+	update_signals(SIGNAL_CHILD);
 	if (cmd_pos == SINGLE_CMD && str_cmp_strct("./minishell", cmd_node->content))
 		increment_shlvl(mbox);	
 	if (is_cmd_builtin(mbox, cmd_node->content))
@@ -113,6 +115,7 @@ t_bool    execute_cmd(t_mbox *mbox, t_ast *cmd_node, int cmd_pos)
 		mbox->executor.pid[mbox->executor.pid_index] = fork(); //TODO: check for builtins!
 		if (mbox->executor.pid[mbox->executor.pid_index] == -1)
 			exit(EXIT_FAILURE); //TODO:    
+		update_signals(SIGNAL_PARENT);
 		if (mbox->executor.pid[mbox->executor.pid_index] == 0)
 			perform_child(mbox, cmd_node, cmd_pos, cur_pipe);
 		else

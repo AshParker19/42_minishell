@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:49:13 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/28 22:45:40 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/31 18:51:13 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	initialize_box_v2(t_mbox *mbox, char **env)
 	initialize_io(mbox);
 	mbox->executor.pid = NULL;
 	mbox->executor.cmd_av = NULL;
+	mbox->count_cycles = 0;
 }
 
 /**

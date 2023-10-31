@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:38:32 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/28 19:24:39 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/31 21:22:35 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ void	manage_input(t_mbox *mbox)
     print_parser_output(mbox);
     if (mbox->error_status == ft_false)
     {
-        print_executor_output(mbox, 0);
+        // print_executor_output(mbox, 0);
         execute(mbox);
-        print_executor_output(mbox, 1); 
+        // print_executor_output(mbox, 1); 
     }
 }
