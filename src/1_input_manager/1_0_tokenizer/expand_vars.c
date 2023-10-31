@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_vars.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 12:58:49 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/28 23:15:31 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/30 22:23:46 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,10 @@ static	char *mark_ws(char *str)
 	int		i;
 	char	*temp;
 
+    if (!str)
+        return (NULL);
 	temp = NULL;
 	i = -1;
-
 	while (str[++i])
 	{
 		if (ft_isspace(str[i]))
