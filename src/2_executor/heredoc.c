@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:00:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/28 22:51:37 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/31 21:10:42 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,19 +185,32 @@ static  t_bool check_lim_qoutes(char **str)
     return (expand_vars);
 }
 
+static  void exit_heredoc_child(t_mbox *mbox, int *fd, char *delimiter)
+{
+    close (fd[P_LEFT]); // close because it was WRITE END
+    free (delimiter);
+    close_process_fds_v2(mbox);
+    free_and_close_box_v2(mbox);
+}
+
 static  void heredoc_child(t_mbox *mbox, int *fd, char *delimiter)
 {
     char    *cur_line;
     t_bool  expand_vars;
     
-    signal(SIGINT, SIG_DFL);
     close(fd[P_RIGHT]);
+    update_signals(SIGNAL_HEREDOC);
     delimiter = ft_strjoin(delimiter, "\n");
     expand_vars = check_lim_qoutes(&delimiter); 
     while (true)
     {
         write (STDIN_FILENO, "> ", 2);
         cur_line = get_next_line(STDIN_FILENO);
+        if (!cur_line)
+        {
+            create_error_msg("nnynyn", ERR_PROMT, "warning: here-document at line ", ft_itoa(mbox->count_cycles), " delimited by end-of-file (wanted `", ft_strtrim(delimiter, "\n"), "')");
+            exit_heredoc_child(mbox, fd, delimiter);
+        }
         if (str_cmp_strct(cur_line, delimiter))
         {
             free (cur_line);
@@ -208,10 +221,7 @@ static  void heredoc_child(t_mbox *mbox, int *fd, char *delimiter)
         write (fd[P_LEFT], cur_line, ft_strlen(cur_line));
         free(cur_line);
     }
-    close (fd[P_LEFT]); // close because it was WRITE END
-    free (delimiter);
-    close_process_fds_v2(mbox);
-    free_and_close_box_v2(mbox);
+    exit_heredoc_child(mbox, fd, delimiter);
 }
 
 // TODO: 
@@ -224,7 +234,8 @@ int    heredoc(t_mbox *mbox, t_ast *redir_node, int *cmd_in_fd)
 
     if (pipe(fd) < 0)
         return (1);//TODO:
-    signal(SIGINT, SIG_IGN);
+    // signal(SIGINT, SIG_IGN);
+    update_signals(SIGNAL_PARENT);
     int pid = fork();
     if (pid < 0)
         return (1);//TODO:
@@ -232,7 +243,6 @@ int    heredoc(t_mbox *mbox, t_ast *redir_node, int *cmd_in_fd)
         heredoc_child(mbox, fd, redir_node->content);
     close(fd[P_LEFT]);
     waitpid(pid, &status, 0);
-    signal(SIGINT, SIG_DFL);
     if (WIFEXITED(status))
         status = WEXITSTATUS(status);
     else

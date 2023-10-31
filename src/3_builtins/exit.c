@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:33:57 by astein            #+#    #+#             */
-/*   Updated: 2023/10/29 01:03:34 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/31 17:05:19 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void    builtin_exit(t_mbox *mbox, t_ast *arg_node)
             ": numeric argument required");
     else
     {
-        ft_putstr_fd("exit\n", mbox->executor.io.cmd_fd[CMD_OUT]);
+        ft_putstr_fd("exit\n", STDOUT_FILENO);
         free_and_close_box_v2(mbox);
     }
 }

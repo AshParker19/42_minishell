@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2023/10/29 01:36:01 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/31 21:08:20 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,14 @@ typedef struct s_env_var t_env_var;
 typedef struct s_builtin_cmd t_builtin_cmd;
 typedef struct s_exec t_exec;
 
+enum e_signal_state
+{
+    SIGNAL_MAIN,
+    SIGNAL_PARENT,
+    SIGNAL_CHILD,
+    SIGNAL_HEREDOC
+};
+
 /* 
     the main structure of the program: it is being passed as an argument to all
     the fucntions so all the data can be accesed where it needed
@@ -79,6 +87,7 @@ typedef struct s_mbox
     t_ast      *root;
     t_ast      *tmp_node;
     t_exec      executor;
+    int         count_cycles;
 }              t_mbox;
 
 /* list of environment variables (definition) */
@@ -109,7 +118,7 @@ void    *free_var_v2(t_env_var *temp);
 
 
 /* signals.c */
-void    initialize_signals();
+void    update_signals(int sig_state);
 
 /* manage_mbox.c */
 void	initialize_box_v2(t_mbox *mbox, char **env);
