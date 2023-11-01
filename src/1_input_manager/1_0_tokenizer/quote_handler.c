@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quote_handler.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 14:36:59 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/28 23:20:50 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/01 14:38:01 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,13 @@ t_bool  mark_seps(t_mbox *mbox, int i, int quote_state)
     {
         if(quote_state == OUT_Q && ft_isqoute(mbox->inp_shift[i]))
         {
+            if (ft_isqoute(mbox->inp_shift[i + 1])) //TODO: syntax error for unpairing quotes --> "'  or  '""
+            {
+                i += 2;
+                quote_state = mbox->inp_shift[i];
+                quote_state = OUT_Q; //TODO: check this echo ""a  
+                continue ;                    
+            }
             mbox->inp_shift[i] = add_offset(mbox->inp_shift[i]);
             quote_state = mbox->inp_shift[i];
         }

@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 12:11:14 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/29 01:34:14 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/01 14:56:38 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "minishell.h"     
 
 	
-void print_tokens(t_mbox *mbox)	
+void print_tokens(t_mbox *mbox)
 {	
 	t_token *current;	
 	
@@ -70,8 +70,15 @@ static void	add_token(t_mbox *mbox, char *value, int token_type)
 	if (!new_t)
 		return ;
 	new_t->type = token_type;
-	value = check_shifted_values(value);
-	new_t->value = value;
+	if (ft_isqoute(value[0]) && ft_isqoute(value[1]))
+	{
+		free (value);
+		new_t->value = ft_calloc(1, sizeof(char));
+		if (!new_t->value)
+			return ; //TODO: check it in a calling fucntion
+	}
+	else	
+		new_t->value = check_shifted_values(value);
 	if (!mbox->tokens)
 		mbox->tokens = new_t;
 	else
