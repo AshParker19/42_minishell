@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 14:36:59 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/01 14:38:01 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/01 19:39:39 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,6 @@ void update_qoute_state(int *quote_state, char cur_char)
             *quote_state = OUT_Q;
     }
 }
-/*
-    traverses through the string and if a quotes_state is Q_OUT,
-    checks if a cur character is one of the separated ones 
-    and if so it shifts it to negative ASCII values
-*/
-
 
 /**
  * @brief   traverses through the string and if a quotes_state is Q_OUT,
@@ -67,15 +61,23 @@ void update_qoute_state(int *quote_state, char cur_char)
 // TODO: RENAME FUCNTIOn
 t_bool  mark_seps(t_mbox *mbox, int i, int quote_state)
 {
+    char    prev_quote;
+
     mbox->inp_shift = ft_strdup(mbox->inp_trim);
     while (mbox->inp_shift[i])
     {
         if(quote_state == OUT_Q && ft_isqoute(mbox->inp_shift[i]))
         {
-            if (ft_isqoute(mbox->inp_shift[i + 1])) //TODO: syntax error for unpairing quotes --> "'  or  '""
+            prev_quote = mbox->inp_shift[i];
+            if (ft_isqoute(mbox->inp_shift[i + 1])) 
             {
+                if (mbox->inp_shift[i + 1] != prev_quote)
+                {
+                    create_error_msg("nnnnn", ERR_PROMT, "syntax error: unexpected unpaired ", ft_chr2str('"'),
+                        ft_chr2str(mbox->inp_shift[i + 1]), ft_chr2str('"'));
+                    return (ft_false);
+                }
                 i += 2;
-                quote_state = mbox->inp_shift[i];
                 quote_state = OUT_Q; //TODO: check this echo ""a  
                 continue ;                    
             }

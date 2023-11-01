@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 12:11:14 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/01 14:56:38 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/01 19:27:12 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static void	add_token(t_mbox *mbox, char *value, int token_type)
 		free (value);
 		new_t->value = ft_calloc(1, sizeof(char));
 		if (!new_t->value)
-			return ; //TODO: check it in a calling fucntion
+			return ; //TODO: check it in a calling fucntion(we need to afree the allocated part of the list because it crashed)
 	}
 	else	
 		new_t->value = check_shifted_values(value);

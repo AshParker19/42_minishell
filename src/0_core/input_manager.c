@@ -6,14 +6,13 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:38:32 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/31 21:48:11 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/01 19:23:19 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 void	print_parser_output(t_mbox *mbox);
-
 
 /**
  * @brief   this function is kind of the main for an execution cycle!
