@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:19:44 by astein            #+#    #+#             */
-/*   Updated: 2023/10/31 21:20:14 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/31 22:45:10 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,25 +20,25 @@ static void    run_cmd_main(t_mbox *mbox, t_ast *cmd_node)
 	if (is_cmd_builtin(mbox, cmd_node->content))
 	{
 		run_cmd_builtin(mbox, cmd_node);
-		close_process_fds_v2(mbox); // FIXME: change it to close and free box
-		free_and_close_box_v2(mbox);
+		// free_cycle_v2(mbox);
 		// exit (0); //TODO: make exit status
 	}
 	else
 	{
 		run_cmd_system(mbox, cmd_node);
-		close_process_fds_v2(mbox);	// FIXME: change it to close and free box
+		// free_cycle_v2(mbox);
 	}
 }
 /*
 	
 */
-static t_bool single_cmd(t_mbox *mbox)
+static t_bool run_single_builtin(t_mbox *mbox)
 {
 	mbox->executor.io.cmd_fd[CMD_IN] = STDIN_FILENO;
 	mbox->executor.io.cmd_fd[CMD_OUT] = STDOUT_FILENO;
 	if (!setup_redir(mbox, mbox->root->left))
 	{
+		// TODO: does all of the if makes sence?
 		if (mbox->executor.io.cmd_fd[CMD_IN] != STDIN_FILENO)
 			close (mbox->executor.io.cmd_fd[CMD_IN]);
 		if (mbox->executor.io.cmd_fd[CMD_OUT] != STDOUT_FILENO)
@@ -102,7 +102,7 @@ t_bool    execute_cmd(t_mbox *mbox, t_ast *cmd_node, int cmd_pos)
 	// FIXME: if we change minishell to frankenshell we have to change it here as well
 	// checks if we do NOT have a single builtin cmd -> then fork!
 	if (cmd_pos == SINGLE_CMD && is_cmd_builtin(mbox, cmd_node->content))
-		return (single_cmd(mbox));
+		return (run_single_builtin(mbox));
 	else
 	{
 		setup_use_pipe(mbox, cmd_pos);
@@ -111,7 +111,6 @@ t_bool    execute_cmd(t_mbox *mbox, t_ast *cmd_node, int cmd_pos)
 			if (pipe(cur_pipe) == -1)
 				exit(EXIT_FAILURE); //TODO:
 		}
-		//listen_to_signals = ft_true;
 		mbox->executor.pid[mbox->executor.pid_index] = fork(); //TODO: check for builtins!
 		if (mbox->executor.pid[mbox->executor.pid_index] == -1)
 			exit(EXIT_FAILURE); //TODO:    
@@ -130,13 +129,16 @@ void    wait_for_execution(t_mbox *mbox)
 	int	exit_status;
 	
 	i = -1;
-	while (++i < cmd_counter(mbox->root))
+	if (mbox->executor.pid_index != 0)
 	{
-		waitpid(mbox->executor.pid[i], &exit_status, 0);
-		set_var_value(mbox, "?", ft_itoa(exit_status));		
+		while (++i < cmd_counter(mbox->root))
+		{
+			waitpid(mbox->executor.pid[i], &exit_status, 0);
+			set_var_value(mbox, "?", ft_itoa(exit_status));		
+		}
+		if (WIFEXITED(exit_status))
+			set_var_value(mbox, "?", ft_itoa(WEXITSTATUS(exit_status)));
 	}
-	if (WIFEXITED(exit_status))
-		set_var_value(mbox, "?", ft_itoa(WEXITSTATUS(exit_status)));
 }
 
 /*

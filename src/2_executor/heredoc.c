@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:00:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/31 21:10:42 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/31 23:04:23 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,11 +123,7 @@ static char   *expand_heredoc_input(t_mbox *mbox, char *str)
                 else if (str_cmp_strct(key, "$"))
                     expanded_str = append_str(expanded_str, key, ft_false);
                 else
-                {
-                    printf("FOUND KEY IN HEREDOC!!! (%s)\n", key);
                     expanded_str = append_str(expanded_str, get_var_value(mbox, key), ft_false);
-                    printf("expanded string (%s)\n", expanded_str);
-                }
                 free(key);
             }
             else
@@ -233,18 +229,26 @@ int    heredoc(t_mbox *mbox, t_ast *redir_node, int *cmd_in_fd)
     int     status;
 
     if (pipe(fd) < 0)
-        return (1);//TODO:
-    // signal(SIGINT, SIG_IGN);
+        exit (1);//TODO:
     update_signals(SIGNAL_PARENT);
     int pid = fork();
     if (pid < 0)
-        return (1);//TODO:
+       exit (1);//TODO:
     if (pid == 0)
+    {
+        dprintf (2, "HEREDOC PID %d\n", getpid());
         heredoc_child(mbox, fd, redir_node->content);
+    }
     close(fd[P_LEFT]);
     waitpid(pid, &status, 0);
+    update_signals(SIGNAL_CHILD);
     if (WIFEXITED(status))
         status = WEXITSTATUS(status);
+    else if (WIFSIGNALED(status))
+    {
+        status = WTERMSIG(status) + 128;
+        dprintf (2, "DDDDDDDDDDDDDDDDDDDDDDDDDDDD\nPID %d\n", getpid());
+    }
     else
         status = 1;
     if (status == 0)

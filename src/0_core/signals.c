@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 19:30:56 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/31 21:17:42 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/31 23:08:10 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,6 @@ static void signal_handler(int signal)
         write(1, PROMT, ft_strlen(PROMT));
         rl_replace_line("", 1);
     }
-    else if (signal == SIGQUIT)
-        dprintf(2, "asd\n");
-        // builtin_exit(mbox, NULL);
 }
 
 /**
