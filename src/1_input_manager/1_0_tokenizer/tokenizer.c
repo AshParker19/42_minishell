@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 12:11:14 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/01 19:27:12 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/01 20:54:38 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static void	add_token(t_mbox *mbox, char *value, int token_type)
 	if (!new_t)
 		return ;
 	new_t->type = token_type;
-	if (ft_isqoute(value[0]) && ft_isqoute(value[1]))
+	if (ft_strlen(value) == 2 && ft_isqoute(value[0]) && ft_isqoute(value[1]))
 	{
 		free (value);
 		new_t->value = ft_calloc(1, sizeof(char));
@@ -257,3 +257,4 @@ t_bool	tokenize(t_mbox *mbox, int i)
 		return (ft_false); //TODO: check return values of all the funcs and check if the list didnt fail in the middle
 	return (ft_true);	
 }
+
