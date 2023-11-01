@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_system.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 13:07:56 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/28 22:51:17 by astein           ###   ########.fr       */
+/*   Updated: 2023/10/31 22:52:34 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void    run_cmd_system(t_mbox *mbox, t_ast *cmd_node)
 			close(mbox->executor.io.cmd_fd[CMD_OUT]);
 		abs_cmd_path = NULL;
 		get_cmd_av(mbox, cmd_node);
-		if(mbox->executor.cmd_av)
+		if (mbox->executor.cmd_av)
 		{
 			abs_cmd_path = get_cmd_path(mbox, cmd_node->content, -1, ft_true);
 			execve(abs_cmd_path, mbox->executor.cmd_av, env_to_matrix(mbox));
@@ -112,8 +112,6 @@ void    run_cmd_system(t_mbox *mbox, t_ast *cmd_node)
 		if (abs_cmd_path)
 			free (abs_cmd_path);
 		create_error_msg("nnn", "command '", cmd_node->content, "' not found");
-		close_process_fds_v2(mbox);
-		exit(127);
-		// TODO: EXIT 
+		free_and_close_box_v2(mbox);
 }
 
