@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:09:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/02 13:30:47 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/02 16:48:01 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ t_bool run_single_builtin(t_mbox *mbox)
 {
 	mbox->executor.io.cmd_fd[CMD_IN] = STDIN_FILENO;
 	mbox->executor.io.cmd_fd[CMD_OUT] = STDOUT_FILENO;
-	if (!setup_redir(mbox, mbox->root->left))
+	if (!configure_redir(mbox, mbox->root->left))
 	{
 		// TODO: does all of the if makes sence?
 		if (mbox->executor.io.cmd_fd[CMD_IN] != STDIN_FILENO)

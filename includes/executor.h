@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 17:55:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/02 13:21:55 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/02 16:48:01 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void    setup_pipes(t_mbox *mbox, int *cur_pipe);
 void    setup_process_std(t_mbox *mbox);
 
 /* redirections */
-t_bool    setup_redir(t_mbox *mbox, t_ast *redir_node);
+t_bool    configure_redir(t_mbox *mbox, t_ast *redir_node);
 
 /* heredoc */
 int    heredoc(t_mbox *mbox, t_ast *redir_node, int *cmd_in_fd);

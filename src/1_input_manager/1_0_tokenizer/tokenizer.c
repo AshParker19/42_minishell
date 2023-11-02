@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 12:11:14 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/01 20:54:38 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/02 14:44:55 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static void	add_token(t_mbox *mbox, char *value, int token_type)
 	if (!new_t)
 		return ;
 	new_t->type = token_type;
-	if (ft_strlen(value) == 2 && ft_isqoute(value[0]) && ft_isqoute(value[1]))
+	if (ft_strlen(value) == 2 && ft_isqoute(value[0]) && ft_isqoute(value[1])) //TODO: check the whole token here, not only 2 indexes, is it consists only of double quotes, check it
 	{
 		free (value);
 		new_t->value = ft_calloc(1, sizeof(char));

@@ -6,25 +6,25 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:19:44 by astein            #+#    #+#             */
-/*   Updated: 2023/11/02 13:47:27 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/02 16:48:01 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+# include "minishell.h"
 
 static void perform_child(t_mbox *mbox, t_ast *cmd_node, int cmd_pos, int *cur_pipe)
 {
 	update_signals(SIGNAL_CHILD);
 	if (cmd_pos == SINGLE_CMD && str_cmp_strct("./minishell",
 		cmd_node->content))
-		increment_shlvl(mbox);	
+		increment_shlvl(mbox);
 	if (is_cmd_builtin(mbox, cmd_node->content))
 	{
 		mbox->executor.io.cmd_fd[CMD_IN] = STDIN_FILENO;
 		mbox->executor.io.cmd_fd[CMD_OUT] = STDOUT_FILENO;
 	}
 	setup_pipes(mbox, cur_pipe);
-	if (!setup_redir(mbox, cmd_node->left))
+	if (!configure_redir(mbox, cmd_node->left))
 		free_and_close_box_v2(mbox);
 	setup_process_std(mbox);
 	if (cmd_pos == FIRST_CMD || cmd_pos == MIDDLE_CMD)
@@ -47,6 +47,14 @@ static void	perform_parent(t_mbox *mbox, t_ast *cmd_node, int cmd_pos, int *cur_
 	close_process_fds_v2(mbox);	
 }
 
+/**
+ * @brief	
+ * 
+ * @param	mbox 
+ * @param	cmd_node 
+ * @param	cmd_pos 
+ * @return	t_bool 
+ */
 static t_bool    execute_cmd(t_mbox *mbox, t_ast *cmd_node, int cmd_pos)
 {
 	int cur_pipe[2];
@@ -89,20 +97,24 @@ static void    wait_for_execution(t_mbox *mbox)
 		}
 		if (WIFEXITED(exit_status))
 			set_var_value(mbox, "?", ft_itoa(WEXITSTATUS(exit_status)));
+			//TODO: wait for signal too
 	}
 }
 
-/*
- * This function traverses trough the AST
- * checks cmd POSITION
+/**
+ * @brief	traverses trough the AST checks cmd POSITION
  * 
- *      SINGLE          ls -l
+ * 			EXAMPLES:
+ *      	SINGLE          ls -l
  * 
- *              FIRST       MIDDLE          LAST
- *      input:  ls -l   | grep "Makefile" | wc -l
- * 
- *  then calls execute_cmd and waits until all childs died
-*/
+ *          	    FIRST       MIDDLE          LAST
+ *      	input:  ls -l   | grep "Makefile" | wc -l
+ * 			
+ * 			then calls 'execute_cmd' with the corresponding flag and waits for
+ * 			all the child processes to be finished
+ * @param	mbox 
+ * @return	t_bool 
+ */
 t_bool    execute(t_mbox *mbox) //TODO: do exit for builtins
 {   
 	t_ast  *cur;
@@ -118,7 +130,7 @@ t_bool    execute(t_mbox *mbox) //TODO: do exit for builtins
 	}
 	else
 	{
-		execute_cmd(mbox, cur->left, FIRST_CMD);
+		execute_cmd(mbox, cur->left, FIRST_CMD); //TODO: check if execute_cmd doesn't return false, check it at all of calls
 		while (cur->right->type == PIPE_NODE)
 		{
 			cur = cur->right;
@@ -129,4 +141,3 @@ t_bool    execute(t_mbox *mbox) //TODO: do exit for builtins
 	wait_for_execution(mbox);
 	return (ft_true);
 }
-
