@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 14:36:59 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/01 23:44:27 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/02 12:54:33 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,44 @@ void update_qoute_state(int *quote_state, char cur_char)
     }
 }
 
+static t_bool   quote_after_quote(t_mbox *mbox, int *i, int *quote_state)
+{
+    char    prev_quote;
+    int     j;
+
+    prev_quote = mbox->inp_shift[*i];
+        // if (mbox->inp_shift[i + 1] != prev_quote)
+            // {
+            //     create_error_msg("nnnnn", ERR_PROMT, "syntax error: unexpected unpaired ", ft_chr2str('"'),
+            //         ft_chr2str(mbox->inp_shift[i + 1]), ft_chr2str('"'));
+            //     return (ft_false);
+            // }
+    j = *i;
+    while (ft_isqoute(mbox->inp_shift[j])) //FIXME: echo "''" --> ''  echo '""'--> ""   echo """" --> empty token
+        j++;
+    if (mbox->inp_shift[*i - 1] > 0)
+    {
+        j = *i;
+        while (ft_isqoute(mbox->inp_shift[j]))
+        {
+            mbox->inp_shift[j] = add_offset(mbox->inp_shift[j]);
+            j++; 
+        }
+    }
+    else if (mbox->inp_shift[j]  != '\0'
+        && !ft_isqoute(mbox->inp_shift[j + 1]) && !ft_isspace(mbox->inp_shift[j]))
+    {
+        j = *i + 1;
+        while (ft_isqoute(mbox->inp_shift[j]))
+        {
+            mbox->inp_shift[j] = add_offset(mbox->inp_shift[j]);
+            j--;  
+        }
+    }
+    *i += 2;  //should be dynamic
+    *quote_state = OUT_Q;
+}
+
 /**
  * @brief   traverses through the string and if a quotes_state is Q_OUT,
  *          checks if a cur character is one of the separated ones 
@@ -61,48 +99,15 @@ void update_qoute_state(int *quote_state, char cur_char)
 // TODO: RENAME FUCNTIOn
 t_bool  mark_seps(t_mbox *mbox, int i, int quote_state)
 {
-    char    prev_quote;
-    int     j;
-
     mbox->inp_shift = ft_strdup(mbox->inp_trim);
     while (mbox->inp_shift[i])
     {
         if(quote_state == OUT_Q && ft_isqoute(mbox->inp_shift[i]))
         {
-            prev_quote = mbox->inp_shift[i];
             if (ft_isqoute(mbox->inp_shift[i + 1])) 
             {
-                // if (mbox->inp_shift[i + 1] != prev_quote)
-                // {
-                //     create_error_msg("nnnnn", ERR_PROMT, "syntax error: unexpected unpaired ", ft_chr2str('"'),
-                //         ft_chr2str(mbox->inp_shift[i + 1]), ft_chr2str('"'));
-                //     return (ft_false);
-                // }
-                j = i;
-                while (ft_isqoute(mbox->inp_shift[j])) //FIXME: echo "''" --> ''  echo '""'--> ""   echo """" --> empty token
-                    j++;
-                if (mbox->inp_shift[i - 1] > 0)
-                {
-                    j = i;
-                    while (ft_isqoute(mbox->inp_shift[j]))
-                    {
-                        printf ("HERE\n");
-                        mbox->inp_shift[j] = add_offset(mbox->inp_shift[j]);
-                        j++;  
-                    }
-                }
-                else if (mbox->inp_shift[j + 1]  != '\0' && !ft_isqoute(mbox->inp_shift[j + 1]) && !ft_isspace(mbox->inp_shift[j]))
-                {
-                    j = i + 1;
-                    while (ft_isqoute(mbox->inp_shift[j]))
-                    {
-                        mbox->inp_shift[j] = add_offset(mbox->inp_shift[j]);
-                        j--;  
-                    }
-                }
-                i += 2; //should be dynamic
-                quote_state = OUT_Q; 
-                continue ;                    
+                quote_after_quote(mbox, &i, &quote_state);
+                continue ;               
             }
             mbox->inp_shift[i] = add_offset(mbox->inp_shift[i]);
             quote_state = mbox->inp_shift[i];
