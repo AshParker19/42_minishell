@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_heredoc.c                                    :+:      :+:    :+:   */
+/*   heredoc_limiter.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 15:45:25 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/28 23:27:54 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/02 19:26:24 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,7 @@ static  char *treat_case_dollar(char *lim)
                 found_dollar = ft_false;
             }
         else
-            found_dollar = ft_false;
-        
+            found_dollar = ft_false;    
     }    
     return (lim);
 }

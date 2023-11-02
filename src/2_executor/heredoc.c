@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:00:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/31 23:04:23 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/02 19:29:18 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,47 +34,6 @@
  *
  *              4.  SIGNALS TODO:
  */
-
-
-/**
- * @brief   this function gets a string and should return a copied str of the
- *          key. the key will be returned.
- *          
- *          the index i will be shifted!
- * 
- * @param str 
- * @return char* 
- */
-static  char *get_key(t_mbox *mbox, char *str, int *i)
-{
-    char    *key;
-
-    key = NULL;
-    if (!str)
-        return (key);
-    if (str[*i] == '?')
-    {
-        
-        return (ft_chr2str('?'));
-    }
-    if (!ft_isalpha(str[(*i)+1]) && str[(*i)+1] != '_')
-    {
-        (*i)--;
-        return(key);
-    }
-    while(str[*i])
-    {
-        if (ft_isalnum(str[*i]) || str[*i] == '_')
-            key = append_str(key, ft_chr2str(str[*i]), ft_true);
-        else
-        {
-            (*i)--;
-            return (key);
-        }
-        (*i)++;
-    }   
-    return (key);
-}
 
 
 /**

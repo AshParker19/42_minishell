@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_manager.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 15:35:02 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/28 18:01:21 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/02 19:18:20 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,13 +86,16 @@ char    *extract_limiter(t_mbox *mbox, int *k, int *quote_state);
 t_bool	tokenize(t_mbox *mbox, int i);
 int		add_offset(int c);
 int		remove_offset(int c);
-t_bool	ft_isspace(char c); //TODO: put all the ws chars from 7 to 13 in if statemnet
+t_bool	ft_isspace(char c);
 t_bool	ft_issep(char c);
 t_bool	ft_isqoute(char c);
+t_bool  check_sp(char *no_space);
+t_bool	check_space_between_redir(char *str1, char *str2);
+int     get_token_type(char c);
+void    free_tokens_v2(t_mbox *mbox);
 
 /* PARSER */
 t_bool	parse(t_mbox *mbox);
-void	print_parser_output(t_mbox *mbox);
 t_ast  *ast_create_node(int node_type);
 void    free_ast_v2(t_ast *root);
 void    connect_subtree(t_ast **root, t_ast *node_to_add, int on_right);

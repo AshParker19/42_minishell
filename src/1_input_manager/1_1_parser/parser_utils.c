@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 18:26:39 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/02 12:08:21 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/02 19:16:04 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,53 +135,6 @@ void    connect_subtree(t_ast **root, t_ast *node_to_add, int side)
         (*root)->left = node_to_add;
         node_to_add->left = tmp;
     }
-}
-
-static void	display_ast(t_ast *root, int indent_level)
-{
-	char	*type;
-	int		code;
-	int		distance;
-
-	if (root == NULL)
-		return ;
-	distance = 7;
-	indent_level += distance;
-	display_ast(root->right, indent_level);
-	code = root->type;
-	if (code == ARG_NODE)
-		type = ft_strdup("arg");
-	else if (code == CMD_NODE)
-		type = ft_strdup("cmd");
-	else if (code == PIPE_NODE)
-		type = ft_strdup("|");
-	else if (code == RED_OUT_AP)
-		type = ft_strdup(">>");
-	else if (code == RED_IN_HD)
-		type = ft_strdup("<<");
-	else if (code == RED_IN)
-		type = ft_strdup("<");
-	else if (code == RED_OUT_TR)
-		type = ft_strdup(">");
-	printf("\n");
-	for (int i = distance; i < indent_level; i++)
-		printf(" ");
-	if (root->content)
-		printf("[%s] (%s)\n", type, root->content);
-	else
-		printf("[%s]\n", type);
-	free(type);
-	display_ast(root->left, indent_level);
-}
-
-/* Print the ouput of the AST built by the Parser*/
-void	print_parser_output(t_mbox *mbox)
-{
-	printf("\n ------------------------------------ \n");
-	printf("|               PARSER               |\n");
-	printf(" ------------------------------------ \n");
-	display_ast(mbox->root, 0);
-	printf(" ------------------------------------ \n\n");
 }
 
 /**

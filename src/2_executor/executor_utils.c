@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:23:39 by astein            #+#    #+#             */
-/*   Updated: 2023/10/28 22:55:50 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/02 19:30:40 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,21 +40,6 @@ void	initialize_io(t_mbox *mbox)
 	mbox->executor.io.cmd_fd[CMD_OUT] = -1;
 	mbox->executor.io.dup_fd[CMD_IN] = -1;
 	mbox->executor.io.dup_fd[CMD_OUT] = -1;
-}
-
-/* Print the ouput of the AST built by the Parser*/
-void	print_executor_output(t_mbox *mbox, int i)
-{
-    (void)mbox;
-	if(i == 0)
-	{
-		printf("\n ------------------------------------ \n");
-		printf("|              EXECUTOR              |\n");
-		printf("|           cmd count: %d             |\n",cmd_counter(mbox->root));
-		printf(" ------------------------------------ \n");	
-	}
-	else
-		printf(" ------------------------------------ \n");
 }
 
 /**
