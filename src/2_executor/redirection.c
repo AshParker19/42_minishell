@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:47:15 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/02 13:08:24 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/02 13:49:49 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ static t_bool    handle_redir(t_mbox *mbox, t_ast *redir_node, int *in_fd, int *
         if (*out_fd != -1)
             close(*out_fd);
         *out_fd = open(redir_node->content, O_WRONLY | O_CREAT | O_APPEND, 0666);
+        if (*out_fd == -1)
             return (error_exit_child(mbox));
     }
     return (ft_true);
