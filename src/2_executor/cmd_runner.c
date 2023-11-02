@@ -1,0 +1,95 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cmd_runner.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/02 13:09:19 by anshovah          #+#    #+#             */
+/*   Updated: 2023/11/02 13:30:47 by anshovah         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+# include "minishell.h"
+
+
+/*
+	decides if the command to be executed is a builtin cmd or a system cmd
+*/
+void    run_cmd_main(t_mbox *mbox, t_ast *cmd_node)
+{
+	if (is_cmd_builtin(mbox, cmd_node->content))
+	{
+		run_cmd_builtin(mbox, cmd_node);
+		// exit (0); //TODO: make exit status
+	}
+	else
+		run_cmd_system(mbox, cmd_node);
+}
+
+void    run_cmd_system(t_mbox *mbox, t_ast *cmd_node)
+{
+	char	*error_msg;
+	char	*abs_cmd_path;
+	
+		if (mbox->executor.io.cmd_fd[CMD_IN] != -1)
+			close(mbox->executor.io.cmd_fd[CMD_IN]);
+		if (mbox->executor.io.cmd_fd[CMD_OUT] != -1)
+			close(mbox->executor.io.cmd_fd[CMD_OUT]);
+		abs_cmd_path = NULL;
+		get_cmd_av(mbox, cmd_node);
+		if (mbox->executor.cmd_av)
+		{
+			abs_cmd_path = get_cmd_path(mbox, cmd_node->content, -1, ft_true);
+			execve(abs_cmd_path, mbox->executor.cmd_av, env_to_matrix(mbox));
+		}
+		if (abs_cmd_path)
+			free (abs_cmd_path);
+		create_error_msg("nnn", "command '", cmd_node->content, "' not found");
+		free_and_close_box_v2(mbox);
+}
+
+/**
+ * @brief   traverses through the ll and run builtin cmd via corresponding
+ *          function pointer
+ * 
+ * @param   mbox 
+ * @param   cmd_node 
+ */
+void    run_cmd_builtin(t_mbox *mbox, t_ast *cmd_node)
+{
+    int i;
+    
+    i = -1;
+    while (mbox->executor.builtins[++i].cmd_name)
+        if (str_cmp_strct(mbox->executor.builtins[i].cmd_name, cmd_node->content))
+            mbox->executor.builtins[i].func_name(mbox, cmd_node->right);
+}
+
+t_bool run_single_builtin(t_mbox *mbox)
+{
+	mbox->executor.io.cmd_fd[CMD_IN] = STDIN_FILENO;
+	mbox->executor.io.cmd_fd[CMD_OUT] = STDOUT_FILENO;
+	if (!setup_redir(mbox, mbox->root->left))
+	{
+		// TODO: does all of the if makes sence?
+		if (mbox->executor.io.cmd_fd[CMD_IN] != STDIN_FILENO)
+			close (mbox->executor.io.cmd_fd[CMD_IN]);
+		if (mbox->executor.io.cmd_fd[CMD_OUT] != STDOUT_FILENO)
+			close (mbox->executor.io.cmd_fd[CMD_OUT]);  
+		mbox->executor.io.cmd_fd[CMD_IN] = -1;
+		mbox->executor.io.cmd_fd[CMD_OUT] = -1;
+		return (ft_false);
+	}
+	run_cmd_builtin(mbox, mbox->root);  
+	if (mbox->executor.io.cmd_fd[CMD_IN] != STDIN_FILENO)
+		close (mbox->executor.io.cmd_fd[CMD_IN]);
+	if (mbox->executor.io.cmd_fd[CMD_OUT] != STDOUT_FILENO)
+		close (mbox->executor.io.cmd_fd[CMD_OUT]);  
+	mbox->executor.io.cmd_fd[CMD_IN] = -1;
+	mbox->executor.io.cmd_fd[CMD_OUT] = -1;
+	close_process_fds_v2(mbox);
+	free_cycle_v2(mbox);
+	return (ft_true);
+}
+

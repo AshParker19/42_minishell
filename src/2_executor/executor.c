@@ -6,63 +6,17 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:19:44 by astein            #+#    #+#             */
-/*   Updated: 2023/10/31 22:45:10 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/02 13:42:37 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*
-	decides if the command to be executed is a builtin cmd or a system cmd
-*/
-static void    run_cmd_main(t_mbox *mbox, t_ast *cmd_node)
-{
-	if (is_cmd_builtin(mbox, cmd_node->content))
-	{
-		run_cmd_builtin(mbox, cmd_node);
-		// free_cycle_v2(mbox);
-		// exit (0); //TODO: make exit status
-	}
-	else
-	{
-		run_cmd_system(mbox, cmd_node);
-		// free_cycle_v2(mbox);
-	}
-}
-/*
-	
-*/
-static t_bool run_single_builtin(t_mbox *mbox)
-{
-	mbox->executor.io.cmd_fd[CMD_IN] = STDIN_FILENO;
-	mbox->executor.io.cmd_fd[CMD_OUT] = STDOUT_FILENO;
-	if (!setup_redir(mbox, mbox->root->left))
-	{
-		// TODO: does all of the if makes sence?
-		if (mbox->executor.io.cmd_fd[CMD_IN] != STDIN_FILENO)
-			close (mbox->executor.io.cmd_fd[CMD_IN]);
-		if (mbox->executor.io.cmd_fd[CMD_OUT] != STDOUT_FILENO)
-			close (mbox->executor.io.cmd_fd[CMD_OUT]);  
-		mbox->executor.io.cmd_fd[CMD_IN] = -1;
-		mbox->executor.io.cmd_fd[CMD_OUT] = -1;
-		return (ft_false);
-	}
-	run_cmd_builtin(mbox, mbox->root);  
-	if (mbox->executor.io.cmd_fd[CMD_IN] != STDIN_FILENO)
-		close (mbox->executor.io.cmd_fd[CMD_IN]);
-	if (mbox->executor.io.cmd_fd[CMD_OUT] != STDOUT_FILENO)
-		close (mbox->executor.io.cmd_fd[CMD_OUT]);  
-	mbox->executor.io.cmd_fd[CMD_IN] = -1;
-	mbox->executor.io.cmd_fd[CMD_OUT] = -1;
-	close_process_fds_v2(mbox);
-	// FIXME: change it to free cycle
-	return (ft_true);
-}
-
 static void perform_child(t_mbox *mbox, t_ast *cmd_node, int cmd_pos, int *cur_pipe)
 {
 	update_signals(SIGNAL_CHILD);
-	if (cmd_pos == SINGLE_CMD && str_cmp_strct("./minishell", cmd_node->content))
+	if (cmd_pos == SINGLE_CMD && str_cmp_strct("./minishell",
+		cmd_node->content))
 		increment_shlvl(mbox);	
 	if (is_cmd_builtin(mbox, cmd_node->content))
 	{
@@ -93,14 +47,11 @@ static void	perform_parent(t_mbox *mbox, t_ast *cmd_node, int cmd_pos, int *cur_
 	close_process_fds_v2(mbox);	
 }
 
-t_bool    execute_cmd(t_mbox *mbox, t_ast *cmd_node, int cmd_pos)
+static t_bool    execute_cmd(t_mbox *mbox, t_ast *cmd_node, int cmd_pos)
 {
 	int cur_pipe[2];
 
 	initialize_io(mbox);
-	// TODO: if cmd_node = ./minishell increment shell level
-	// FIXME: if we change minishell to frankenshell we have to change it here as well
-	// checks if we do NOT have a single builtin cmd -> then fork!
 	if (cmd_pos == SINGLE_CMD && is_cmd_builtin(mbox, cmd_node->content))
 		return (run_single_builtin(mbox));
 	else
@@ -111,7 +62,7 @@ t_bool    execute_cmd(t_mbox *mbox, t_ast *cmd_node, int cmd_pos)
 			if (pipe(cur_pipe) == -1)
 				exit(EXIT_FAILURE); //TODO:
 		}
-		mbox->executor.pid[mbox->executor.pid_index] = fork(); //TODO: check for builtins!
+		mbox->executor.pid[mbox->executor.pid_index] = fork();
 		if (mbox->executor.pid[mbox->executor.pid_index] == -1)
 			exit(EXIT_FAILURE); //TODO:    
 		update_signals(SIGNAL_PARENT);
@@ -123,7 +74,7 @@ t_bool    execute_cmd(t_mbox *mbox, t_ast *cmd_node, int cmd_pos)
 	return (ft_true);
 }
 
-void    wait_for_execution(t_mbox *mbox)
+static void    wait_for_execution(t_mbox *mbox)
 {
 	int i;
 	int	exit_status;
@@ -178,5 +129,4 @@ t_bool    execute(t_mbox *mbox) //TODO: do exit for builtins
 	wait_for_execution(mbox);
 	return (ft_true);
 }
-
 

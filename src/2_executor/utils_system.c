@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 13:07:56 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/31 22:52:34 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/02 13:36:14 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*
 abs = true = full path absoulte path
 abs = false = relatvie path*/
-static char    *get_cmd_path(t_mbox *mbox, char *cmd, int i, t_bool abs)
+char    *get_cmd_path(t_mbox *mbox, char *cmd, int i, t_bool abs)
 {
 	int     check;
 	char    *path;
@@ -83,7 +83,8 @@ void get_cmd_av(t_mbox *mbox, t_ast *cmd_node)
 	{
 		if (cmd_node->right->content)
 		{
-			temp = ft_strcat_multi(3, cur_args_str, "|", cmd_node->right->content);
+			temp = ft_strcat_multi(3, cur_args_str, "|",
+				cmd_node->right->content);
 			free (cur_args_str);
 			cur_args_str = temp;
 		}
@@ -93,25 +94,4 @@ void get_cmd_av(t_mbox *mbox, t_ast *cmd_node)
 	free(cur_args_str);
 }
 
-void    run_cmd_system(t_mbox *mbox, t_ast *cmd_node)
-{
-	char	*error_msg;
-	char	*abs_cmd_path;
-	
-		if (mbox->executor.io.cmd_fd[CMD_IN] != -1)
-			close(mbox->executor.io.cmd_fd[CMD_IN]);
-		if (mbox->executor.io.cmd_fd[CMD_OUT] != -1)
-			close(mbox->executor.io.cmd_fd[CMD_OUT]);
-		abs_cmd_path = NULL;
-		get_cmd_av(mbox, cmd_node);
-		if (mbox->executor.cmd_av)
-		{
-			abs_cmd_path = get_cmd_path(mbox, cmd_node->content, -1, ft_true);
-			execve(abs_cmd_path, mbox->executor.cmd_av, env_to_matrix(mbox));
-		}
-		if (abs_cmd_path)
-			free (abs_cmd_path);
-		create_error_msg("nnn", "command '", cmd_node->content, "' not found");
-		free_and_close_box_v2(mbox);
-}
 

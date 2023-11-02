@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:47:15 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/31 22:38:57 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/02 13:08:24 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,9 @@ returns if file could be opened correct
 */
 t_bool    setup_redir(t_mbox *mbox, t_ast *redir_node)
 {
-    int in_fd;
-    int out_fd;
-    t_ast *tmp;
+    int     in_fd;
+    int     out_fd;
+    t_ast   *tmp;
 
     tmp = redir_node;
     in_fd = -1;

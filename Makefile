@@ -52,6 +52,7 @@ SRCS = $(addprefix $(SRC_FOLDER), 					\
 	1_input_manager/1_1_parser/redir_out.c			\
 	1_input_manager/1_1_parser/parser_utils.c		\
 	2_executor/executor.c							\
+	2_executor/cmd_runner.c							\
 	2_executor/executor_utils.c						\
 	2_executor/utils_system.c						\
 	2_executor/utils_builtin.c						\
