@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2023/11/03 10:31:44 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/03 16:50:17 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define MINISHELL_H
 
 /* promt strings */
-# define PROMT      "frankenshell--> "
+# define PROMT      "\x1b[36mfrankenshell-->\033[0m "
 # define ERR_PROMT  "frankenshell: "
 
 # define FRANKENSHELL_RISES_AMIDTS_DEATH 1
@@ -45,6 +45,7 @@
 // # define fork() -1
 // # define pipe(x) -1
 // # define dup2(x, y) -1 //TODO: make protections for other fucntion which can break
+ //!TODO: !!!IMPORTANT!!!  when we exit in these cases, we don't care about the exit status, it's always 0
 
 /* project includes */
 # include "../libft/libft_printf.h"

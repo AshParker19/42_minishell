@@ -84,7 +84,7 @@ all:  $(NAME)
 $(NAME): $(LIBFT) $(OBJS)
 	@$(CC) $(OBJS) $(CFLAGS) $(CLIBS) $(CINCLUDES) -o $(NAME)
 	@echo "\n$(ORANGE)╔═══════════════════════╗"
-	@echo "$(ORANGE)║  $(GREEN)$(NAME):  created$(ORANGE)  ║"
+	@echo "$(ORANGE)║  $(GREEN)$(NAME):  created$(ORANGE)  ║" #revived
 	@echo "$(ORANGE)╚═══════════════════════╝"
 
 $(OBJ_FOLDER)%.o: $(SRC_FOLDER)%.c 

@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:23:27 by astein            #+#    #+#             */
-/*   Updated: 2023/11/03 10:31:28 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/03 16:50:35 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,6 @@ void    setup_process_std(t_mbox *mbox) //TODO: rename it
         mbox->executor.io.dup_fd[CMD_OUT]
             = dup2(mbox->executor.io.cmd_fd[CMD_OUT], STDOUT_FILENO);
         if (mbox->executor.io.dup_fd[CMD_OUT] < 0)
-        {
-            dprintf (2, "HHhhHHhhhhhhhhh\n");
-            exit_failure(mbox);
-        }
+            exit_failure(mbox); // we should exit from the whole program not only child process
     }
 }

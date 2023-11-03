@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:47:15 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/02 16:51:56 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/03 18:43:10 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static t_bool   redir_io(t_mbox *mbox, t_ast *redir_node, int *in, int *out)
     {
         if (tmp->type == RED_IN || tmp->type == RED_IN_HD)
         {
-            if (!setup_redir_in(mbox, tmp, in))
+            if (!setup_redir_in(mbox, tmp, in)) // can I do return(setup_redir_in(mbox, tmp, in))?
                 return (ft_false);
         }
         else if (tmp->type == RED_OUT_TR
@@ -105,7 +105,10 @@ t_bool    configure_redir(t_mbox *mbox, t_ast *redir_node)
     in_fd = -1;
     out_fd = -1;
     if (!redir_io(mbox, redir_node, &in_fd, &out_fd))
+    {
+        set_var_value(mbox, "?", ft_itoa(EXIT_FAILURE));
         return (ft_false);
+    }
     if (in_fd != -1)
     {
         if (mbox->executor.io.cmd_fd[CMD_IN] != -1

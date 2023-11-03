@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:09:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/02 16:48:01 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/03 18:45:30 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,7 @@
 void    run_cmd_main(t_mbox *mbox, t_ast *cmd_node)
 {
 	if (is_cmd_builtin(mbox, cmd_node->content))
-	{
 		run_cmd_builtin(mbox, cmd_node);
-		// exit (0); //TODO: make exit status
-	}
 	else
 		run_cmd_system(mbox, cmd_node);
 }
@@ -46,6 +43,7 @@ void    run_cmd_system(t_mbox *mbox, t_ast *cmd_node)
 		if (abs_cmd_path)
 			free (abs_cmd_path);
 		create_error_msg("nnn", "command '", cmd_node->content, "' not found");
+		set_var_value(mbox, "?", ft_itoa(127));
 		free_and_close_box_v2(mbox);
 }
 
@@ -88,6 +86,7 @@ t_bool run_single_builtin(t_mbox *mbox)
 		close (mbox->executor.io.cmd_fd[CMD_OUT]);  
 	mbox->executor.io.cmd_fd[CMD_IN] = -1;
 	mbox->executor.io.cmd_fd[CMD_OUT] = -1;
+	set_var_value(mbox, "?", ft_itoa(EXIT_SUCCESS));
 	close_process_fds_v2(mbox);
 	free_cycle_v2(mbox);
 	return (ft_true);
