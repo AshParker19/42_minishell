@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:00:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/02 19:29:18 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/03 10:12:50 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,11 +188,11 @@ int    heredoc(t_mbox *mbox, t_ast *redir_node, int *cmd_in_fd)
     int     status;
 
     if (pipe(fd) < 0)
-        exit (1);//TODO:
+        exit_failure(mbox);
     update_signals(SIGNAL_PARENT);
     int pid = fork();
     if (pid < 0)
-       exit (1);//TODO:
+        exit_failure(mbox);
     if (pid == 0)
     {
         dprintf (2, "HEREDOC PID %d\n", getpid());

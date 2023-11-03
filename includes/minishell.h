@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2023/11/02 19:31:26 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/03 10:31:44 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 /* promt strings */
 # define PROMT      "frankenshell--> "
 # define ERR_PROMT  "frankenshell: "
-// # define TODO: came up with smething creative for an infunite loop in main
+
+# define FRANKENSHELL_RISES_AMIDTS_DEATH 1
 
 /* system includes */
 # include <curses.h>
@@ -38,6 +39,12 @@
 # include <term.h>
 # include <termios.h>
 # include <unistd.h>
+
+//TODO: cerror checking FIXME: don't forget to remove at the end
+// # define malloc(x) NULL
+// # define fork() -1
+// # define pipe(x) -1
+// # define dup2(x, y) -1 //TODO: make protections for other fucntion which can break
 
 /* project includes */
 # include "../libft/libft_printf.h"
@@ -133,7 +140,8 @@ void	print_parser_output(t_mbox *mbox);
 void	print_executor_output(t_mbox *mbox, int i);
 
 /* general_utils.c */
-void    create_error_msg(const char *format, ...);
 void    reset_cycle(t_mbox *mbox);
+void    exit_failure(t_mbox *mbox);
+void    create_error_msg(const char *format, ...);
 
 #endif

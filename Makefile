@@ -125,6 +125,9 @@ valmem:$(NAME) readline.supp
 valfd:$(NAME) readline.supp
 	valgrind --track-fds=yes --suppressions=readline.supp ./$(NAME)
 
+valchild:$(NAME) readline.supp
+	valgrind --trace-children=yes --suppressions=readline.supp ./$(NAME)
+
 valgrind:$(NAME) readline.supp
 	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=readline.supp ./$(NAME)
 

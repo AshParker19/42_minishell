@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   general_utils_1.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:43:17 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/31 17:59:06 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/03 10:11:15 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,12 @@ void    reset_cycle(t_mbox *mbox)
 	mbox->executor.io.prev_pipe[P_RIGHT] = -1;
 	mbox->executor.pid_index = 0;
     update_signals(SIGNAL_MAIN);
+}
+
+void    exit_failure(t_mbox *mbox)
+{
+    free_and_close_box_v2(mbox);
+    exit (EXIT_FAILURE);
 }
 
 /*
