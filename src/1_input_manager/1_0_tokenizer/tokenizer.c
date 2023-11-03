@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 12:11:14 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/02 19:12:49 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/03 18:55:46 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,6 +174,7 @@ t_bool	tokenize(t_mbox *mbox, int i)
 		{
 			free_whatever("m", no_space);
 			free_cycle_v2(mbox);
+			return (ft_false);
 		}
 		if (check_sp(no_space[i]))
 			split_by_sep(mbox, no_space[i], 0, OUT_Q);
