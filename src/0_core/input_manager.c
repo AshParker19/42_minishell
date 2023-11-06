@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:38:32 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/02 12:22:02 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/06 16:25:35 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	manage_input(t_mbox *mbox)
         return ;
     printf("mbox->inp_trim:\t\t(%s)\n", mbox->inp_trim);
 
-    if (!mark_seps(mbox, 0, 0))
+    if (!shift_context_chars(mbox, 0, 0))
         return ;
     printf("mbox->inp_shift:\t(%s)\n", mbox->inp_shift);
 

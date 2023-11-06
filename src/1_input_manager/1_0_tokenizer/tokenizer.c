@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 12:11:14 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/03 18:55:46 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/06 18:20:18 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,12 @@ static	char	*check_shifted_values(char *str)
 		return (NULL);
 	temp = NULL;
 	if (ft_strlen(str) == 1 && str[0] < 0)
-		temp = ft_chr2str(remove_offset(str[0]));
+	{
+		if (str[0] == EMPTY_TOKEN)
+			temp = ft_calloc(1, sizeof(char));//TODO: check it in a calling fucntion(we need to afree the allocated part of the list because it crashed)
+		else
+			temp = ft_chr2str(remove_offset(str[0]));
+	}
 	else
 	{
 		i = -1;
@@ -46,7 +51,7 @@ static	char	*check_shifted_values(char *str)
 	return (temp);
 }
 
-/* add a new token to the end of tokens linked list and assigns variables */
+// /* add a new token to the end of tokens linked list and assigns variables */
 static void	add_token(t_mbox *mbox, char *value, int token_type)
 {
 	t_token	*new_t;
@@ -56,15 +61,8 @@ static void	add_token(t_mbox *mbox, char *value, int token_type)
 	if (!new_t)
 		return ;
 	new_t->type = token_type;
-	if (ft_strlen(value) == 2 && ft_isqoute(value[0]) && ft_isqoute(value[1])) //TODO: check the whole token here, not only 2 indexes, is it consists only of double quotes, check it
-	{
-		free (value);
-		new_t->value = ft_calloc(1, sizeof(char));
-		if (!new_t->value)
-			return ; //TODO: check it in a calling fucntion(we need to afree the allocated part of the list because it crashed)
-	}
-	else	
-		new_t->value = check_shifted_values(value);
+	value = check_shifted_values(value);
+	new_t->value = value;
 	if (!mbox->tokens)
 		mbox->tokens = new_t;
 	else
@@ -122,7 +120,7 @@ static void	split_by_sep(t_mbox *mbox, char *str, int i, int quote_state)
 {
 	while (*str)
 	{
-		update_qoute_state(&quote_state, *str);
+		update_qoute_state(&quote_state, *str, ft_true);
 		if (quote_state == OUT_Q)
 		{
 			just_word(mbox, str, &i);
@@ -135,7 +133,7 @@ static void	split_by_sep(t_mbox *mbox, char *str, int i, int quote_state)
 			{
 				if (quote_state == OUT_Q)
 					break ;
-				update_qoute_state(&quote_state, str[i]);
+				update_qoute_state(&quote_state, str[i], ft_true);
 				i++;
 			}
 			if (quote_state != OUT_Q)

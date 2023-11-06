@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 15:35:02 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/06 15:32:28 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/06 18:10:41 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 # define OUT_Q      0   //OUTSIDE QUOTES
 
 /* VALUE TO SHIFT SPACE CHARACTER */
-# define NO_SPACE	-125	//WHITESPACE TO BE IGNORED
-// # define FLG_IGNORE	-126	//WHITESPACE TO BE IGNORED
+# define EMPTY_TOKEN	-126	//MARK THE NEED OF AN EMPTY TOKEN
+# define NO_SPACE	    -125	//WHITESPACE TO BE IGNORED
 /******************************************************************************/
 
 /* data types from other header files */
@@ -73,8 +73,8 @@ enum e_three_branch
 /******************************************************************************/
 
 /* HANDLE QUOTES */
-t_bool  mark_seps(t_mbox *mbox, int i, int quote_state);
-void 	update_qoute_state(int *quote_state, char cur_char);
+t_bool  shift_context_chars(t_mbox *mbox, int i, int quote_state);
+void 	update_qoute_state(int *quote_state, char cur_char, t_bool shift);
 
 /* VARIABLES EXPANSION */
 t_bool  expand_variables(t_mbox *mbox, int k, int k_end, int quote_state);

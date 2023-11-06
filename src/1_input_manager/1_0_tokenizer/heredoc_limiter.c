@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 15:45:25 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/02 19:26:24 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/06 16:56:29 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ char *extract_limiter(t_mbox *mbox, int *k, int *quote_state)
     while (mbox->inp_shift[*k])
     {
         cur_char = mbox->inp_shift[*k];
-        update_qoute_state(quote_state, cur_char);
+        update_qoute_state(quote_state, cur_char, ft_true);
         if (cur_char != NO_SPACE)
             lim_start = ft_true;
         if (lim_start)
