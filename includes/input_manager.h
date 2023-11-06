@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 15:35:02 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/02 19:18:20 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/06 15:32:28 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 
 /* VALUE TO SHIFT SPACE CHARACTER */
 # define NO_SPACE	-125	//WHITESPACE TO BE IGNORED
+// # define FLG_IGNORE	-126	//WHITESPACE TO BE IGNORED
 /******************************************************************************/
 
 /* data types from other header files */
@@ -100,7 +101,6 @@ t_ast  *ast_create_node(int node_type);
 void    free_ast_v2(t_ast *root);
 void    connect_subtree(t_ast **root, t_ast *node_to_add, int on_right);
 t_bool    validate_token(t_token *token, int next_amount, int token_type);
-void	*put_syntax_error(t_mbox *mbox, t_token *error_token);
 
 /* functions for BNF notation to build an AST */
 /* job */

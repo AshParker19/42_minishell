@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 18:26:39 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/02 19:42:55 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/06 15:01:54 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,27 +60,7 @@ t_bool    validate_token(t_token *token, int next_amount, int token_type)
 	return (true);
 }
 
-void	*put_syntax_error(t_mbox *mbox, t_token *error_token) //TODO: replace by create_error_message
-{
-	char    *err_msg;
-	
-	if (mbox->error_status == ft_false)
-	{
-		mbox->error_status = ft_true;
-		if(error_token && error_token->value)
-		{
-			err_msg = ft_strcat_multi(3,"syntax error near unexpected token `",
-				error_token->value,"'");
-			ft_putendl_fd (err_msg, 2);
-			free(err_msg);
-		}
-		else
-			ft_putendl_fd ("syntax error near unexpected token `newline'", 2);
-	}
-	if (error_token)
-		mbox->tmp_token = error_token->next;
-	return(NULL);
-}
+
 
 /**
  * @brief	recursively traverses trough the tree:

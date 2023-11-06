@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_out.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 20:24:39 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/28 23:34:53 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/06 15:03:24 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static t_ast *redir_out_case1(t_mbox *mbox)
     if(!validate_token(mbox->tmp_token, 1 , RED_OUT_TOKEN))
         return (NULL);
     if(!validate_token(mbox->tmp_token, 2 , WORD_TOKEN))
-        return(put_syntax_error(mbox, mbox->tmp_token->next->next));
+        return(create_syntax_err(mbox, mbox->tmp_token->next->next));
     red_out_ap_node = ast_create_node(RED_OUT_AP);
     red_out_ap_node->content = ft_strdup(mbox->tmp_token->next->next->value);
     mbox->tmp_token = mbox->tmp_token->next->next->next;
@@ -65,7 +65,7 @@ static t_ast *redir_out_case2(t_mbox *mbox)
     if(!validate_token(mbox->tmp_token, 0, RED_OUT_TOKEN))
         return(NULL);
     if(!validate_token(mbox->tmp_token, 1, WORD_TOKEN))
-        return(put_syntax_error(mbox, mbox->tmp_token->next));
+        return(create_syntax_err(mbox, mbox->tmp_token->next));
     red_out_tr_node = ast_create_node(RED_OUT_TR);
     red_out_tr_node->content = ft_strdup(mbox->tmp_token->next->value);
     mbox->tmp_token = mbox->tmp_token->next->next;

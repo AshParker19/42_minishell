@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:00:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/03 10:12:50 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/06 15:02:58 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,7 +163,7 @@ static  void heredoc_child(t_mbox *mbox, int *fd, char *delimiter)
         cur_line = get_next_line(STDIN_FILENO);
         if (!cur_line)
         {
-            create_error_msg("nnynyn", ERR_PROMT, "warning: here-document at line ", ft_itoa(mbox->count_cycles), " delimited by end-of-file (wanted `", ft_strtrim(delimiter, "\n"), "')");
+            create_err_msg("nnynyn", ERR_PROMT, "warning: here-document at line ", ft_itoa(mbox->count_cycles), " delimited by end-of-file (wanted `", ft_strtrim(delimiter, "\n"), "')");
             exit_heredoc_child(mbox, fd, delimiter);
         }
         if (str_cmp_strct(cur_line, delimiter))

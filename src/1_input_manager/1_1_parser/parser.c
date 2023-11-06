@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:16:49 by astein            #+#    #+#             */
-/*   Updated: 2023/10/28 23:48:49 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/06 15:03:24 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_bool	parse(t_mbox *mbox)
     mbox->root = job_main(mbox);
     if (mbox->tmp_token)
     {
-        put_syntax_error(mbox, mbox->tmp_token);
+        create_syntax_err(mbox, mbox->tmp_token);
         return (ft_false);
     }
     return (ft_true);

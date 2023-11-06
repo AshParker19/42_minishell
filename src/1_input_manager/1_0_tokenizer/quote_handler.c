@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 14:36:59 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/06 11:03:03 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/06 15:02:58 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static void   quote_after_quote(t_mbox *mbox, int *i, int *quote_state)
     prev_quote = mbox->inp_shift[*i];
         // if (mbox->inp_shift[i + 1] != prev_quote)
             // {
-            //     create_error_msg("nnnnn", ERR_PROMT, "syntax error: unexpected unpaired ", ft_chr2str('"'),
+            //     create_err_msg("nnnnn", ERR_PROMT, "syntax error: unexpected unpaired ", ft_chr2str('"'),
             //         ft_chr2str(mbox->inp_shift[i + 1]), ft_chr2str('"'));
             //     return (ft_false);
             // }
@@ -125,7 +125,7 @@ t_bool  mark_seps(t_mbox *mbox, int i, int quote_state)
     }
     if (quote_state != OUT_Q)
     {
-        create_error_msg("n", "Syntax error: unclosed quotes");
+        create_err_msg("n", "Syntax error: unclosed quotes");
         return (ft_false);
     }
     return (ft_true);

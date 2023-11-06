@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:43:17 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/03 16:45:53 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/06 15:03:27 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,21 +35,36 @@ void    exit_failure(t_mbox *mbox)
     free_and_close_box_v2(mbox);
 }
 
-/*
-    create_error_msg("ccaca", "HI", "HI", ft_strup(), "HI", random_allocated_char)
-                    n = no =  constant string   -> free needed
-                    y = yes = allocated         -> need to be freed
-*/
+void	*create_syntax_err(t_mbox *mbox, t_token *err_token)
+{
+	if (mbox->error_status == ft_false)
+	{
+		mbox->error_status = ft_true;
+		if(err_token && err_token->value)
+			create_err_msg("nnnn", ERR_PROMT,
+				"syntax error near unexpected token `", err_token->value,"'" );
+		else
+			create_err_msg("nn", ERR_PROMT,
+				"syntax error near unexpected token `newline'");
+	}
+	if (err_token)
+		mbox->tmp_token = err_token->next;
+	return(NULL);
+}
 
 /**
  * @brief   uses variadic variables to create a custom error message dynamically
  *          uses format string as an identifier if any of the accepted string
  *          should be allocated
  * 
+ *create_err_msg("ccaca", "HI", "HI", ft_strup(), "HI", random_allocated_char)
+ *                   n = no =  constant string   -> free needed
+ *                   y = yes = allocated         -> need to be freed
+ * 
  * @param   format 
  * @param   ... 
  */
-void    create_error_msg(const char *format, ...)
+void    create_err_msg(const char *format, ...)
 {
 	va_list	args;
     char    *error_msg;

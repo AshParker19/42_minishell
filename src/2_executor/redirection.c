@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:47:15 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/03 18:43:10 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/06 15:02:58 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static   t_bool error_exit_child(t_mbox *mbox)
 {
-    create_error_msg("nn", ERR_PROMT, strerror(errno)); //FIXME: prints some crap to the terminal
+    create_err_msg("nn", ERR_PROMT, strerror(errno)); //FIXME: prints some crap to the terminal
     // if (mbox->executor.pid_index != -1)
         // exit(EXIT_FAILURE); //TODO: Handle errors
     return (ft_false);
