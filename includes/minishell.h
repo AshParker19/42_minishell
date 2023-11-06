@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2023/11/06 15:03:43 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/06 19:49:02 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,11 +148,13 @@ void    free_and_close_box_v2(t_mbox *mbox);
 void	print_tokenizer_output(t_mbox *mbox);
 void	print_parser_output(t_mbox *mbox);
 void	print_executor_output(t_mbox *mbox, int i);
+void    delte_me(char *c);
 
 /* general_utils.c */
 void    reset_cycle(t_mbox *mbox);
 void    exit_failure(t_mbox *mbox);
 void    create_err_msg(const char *format, ...);
 void	*create_syntax_err(t_mbox *mbox, t_token *err_token);
+
 
 #endif

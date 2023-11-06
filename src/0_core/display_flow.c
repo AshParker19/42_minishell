@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 19:11:12 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/02 19:30:56 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/06 19:49:24 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,4 +88,32 @@ void	print_executor_output(t_mbox *mbox, int i)
 	}
 	else
 		printf(" ------------------------------------ \n");
+}
+
+void delte_me(char *s)
+{
+    int i;
+    char *c = ft_strdup(s);
+
+    i=0;
+    while (c[i])
+    {
+        if (c[i] == add_offset('\''))
+            c[i] = '`';
+        else if (c[i] == add_offset('"'))
+            c[i] = 'D';
+        else if (c[i] == add_offset('|'))
+            c[i] = 'P';
+        else if (c[i] == add_offset('<'))
+            c[i] = 'I';
+        else if (c[i] == add_offset('>'))
+            c[i] = 'O';
+        else if (c[i] == NO_SPACE)
+            c[i] = '_';
+        else if (c[i] == EMPTY_TOKEN)
+            c[i] = 'E';
+        i++;
+    }
+    printf ("empty quotes:\t\t(%s)\n", c);
+    free (c);
 }

@@ -6,13 +6,11 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:38:32 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/06 16:25:35 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/06 19:49:15 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	print_parser_output(t_mbox *mbox);
 
 /**
  * @brief   this function is kind of the main for an execution cycle!
@@ -40,7 +38,7 @@ void	manage_input(t_mbox *mbox)
     if (!shift_context_chars(mbox, 0, 0))
         return ;
     printf("mbox->inp_shift:\t(%s)\n", mbox->inp_shift);
-
+    delte_me( mbox->inp_shift);
     if (!expand_variables(mbox, 0, 0, OUT_Q))
         return ;
     printf("mbox->inp_expand:\t(%s)\n", mbox->inp_expand);
