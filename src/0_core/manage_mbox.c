@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:49:13 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/31 22:48:33 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/06 13:00:24 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	initialize_box_v2(t_mbox *mbox, char **env)
 	mbox->inp_shift = NULL;
 	mbox->inp_expand = NULL;
 	mbox->error_status = ft_false;
+	mbox->history = NULL;
 	mbox->tokens = NULL;
 	mbox->tmp_token = NULL;
 	mbox->root = NULL;
@@ -78,7 +79,9 @@ void free_and_close_box_v2(t_mbox *mbox)
 		return ;
 	exit_status = ft_atoi(get_var_value(mbox, "?"));
 	free_cycle_v2(mbox);
+	free_history(mbox);
 	free_vars_v2(mbox);
+	//TODO: free history
 	dprintf (2, "\n---\nFREE AND CLOSE BOX EXECUTED FOR\n\tPID (%d)\n\tEXIT STATUS (%d)\n---\n", getpid(), exit_status);
     exit(exit_status);
 }

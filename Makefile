@@ -65,6 +65,7 @@ SRCS = $(addprefix $(SRC_FOLDER), 					\
 	3_builtins/unset.c								\
 	3_builtins/env.c								\
 	3_builtins/exit.c								\
+	3_builtins/history.c							\
 	)
 
 # Object files
