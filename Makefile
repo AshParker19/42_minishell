@@ -43,7 +43,7 @@ SRCS = $(addprefix $(SRC_FOLDER), 						\
 	1_input_manager/1_0_tokenizer/tokenizer.c 			\
 	1_input_manager/1_0_tokenizer/tokenizer_utils.c		\
 	1_input_manager/1_0_tokenizer/tokenizer_utils2.c	\
-	1_input_manager/1_0_tokenizer/quote_handler.c		\
+	1_input_manager/1_0_tokenizer/shifter.c				\
 	1_input_manager/1_0_tokenizer/heredoc_limiter.c		\
 	1_input_manager/1_1_parser/parser.c					\
 	1_input_manager/1_1_parser/job.c					\

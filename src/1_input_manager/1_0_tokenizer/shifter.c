@@ -1,16 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   quote_handler.c                                    :+:      :+:    :+:   */
+/*   shifter.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 14:36:59 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/06 20:11:02 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/06 21:11:30 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
+
+static void empty_quotes(t_mbox *mbox, int i, t_bool check_prev);
 
 /**
  *  //TODO: rewrite because now we have 3 arguments
@@ -58,6 +60,40 @@ void update_qoute_state(int *quote_state, char cur_char, t_bool shift)
 }
 
 /**
+ * @brief    all cases can only occure if we are in OUT QOUTE STATE and
+ *           and the qoute state changes (found a qoute) 	(index i)
+ *           and the previous char is a whitespace
+ *                          		(index i-1) 	(if i=0 ignore this check)
+ *           and the next char is a matching qoute 	
+ *                              (index i+1) 	(if i+1 = \0 ignore this check)
+ *           and the next next char is a whitespace
+ *                                  (index i+2)	(if i+2 = \0 ignore this check)
+ *           if this fails call recursively
+ *       
+ * @param   mbox 
+ * @param   i 
+ * @param   check_prev 
+ * @param   qs 
+ * @return  t_bool 
+ */
+static  t_bool  check_if_shift(t_mbox *mbox, int i, t_bool check_prev, int qs)
+{
+    if (check_prev && i > 0 && !ft_isspace(mbox->inp_trim[i - 1]))
+        return(ft_false);
+    if (mbox->inp_trim[i + 1] != qs)
+        return(ft_false);
+    if (mbox->inp_trim[i + 1] && mbox->inp_trim[i + 2]
+        && !ft_isspace(mbox->inp_trim[i + 2]))
+    {
+        if (ft_isqoute(mbox->inp_trim[i + 2]))  
+            empty_quotes(mbox, i + 2, ft_false);
+        else
+            return(ft_false);
+    }
+    return (ft_true);
+}
+
+/**
  * @brief 
  * 
  * legend:
@@ -77,21 +113,12 @@ void update_qoute_state(int *quote_state, char cur_char, t_bool shift)
  * 9.	""""		°___
  * 10.	"" "" "'hi"	°_ °_ "'hi"
  * 
- * THIS function uses a flag to check if its called recurseuvleyyy		
+ * THIS function uses a flag to check if its called recursively		
  * RULE - SPECIAL CASE EMPTY QUOTES -> EMPTY TOKENS
  * THIS SPECAIL CASE CAN ONLY HAPPEN IF BEFORE AND AFTER THERE ARE WS 
  * (or beginning / end of string)
  * 
- * all cases can only occure if we are in OUT QOUTE STATE and
- * and the qoute state changes (found a qoute) 	(index i)
- * and the previous char is a whitespace
- *                          		(index i-1) 	(if i=0 ignore this check)
- * and the next char is a matching qoute 	
- *                              (index i+1) 	(if i+1 = \0 ignore this check)
- * and the next next char is a whitespace
- *                                  (index i+2)	(if i+2 = \0 ignore this check)
- * if this fails call recursively
- * 
+ * we decide if we want to shift in 'check if shift()'
  * if the function above fails it only means that we dont create empty tokens.
  * the input could still be valid or invalid this function doesnt care about it.
  * 
@@ -101,7 +128,6 @@ static void empty_quotes(t_mbox *mbox, int i, t_bool check_prev)
 {
     int     quote_state;
     char    cur_c;
-    t_bool  make_empty;
     
     quote_state = OUT_Q;
     while (mbox->inp_trim[i])
@@ -110,28 +136,14 @@ static void empty_quotes(t_mbox *mbox, int i, t_bool check_prev)
         update_qoute_state(&quote_state, cur_c, ft_false);
         if (quote_state != OUT_Q)
         {
-            make_empty = ft_true;
-            if (check_prev && i > 0 && !ft_isspace(mbox->inp_trim[i - 1]))
-                make_empty = ft_false;
-            if (mbox->inp_trim[i + 1] != quote_state)
-                make_empty = ft_false;
-            if (mbox->inp_trim[i + 1] && mbox->inp_trim[i + 2]
-                && !ft_isspace(mbox->inp_trim[i + 2]))
-                {
-                    if (ft_isqoute(mbox->inp_trim[i + 2]))  
-                        empty_quotes(mbox, i + 2, ft_false);
-                    else
-                        make_empty = ft_false;
-                }
-            if (make_empty)
+            if (check_if_shift(mbox, i, check_prev, quote_state))
             {
                 if (check_prev)
                     mbox->inp_shift[i] = EMPTY_TOKEN;
                 else
                     mbox->inp_shift[i] = NO_SPACE;
                 mbox->inp_shift[i + 1] = NO_SPACE;
-                i++;
-                cur_c = mbox->inp_trim[i];
+                cur_c = mbox->inp_trim[i++];
                 update_qoute_state(&quote_state, cur_c, ft_false);
             }
         }
