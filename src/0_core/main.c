@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:06:17 by astein            #+#    #+#             */
-/*   Updated: 2023/11/03 09:59:58 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/06 14:40:32 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,11 @@ int	main(int ac, char **av, char **env)
 		if (!mbox.inp_orig)
 			builtin_exit(&mbox, NULL); //TODO: really nessesary? YES FOR CRTL + D!
 		else
-			// do stuff with the command
+		{
+			if (*mbox.inp_orig)
+				save_history(&mbox, mbox.inp_orig);			
 			manage_input(&mbox);
+		}
 	}
 	return (0);	
 }

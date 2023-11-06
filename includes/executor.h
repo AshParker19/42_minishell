@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 17:55:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/02 19:37:19 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/06 14:40:56 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ typedef struct s_io
 
 typedef struct s_exec
 {
-    t_builtin_cmd   builtins[8];
+    t_builtin_cmd   builtins[9];
     char            **cmd_av;
     t_io            io;
     int             *pid;

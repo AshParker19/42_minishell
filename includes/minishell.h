@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2023/11/03 16:50:17 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/06 14:38:54 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@
 /******************************************************************************/
 /* info for mbox */
 typedef struct s_env_var t_env_var;
+typedef struct s_history t_history;
 typedef struct s_builtin_cmd t_builtin_cmd;
 typedef struct s_exec t_exec;
 
@@ -90,6 +91,7 @@ typedef struct s_mbox
     char        *inp_shift;
     char        *inp_expand;
     bool        error_status;
+    t_history   *history;
     t_token     *tokens;
     t_token     *tmp_token;
     t_ast      *root;
@@ -106,6 +108,13 @@ typedef struct s_env_var
     struct      s_env_var *next;
 }              t_env_var;
 
+/* list which stores all the input */
+typedef struct  s_history
+{
+    char                *inp_hist;
+    int                 inp_count;
+    struct  s_history   *next;
+}               t_history;
 /******************************************************************************/
 
 /* input_manager.c */
