@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:33:46 by astein            #+#    #+#             */
-/*   Updated: 2023/10/29 00:56:01 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/06 11:10:30 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,11 @@ void	builtin_env(t_mbox *mbox, t_ast *arg_node)
 	t_env_var	*cur;
 
 	if (arg_node)
+	{
 		create_error_msg("nnn", "env: ‘", arg_node->content,
 			"’: No such file or directory");
+		set_var_value(mbox, "?", ft_itoa(EXIT_FAILURE)); // shouldnt be here, return false instead
+	}
 	else
 	{
 		cur = mbox->env_vars;

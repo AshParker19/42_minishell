@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 14:36:59 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/02 12:54:33 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/06 11:03:03 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void update_qoute_state(int *quote_state, char cur_char)
     }
 }
 
-static t_bool   quote_after_quote(t_mbox *mbox, int *i, int *quote_state)
+static void   quote_after_quote(t_mbox *mbox, int *i, int *quote_state)
 {
     char    prev_quote;
     int     j;

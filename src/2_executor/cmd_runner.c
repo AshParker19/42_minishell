@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:09:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/03 18:45:30 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/06 11:08:56 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ t_bool run_single_builtin(t_mbox *mbox)
 		mbox->executor.io.cmd_fd[CMD_OUT] = -1;
 		return (ft_false);
 	}
-	run_cmd_builtin(mbox, mbox->root);  
+	run_cmd_builtin(mbox, mbox->root);  // we should make builtins return bool, if it false, set exit status as EXIT_FAILURE
 	if (mbox->executor.io.cmd_fd[CMD_IN] != STDIN_FILENO)
 		close (mbox->executor.io.cmd_fd[CMD_IN]);
 	if (mbox->executor.io.cmd_fd[CMD_OUT] != STDOUT_FILENO)
