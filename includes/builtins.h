@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 11:32:13 by astein            #+#    #+#             */
-/*   Updated: 2023/10/28 15:57:45 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/06 13:44:22 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ typedef struct 	s_builtin_cmd
 void	initialize_builtins(t_mbox *mbox);
 t_bool  is_cmd_builtin(t_mbox *mbox, char *cmd);
 void    run_cmd_builtin(t_mbox *mbox, t_ast *cmd_node);
-char    *strcat_args(t_ast *arg_node);
 
 void    builtin_echo(t_mbox *mbox, t_ast *arg_node);
 void	builtin_cd(t_mbox *mbox, t_ast *arg_node);
@@ -38,5 +37,8 @@ void    builtin_export(t_mbox *mbox, t_ast *arg_node);
 void    builtin_unset(t_mbox *mbox, t_ast *arg_node);
 void    builtin_env(t_mbox *mbox, t_ast *arg_node);
 void    builtin_exit(t_mbox *mbox, t_ast *arg_node);
+void    builtin_history(t_mbox *mbox, t_ast *arg_node);
+void    save_history(t_mbox *mbox, char *inp_hist);
+void    free_history(t_mbox *mbox);
 
 #endif
