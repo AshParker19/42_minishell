@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 12:58:49 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/06 16:55:29 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/07 14:22:22 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,7 @@ t_bool  expand_variables(t_mbox *mbox, int k, int k_end, int quote_state)
     consecutive_lt = 0;
     
     mbox->inp_expand = NULL;
+    // printf ("HERE\n");
     while (mbox->inp_shift[k])
     {
         cur_char = mbox->inp_shift[k];
@@ -127,7 +128,7 @@ t_bool  expand_variables(t_mbox *mbox, int k, int k_end, int quote_state)
         if (quote_state == OUT_Q)
         {
             if (remove_offset(cur_char) == '<')
-                consecutive_lt ++;
+                consecutive_lt++;
             else
                 consecutive_lt = 0;
         }
@@ -145,7 +146,6 @@ t_bool  expand_variables(t_mbox *mbox, int k, int k_end, int quote_state)
         }
         k++;
     }
-    
     // TODO: if expanded is NULLE RETURN FALS
     if (!mbox->inp_expand)
         return (ft_false);

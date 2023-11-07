@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 15:45:25 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/06 16:56:29 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/07 14:33:42 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ static  char *treat_case_dollar(char *lim)
     char    *right;
     t_bool  found_dollar;
 
+    if (!lim)
+        return (NULL);
     i = -1;
     found_dollar = ft_false;
     temp = NULL;
@@ -37,14 +39,14 @@ static  char *treat_case_dollar(char *lim)
         if (lim[i] == '$')
             found_dollar = ft_true;
         else if (found_dollar && (lim[i] == '\'' || lim[i] == '"'))
-            {
-                left = ft_substr(lim, 0, i-1);
-                right = ft_strdup(&lim[i]);
-                temp = treat_case_dollar(ft_strcat_multi(2, left, right));
-                free_whatever("pp", left, right);
-                return(temp);
-                found_dollar = ft_false;
-            }
+        {
+            left = ft_substr(lim, 0, i-1);
+            right = ft_strdup(&lim[i]);
+            temp = treat_case_dollar(ft_strcat_multi(2, left, right));
+            free_whatever("pp", left, right);
+            return(temp);
+            found_dollar = ft_false;
+        }
         else
             found_dollar = ft_false;    
     }    
