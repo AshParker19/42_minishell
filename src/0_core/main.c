@@ -6,18 +6,27 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:06:17 by astein            #+#    #+#             */
-/*   Updated: 2023/11/06 14:40:32 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/07 17:44:36 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static void check_args()
+{
+	
+}
+
 int	main(int ac, char **av, char **env)
 {
 	t_mbox	mbox;
 	
-	(void)ac;
-	(void)av; //TODO: print shit with arg --info
+	if (ac == 2)
+
+	else if (ac > 2)
+
+	end if
+	
 	initialize_box_v2(&mbox, env);
 	load_vars_v2(&mbox);
 	initialize_builtins(&mbox);

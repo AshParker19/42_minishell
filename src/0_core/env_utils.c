@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 21:35:50 by astein            #+#    #+#             */
-/*   Updated: 2023/10/28 21:41:31 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/07 15:25:40 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,10 @@ char **env_to_matrix(t_mbox *mbox)
     cur_var = mbox->env_vars;
     env_matrix = ft_calloc(count_vars + 1, sizeof(char *));
     if (!env_matrix)
+    {
+        dprintf (2, "HERE\n");
         return (NULL);
+    }
     while (++i < count_vars)
     {
 		if (!str_cmp_strct(cur_var->key, "?"))

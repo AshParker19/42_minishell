@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 14:36:59 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/06 21:11:30 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/07 15:16:22 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,13 +114,15 @@ static  t_bool  check_if_shift(t_mbox *mbox, int i, t_bool check_prev, int qs)
  * 10.	"" "" "'hi"	°_ °_ "'hi"
  * 
  * THIS function uses a flag to check if its called recursively		
- * RULE - SPECIAL CASE EMPTY QUOTES -> EMPTY TOKENS
+ * RULE FOR CREATION OF AN EMPTY TOKEN
  * THIS SPECAIL CASE CAN ONLY HAPPEN IF BEFORE AND AFTER THERE ARE WS 
  * (or beginning / end of string)
  * 
- * we decide if we want to shift in 'check if shift()'
+ * we decide if we want to shift via 'check_if_shift'
  * if the function above fails it only means that we dont create empty tokens.
- * the input could still be valid or invalid this function doesnt care about it.
+ * the input could still be valid or invalid
+ *  this function doesnt care about it since it is the job of 
+ *      'shift_context_chars' and 'tokenize'
  * 
  * @param mbox 
  */
