@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:43:17 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/06 15:03:27 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/07 18:26:10 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void    reset_cycle(t_mbox *mbox)
     update_signals(SIGNAL_MAIN);
 }
 
-void    exit_failure(t_mbox *mbox)
+void    err_free_and_close_box(t_mbox *mbox)
 {
     set_var_value(mbox, "?", ft_itoa(EXIT_FAILURE));
     free_and_close_box_v2(mbox);

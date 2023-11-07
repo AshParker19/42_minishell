@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2023/11/07 17:58:27 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/07 18:26:10 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ void    delte_me(char *c);
 
 /* general_utils.c */
 void    reset_cycle(t_mbox *mbox);
-void    exit_failure(t_mbox *mbox);
+void    err_free_and_close_box(t_mbox *mbox);
 void    create_err_msg(const char *format, ...);
 void	*create_syntax_err(t_mbox *mbox, t_token *err_token);
 

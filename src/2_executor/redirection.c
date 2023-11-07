@@ -6,17 +6,26 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:47:15 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/06 15:02:58 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/07 18:29:19 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
 
-static   t_bool error_exit_child(t_mbox *mbox)
+/**
+ * @brief   here we dont need to exit because:
+ *              - either we are not in a child
+ *              - or the function 'perform_child' will exit the child properly
+ *                  since we are pasing the ft_false all the way back there
+ *                  so each funtion on the way has the posibillity to free all
+ *                  allocated stuff
+ * @param mbox 
+ * @param fn        filename of the file causing the errror
+ * @return t_bool 
+ */
+static   t_bool create_open_file_err(t_mbox *mbox, char *fn)
 {
-    create_err_msg("nn", ERR_PROMT, strerror(errno)); //FIXME: prints some crap to the terminal
-    // if (mbox->executor.pid_index != -1)
-        // exit(EXIT_FAILURE); //TODO: Handle errors
+    create_err_msg("nnnn", ERR_PROMT, fn, ": ", strerror(errno)); //FIXME: prints some crap to the terminal
     return (ft_false);
 }
 
@@ -28,17 +37,17 @@ static  t_bool setup_redir_in(t_mbox *mbox, t_ast *redir_node, int *in_fd)
             close(*in_fd);
         *in_fd = open(redir_node->content, O_RDONLY, 0666);
         if (*in_fd == -1)
-            return (error_exit_child(mbox));
+            return (create_open_file_err(mbox, redir_node->content));
     }
     else if (redir_node->type == RED_IN_HD)
     {
         if (*in_fd != -1)
             close (*in_fd);
         if(heredoc(mbox, redir_node, in_fd) != 0)
-            return (error_exit_child(mbox));
+            return (create_open_file_err(mbox, redir_node->content)); //TODO: CALL ANOTHER FUNCTION
             //TODO: if return 1 - handle errors
         if (*in_fd == -1)
-            return (error_exit_child(mbox));
+            return (create_open_file_err(mbox, redir_node->content));
     }
     return (ft_true);
 }
@@ -51,7 +60,7 @@ static t_bool   setup_redir_out(t_mbox *mbox, t_ast *redir_node, int *out)
             close(*out);
         *out = open(redir_node->content, O_WRONLY | O_CREAT | O_TRUNC, 0666);
         if (*out == -1)
-            return (error_exit_child(mbox));
+            return (create_open_file_err(mbox, redir_node->content));
     }
     else if (redir_node->type == RED_OUT_AP)
     {
@@ -59,7 +68,7 @@ static t_bool   setup_redir_out(t_mbox *mbox, t_ast *redir_node, int *out)
             close(*out);
         *out = open(redir_node->content, O_WRONLY | O_CREAT | O_APPEND, 0666);
         if (*out == -1)
-            return (error_exit_child(mbox));
+            return (create_open_file_err(mbox, redir_node->content));
     }
     return (ft_true);
 }
