@@ -6,26 +6,78 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 19:11:12 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/06 19:49:24 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/07 22:08:08 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
 
+static void put_text_center(char *txt, t_bool free_it)
+{
+	int wordlen;
+	int i;
+	
+	if(!txt)
+		return ;
+
+	wordlen = ft_strlen(txt);
+	printf("|");
+	i = 0;
+	while (i++ < (40-wordlen) / 2)
+		printf(" ");
+	printf("%s", txt);
+	i = 0;
+	while (i++ < (40-wordlen) / 2)
+		printf(" ");
+	if(wordlen % 2 != 0)
+		printf(" ");
+	printf("|\n");
+	if (free_it)
+		free(txt);
+}
+
+static void put_headline(char *caption, char *data, t_bool top_part)
+{
+	int count;
+	int i;
+	
+	if (top_part)
+	{
+		printf(YELLOW" ");	
+		i = 0;
+		while (i++ < 40)
+			printf("-");
+		printf("\n");
+		put_text_center(caption, ft_false);
+		put_text_center(data, ft_true);
+		i = 0;
+		printf(" ");
+		while (i++ < 40)
+			printf("-");
+		printf("\n"RESET);
+	}
+	else
+	{
+		printf(YELLOW " ");	
+		i = 0;
+		while (i++ < 40)
+			printf("=");
+		printf("\n\n"RESET);
+	}
+}
+
 void	print_tokenizer_output(t_mbox *mbox)
 {
 	t_token *current;
 
-	printf("\n ------------------------------------ \n");
-	printf("|           TOKENIZER                |\n");
-	printf(" ------------------------------------ \n");
+	put_headline("TOKENIZER", NULL, ft_true);
 	current = mbox->tokens;	
 	while (current)	
 	{	
 		printf ("type:(%d) \t token:(%s)\n", current->type, current->value);	
 		current = current->next;	
 	}	
-	printf(" ------------------------------------ \n");
+	put_headline("TOKENIZER", NULL, ft_false);
 }
 
 static void	display_ast(t_ast *root, int indent_level)
@@ -57,37 +109,38 @@ static void	display_ast(t_ast *root, int indent_level)
 	printf("\n");
 	for (int i = distance; i < indent_level; i++)
 		printf(" ");
-	if (root->content)
-		printf("[%s] (%s)\n", type, root->content);
-	else
-		printf("[%s]\n", type);
+	printf("[%s] (%s)\n", type, root->content);
 	free(type);
 	display_ast(root->left, indent_level);
 }
 
 /* Print the ouput of the AST built by the Parser*/
-void	print_parser_output(t_mbox *mbox)
+void	print_parser_output(t_mbox *mbox, t_bool top_part)
 {
-	printf("\n ------------------------------------ \n");
-	printf("|               PARSER               |\n");
-	printf(" ------------------------------------ \n");
-	display_ast(mbox->root, 0);
-	printf(" ------------------------------------ \n\n");
+	if(top_part)
+		put_headline("PARSER", NULL, ft_true);
+	else
+	{
+		display_ast(mbox->root, 0);
+		put_headline(NULL, NULL, ft_false);
+	}
 }
 
-/* Print the ouput of the AST built by the Parser*/
-void	print_executor_output(t_mbox *mbox, int i)
+void	print_executor_output(t_mbox *mbox, t_bool top_part)
 {
-    (void)mbox;
-	if(i == 0)
+	char	*temp;
+	if(top_part)
 	{
-		printf("\n ------------------------------------ \n");
-		printf("|              EXECUTOR              |\n");
-		printf("|           cmd count: %d             |\n",cmd_counter(mbox->root));
-		printf(" ------------------------------------ \n");	
+		temp = ft_itoa(cmd_counter(mbox->root));
+		put_headline("EXECUTOR", ft_strcat_multi(3, "(cmd count: ",
+			temp, ")"), ft_true);
+		if(!temp)
+			; // TODO: malloc error
+		else
+			free (temp);
 	}
 	else
-		printf(" ------------------------------------ \n");
+		put_headline(NULL, NULL, ft_false);
 }
 
 void delte_me(char *s)

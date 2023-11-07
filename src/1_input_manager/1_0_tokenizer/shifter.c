@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 14:36:59 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/07 15:16:22 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/07 20:59:51 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,7 +196,7 @@ t_bool  shift_context_chars(t_mbox *mbox, int i, int quote_state)
     }
     if (quote_state != OUT_Q)
     {
-        create_err_msg("n", "Syntax error: unclosed quotes");
+        put_err_msg("n", "Syntax error: unclosed quotes");
         return (ft_false);
     }
     return (ft_true);

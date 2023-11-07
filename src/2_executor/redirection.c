@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:47:15 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/07 18:29:19 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/07 20:59:51 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
  */
 static   t_bool create_open_file_err(t_mbox *mbox, char *fn)
 {
-    create_err_msg("nnnn", ERR_PROMT, fn, ": ", strerror(errno)); //FIXME: prints some crap to the terminal
+    put_err_msg("nnnn", ERR_PROMT, fn, ": ", strerror(errno)); //FIXME: prints some crap to the terminal
     return (ft_false);
 }
 

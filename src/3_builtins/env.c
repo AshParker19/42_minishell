@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:33:46 by astein            #+#    #+#             */
-/*   Updated: 2023/11/06 15:02:58 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/07 20:59:51 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	builtin_env(t_mbox *mbox, t_ast *arg_node)
 
 	if (arg_node)
 	{
-		create_err_msg("nnn", "env: ‘", arg_node->content,
+		put_err_msg("nnn", "env: ‘", arg_node->content,
 			"’: No such file or directory");
 		set_var_value(mbox, "?", ft_itoa(EXIT_FAILURE)); // shouldnt be here, return false instead
 	}

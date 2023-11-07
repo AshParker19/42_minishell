@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 13:07:56 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/06 15:02:58 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/07 20:59:51 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char    *get_cmd_path(t_mbox *mbox, char *cmd, int i, t_bool abs)
 	path_dirs = ft_split(get_var_value(mbox, "PATH"), ':');
 	if (!path_dirs)
 	{
-		create_err_msg("nnn", ERR_PROMT, cmd, ": No such file or directory");
+		put_err_msg("nnn", ERR_PROMT, cmd, ": No such file or directory");
 		exit(0);//TODO: check frees and exit status
 	}
 	path = NULL;

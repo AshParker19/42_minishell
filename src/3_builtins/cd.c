@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:32:31 by astein            #+#    #+#             */
-/*   Updated: 2023/11/06 15:02:58 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/07 20:59:51 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	builtin_cd(t_mbox *mbox, t_ast *arg_node)
     if (!arg_node)
         change_pwd(mbox, get_var_value(mbox, "HOME"));
     else if (arg_node->right)
-        create_err_msg("nn", ERR_PROMT, "cd: too many arguments");
+        put_err_msg("nn", ERR_PROMT, "cd: too many arguments");
     else
     {
         // Check if it's a valid directory
@@ -65,18 +65,18 @@ void	builtin_cd(t_mbox *mbox, t_ast *arg_node)
                 if (access(arg_node->content, X_OK) == 0) 
                     change_pwd(mbox, arg_node->content);
                 else
-                    create_err_msg("nnnn", ERR_PROMT, "cd: ", arg_node->content,
+                    put_err_msg("nnnn", ERR_PROMT, "cd: ", arg_node->content,
                     ": Permission denied");
             }
             else if (S_ISREG(path_stat.st_mode))
-                create_err_msg("nnnn", ERR_PROMT, "cd: ", arg_node->content,
+                put_err_msg("nnnn", ERR_PROMT, "cd: ", arg_node->content,
                     ": Not a directory");
             else
-                create_err_msg("nnnn", ERR_PROMT, "cd: ", arg_node->content,
+                put_err_msg("nnnn", ERR_PROMT, "cd: ", arg_node->content,
                     ": No such file or directory");
         }
         else
-             create_err_msg("nnnn", ERR_PROMT, "cd: ", arg_node->content,
+             put_err_msg("nnnn", ERR_PROMT, "cd: ", arg_node->content,
                     ": No such file or directory");
     }     
 }

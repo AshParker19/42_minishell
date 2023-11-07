@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:43:17 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/07 18:26:10 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/07 21:01:10 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ void    reset_cycle(t_mbox *mbox)
     update_signals(SIGNAL_MAIN);
 }
 
-void    err_free_and_close_box(t_mbox *mbox)
+void    err_free_and_close_box(t_mbox *mbox, int exit_status)
 {
-    set_var_value(mbox, "?", ft_itoa(EXIT_FAILURE));
+    set_var_value(mbox, "?", ft_itoa(exit_status));
     free_and_close_box_v2(mbox);
 }
 
@@ -41,10 +41,10 @@ void	*create_syntax_err(t_mbox *mbox, t_token *err_token)
 	{
 		mbox->error_status = ft_true;
 		if(err_token && err_token->value)
-			create_err_msg("nnnn", ERR_PROMT,
+			put_err_msg("nnnn", ERR_PROMT,
 				"syntax error near unexpected token `", err_token->value,"'" );
 		else
-			create_err_msg("nn", ERR_PROMT,
+			put_err_msg("nn", ERR_PROMT,
 				"syntax error near unexpected token `newline'");
 	}
 	if (err_token)
@@ -57,14 +57,14 @@ void	*create_syntax_err(t_mbox *mbox, t_token *err_token)
  *          uses format string as an identifier if any of the accepted string
  *          should be allocated
  * 
- *create_err_msg("ccaca", "HI", "HI", ft_strup(), "HI", random_allocated_char)
+ *put_err_msg("ccaca", "HI", "HI", ft_strup(), "HI", random_allocated_char)
  *                   n = no =  constant string   -> free needed
  *                   y = yes = allocated         -> need to be freed
  * 
  * @param   format 
  * @param   ... 
  */
-void    create_err_msg(const char *format, ...)
+void    put_err_msg(const char *format, ...)
 {
 	va_list	args;
     char    *error_msg;

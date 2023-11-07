@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:33:09 by astein            #+#    #+#             */
-/*   Updated: 2023/11/06 15:02:58 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/07 20:59:51 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ void builtin_export(t_mbox *mbox, t_ast *arg_node)
         if (!equal_sign)
         {
             if (!validate_key(arg_node->content))
-                create_err_msg("nnnn", ERR_PROMT, "export: `",
+                put_err_msg("nnnn", ERR_PROMT, "export: `",
                     arg_node->content, "': not a valid identifier");
         }
         else
@@ -156,7 +156,7 @@ void builtin_export(t_mbox *mbox, t_ast *arg_node)
             if (validate_key(key))
                 set_var_value(mbox, key, value);
             else
-                create_err_msg("nnnn", ERR_PROMT, "export: `",
+                put_err_msg("nnnn", ERR_PROMT, "export: `",
                     arg_node->content, "': not a valid identifier");
         }
         arg_node = arg_node->right;

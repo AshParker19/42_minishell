@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:19:44 by astein            #+#    #+#             */
-/*   Updated: 2023/11/07 18:26:10 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/07 18:42:48 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,11 @@ static t_bool    execute_cmd(t_mbox *mbox, t_ast *cmd_node, int cmd_pos)
 		if (cmd_pos == FIRST_CMD || cmd_pos == MIDDLE_CMD)
 		{
 			if (pipe(cur_pipe) < 0)
-				err_free_and_close_box(mbox);    
+				err_free_and_close_box(mbox, EXIT_FAILURE);    
 		}
 		mbox->executor.pid[mbox->executor.pid_index] = fork();
 		if (mbox->executor.pid[mbox->executor.pid_index] < 0)
-			err_free_and_close_box(mbox);    
+			err_free_and_close_box(mbox, EXIT_FAILURE);    
 		update_signals(SIGNAL_PARENT);
 		if (mbox->executor.pid[mbox->executor.pid_index] == 0)
 			perform_child(mbox, cmd_node, cmd_pos, cur_pipe);

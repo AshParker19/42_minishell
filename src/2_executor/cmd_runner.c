@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:09:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/06 15:02:58 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/07 20:59:51 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,23 @@
 
 /*
 	decides if the command to be executed is a builtin cmd or a system cmd
+
+	ALWAYS PERFORED IN CHILD
 */
+
+/**
+ * @brief	checks if the command node exists and has a value
+ * 			if so it runs the cmd either via
+ * 				- 'run_cmd_builtin' or
+ *	 			- 'run_cmd_system'
+ * 
+ * @param	mbox		
+ * @param	cmd_node	
+ */
 void    run_cmd_main(t_mbox *mbox, t_ast *cmd_node)
 {
+	if (!cmd_node || !cmd_node->content)
+		return ; // TODO: DO WE NEED TO EXIT THE CHILD? IS IT AWAYS A CHILD?
 	if (is_cmd_builtin(mbox, cmd_node->content))
 		run_cmd_builtin(mbox, cmd_node);
 	else
@@ -28,23 +42,24 @@ void    run_cmd_system(t_mbox *mbox, t_ast *cmd_node)
 {
 	char	*error_msg;
 	char	*abs_cmd_path;
+	char	**cur_env;
 	
-		if (mbox->executor.io.cmd_fd[CMD_IN] != -1)
-			close(mbox->executor.io.cmd_fd[CMD_IN]);
-		if (mbox->executor.io.cmd_fd[CMD_OUT] != -1)
-			close(mbox->executor.io.cmd_fd[CMD_OUT]);
-		abs_cmd_path = NULL;
-		get_cmd_av(mbox, cmd_node);
-		if (mbox->executor.cmd_av)
-		{
-			abs_cmd_path = get_cmd_path(mbox, cmd_node->content, -1, ft_true);
-			execve(abs_cmd_path, mbox->executor.cmd_av, env_to_matrix(mbox));
-		}
-		if (abs_cmd_path)
-			free (abs_cmd_path);
-		create_err_msg("nnn", "command '", cmd_node->content, "' not found");
-		set_var_value(mbox, "?", ft_itoa(127));
-		free_and_close_box_v2(mbox);
+	cur_env = NULL;
+	if (mbox->executor.io.cmd_fd[CMD_IN] != -1)
+		close(mbox->executor.io.cmd_fd[CMD_IN]);
+	if (mbox->executor.io.cmd_fd[CMD_OUT] != -1)
+		close(mbox->executor.io.cmd_fd[CMD_OUT]);
+	abs_cmd_path = NULL;
+	get_cmd_av(mbox, cmd_node);
+	if (mbox->executor.cmd_av)
+	{
+		abs_cmd_path = get_cmd_path(mbox, cmd_node->content, -1, ft_true);
+		cur_env = env_to_matrix(mbox);
+		execve(abs_cmd_path, mbox->executor.cmd_av, cur_env);
+	}
+	free_whatever("mp", cur_env, abs_cmd_path);
+	put_err_msg("nnn", "command '", cmd_node->content, "' not found");
+	err_free_and_close_box(mbox, 127);
 }
 
 /**

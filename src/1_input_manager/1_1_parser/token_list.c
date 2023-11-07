@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_list.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 17:50:29 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/28 23:42:51 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/07 21:20:01 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,11 @@ static t_ast *token_list_case3(t_mbox *mbox)
     
     if(!validate_token(mbox->tmp_token, 0, RED_IN_TOKEN)
         && !validate_token(mbox->tmp_token, 0, RED_OUT_TOKEN))
-        return(NULL);
+        return (NULL);
     redir_node = redir_main(mbox);
     if (!redir_node)
-        return(NULL);
+        return (NULL);
     token_list_main (mbox);
-    connect_subtree(&mbox->tmp_node, redir_node, LEFT);
+    connect_subtree (&mbox->tmp_node, redir_node, LEFT);
     return (redir_node);
 }

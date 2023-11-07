@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:00:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/07 18:26:10 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/07 20:59:51 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,7 +163,7 @@ static  void heredoc_child(t_mbox *mbox, int *fd, char *delimiter)
         cur_line = get_next_line(STDIN_FILENO);
         if (!cur_line)
         {
-            create_err_msg("nnynyn", ERR_PROMT, "warning: here-document at line ", ft_itoa(mbox->count_cycles), " delimited by end-of-file (wanted `", ft_strtrim(delimiter, "\n"), "')");
+            put_err_msg("nnynyn", ERR_PROMT, "warning: here-document at line ", ft_itoa(mbox->count_cycles), " delimited by end-of-file (wanted `", ft_strtrim(delimiter, "\n"), "')");
             exit_heredoc_child(mbox, fd, delimiter);
         }
         if (str_cmp_strct(cur_line, delimiter))
@@ -188,11 +188,11 @@ int    heredoc(t_mbox *mbox, t_ast *redir_node, int *cmd_in_fd)
     int     status;
 
     if (pipe(fd) < 0)
-        err_free_and_close_box(mbox);
+        err_free_and_close_box(mbox, EXIT_FAILURE);
     update_signals(SIGNAL_PARENT);
     int pid = fork();
     if (pid < 0)
-        err_free_and_close_box(mbox);
+        err_free_and_close_box(mbox, EXIT_FAILURE);
     if (pid == 0)
     {
         dprintf (2, "HEREDOC PID %d\n", getpid());

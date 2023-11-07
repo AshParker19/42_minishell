@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2023/11/07 18:26:10 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/07 20:59:51 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@
 
 /******************************************************************************/
 /*    colors    */
+# define LIGHT_GREEN "\033[1;32m"
+# define LIGHT_YELLOW "\033[1;33m"
 # define GREEN 		"\033[0;32m"
 # define RED 		"\033[0;31m"
 # define YELLOW 	"\x1b[33m"
@@ -148,14 +150,14 @@ void    free_and_close_box_v2(t_mbox *mbox);
 
 /* display_flow.c */
 void	print_tokenizer_output(t_mbox *mbox);
-void	print_parser_output(t_mbox *mbox);
-void	print_executor_output(t_mbox *mbox, int i);
+void	print_parser_output(t_mbox *mbox, t_bool top_part);
+void	print_executor_output(t_mbox *mbox, t_bool top_part);
 void    delte_me(char *c);
 
 /* general_utils.c */
 void    reset_cycle(t_mbox *mbox);
-void    err_free_and_close_box(t_mbox *mbox);
-void    create_err_msg(const char *format, ...);
+void    err_free_and_close_box(t_mbox *mbox, int exit_status);
+void    put_err_msg(const char *format, ...);
 void	*create_syntax_err(t_mbox *mbox, t_token *err_token);
 
 

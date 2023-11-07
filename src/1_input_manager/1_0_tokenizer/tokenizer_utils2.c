@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 17:19:11 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/06 15:02:58 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/07 21:00:09 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,14 @@ t_bool	check_space_between_redir(char *str1, char *str2)
 	if (str1[ft_strlen(str1) - 1] == add_offset('>')
 		&& str2[0] == add_offset('>'))
 	{
-		create_err_msg("n", "syntax error near unexpected token `>'");
+		put_err_msg("nn", ERR_PROMT, "syntax error near unexpected token `>'");
 		is_correct = ft_false;
 	}
 
 	if (str1[ft_strlen(str1) - 1] == add_offset('<')
 		&& str2[0] == add_offset('<'))
 	{
-		create_err_msg("n", "syntax error near unexpected token `<'");
+		put_err_msg("nn", ERR_PROMT, "syntax error near unexpected token `<'");
 		is_correct = ft_false;
 	}
 	return (is_correct);

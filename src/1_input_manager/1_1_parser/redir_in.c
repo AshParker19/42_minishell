@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 20:24:57 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/06 15:03:24 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/07 21:08:46 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,9 @@ static t_ast *redir_in_case2(t_mbox *mbox)
     t_ast  *red_in_node;
     
     if(!validate_token(mbox->tmp_token, 0, RED_IN_TOKEN))
-        return(NULL);
+        return (NULL);
     if(!validate_token(mbox->tmp_token, 1, WORD_TOKEN))
-        return(create_syntax_err(mbox, mbox->tmp_token->next));
+        return (create_syntax_err(mbox, mbox->tmp_token->next));
     red_in_node = ast_create_node(RED_IN);
     red_in_node->content = ft_strdup(mbox->tmp_token->next->value);
     mbox->tmp_token = mbox->tmp_token->next->next;
