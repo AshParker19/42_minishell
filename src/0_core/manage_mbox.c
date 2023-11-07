@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:49:13 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/06 14:42:06 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/07 17:58:46 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	initialize_box_v2(t_mbox *mbox, char **env)
 	mbox->executor.pid = NULL;
 	mbox->executor.cmd_av = NULL;
 	mbox->count_cycles = 0;
+	mbox->print_info = ft_false;
 }
 
 /**

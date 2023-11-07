@@ -6,30 +6,41 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:06:17 by astein            #+#    #+#             */
-/*   Updated: 2023/11/07 17:44:36 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/07 18:00:59 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void check_args()
+static void check_args(t_mbox *mbox, int ac, char **av)
 {
-	
+	if (ac == 1)
+		return ;
+	if (ac == 2)
+	{
+		if (av[1] && str_cmp_strct(av[1], "--info"))
+		{
+			mbox->print_info = ft_true;
+			printf(PURPLE"----\nADDITIONAL INFO WILL BE PRINTED!\n----\n"RESET);
+			return ;
+		}
+		else
+			create_err_msg("nn", ERR_PROMT, "wrong argument!\nuse: '--info'\n");
+	}
+	else
+		create_err_msg("nn", ERR_PROMT, "wrong number of arguments!");
+	set_var_value(mbox, "?", ft_itoa(EXIT_FAILURE));
+	free_and_close_box_v2(mbox);	
 }
 
 int	main(int ac, char **av, char **env)
 {
 	t_mbox	mbox;
 	
-	if (ac == 2)
-
-	else if (ac > 2)
-
-	end if
-	
 	initialize_box_v2(&mbox, env);
 	load_vars_v2(&mbox);
 	initialize_builtins(&mbox);
+	check_args(&mbox, ac, av);
 	
 	while (FRANKENSHELL_RISES_AMIDTS_DEATH)
 	{

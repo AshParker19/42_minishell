@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2023/11/07 17:36:29 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/07 17:58:27 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ typedef struct s_mbox
     t_ast      *tmp_node;
     t_exec      executor;
     int         count_cycles;
-    t_bool      print_infos;
+    t_bool      print_info;
 }              t_mbox;
 
 /* list of environment variables (definition) */
