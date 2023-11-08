@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2023/11/08 09:42:45 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/08 13:37:11 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 /* promt strings */
 # define PROMT      "\x1b[36mfrankenshell-->\033[0m "
-# define ERR_PROMT  "\033[0;31mfrankenshell:\033[0m "
+# define ERR_PROMT  "\033[38;5;203mfrankenshell:\033[0m "
 
 # define FRANKENSHELL_RISES_AMIDTS_DEATH 1
 
@@ -58,6 +58,7 @@
 /*    colors    */
 # define GREEN 		"\033[0;32m"
 # define RED 		"\033[0;31m"
+# define LIGHT_RED  "\033[38;5;203m"
 # define YELLOW 	"\x1b[33m"
 # define CYAN 		"\x1b[36m"
 # define PURPLE 	"\x1b[35m"
@@ -150,7 +151,7 @@ void    free_and_close_box_v2(t_mbox *mbox);
 void    put_headline(char *caption, char *data, t_bool toqp_part, int i);
 void	display_string(t_mbox *mbox, char *state, char *str);
 void	print_tokenizer_output(t_mbox *mbox);
-void    delte_me(t_mbox *mbox, char *c);
+void    delte_me(t_mbox *mbox, char *c, int i);
 
 /* display_flow2.c */
 void	print_parser_output(t_mbox *mbox, t_bool top_part);

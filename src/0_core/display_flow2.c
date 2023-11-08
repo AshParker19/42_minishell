@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 09:32:49 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/08 10:17:47 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/08 12:52:31 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ static char	*get_node_type(int type)
 		return (ft_strdup("<"));
 	else if (type == RED_OUT_TR)
 		return (ft_strdup(">"));
+	return (NULL);	
 }
 
 /**
@@ -65,7 +66,8 @@ static void	display_ast(t_ast *root, int indent_level)
 		i++;
 	}
 	printf("[%s] (%s)\n", type, root->content);
-	free(type);
+	if (type)
+		free(type);
 	display_ast(root->left, indent_level);
 }
 

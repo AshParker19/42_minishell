@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 19:11:12 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/08 10:10:16 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/08 13:05:58 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,14 +103,13 @@ void	display_string(t_mbox *mbox, char *state, char *str)
 	printf ("%s:\t(%s)\n", state, str);	
 }
 
-void delte_me(t_mbox *mbox, char *s)
+void delte_me(t_mbox *mbox, char *s, int i)
 {
-    int i;
-    char *c = ft_strdup(s);
+    char	*c;
 
-    i = -1;
 	if (!mbox->print_info)
 		return ;
+	c = ft_strdup(s);
     while (c[++i])
     {
         if (c[i] == add_offset('\''))
