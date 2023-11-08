@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2023/11/08 13:37:11 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/08 15:04:01 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,10 @@
 /* promt strings */
 # define PROMT      "\x1b[36mfrankenshell-->\033[0m "
 # define ERR_PROMT  "\033[38;5;203mfrankenshell:\033[0m "
+
+/* test prompts */
+// # define PROMT "minishell:"
+// # define ERR_PROMT "minishell:"
 
 # define FRANKENSHELL_RISES_AMIDTS_DEATH 1
 
