@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 21:35:50 by astein            #+#    #+#             */
-/*   Updated: 2023/11/07 15:25:40 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/07 23:20:46 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,8 @@ char **env_to_matrix(t_mbox *mbox)
  */
 void    *free_var_v2(t_env_var *temp)
 {
+    if  (!temp)
+        return (NULL);    
     if (temp->key)
         free(temp->key);
     if(temp->value)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   environment.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:16:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/28 21:53:40 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/08 00:11:34 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ void    set_var_value(t_mbox *mbox, char *key, char *value)
     new_var = ft_calloc(1, sizeof(t_env_var));
     if (!new_var)
         return; //TODO: deal with malloc failure
-    new_var->key = key;
+    new_var->key = key; //TODO: do 
     new_var->value = value;
 
     // add to list if new creatd
