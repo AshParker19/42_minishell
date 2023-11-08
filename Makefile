@@ -39,6 +39,7 @@ SRCS = $(addprefix $(SRC_FOLDER), 						\
 	0_core/manage_mbox.c								\
 	0_core/signals.c									\
 	0_core/display_flow.c								\
+	0_core/display_flow2.c								\
 	1_input_manager/1_0_tokenizer/expand_vars.c			\
 	1_input_manager/1_0_tokenizer/tokenizer.c 			\
 	1_input_manager/1_0_tokenizer/tokenizer_utils.c		\
