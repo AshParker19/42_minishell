@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 19:11:12 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/07 22:08:08 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/08 02:27:17 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ void	print_tokenizer_output(t_mbox *mbox)
 {
 	t_token *current;
 
+	if (!mbox->print_info)
+		return ;
 	put_headline("TOKENIZER", NULL, ft_true);
 	current = mbox->tokens;	
 	while (current)	
@@ -117,6 +119,8 @@ static void	display_ast(t_ast *root, int indent_level)
 /* Print the ouput of the AST built by the Parser*/
 void	print_parser_output(t_mbox *mbox, t_bool top_part)
 {
+	if (!mbox->print_info)
+		return ;
 	if(top_part)
 		put_headline("PARSER", NULL, ft_true);
 	else
@@ -129,6 +133,9 @@ void	print_parser_output(t_mbox *mbox, t_bool top_part)
 void	print_executor_output(t_mbox *mbox, t_bool top_part)
 {
 	char	*temp;
+
+	if (!mbox->print_info)
+		return ;
 	if(top_part)
 	{
 		temp = ft_itoa(cmd_counter(mbox->root));
@@ -143,12 +150,23 @@ void	print_executor_output(t_mbox *mbox, t_bool top_part)
 		put_headline(NULL, NULL, ft_false);
 }
 
-void delte_me(char *s)
+void	display_string(t_mbox *mbox, char *state, char *str)
+{
+	if (!mbox->print_info)
+		return ;
+	if (!ft_strcmp(state, "input original"))
+		put_headline("INPUT STATES", NULL, ft_true);	
+	printf ("%s:\t(%s)\n", state, str);	
+}
+
+void delte_me(t_mbox *mbox, char *s)
 {
     int i;
     char *c = ft_strdup(s);
 
     i=0;
+	if (!mbox->print_info)
+		return ;
     while (c[i])
     {
         if (c[i] == add_offset('\''))
@@ -167,6 +185,6 @@ void delte_me(char *s)
             c[i] = 'E';
         i++;
     }
-    printf ("empty quotes:\t\t(%s)\n", c);
+    printf ("empty quotes:\t(%s)\n", c);
     free (c);
 }

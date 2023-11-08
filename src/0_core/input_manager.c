@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:38:32 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/07 20:05:54 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/08 02:25:52 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,23 +25,22 @@
  * 
  * @param   mbox 
  */
-void	manage_input(t_mbox *mbox)
+void	manage_input(t_mbox *mbox) //TODO: rename function and file into input main
 {
     mbox->error_status = ft_false; //TODO: understand this shit again
     add_history(mbox->inp_orig);
-    printf("mbox->input_original:\t(%s)\n", mbox->inp_orig);
+    display_string(mbox, "input original", mbox->inp_orig);
     mbox->inp_trim = ft_strtrim(mbox->inp_orig, " \n\t\v\a\b\f\r");
     if (!mbox->inp_trim || mbox->inp_trim[0] == 0)
         return ;
-    printf("mbox->inp_trim:\t\t(%s)\n", mbox->inp_trim);
-
+    display_string(mbox, "input trimmed", mbox->inp_trim);
     if (!shift_context_chars(mbox, 0, 0))
         return ;
-    printf("mbox->inp_shift:\t(%s)\n", mbox->inp_shift);
-    delte_me( mbox->inp_shift);
+    display_string(mbox, "input shifted", mbox->inp_shift);
+    delte_me(mbox, mbox->inp_shift);
     if (!expand_variables(mbox, 0, 0, OUT_Q))
         return ;
-    printf("mbox->inp_expand:\t(%s)\n", mbox->inp_expand);
+    display_string(mbox, "input expanded", mbox->inp_expand);
 
     if (!tokenize(mbox, 0))
         return ;
@@ -57,7 +56,7 @@ void	manage_input(t_mbox *mbox)
     if (mbox->error_status == ft_false)
     {
         print_executor_output(mbox, ft_true);
-        execute(mbox);
+        execute(mbox); //TODO: why don't we check if it fails
         print_executor_output(mbox, ft_false); 
     }
 }
