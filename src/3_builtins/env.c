@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:33:46 by astein            #+#    #+#             */
-/*   Updated: 2023/11/07 20:59:51 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/08 17:29:34 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,16 @@
  * 			if the cmd will have an 'arg_node' prints an error instead
  * 			NOTE:
  * 			the key '?' which represents the latest exit status won't be printed
- * 
+ *
+ * 			USEFUL:
+ * 				env -i ./minishell --> no env vars will be loaded
+ * 				env -u "NAME" ./minishell --> no NAME will be in env
  * @param	mbox 
  * @param	arg_node 
  */
 void	builtin_env(t_mbox *mbox, t_ast *arg_node)
 {
-	char	*error_msg;
+	char	*error_msg; 
 	t_env_var	*cur;
 
 	if (arg_node)

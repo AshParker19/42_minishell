@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:38:32 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/08 13:04:53 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/08 19:28:33 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,18 +29,17 @@ void	manage_input(t_mbox *mbox) //TODO: rename function and file into input main
 {
     mbox->error_status = ft_false; //TODO: understand this shit again
     add_history(mbox->inp_orig);
-    display_string(mbox, "input original", mbox->inp_orig);
+    display_info_str(mbox, "input original", mbox->inp_orig);
     mbox->inp_trim = ft_strtrim(mbox->inp_orig, " \n\t\v\a\b\f\r");
     if (!mbox->inp_trim || mbox->inp_trim[0] == 0)
         return ;
-    display_string(mbox, "input trimmed", mbox->inp_trim);
+    display_info_str(mbox, "input trimmed", mbox->inp_trim);
     if (!shift_context_chars(mbox, 0, 0))
         return ;
-    display_string(mbox, "input shifted", mbox->inp_shift);
-    delte_me(mbox, mbox->inp_shift, -1);
+    display_info_str(mbox, "input shifted", mbox->inp_shift);
     if (!expand_variables(mbox, 0, 0, OUT_Q))
         return ;
-    display_string(mbox, "input expanded", mbox->inp_expand);
+    display_info_str(mbox, "input expanded", mbox->inp_expand);
 
     if (!tokenize(mbox, 0))
         return ;

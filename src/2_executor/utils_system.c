@@ -6,11 +6,13 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 13:07:56 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/07 20:59:51 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/08 20:43:43 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+//TODO: rename file to cmd_system and the other one to cmd_builtin
 
 /*
 abs = true = full path absoulte path
@@ -73,25 +75,46 @@ void get_cmd_av(t_mbox *mbox, t_ast *cmd_node)
 {
 	char    *cur_args_str;
 	char    *temp;
+	char	*lim_split;
+	char	*lim_null;
 	
 	if (!cmd_node && !cmd_node->content) //TODO: not sure if it need a content
 		return ;
 	cur_args_str = get_cmd_path(mbox, cmd_node->content, -1, ft_false);
 	if (!cur_args_str)
 		return ;
+	lim_split = ft_chr2str(add_offset('+'));
+	lim_null = ft_chr2str(add_offset('-'));
 	while (cmd_node->right)
 	{
-		if (cmd_node->right->content)
+		if (cmd_node->right->content[0] == '\0')
 		{
-			temp = ft_strcat_multi(3, cur_args_str, "|",
+			
+			temp = ft_strcat_multi(3, cur_args_str, lim_split, lim_null);
+			free (cur_args_str);
+			cur_args_str = temp;
+		}
+		else if (cmd_node->right->content)
+		{
+			temp = ft_strcat_multi(3, cur_args_str, lim_split,
 				cmd_node->right->content);
 			free (cur_args_str);
 			cur_args_str = temp;
 		}
 		cmd_node = cmd_node->right;
 	}
-	mbox->executor.cmd_av = ft_split(cur_args_str, '|');
-	free(cur_args_str);
+	mbox->executor.cmd_av = ft_split(cur_args_str, add_offset('+'));
+	int i = -1;
+	while(mbox->executor.cmd_av[++i])
+	{
+		if(str_cmp_strct(mbox->executor.cmd_av[i], lim_null))
+		{
+			free(mbox->executor.cmd_av[i]);
+			mbox->executor.cmd_av[i] = "\0";
+		}
+	}
+	free_whatever("ppp", cur_args_str, lim_null, lim_split);
 }
+
 
 

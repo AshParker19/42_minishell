@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:19:44 by astein            #+#    #+#             */
-/*   Updated: 2023/11/07 18:42:48 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/08 19:52:19 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,10 @@ static void perform_child(t_mbox *mbox, t_ast *cmd_node, int cmd_pos, int *cur_p
 	}
 	setup_pipes(mbox, cur_pipe);
 	if (!configure_redir(mbox, cmd_node->left))
+	{
+		close(cur_pipe[P_RIGHT]);
 		free_and_close_box_v2(mbox);
+	}
 	setup_process_std(mbox);
 	if (cmd_pos == FIRST_CMD || cmd_pos == MIDDLE_CMD)
 		close(cur_pipe[P_RIGHT]);

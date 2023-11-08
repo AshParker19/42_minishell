@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 14:36:59 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/08 01:25:00 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/08 19:29:57 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,6 +175,8 @@ t_bool  shift_context_chars(t_mbox *mbox, int i, int quote_state)
 {
     mbox->inp_shift = ft_strdup(mbox->inp_trim);
     empty_quotes(mbox, 0, ft_true);
+    display_info_str(mbox, "empty quotes", mbox->inp_shift);
+
     //TODO: use update_wuote_state() because we changed it
     while (mbox->inp_shift[i])
     {

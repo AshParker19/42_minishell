@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 19:11:12 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/08 13:05:58 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/08 19:47:32 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,33 @@ void	put_headline(char *caption, char *data, t_bool top_part, int i)
 	}
 }
 
+static char *shift_readable(char *s)
+{
+	int 	i;
+    char	*readable;
+	
+	i = -1;
+	readable = ft_strdup(s);
+    while (readable[++i])
+    {
+        if (readable[i] == add_offset('\''))
+            readable[i] = '`';
+        else if (readable[i] == add_offset('"'))
+            readable[i] = 'D';
+        else if (readable[i] == add_offset('|'))
+            readable[i] = 'P';
+        else if (readable[i] == add_offset('<'))
+            readable[i] = 'I';
+        else if (readable[i] == add_offset('>'))
+            readable[i] = 'O';
+        else if (readable[i] == NO_SPACE)
+            readable[i] = '_';
+        else if (readable[i] == EMPTY_TOKEN)
+            readable[i] = 'E';
+    }
+	return (readable);
+}
+
 /**
  * @brief	if 'print_info' is true printf one of a input state string
  * 			if it's 'original string' puts the header for all the input
@@ -94,41 +121,27 @@ void	put_headline(char *caption, char *data, t_bool top_part, int i)
  * @param	state 
  * @param	str 
  */
-void	display_string(t_mbox *mbox, char *state, char *str)
+void	display_info_str(t_mbox *mbox, char *state, char *str)
 {
+	char *readable;
+	
 	if (!mbox->print_info)
 		return ;
 	if (!ft_strcmp(state, "input original"))
+	{
+		printf ("\n");
 		put_headline("INPUT STATES", NULL, ft_true, 0);	
-	printf ("%s:\t(%s)\n", state, str);	
-}
-
-void delte_me(t_mbox *mbox, char *s, int i)
-{
-    char	*c;
-
-	if (!mbox->print_info)
-		return ;
-	c = ft_strdup(s);
-    while (c[++i])
-    {
-        if (c[i] == add_offset('\''))
-            c[i] = '`';
-        else if (c[i] == add_offset('"'))
-            c[i] = 'D';
-        else if (c[i] == add_offset('|'))
-            c[i] = 'P';
-        else if (c[i] == add_offset('<'))
-            c[i] = 'I';
-        else if (c[i] == add_offset('>'))
-            c[i] = 'O';
-        else if (c[i] == NO_SPACE)
-            c[i] = '_';
-        else if (c[i] == EMPTY_TOKEN)
-            c[i] = 'E';
-    }
-    printf ("empty quotes:\t(%s)\n", c);
-    free (c);
+	}
+	if (!ft_strcmp(state, "input original") ||
+		!ft_strcmp(state, "input trimmed"))
+		printf ("%s:\t\t\t(%s)\n\n", state, str);	
+	else
+	{
+		printf ("%s:\tshifted:\t(%s)\n", state, str);
+		readable = shift_readable (str);
+		printf ("\t\treadable:\t(%s)\n\n", readable);	
+		free(readable);
+	}
 }
 
 /**

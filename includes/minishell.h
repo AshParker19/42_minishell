@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2023/11/08 15:04:01 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/08 19:30:45 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,9 +153,8 @@ void    free_and_close_box_v2(t_mbox *mbox);
 
 /* display_flow.c */
 void    put_headline(char *caption, char *data, t_bool toqp_part, int i);
-void	display_string(t_mbox *mbox, char *state, char *str);
+void	display_info_str(t_mbox *mbox, char *state, char *str);
 void	print_tokenizer_output(t_mbox *mbox);
-void    delte_me(t_mbox *mbox, char *c, int i);
 
 /* display_flow2.c */
 void	print_parser_output(t_mbox *mbox, t_bool top_part);
