@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 12:58:49 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/07 14:22:22 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/08 22:06:46 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static	char *mark_ws(char *str)
 
     if (!str)
         return (NULL);
-	temp = NULL;
+    temp = NULL;
 	i = -1;
 	while (str[++i])
 	{
@@ -112,7 +112,7 @@ static void found_dollar(t_mbox *mbox, int quote_s, int *k, char cur_c)
 	names checking for a dollar sign, then replaces all the variable names
     by their values which are received from the environment
 */
-t_bool  expand_variables(t_mbox *mbox, int k, int k_end, int quote_state)
+t_bool  expand_variables(t_mbox *mbox, int k, int quote_state)
 {
     char    cur_char;
     int     consecutive_lt;
@@ -120,7 +120,6 @@ t_bool  expand_variables(t_mbox *mbox, int k, int k_end, int quote_state)
     consecutive_lt = 0;
     
     mbox->inp_expand = NULL;
-    // printf ("HERE\n");
     while (mbox->inp_shift[k])
     {
         cur_char = mbox->inp_shift[k];

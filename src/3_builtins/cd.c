@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:32:31 by astein            #+#    #+#             */
-/*   Updated: 2023/11/08 00:04:27 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/08 22:11:53 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,9 @@
  * @param   new_path 
  */
 static void change_pwd(t_mbox *mbox, char *new_path)
-{
-    static  int first_pwd_unset;
-    
+{    
     if (is_var(mbox, "OLDPWD"))
-        set_var_value(mbox, "OLDPWD", ft_strdup(getcwd(NULL, 0)));
+        set_var_value(mbox, "OLDPWD", getcwd(NULL, 0));
     // else
     // {
     //     if (first_pwd_unset == 0)
@@ -39,11 +37,11 @@ static void change_pwd(t_mbox *mbox, char *new_path)
     //         first_pwd_unset = 1;
     //     }
     //     else
-    //         set_var_value(mbox, "OLDPWD", ft_strdup(getcwd(NULL, 0)));        
+    //         set_var_value(mbox, "OLDPWD", getcwd(NULL, 0));        
     // }
     chdir(new_path);
     if (is_var(mbox, "PWD"))
-        set_var_value(mbox, "PWD", ft_strdup(getcwd(NULL, 0)));
+        set_var_value(mbox, "PWD", getcwd(NULL, 0));
 }
 
 

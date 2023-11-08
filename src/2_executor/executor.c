@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:19:44 by astein            #+#    #+#             */
-/*   Updated: 2023/11/08 19:52:19 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/08 22:08:42 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void perform_child(t_mbox *mbox, t_ast *cmd_node, int cmd_pos, int *cur_p
 	free_and_close_box_v2(mbox);
 }
 
-static void	perform_parent(t_mbox *mbox, t_ast *cmd_node, int cmd_pos, int *cur_pipe)
+static void	perform_parent(t_mbox *mbox, int cmd_pos, int *cur_pipe)
 {
 	if (cmd_pos == FIRST_CMD || cmd_pos == MIDDLE_CMD)
 		close(cur_pipe[P_LEFT]);
@@ -80,15 +80,16 @@ static t_bool    execute_cmd(t_mbox *mbox, t_ast *cmd_node, int cmd_pos)
 		if (mbox->executor.pid[mbox->executor.pid_index] == 0)
 			perform_child(mbox, cmd_node, cmd_pos, cur_pipe);
 		else
-			perform_parent(mbox, cmd_node, cmd_pos, cur_pipe);
+			perform_parent(mbox, cmd_pos, cur_pipe);
 	}
 	return (ft_true);
 }
 
 static void    wait_for_execution(t_mbox *mbox)
 {
-	int i;
-	int	exit_status;
+	int 	i;
+	int		exit_status;
+	char	*exit_status_str;
 	
 	i = -1;
 	if (mbox->executor.pid_index != 0)
@@ -96,10 +97,16 @@ static void    wait_for_execution(t_mbox *mbox)
 		while (++i < cmd_counter(mbox->root))
 		{
 			waitpid(mbox->executor.pid[i], &exit_status, 0);
-			set_var_value(mbox, "?", ft_itoa(exit_status));		
+			exit_status_str = ft_itoa(exit_status);
+			set_var_value(mbox, "?", exit_status_str);
+			free (exit_status_str);		
 		}
 		if (WIFEXITED(exit_status))
-			set_var_value(mbox, "?", ft_itoa(WEXITSTATUS(exit_status)));
+		{
+			exit_status_str = ft_itoa(WEXITSTATUS(exit_status));
+			set_var_value(mbox, "?", exit_status_str);
+			free (exit_status_str);		
+		}
 			//TODO: wait for signal too
 	}
 }

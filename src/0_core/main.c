@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:06:17 by astein            #+#    #+#             */
-/*   Updated: 2023/11/08 16:04:06 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/08 21:57:49 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void check_args(t_mbox *mbox, int ac, char **av)
 	}
 	else
 		put_err_msg("nn", ERR_PROMT, "wrong number of arguments!");
-	set_var_value(mbox, "?", ft_itoa(EXIT_FAILURE));
+	set_var_value(mbox, "?", EXIT_STR_FAILURE);
 	free_and_close_box_v2(mbox);	
 }
 

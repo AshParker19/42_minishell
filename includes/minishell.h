@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2023/11/08 19:30:45 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/08 21:56:36 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@
 // # define ERR_PROMT "minishell:"
 
 # define FRANKENSHELL_RISES_AMIDTS_DEATH 1
+
+# define EXIT_STR_SUCCESS "0"
+# define EXIT_STR_FAILURE "1"
 
 /* system includes */
 # include <curses.h>
@@ -129,15 +132,15 @@ void	manage_input(t_mbox *mbox);
 
 /* env.c */
 void    load_vars_v2(t_mbox *mbox);
-char    *get_var_value(t_mbox *mbox, char *key);
-void    set_var_value(t_mbox *mbox, char *key, char *value);
-void    delete_var(t_mbox *mbox, char *key);
+char    *get_var_value(const t_mbox *mbox,const char *key);
+void    set_var_value(t_mbox *mbox, const char *key, const char *value);
+void    delete_var(t_mbox *mbox, const char *key);
 void    free_vars_v2(t_mbox *mbox);
 
 /* env_utils.c */
-t_bool   is_var(t_mbox *mbox, char *key);
+t_bool   is_var(const t_mbox *mbox, const char *key);
 void	increment_shlvl(t_mbox *mbox);
-char    **env_to_matrix(t_mbox *mbox);
+char    **env_to_matrix(const t_mbox *mbox);
 void    *free_var_v2(t_env_var *temp);
 
 

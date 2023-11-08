@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:09:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/08 01:35:46 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/08 22:09:07 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void    run_cmd_main(t_mbox *mbox, t_ast *cmd_node)
 
 void    run_cmd_system(t_mbox *mbox, t_ast *cmd_node)
 {
-	char	*error_msg;
 	char	*abs_cmd_path;
 	char	**cur_env;
 	
@@ -101,7 +100,7 @@ t_bool run_single_builtin(t_mbox *mbox)
 		close (mbox->executor.io.cmd_fd[CMD_OUT]);  
 	mbox->executor.io.cmd_fd[CMD_IN] = -1;
 	mbox->executor.io.cmd_fd[CMD_OUT] = -1;
-	set_var_value(mbox, "?", ft_itoa(EXIT_SUCCESS));
+	set_var_value(mbox, "?", EXIT_STR_SUCCESS);
 	close_process_fds_v2(mbox);
 	free_cycle_v2(mbox);
 	return (ft_true);

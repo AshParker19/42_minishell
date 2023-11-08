@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:00:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/07 20:59:51 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/08 22:11:25 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static char   *expand_heredoc_input(t_mbox *mbox, char *str)
             if (found_dollar)
             {
                 found_dollar = ft_false;
-                key = get_key(mbox, str, &i);
+                key = get_key(str, &i);
                 if (!key)
                     expanded_str = append_str(expanded_str, "$", ft_false);
                 else if (str_cmp_strct(key, "$"))

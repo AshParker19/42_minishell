@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 19:11:12 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/08 19:47:32 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/08 22:05:21 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,6 @@ static void put_text_center(char *txt, t_bool free_it)
  */
 void	put_headline(char *caption, char *data, t_bool top_part, int i)
 {
-	int count;
-	
 	if (top_part)
 	{
 		printf(YELLOW" ");	

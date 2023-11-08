@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 17:55:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/06 14:40:56 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/08 22:10:56 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ t_bool    configure_redir(t_mbox *mbox, t_ast *redir_node);
 
 /* heredoc */
 int    heredoc(t_mbox *mbox, t_ast *redir_node, int *cmd_in_fd);
-char    *get_key(t_mbox *mbox, char *str, int *i);
+char    *get_key(char *str, int *i);
 
 /* executor_utils */
 void	initialize_io(t_mbox *mbox);

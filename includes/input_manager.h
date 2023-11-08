@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 15:35:02 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/07 15:28:56 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/08 22:07:03 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ t_bool  shift_context_chars(t_mbox *mbox, int i, int quote_state);
 void 	update_qoute_state(int *quote_state, char cur_char, t_bool shift);
 
 /* VARIABLES EXPANSION */
-t_bool  expand_variables(t_mbox *mbox, int k, int k_end, int quote_state);
+t_bool  expand_variables(t_mbox *mbox, int k, int quote_state);
 
 /* HEREDOC UTILS*/
 char    *extract_limiter(t_mbox *mbox, int *k, int *quote_state);

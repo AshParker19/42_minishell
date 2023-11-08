@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:33:09 by astein            #+#    #+#             */
-/*   Updated: 2023/11/07 20:59:51 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/08 22:03:08 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,6 +158,7 @@ void builtin_export(t_mbox *mbox, t_ast *arg_node)
             else
                 put_err_msg("nnnn", ERR_PROMT, "export: `",
                     arg_node->content, "': not a valid identifier");
+            free_whatever("pp", key, value);
         }
         arg_node = arg_node->right;
     }

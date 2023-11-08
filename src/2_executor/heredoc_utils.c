@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 19:28:09 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/02 19:29:37 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/08 22:11:02 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
  * @param str 
  * @return char* 
  */
-char *get_key(t_mbox *mbox, char *str, int *i)
+char *get_key(char *str, int *i)
 {
     char    *key;
 

@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:16:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/08 00:11:34 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/08 22:15:37 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,11 @@ void load_vars_v2(t_mbox *mbox)
         key = ft_strchr(mbox->env[i], '=');
         key = ft_substr(mbox->env[i], 0,
             ft_strlen(mbox->env[i]) - ft_strlen(key));
-        set_var_value(mbox, key, ft_strdup(getenv(key)));
+        set_var_value(mbox, key, getenv(key));
+        free (key);
         i++;    
     }
-    set_var_value(mbox, ft_chr2str('?'), ft_chr2str('0'));
+    set_var_value(mbox, "?", EXIT_STR_SUCCESS);
 }
 
 /**
@@ -75,7 +76,7 @@ void load_vars_v2(t_mbox *mbox)
  * @return	char*	POINTER to the value of the param 'key'
  * 					NULL if key doesnt exist
  */
-char *get_var_value(t_mbox *mbox, char *key)
+char *get_var_value(const t_mbox *mbox, const char *key)
 {
     t_env_var *cur;
     char *value;
@@ -96,19 +97,20 @@ char *get_var_value(t_mbox *mbox, char *key)
 
 /**
  * @brief	This function
- * 				- adds a new key value pair to the end of the ll
- * 				- changes the value of an existing key
+ * 				- either adds a new key value pair to the end of the ll
+ * 				- or changes the value of an existing key
+ * 
+ *          therefore it always duplicates key and / or value!
  * 
  * @param	mbox	mbox is a struct that stores all runtime related infos
  * @param	key		key of the (new) key value pair
  * @param	value	value of the (new) key value pair
  */
-void    set_var_value(t_mbox *mbox, char *key, char *value)
+void    set_var_value(t_mbox *mbox, const char *key, const char *value)
 {
     t_env_var   *new_var;
     t_env_var   *cur;
     
-    // we look if already exists -> then free the old one and connect the pointer to the parameter
     cur = mbox->env_vars;
     if(is_var(mbox, key))
     {
@@ -118,21 +120,17 @@ void    set_var_value(t_mbox *mbox, char *key, char *value)
             {
                 if(cur->value)
                     free(cur->value);
-                cur->value = value;
+                cur->value = ft_strdup(value);
                 return ;
             }
             cur = cur->next;
         }
     }
-
-    // if not create...
     new_var = ft_calloc(1, sizeof(t_env_var));
     if (!new_var)
         return; //TODO: deal with malloc failure
-    new_var->key = key; //TODO: do 
-    new_var->value = value;
-
-    // add to list if new creatd
+    new_var->key = ft_strdup(key); 
+    new_var->value = ft_strdup(value);
     if (!mbox->env_vars)
         mbox->env_vars = new_var;
     else
@@ -151,14 +149,13 @@ void    set_var_value(t_mbox *mbox, char *key, char *value)
  * @param	mbox	mbox is a struct that stores all runtime related infos
  * @param	key		key of the node which should be deleted
  */
-void delete_var(t_mbox *mbox, char *key)
+void delete_var(t_mbox *mbox, const char *key)
 {
     t_env_var   *cur;
     t_env_var   *temp;
     
     if(!mbox->env_vars)
         return ;
-    // first check if key actually exists in ll
     if(!is_var(mbox, key))
         return ;
 
