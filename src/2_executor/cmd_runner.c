@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:09:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/07 20:59:51 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/08 01:35:46 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void    run_cmd_system(t_mbox *mbox, t_ast *cmd_node)
 		execve(abs_cmd_path, mbox->executor.cmd_av, cur_env);
 	}
 	free_whatever("mp", cur_env, abs_cmd_path);
-	put_err_msg("nnn", "command '", cmd_node->content, "' not found");
+	put_err_msg("nnnn", ERR_PROMT, "command '", cmd_node->content, "' not found");
 	err_free_and_close_box(mbox, 127);
 }
 

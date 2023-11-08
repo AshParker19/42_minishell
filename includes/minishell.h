@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2023/11/07 20:59:51 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/08 01:05:48 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 /* promt strings */
 # define PROMT      "\x1b[36mfrankenshell-->\033[0m "
-# define ERR_PROMT  "frankenshell: "
+# define ERR_PROMT  "\033[0;31mfrankenshell:\033[0m "
 
 # define FRANKENSHELL_RISES_AMIDTS_DEATH 1
 
@@ -56,8 +56,6 @@
 
 /******************************************************************************/
 /*    colors    */
-# define LIGHT_GREEN "\033[1;32m"
-# define LIGHT_YELLOW "\033[1;33m"
 # define GREEN 		"\033[0;32m"
 # define RED 		"\033[0;31m"
 # define YELLOW 	"\x1b[33m"
