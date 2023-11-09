@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:00:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/08 22:11:25 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/09 14:15:31 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,20 +186,21 @@ int    heredoc(t_mbox *mbox, t_ast *redir_node, int *cmd_in_fd)
 {
     int     fd[2];
     int     status;
+    int     pid_hd;
 
     if (pipe(fd) < 0)
         err_free_and_close_box(mbox, EXIT_FAILURE);
     update_signals(SIGNAL_PARENT);
-    int pid = fork();
-    if (pid < 0)
+    pid_hd = fork();
+    if (pid_hd < 0)
         err_free_and_close_box(mbox, EXIT_FAILURE);
-    if (pid == 0)
+    if (pid_hd == 0)
     {
         dprintf (2, "HEREDOC PID %d\n", getpid());
         heredoc_child(mbox, fd, redir_node->content);
     }
     close(fd[P_LEFT]);
-    waitpid(pid, &status, 0);
+    waitpid(pid_hd, &status, 0);
     update_signals(SIGNAL_CHILD);
     if (WIFEXITED(status))
         status = WEXITSTATUS(status);
@@ -212,5 +213,6 @@ int    heredoc(t_mbox *mbox, t_ast *redir_node, int *cmd_in_fd)
         status = 1;
     if (status == 0)
         *cmd_in_fd = fd[P_RIGHT]; // info was written to the reaad end and will be redirected later using dup2
+    close(fd[P_RIGHT]);    
     return (status); //TODO:
 }
