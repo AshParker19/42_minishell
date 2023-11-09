@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 13:07:56 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/08 20:43:43 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/08 23:57:32 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ char    *get_cmd_path(t_mbox *mbox, char *cmd, int i, t_bool abs)
 void get_cmd_av(t_mbox *mbox, t_ast *cmd_node)
 {
 	char    *cur_args_str;
-	char    *temp;
 	char	*lim_split;
 	char	*lim_null;
 	
@@ -87,20 +86,12 @@ void get_cmd_av(t_mbox *mbox, t_ast *cmd_node)
 	lim_null = ft_chr2str(add_offset('-'));
 	while (cmd_node->right)
 	{
+		cur_args_str = append_str(cur_args_str, lim_split, ft_false);
 		if (cmd_node->right->content[0] == '\0')
-		{
-			
-			temp = ft_strcat_multi(3, cur_args_str, lim_split, lim_null);
-			free (cur_args_str);
-			cur_args_str = temp;
-		}
+			cur_args_str = append_str(cur_args_str, lim_null, ft_false);
 		else if (cmd_node->right->content)
-		{
-			temp = ft_strcat_multi(3, cur_args_str, lim_split,
-				cmd_node->right->content);
-			free (cur_args_str);
-			cur_args_str = temp;
-		}
+			cur_args_str = append_str(cur_args_str, cmd_node->right->content,
+				ft_false);
 		cmd_node = cmd_node->right;
 	}
 	mbox->executor.cmd_av = ft_split(cur_args_str, add_offset('+'));

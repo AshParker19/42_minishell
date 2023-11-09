@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:33:09 by astein            #+#    #+#             */
-/*   Updated: 2023/11/08 22:03:08 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/08 22:35:11 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,21 +95,20 @@ static int  env_counter(t_env_var *env_var)
  * 
  * @param   mbox 
  */
-static void    sort_and_print_var(t_mbox *mbox)
+static void    sort_and_print_var(const t_mbox *mbox)
 {
     char    **env_matrix;
-    int count_vars;
+    int     count_vars;
     
     count_vars = env_counter(mbox->env_vars) - 1;
-    env_matrix = env_to_matrix(mbox);
+    env_matrix = env_to_matrix(mbox, ft_true);
     env_matrix = bubble_sort(env_matrix, count_vars);
     if (!env_matrix)
         return ;
     int i;
     i = -1;
     while (++i < count_vars)
-        printf ("declare -x %s=\"%s\"\n", env_matrix[i],
-            get_var_value(mbox, env_matrix[i]));
+        printf ("declare -x %s\n", env_matrix[i]);
     free_whatever("m", env_matrix);
 }
 

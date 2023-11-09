@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 21:35:50 by astein            #+#    #+#             */
-/*   Updated: 2023/11/08 21:50:08 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/08 22:32:56 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ static int  env_counter(const t_env_var *env_var)
  * @param	mbox	mbox is a struct that stores all runtime related infos
  * @return char**	
  */
-char **env_to_matrix(const t_mbox *mbox)
+char **env_to_matrix(const t_mbox *mbox, const t_bool put_quotes)
 {
     char    **env_matrix;
     t_env_var   *cur_var;
@@ -108,7 +108,12 @@ char **env_to_matrix(const t_mbox *mbox)
     {
 		if (!str_cmp_strct(cur_var->key, "?"))
 		{
-			env_matrix[i] = ft_strcat_multi(3, cur_var->key, "=" , cur_var->value);
+            if (put_quotes)
+			    env_matrix[i] = ft_strcat_multi(4, cur_var->key, "=\"" ,
+                    cur_var->value, "\"");
+            else
+			    env_matrix[i] = ft_strcat_multi(3, cur_var->key, "=" ,
+                    cur_var->value);
 			cur_var = cur_var->next;
 		}
     }

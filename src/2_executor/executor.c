@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:19:44 by astein            #+#    #+#             */
-/*   Updated: 2023/11/08 22:08:42 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/09 00:06:02 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,10 @@ static void perform_child(t_mbox *mbox, t_ast *cmd_node, int cmd_pos, int *cur_p
 	setup_pipes(mbox, cur_pipe);
 	if (!configure_redir(mbox, cmd_node->left))
 	{
-		close(cur_pipe[P_RIGHT]);
+		if (cur_pipe[P_RIGHT] != -1) //FIXME: 
+		// CASE 1 Heredoc 
+		// CASE 2 file without permissions
+			close(cur_pipe[P_RIGHT]);
 		free_and_close_box_v2(mbox);
 	}
 	setup_process_std(mbox);
