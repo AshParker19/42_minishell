@@ -1,0 +1,1 @@
+echo "This is a error n test file. line1nline2 error nline3error" > file.txt

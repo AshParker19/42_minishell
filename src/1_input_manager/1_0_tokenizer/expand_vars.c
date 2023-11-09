@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 12:58:49 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/30 22:23:46 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/08 22:06:46 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static	char *mark_ws(char *str)
 
     if (!str)
         return (NULL);
-	temp = NULL;
+    temp = NULL;
 	i = -1;
 	while (str[++i])
 	{
@@ -88,7 +88,7 @@ static void found_dollar(t_mbox *mbox, int quote_s, int *k, char cur_c)
     cur_c = mbox->inp_shift[*k];
     if (cur_c != '\0')
     {
-        update_qoute_state(&quote_s, cur_c);
+        update_qoute_state(&quote_s, cur_c, ft_true);
         if (quote_s != old_qoute_s)
             mbox->inp_expand = append_str(mbox->inp_expand, ft_chr2str(cur_c), ft_true);
         else if (cur_c == '?')
@@ -112,7 +112,7 @@ static void found_dollar(t_mbox *mbox, int quote_s, int *k, char cur_c)
 	names checking for a dollar sign, then replaces all the variable names
     by their values which are received from the environment
 */
-t_bool  expand_variables(t_mbox *mbox, int k, int k_end, int quote_state)
+t_bool  expand_variables(t_mbox *mbox, int k, int quote_state)
 {
     char    cur_char;
     int     consecutive_lt;
@@ -123,11 +123,11 @@ t_bool  expand_variables(t_mbox *mbox, int k, int k_end, int quote_state)
     while (mbox->inp_shift[k])
     {
         cur_char = mbox->inp_shift[k];
-        update_qoute_state(&quote_state, cur_char);
+        update_qoute_state(&quote_state, cur_char, ft_true);
         if (quote_state == OUT_Q)
         {
             if (remove_offset(cur_char) == '<')
-                consecutive_lt ++;
+                consecutive_lt++;
             else
                 consecutive_lt = 0;
         }
@@ -145,7 +145,6 @@ t_bool  expand_variables(t_mbox *mbox, int k, int k_end, int quote_state)
         }
         k++;
     }
-    
     // TODO: if expanded is NULLE RETURN FALS
     if (!mbox->inp_expand)
         return (ft_false);

@@ -9,7 +9,7 @@ DEBUG = 0
 
 # Compiler options
 CC = cc
-CFLAGS = -D DEBUG=$(DEBUG) -g# -gp -Wall -Werror -Wextra  #-fsanitize=address -fsanitize-address-use-after-scope
+CFLAGS = -D DEBUG=$(DEBUG) -g -Wall -Werror -Wextra  #-gp -fsanitize=address -fsanitize-address-use-after-scope
 CLIBS = -L$(LIB_FOLDER) -lft -lm -lreadline
 CINCLUDES  = -I$(INCLUDE_FOLDER) 
 RM = rm -rf
@@ -30,42 +30,47 @@ LIB_FOLDER     = ./libft/
 
 # ->Files
 LIBFT = $(LIB_FOLDER)libft.a
-SRCS = $(addprefix $(SRC_FOLDER), 					\
-	0_core/main.c									\
-	0_core/environment.c							\
-	0_core/env_utils.c								\
-	0_core/general_utils_1.c						\
-	0_core/input_manager.c							\
-	0_core/manage_mbox.c							\
-	0_core/signals.c								\
-	1_input_manager/1_0_tokenizer/expand_vars.c		\
-	1_input_manager/1_0_tokenizer/tokenizer.c 		\
-	1_input_manager/1_0_tokenizer/quote_handler.c	\
-	1_input_manager/1_0_tokenizer/tokenizer_utils.c	\
-	1_input_manager/1_0_tokenizer/utils_heredoc.c	\
-	1_input_manager/1_1_parser/parser.c				\
-	1_input_manager/1_1_parser/job.c				\
-	1_input_manager/1_1_parser/command.c			\
-	1_input_manager/1_1_parser/token_list.c			\
-	1_input_manager/1_1_parser/redir.c				\
-	1_input_manager/1_1_parser/redir_in.c			\
-	1_input_manager/1_1_parser/redir_out.c			\
-	1_input_manager/1_1_parser/parser_utils.c		\
-	2_executor/executor.c							\
-	2_executor/executor_utils.c						\
-	2_executor/utils_system.c						\
-	2_executor/utils_builtin.c						\
-	2_executor/pipes.c								\
-	2_executor/redirection.c						\
-	2_executor/heredoc.c							\
-	3_builtins/cd.c									\
-	3_builtins/echo.c								\
-	3_builtins/pwd.c								\
-	3_builtins/export.c								\
-	3_builtins/unset.c								\
-	3_builtins/env.c								\
-	3_builtins/exit.c								\
-	3_builtins/history.c							\
+SRCS = $(addprefix $(SRC_FOLDER), 						\
+	0_core/main.c										\
+	0_core/environment.c								\
+	0_core/env_utils.c									\
+	0_core/general_utils_1.c							\
+	0_core/input_manager.c								\
+	0_core/manage_mbox.c								\
+	0_core/signals.c									\
+	0_core/display_flow.c								\
+	0_core/display_flow2.c								\
+	1_input_manager/1_0_tokenizer/expand_vars.c			\
+	1_input_manager/1_0_tokenizer/tokenizer.c 			\
+	1_input_manager/1_0_tokenizer/tokenizer_utils.c		\
+	1_input_manager/1_0_tokenizer/tokenizer_utils2.c	\
+	1_input_manager/1_0_tokenizer/shifter.c				\
+	1_input_manager/1_0_tokenizer/heredoc_limiter.c		\
+	1_input_manager/1_1_parser/parser.c					\
+	1_input_manager/1_1_parser/job.c					\
+	1_input_manager/1_1_parser/command.c				\
+	1_input_manager/1_1_parser/token_list.c				\
+	1_input_manager/1_1_parser/redir.c					\
+	1_input_manager/1_1_parser/redir_in.c				\
+	1_input_manager/1_1_parser/redir_out.c				\
+	1_input_manager/1_1_parser/parser_utils.c			\
+	2_executor/executor.c								\
+	2_executor/cmd_runner.c								\
+	2_executor/executor_utils.c							\
+	2_executor/utils_system.c							\
+	2_executor/utils_builtin.c							\
+	2_executor/pipes.c									\
+	2_executor/redirection.c							\
+	2_executor/heredoc.c								\
+	2_executor/heredoc_utils.c							\
+	3_builtins/cd.c										\
+	3_builtins/echo.c									\
+	3_builtins/pwd.c									\
+	3_builtins/export.c									\
+	3_builtins/unset.c									\
+	3_builtins/env.c									\
+	3_builtins/exit.c									\
+	3_builtins/history.c								\
 	)
 
 # Object files
@@ -81,7 +86,7 @@ all:  $(NAME)
 $(NAME): $(LIBFT) $(OBJS)
 	@$(CC) $(OBJS) $(CFLAGS) $(CLIBS) $(CINCLUDES) -o $(NAME)
 	@echo "\n$(ORANGE)╔═══════════════════════╗"
-	@echo "$(ORANGE)║  $(GREEN)$(NAME):  created$(ORANGE)  ║"
+	@echo "$(ORANGE)║  $(GREEN)$(NAME):  created$(ORANGE)  ║" #revived
 	@echo "$(ORANGE)╚═══════════════════════╝"
 
 $(OBJ_FOLDER)%.o: $(SRC_FOLDER)%.c 
@@ -121,6 +126,9 @@ valmem:$(NAME) readline.supp
 
 valfd:$(NAME) readline.supp
 	valgrind --track-fds=yes --suppressions=readline.supp ./$(NAME)
+
+valchild:$(NAME) readline.supp
+	valgrind --trace-children=yes --suppressions=readline.supp ./$(NAME)
 
 valgrind:$(NAME) readline.supp
 	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=readline.supp ./$(NAME)

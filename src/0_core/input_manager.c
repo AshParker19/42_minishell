@@ -6,14 +6,11 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:38:32 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/31 21:48:11 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/08 22:07:27 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	print_parser_output(t_mbox *mbox);
-
 
 /**
  * @brief   this function is kind of the main for an execution cycle!
@@ -28,38 +25,37 @@ void	print_parser_output(t_mbox *mbox);
  * 
  * @param   mbox 
  */
-void	manage_input(t_mbox *mbox)
+void	manage_input(t_mbox *mbox) //TODO: rename function and file into input main
 {
     mbox->error_status = ft_false; //TODO: understand this shit again
     add_history(mbox->inp_orig);
-    printf("mbox->input_original:\t(%s)\n", mbox->inp_orig);
+    display_info_str(mbox, "input original", mbox->inp_orig);
     mbox->inp_trim = ft_strtrim(mbox->inp_orig, " \n\t\v\a\b\f\r");
     if (!mbox->inp_trim || mbox->inp_trim[0] == 0)
         return ;
-    printf("mbox->inp_trim:\t\t(%s)\n", mbox->inp_trim);
-
-    if (!mark_seps(mbox, 0, 0))
+    display_info_str(mbox, "input trimmed", mbox->inp_trim);
+    if (!shift_context_chars(mbox, 0, 0))
         return ;
-    printf("mbox->inp_shift:\t(%s)\n", mbox->inp_shift);
-
-    if (!expand_variables(mbox, 0, 0, OUT_Q))
+    display_info_str(mbox, "input shifted", mbox->inp_shift);
+    if (!expand_variables(mbox, 0, OUT_Q))
         return ;
-    printf("mbox->inp_expand:\t(%s)\n", mbox->inp_expand);
+    display_info_str(mbox, "input expanded", mbox->inp_expand);
 
     if (!tokenize(mbox, 0))
         return ;
 
+    print_parser_output(mbox, ft_true);
     if (!parse(mbox))
         return ;
+    print_parser_output(mbox, ft_false);
             
     if (mbox->root->type == CMD_NODE && str_cmp_strct(mbox->root->content, "exit"))
         builtin_exit(mbox, mbox->root->right);
         
-    print_parser_output(mbox);
     if (mbox->error_status == ft_false)
     {
-        print_executor_output(mbox, 0);
-        execute(mbox);
-        print_executor_output(mbox, 1); 
+        print_executor_output(mbox, ft_true);
+        execute(mbox); //TODO: why don't we check if it fails
+        print_executor_output(mbox, ft_false); 
     }
 }

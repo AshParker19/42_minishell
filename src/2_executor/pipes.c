@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:23:27 by astein            #+#    #+#             */
-/*   Updated: 2023/10/28 23:09:10 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/07 18:43:23 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,17 @@ void    setup_pipes(t_mbox *mbox, int *cur_pipe)
 void    setup_process_std(t_mbox *mbox) //TODO: rename it 
 {
     if (mbox->executor.io.cmd_fd[CMD_IN] != -1)
+    {
         mbox->executor.io.dup_fd[CMD_IN]
             = dup2(mbox->executor.io.cmd_fd[CMD_IN], STDIN_FILENO);
+        if (mbox->executor.io.dup_fd[CMD_IN] < 0)
+            err_free_and_close_box(mbox, EXIT_FAILURE);
+    }
     if (mbox->executor.io.cmd_fd[CMD_OUT] != -1)
+    {
         mbox->executor.io.dup_fd[CMD_OUT]
             = dup2(mbox->executor.io.cmd_fd[CMD_OUT], STDOUT_FILENO);
+        if (mbox->executor.io.dup_fd[CMD_OUT] < 0)
+            err_free_and_close_box(mbox, EXIT_FAILURE); // we should exit from the whole program not only child process
+    }
 }

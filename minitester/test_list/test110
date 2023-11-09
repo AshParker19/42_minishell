@@ -1,0 +1,1 @@
+echo "" | wc -l | grep 1

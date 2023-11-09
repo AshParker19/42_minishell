@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_manager.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 15:35:02 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/28 18:01:21 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/08 22:07:03 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@
 # define OUT_Q      0   //OUTSIDE QUOTES
 
 /* VALUE TO SHIFT SPACE CHARACTER */
-# define NO_SPACE	-125	//WHITESPACE TO BE IGNORED
+# define EMPTY_TOKEN	-126	//MARK THE NEED OF AN EMPTY TOKEN
+# define NO_SPACE	    -125	//WHITESPACE TO BE IGNORED
 /******************************************************************************/
 
 /* data types from other header files */
@@ -72,11 +73,11 @@ enum e_three_branch
 /******************************************************************************/
 
 /* HANDLE QUOTES */
-t_bool  mark_seps(t_mbox *mbox, int i, int quote_state);
-void 	update_qoute_state(int *quote_state, char cur_char);
+t_bool  shift_context_chars(t_mbox *mbox, int i, int quote_state);
+void 	update_qoute_state(int *quote_state, char cur_char, t_bool shift);
 
 /* VARIABLES EXPANSION */
-t_bool  expand_variables(t_mbox *mbox, int k, int k_end, int quote_state);
+t_bool  expand_variables(t_mbox *mbox, int k, int quote_state);
 
 /* HEREDOC UTILS*/
 char    *extract_limiter(t_mbox *mbox, int *k, int *quote_state);
@@ -86,18 +87,20 @@ char    *extract_limiter(t_mbox *mbox, int *k, int *quote_state);
 t_bool	tokenize(t_mbox *mbox, int i);
 int		add_offset(int c);
 int		remove_offset(int c);
-t_bool	ft_isspace(char c); //TODO: put all the ws chars from 7 to 13 in if statemnet
+t_bool	ft_isspace(char c);
 t_bool	ft_issep(char c);
 t_bool	ft_isqoute(char c);
+t_bool  check_sp(char *no_space);
+t_bool	check_space_between_redir(char *str1, char *str2);
+int     get_token_type(char c);
+void    free_tokens_v2(t_mbox *mbox);
 
 /* PARSER */
 t_bool	parse(t_mbox *mbox);
-void	print_parser_output(t_mbox *mbox);
 t_ast  *ast_create_node(int node_type);
 void    free_ast_v2(t_ast *root);
 void    connect_subtree(t_ast **root, t_ast *node_to_add, int on_right);
 t_bool    validate_token(t_token *token, int next_amount, int token_type);
-void	*put_syntax_error(t_mbox *mbox, t_token *error_token);
 
 /* functions for BNF notation to build an AST */
 /* job */

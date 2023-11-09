@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:33:46 by astein            #+#    #+#             */
-/*   Updated: 2023/10/29 00:56:01 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/08 22:12:25 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,23 @@
  * 			if the cmd will have an 'arg_node' prints an error instead
  * 			NOTE:
  * 			the key '?' which represents the latest exit status won't be printed
- * 
+ *
+ * 			USEFUL:
+ * 				env -i ./minishell --> no env vars will be loaded
+ * 				env -u "NAME" ./minishell --> no NAME will be in env
  * @param	mbox 
  * @param	arg_node 
  */
 void	builtin_env(t_mbox *mbox, t_ast *arg_node)
 {
-	char	*error_msg;
 	t_env_var	*cur;
 
 	if (arg_node)
-		create_error_msg("nnn", "env: ‘", arg_node->content,
+	{
+		put_err_msg("nnn", "env: ‘", arg_node->content,
 			"’: No such file or directory");
+		set_var_value(mbox, "?", EXIT_STR_FAILURE); // shouldnt be here, return false instead
+	}
 	else
 	{
 		cur = mbox->env_vars;

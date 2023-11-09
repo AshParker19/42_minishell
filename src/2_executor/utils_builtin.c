@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:54:41 by astein            #+#    #+#             */
-/*   Updated: 2023/11/06 11:48:28 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/06 14:41:17 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,20 +62,3 @@ t_bool  is_cmd_builtin(t_mbox *mbox, char *cmd)
     return (ft_false);
 }
 
-/**
- * @brief   traverses through the ll and run builtin cmd via corresponding
- *          function pointer
- * 
- * @param   mbox 
- * @param   cmd_node 
- */
-void    run_cmd_builtin(t_mbox *mbox, t_ast *cmd_node)
-{
-    int i;
-    
-    i = -1;
-    while (mbox->executor.builtins[++i].cmd_name)
-        if (str_cmp_strct(mbox->executor.builtins[i].cmd_name,
-            cmd_node->content))
-            mbox->executor.builtins[i].func_name(mbox, cmd_node->right);
-}

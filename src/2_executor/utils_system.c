@@ -6,16 +6,18 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 13:07:56 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/31 22:52:34 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/08 23:57:32 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+//TODO: rename file to cmd_system and the other one to cmd_builtin
+
 /*
 abs = true = full path absoulte path
 abs = false = relatvie path*/
-static char    *get_cmd_path(t_mbox *mbox, char *cmd, int i, t_bool abs)
+char    *get_cmd_path(t_mbox *mbox, char *cmd, int i, t_bool abs)
 {
 	int     check;
 	char    *path;
@@ -25,7 +27,7 @@ static char    *get_cmd_path(t_mbox *mbox, char *cmd, int i, t_bool abs)
 	path_dirs = ft_split(get_var_value(mbox, "PATH"), ':');
 	if (!path_dirs)
 	{
-		create_error_msg("nnn", ERR_PROMT, cmd, ": No such file or directory");
+		put_err_msg("nnn", ERR_PROMT, cmd, ": No such file or directory");
 		exit(0);//TODO: check frees and exit status
 	}
 	path = NULL;
@@ -72,46 +74,38 @@ static char    *get_cmd_path(t_mbox *mbox, char *cmd, int i, t_bool abs)
 void get_cmd_av(t_mbox *mbox, t_ast *cmd_node)
 {
 	char    *cur_args_str;
-	char    *temp;
+	char	*lim_split;
+	char	*lim_null;
 	
 	if (!cmd_node && !cmd_node->content) //TODO: not sure if it need a content
 		return ;
 	cur_args_str = get_cmd_path(mbox, cmd_node->content, -1, ft_false);
 	if (!cur_args_str)
 		return ;
+	lim_split = ft_chr2str(add_offset('+'));
+	lim_null = ft_chr2str(add_offset('-'));
 	while (cmd_node->right)
 	{
-		if (cmd_node->right->content)
-		{
-			temp = ft_strcat_multi(3, cur_args_str, "|", cmd_node->right->content);
-			free (cur_args_str);
-			cur_args_str = temp;
-		}
+		cur_args_str = append_str(cur_args_str, lim_split, ft_false);
+		if (cmd_node->right->content[0] == '\0')
+			cur_args_str = append_str(cur_args_str, lim_null, ft_false);
+		else if (cmd_node->right->content)
+			cur_args_str = append_str(cur_args_str, cmd_node->right->content,
+				ft_false);
 		cmd_node = cmd_node->right;
 	}
-	mbox->executor.cmd_av = ft_split(cur_args_str, '|');
-	free(cur_args_str);
+	mbox->executor.cmd_av = ft_split(cur_args_str, add_offset('+'));
+	int i = -1;
+	while(mbox->executor.cmd_av[++i])
+	{
+		if(str_cmp_strct(mbox->executor.cmd_av[i], lim_null))
+		{
+			free(mbox->executor.cmd_av[i]);
+			mbox->executor.cmd_av[i] = "\0";
+		}
+	}
+	free_whatever("ppp", cur_args_str, lim_null, lim_split);
 }
 
-void    run_cmd_system(t_mbox *mbox, t_ast *cmd_node)
-{
-	char	*error_msg;
-	char	*abs_cmd_path;
-	
-		if (mbox->executor.io.cmd_fd[CMD_IN] != -1)
-			close(mbox->executor.io.cmd_fd[CMD_IN]);
-		if (mbox->executor.io.cmd_fd[CMD_OUT] != -1)
-			close(mbox->executor.io.cmd_fd[CMD_OUT]);
-		abs_cmd_path = NULL;
-		get_cmd_av(mbox, cmd_node);
-		if (mbox->executor.cmd_av)
-		{
-			abs_cmd_path = get_cmd_path(mbox, cmd_node->content, -1, ft_true);
-			execve(abs_cmd_path, mbox->executor.cmd_av, env_to_matrix(mbox));
-		}
-		if (abs_cmd_path)
-			free (abs_cmd_path);
-		create_error_msg("nnn", "command '", cmd_node->content, "' not found");
-		free_and_close_box_v2(mbox);
-}
+
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 15:05:22 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/28 23:14:47 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/02 19:03:39 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,23 +58,3 @@ t_bool	ft_isspace(char c)
 		|| c == '\b' || c == '\f' || c == '\r');
 }
 
-/**
- * @brief	frees the ll of all tokens if it was allocated
- * 			
- * 			NOTE: function should only be called by 'free_cycle'
- * 
- * @param mbox 
- */
-void free_tokens_v2(t_mbox *mbox)
-{
-	t_token *cur;
-
-	while(mbox->tokens)
-	{
-		cur = mbox->tokens;
-		mbox->tokens = mbox->tokens->next;
-		free(cur->value);
-		free(cur);
-	}
-	mbox->tokens = NULL;
-}

@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 11:45:50 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/06 14:29:37 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/08 22:13:33 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void    builtin_history(t_mbox *mbox, t_ast *arg_node)
 {
     t_history   *cur;
 
+    (void)arg_node;
     cur = mbox->history;
     while (cur)
     {

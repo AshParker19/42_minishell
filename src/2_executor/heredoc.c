@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:00:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/31 23:04:23 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/09 14:15:31 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,47 +34,6 @@
  *
  *              4.  SIGNALS TODO:
  */
-
-
-/**
- * @brief   this function gets a string and should return a copied str of the
- *          key. the key will be returned.
- *          
- *          the index i will be shifted!
- * 
- * @param str 
- * @return char* 
- */
-static  char *get_key(t_mbox *mbox, char *str, int *i)
-{
-    char    *key;
-
-    key = NULL;
-    if (!str)
-        return (key);
-    if (str[*i] == '?')
-    {
-        
-        return (ft_chr2str('?'));
-    }
-    if (!ft_isalpha(str[(*i)+1]) && str[(*i)+1] != '_')
-    {
-        (*i)--;
-        return(key);
-    }
-    while(str[*i])
-    {
-        if (ft_isalnum(str[*i]) || str[*i] == '_')
-            key = append_str(key, ft_chr2str(str[*i]), ft_true);
-        else
-        {
-            (*i)--;
-            return (key);
-        }
-        (*i)++;
-    }   
-    return (key);
-}
 
 
 /**
@@ -117,7 +76,7 @@ static char   *expand_heredoc_input(t_mbox *mbox, char *str)
             if (found_dollar)
             {
                 found_dollar = ft_false;
-                key = get_key(mbox, str, &i);
+                key = get_key(str, &i);
                 if (!key)
                     expanded_str = append_str(expanded_str, "$", ft_false);
                 else if (str_cmp_strct(key, "$"))
@@ -169,7 +128,7 @@ static  t_bool check_lim_qoutes(char **str)
     while ((*str)[++i])
     {
         old_quote_state = quote_state;
-        update_qoute_state(&quote_state, add_offset((*str)[i]));
+        update_qoute_state(&quote_state, add_offset((*str)[i]), ft_true);
         if ((*str)[i] == '\'' || (*str)[i] == '"')
             expand_vars = ft_false;
         if (old_quote_state == quote_state)
@@ -204,7 +163,7 @@ static  void heredoc_child(t_mbox *mbox, int *fd, char *delimiter)
         cur_line = get_next_line(STDIN_FILENO);
         if (!cur_line)
         {
-            create_error_msg("nnynyn", ERR_PROMT, "warning: here-document at line ", ft_itoa(mbox->count_cycles), " delimited by end-of-file (wanted `", ft_strtrim(delimiter, "\n"), "')");
+            put_err_msg("nnynyn", ERR_PROMT, "warning: here-document at line ", ft_itoa(mbox->count_cycles), " delimited by end-of-file (wanted `", ft_strtrim(delimiter, "\n"), "')");
             exit_heredoc_child(mbox, fd, delimiter);
         }
         if (str_cmp_strct(cur_line, delimiter))
@@ -227,20 +186,21 @@ int    heredoc(t_mbox *mbox, t_ast *redir_node, int *cmd_in_fd)
 {
     int     fd[2];
     int     status;
+    int     pid_hd;
 
     if (pipe(fd) < 0)
-        exit (1);//TODO:
+        err_free_and_close_box(mbox, EXIT_FAILURE);
     update_signals(SIGNAL_PARENT);
-    int pid = fork();
-    if (pid < 0)
-       exit (1);//TODO:
-    if (pid == 0)
+    pid_hd = fork();
+    if (pid_hd < 0)
+        err_free_and_close_box(mbox, EXIT_FAILURE);
+    if (pid_hd == 0)
     {
         dprintf (2, "HEREDOC PID %d\n", getpid());
         heredoc_child(mbox, fd, redir_node->content);
     }
     close(fd[P_LEFT]);
-    waitpid(pid, &status, 0);
+    waitpid(pid_hd, &status, 0);
     update_signals(SIGNAL_CHILD);
     if (WIFEXITED(status))
         status = WEXITSTATUS(status);
@@ -253,5 +213,6 @@ int    heredoc(t_mbox *mbox, t_ast *redir_node, int *cmd_in_fd)
         status = 1;
     if (status == 0)
         *cmd_in_fd = fd[P_RIGHT]; // info was written to the reaad end and will be redirected later using dup2
+    close(fd[P_RIGHT]);    
     return (status); //TODO:
 }

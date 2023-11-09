@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:49:13 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/06 13:00:24 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/08 01:46:17 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	initialize_box_v2(t_mbox *mbox, char **env)
 	mbox->executor.pid = NULL;
 	mbox->executor.cmd_av = NULL;
 	mbox->count_cycles = 0;
+	mbox->print_info = ft_false;
 }
 
 /**
@@ -81,7 +82,6 @@ void free_and_close_box_v2(t_mbox *mbox)
 	free_cycle_v2(mbox);
 	free_history(mbox);
 	free_vars_v2(mbox);
-	//TODO: free history
-	dprintf (2, "\n---\nFREE AND CLOSE BOX EXECUTED FOR\n\tPID (%d)\n\tEXIT STATUS (%d)\n---\n", getpid(), exit_status);
+	// dprintf (2, "\n---\nFREE AND CLOSE BOX EXECUTED FOR\n\tPID (%d)\n\tEXIT STATUS (%d)\n---\n", getpid(), exit_status);
     exit(exit_status);
 }

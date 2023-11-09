@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:32:55 by astein            #+#    #+#             */
-/*   Updated: 2023/10/29 00:29:27 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/07 23:14:09 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,6 @@ void	builtin_pwd(t_mbox *mbox, t_ast *arg_node)
 {
     (void) arg_node;
 
-	ft_putendl_fd(get_var_value(mbox, "PWD"), mbox->executor.io.cmd_fd[CMD_OUT]);
+	ft_putendl_fd(getcwd(NULL, 0), mbox->executor.io.cmd_fd[CMD_OUT]);
 }
 

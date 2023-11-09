@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 21:35:50 by astein            #+#    #+#             */
-/*   Updated: 2023/10/28 21:41:31 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/08 22:32:56 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
  * 				ft_false	if the 'key" wasn"t found in linked list
  * 							if the 'ket' is NULL
  */
-t_bool   is_var(t_mbox *mbox, char *key)
+t_bool   is_var(const t_mbox *mbox, const char *key)
 {
     t_env_var   *cur;
 
@@ -53,6 +53,7 @@ void	increment_shlvl(t_mbox *mbox)
 	int     cur_shlvl_int;
     char    *cur_shlvl_str;
     char    *cur_real_shlvl_str;
+    char    *new_value;
 	
     cur_shlvl_str = get_var_value(mbox, "SHLVL");
 	cur_shlvl_int = ft_atoi(cur_shlvl_str);
@@ -61,7 +62,9 @@ void	increment_shlvl(t_mbox *mbox)
         cur_shlvl_int = 1;
     else
         cur_shlvl_int++;
-    set_var_value(mbox, "SHLVL", ft_itoa(cur_shlvl_int));
+    new_value = ft_itoa(cur_shlvl_int);
+    set_var_value(mbox, "SHLVL", new_value);
+    free(new_value);
     cur_real_shlvl_str = ft_itoa(cur_shlvl_int);
 }
 
@@ -71,7 +74,7 @@ void	increment_shlvl(t_mbox *mbox)
  * @param	env_var	
  * @return	int 	
  */
-static int  env_counter(t_env_var *env_var)
+static int  env_counter(const t_env_var *env_var)
 {
     if (!env_var)
         return (0);
@@ -85,7 +88,7 @@ static int  env_counter(t_env_var *env_var)
  * @param	mbox	mbox is a struct that stores all runtime related infos
  * @return char**	
  */
-char **env_to_matrix(t_mbox *mbox)
+char **env_to_matrix(const t_mbox *mbox, const t_bool put_quotes)
 {
     char    **env_matrix;
     t_env_var   *cur_var;
@@ -97,12 +100,20 @@ char **env_to_matrix(t_mbox *mbox)
     cur_var = mbox->env_vars;
     env_matrix = ft_calloc(count_vars + 1, sizeof(char *));
     if (!env_matrix)
+    {
+        dprintf (2, "HERE\n");
         return (NULL);
+    }
     while (++i < count_vars)
     {
 		if (!str_cmp_strct(cur_var->key, "?"))
 		{
-			env_matrix[i] = ft_strcat_multi(3, cur_var->key, "=" , cur_var->value);
+            if (put_quotes)
+			    env_matrix[i] = ft_strcat_multi(4, cur_var->key, "=\"" ,
+                    cur_var->value, "\"");
+            else
+			    env_matrix[i] = ft_strcat_multi(3, cur_var->key, "=" ,
+                    cur_var->value);
 			cur_var = cur_var->next;
 		}
     }
@@ -119,6 +130,8 @@ char **env_to_matrix(t_mbox *mbox)
  */
 void    *free_var_v2(t_env_var *temp)
 {
+    if  (!temp)
+        return (NULL);    
     if (temp->key)
         free(temp->key);
     if(temp->value)
