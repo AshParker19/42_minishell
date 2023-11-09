@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_limiter.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 15:45:25 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/08 23:57:06 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/09 20:48:10 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ char *extract_limiter(t_mbox *mbox, int *k, int *quote_state)
     while (mbox->inp_shift[*k])
     {
         cur_char = mbox->inp_shift[*k];
-        update_qoute_state(quote_state, cur_char, ft_true);
+        update_quote_state(quote_state, cur_char, ft_true);
         if (cur_char != NO_SPACE)
             lim_start = ft_true;
         if (lim_start)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_manager.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 15:35:02 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/08 22:07:03 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/09 20:48:10 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ enum e_three_branch
 
 /* HANDLE QUOTES */
 t_bool  shift_context_chars(t_mbox *mbox, int i, int quote_state);
-void 	update_qoute_state(int *quote_state, char cur_char, t_bool shift);
+void 	update_quote_state(int *quote_state, char cur_char, t_bool shift);
 
 /* VARIABLES EXPANSION */
 t_bool  expand_variables(t_mbox *mbox, int k, int quote_state);

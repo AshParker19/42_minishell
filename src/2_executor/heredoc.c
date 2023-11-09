@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:00:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/09 18:24:58 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/09 20:48:10 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ static t_bool	check_lim_qoutes(char **str)
 	while ((*str)[++i])
 	{
 		old_quote_state = quote_state;
-		update_qoute_state(&quote_state, add_offset((*str)[i]), ft_true);
+		update_quote_state(&quote_state, add_offset((*str)[i]), ft_true);
 		if ((*str)[i] == '\'' || (*str)[i] == '"')
 			expand_vars = ft_false;
 		if (old_quote_state == quote_state)

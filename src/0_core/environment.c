@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   environment.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:16:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/08 22:15:37 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/09 21:41:34 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,8 @@ void load_vars_v2(t_mbox *mbox)
 }
 
 /**
- * @brief	Returns a pointer to the given key. if key doesnt exists NULL
+ * @brief	Returns a pointer to the value of the given key.
+ * 			if key doesnt exists NULL
  * 
  * @param	mbox	mbox is a struct that stores all runtime related infos
  * @param	key		key of the desired key value pair

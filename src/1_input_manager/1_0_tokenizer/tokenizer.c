@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 12:11:14 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/06 18:20:18 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/09 20:48:10 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ static void	split_by_sep(t_mbox *mbox, char *str, int i, int quote_state)
 {
 	while (*str)
 	{
-		update_qoute_state(&quote_state, *str, ft_true);
+		update_quote_state(&quote_state, *str, ft_true);
 		if (quote_state == OUT_Q)
 		{
 			just_word(mbox, str, &i);
@@ -133,7 +133,7 @@ static void	split_by_sep(t_mbox *mbox, char *str, int i, int quote_state)
 			{
 				if (quote_state == OUT_Q)
 					break ;
-				update_qoute_state(&quote_state, str[i], ft_true);
+				update_quote_state(&quote_state, str[i], ft_true);
 				i++;
 			}
 			if (quote_state != OUT_Q)

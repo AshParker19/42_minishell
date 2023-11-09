@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shifter.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 14:36:59 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/08 23:39:18 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/09 20:53:08 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 static void empty_quotes(t_mbox *mbox, int i, t_bool check_prev);
 
 /**
- *  //TODO: rewrite because now we have 3 arguments
  * @brief   accepts an address of quote_state to update it using
+ *  		TODO: rewrite because now we have 3 arguments
  *          call by reference and accepts the cur char of the srting
  *          checks the cur quote state and compares it to single or double 
  *          quotes characters.
@@ -30,7 +30,7 @@ static void empty_quotes(t_mbox *mbox, int i, t_bool check_prev);
  * @param   quote_state 
  * @param   cur_char 
  */
-void update_qoute_state(int *quote_state, char cur_char, t_bool shift)
+void update_quote_state(int *quote_state, char cur_char, t_bool shift)
 {
     char    single_q;
     char    double_q;
@@ -137,7 +137,7 @@ static void empty_quotes(t_mbox *mbox, int i, t_bool check_prev)
     {
         cur_c = mbox->inp_trim[i];
         quote_state_old = quote_state;
-        update_qoute_state(&quote_state, mbox->inp_trim[i], ft_false);
+        update_quote_state(&quote_state, mbox->inp_trim[i], ft_false);
         if (quote_state != quote_state_old)
         {
             if (check_if_shift(mbox, i, check_prev, quote_state))
@@ -148,7 +148,7 @@ static void empty_quotes(t_mbox *mbox, int i, t_bool check_prev)
                     mbox->inp_shift[i] = NO_SPACE;
                 mbox->inp_shift[i + 1] = NO_SPACE;
                 // cur_c = mbox->inp_trim[i++];
-                update_qoute_state(&quote_state, mbox->inp_trim[++i], ft_false);
+                update_quote_state(&quote_state, mbox->inp_trim[++i], ft_false);
             }
         }
         if (!check_prev)
@@ -172,14 +172,11 @@ static void empty_quotes(t_mbox *mbox, int i, t_bool check_prev)
  * @param   quote_state 
  * @return  t_bool 
  */
-// TODO: RENAME FUCNTIOn
 t_bool  shift_context_chars(t_mbox *mbox, int i, int quote_state)
 {
     mbox->inp_shift = ft_strdup(mbox->inp_trim);
     empty_quotes(mbox, 0, ft_true);
     display_info_str(mbox, "empty quotes", mbox->inp_shift);
-
-    //TODO: use update_wuote_state() because we changed it
     while (mbox->inp_shift[i])
     {
         if(quote_state == OUT_Q && ft_isqoute(mbox->inp_shift[i]))
