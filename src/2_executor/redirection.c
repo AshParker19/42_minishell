@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:47:15 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/09 13:54:57 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/09 16:15:07 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,7 @@ static  t_bool setup_redir_in(t_mbox *mbox, t_ast *redir_node, int *in_fd)
     {
         if (*in_fd != -1)
             close (*in_fd);
-        if(heredoc(mbox, redir_node, in_fd) != 0)
-            return (create_open_file_err(mbox, redir_node->content)); //TODO: CALL ANOTHER FUNCTION
-            //TODO: if return 1 - handle errors
-        if (*in_fd == -1)
-            return (create_open_file_err(mbox, redir_node->content));
+        heredoc(mbox, redir_node, in_fd);
     }
     return (ft_true);
 }

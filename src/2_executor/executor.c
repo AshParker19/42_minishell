@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:19:44 by astein            #+#    #+#             */
-/*   Updated: 2023/11/09 14:02:43 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/09 18:30:49 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ static void perform_child(t_mbox *mbox, t_ast *cmd_node, int cmd_pos, int *cur_p
 		mbox->executor.io.cmd_fd[CMD_OUT] = STDOUT_FILENO;
 	}
 	setup_pipes(mbox, cur_pipe);
+	if (!configure_redir(mbox, cmd_node->left))
+		free_and_close_box_v2(mbox);
 	if (cmd_pos == FIRST_CMD || cmd_pos == MIDDLE_CMD)
 		close(cur_pipe[P_RIGHT]);
 	if (cmd_pos != FIRST_CMD && mbox->executor.io.prev_pipe[P_RIGHT] != -1)
 		close(mbox->executor.io.prev_pipe[P_RIGHT]);
-	if (!configure_redir(mbox, cmd_node->left))
-		free_and_close_box_v2(mbox);
 	setup_process_std(mbox);
 	run_cmd_main(mbox, cmd_node);
 	free_and_close_box_v2(mbox);
@@ -92,17 +92,15 @@ static void    wait_for_execution(t_mbox *mbox)
 	if (mbox->executor.pid_index != 0)
 	{
 		while (++i < cmd_counter(mbox->root))
-		{
 			waitpid(mbox->executor.pid[i], &exit_status, 0);
-			exit_status_str = ft_itoa(exit_status);
-			set_var_value(mbox, "?", exit_status_str);
-			free (exit_status_str);		
-		}
-		if (WIFEXITED(exit_status))
+		if (g_signal_status == 0)
 		{
-			exit_status_str = ft_itoa(WEXITSTATUS(exit_status));
-			set_var_value(mbox, "?", exit_status_str);
-			free (exit_status_str);		
+			if (WIFEXITED(exit_status))
+			{
+				exit_status_str = ft_itoa(WEXITSTATUS(exit_status));
+				set_var_value(mbox, "?", exit_status_str);
+				free (exit_status_str);		
+			}
 		}
 			//TODO: wait for signal too
 	}

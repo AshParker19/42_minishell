@@ -125,3 +125,14 @@ maybe the remove conte
 
 #### Executing Builtin Commands
 
+
+
+HEREDOC EXIT AND SIGNALS
+
+FUNCTION	CASE			RETURN VALUE	FD	EXIT STATUS	ERROR MSG
+open		NORMAL FILE		42		42	-		NO
+open		NO PERMISSION TO FILE	-1		-1	-		YES
+
+heredoc		ended with LIM		0		PIPE	0		NO
+heredoc		ended with CTRL C	130		PIPE	130		NO
+heredoc		ended with CTRL D	0		PIPE	0		> bash: warning: here-document at line 21 delimited by end-of-file (wanted `lol')

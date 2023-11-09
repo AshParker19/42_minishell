@@ -145,3 +145,6 @@ DOT:
 
 stats:
 	./count_stats.sh
+
+run: all
+	./minishell
