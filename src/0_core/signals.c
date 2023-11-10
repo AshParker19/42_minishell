@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 19:30:56 by anshovah          #+#    #+#             */
-/*   Updated: 2023/10/31 23:08:10 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/09 17:50:59 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,12 @@ static void signal_handler(int signal)
     if (signal == SIGINT)
     {
         // PRINT NEW PROMT
+		g_signal_status = SIGNAL_NEW_LINE;
         write(STDIN_FILENO, "\n", 1);
         write(1, PROMT, ft_strlen(PROMT));
         rl_replace_line("", 1);
+		// if in heredoc
+		// amd ctrl c
     }
 }
 

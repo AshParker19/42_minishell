@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:00:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/09 14:15:31 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/09 20:48:10 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
 /**
  * @brief	This file deals with all heredoc related topics
@@ -35,7 +35,6 @@
  *              4.  SIGNALS TODO:
  */
 
-
 /**
  * @brief   this function will be called for each line that will be inserted
  *          into the heredoc. its purpose is to look for dollar signs and
@@ -56,43 +55,44 @@
  * @param   str     
  * @return  char*   
  */
-static char   *expand_heredoc_input(t_mbox *mbox, char *str)
+static char	*expand_heredoc_input(t_mbox *mbox, char *str)
 {
-    int     i;
-    t_bool  found_dollar;
-    char    *expanded_str;
-    char    *key;
-    
-    i = -1;
-    found_dollar = ft_false;
-    expanded_str = NULL;
-    key = NULL;
-    while (str[++i])
-    {
-        if (!found_dollar && str[i] == '$')
-            found_dollar = ft_true;
-        else
-        {
-            if (found_dollar)
-            {
-                found_dollar = ft_false;
-                key = get_key(str, &i);
-                if (!key)
-                    expanded_str = append_str(expanded_str, "$", ft_false);
-                else if (str_cmp_strct(key, "$"))
-                    expanded_str = append_str(expanded_str, key, ft_false);
-                else
-                    expanded_str = append_str(expanded_str, get_var_value(mbox, key), ft_false);
-                free(key);
-            }
-            else
-                expanded_str = append_str(expanded_str, ft_chr2str(str[i]), ft_true);
-        }
-    }
-    free (str);
-    return (expanded_str);
-}
+	int		i;
+	t_bool	found_dollar;
+	char	*expanded_str;
+	char	*key;
 
+	i = -1;
+	found_dollar = ft_false;
+	expanded_str = NULL;
+	key = NULL;
+	while (str[++i])
+	{
+		if (!found_dollar && str[i] == '$')
+			found_dollar = ft_true;
+		else
+		{
+			if (found_dollar)
+			{
+				found_dollar = ft_false;
+				key = get_key(str, &i);
+				if (!key)
+					expanded_str = append_str(expanded_str, "$", ft_false);
+				else if (str_cmp_strct(key, "$"))
+					expanded_str = append_str(expanded_str, key, ft_false);
+				else
+					expanded_str = append_str(expanded_str, get_var_value(mbox,
+								key), ft_false);
+				free(key);
+			}
+			else
+				expanded_str = append_str(expanded_str, ft_chr2str(str[i]),
+						ft_true);
+		}
+	}
+	free(str);
+	return (expanded_str);
+}
 
 /**
  * @brief   a heredoc doesnt do var expansion for its input if the limiter
@@ -113,106 +113,114 @@ static char   *expand_heredoc_input(t_mbox *mbox, char *str)
  * @param str 
  * @return t_bool 
  */
-static  t_bool check_lim_qoutes(char **str)
+static t_bool	check_lim_qoutes(char **str)
 {
-    t_bool  expand_vars;
-    int     quote_state;
-    int     old_quote_state;
-    int     i;
-    char    *temp_lim;
+	t_bool	expand_vars;
+	int		quote_state;
+	int		old_quote_state;
+	int		i;
+	char	*temp_lim;
 
-    expand_vars = ft_true;
-    i = -1;
-    temp_lim = NULL;
-    quote_state = OUT_Q;
-    while ((*str)[++i])
-    {
-        old_quote_state = quote_state;
-        update_qoute_state(&quote_state, add_offset((*str)[i]), ft_true);
-        if ((*str)[i] == '\'' || (*str)[i] == '"')
-            expand_vars = ft_false;
-        if (old_quote_state == quote_state)
-            temp_lim = append_str(temp_lim, ft_chr2str((*str)[i]), ft_true);
-    }
-    free(*str);
-    *str = ft_strdup(temp_lim);
-    free(temp_lim);
-    return (expand_vars);
+	expand_vars = ft_true;
+	i = -1;
+	temp_lim = NULL;
+	quote_state = OUT_Q;
+	while ((*str)[++i])
+	{
+		old_quote_state = quote_state;
+		update_quote_state(&quote_state, add_offset((*str)[i]), ft_true);
+		if ((*str)[i] == '\'' || (*str)[i] == '"')
+			expand_vars = ft_false;
+		if (old_quote_state == quote_state)
+			temp_lim = append_str(temp_lim, ft_chr2str((*str)[i]), ft_true);
+	}
+	free(*str);
+	*str = ft_strdup(temp_lim);
+	free(temp_lim);
+	return (expand_vars);
 }
 
-static  void exit_heredoc_child(t_mbox *mbox, int *fd, char *delimiter)
+static void	exit_heredoc_child(t_mbox *mbox, int *fd, char *delimiter)
 {
-    close (fd[P_LEFT]); // close because it was WRITE END
-    free (delimiter);
-    close_process_fds_v2(mbox);
-    free_and_close_box_v2(mbox);
+	close(fd[P_LEFT]); // close because it was WRITE END
+	free(delimiter);
+	close_process_fds_v2(mbox);
+	free_and_close_box_v2(mbox);
 }
 
-static  void heredoc_child(t_mbox *mbox, int *fd, char *delimiter)
+static void	heredoc_child(t_mbox *mbox, int *fd, char *delimiter)
 {
-    char    *cur_line;
-    t_bool  expand_vars;
-    
-    close(fd[P_RIGHT]);
-    update_signals(SIGNAL_HEREDOC);
-    delimiter = ft_strjoin(delimiter, "\n");
-    expand_vars = check_lim_qoutes(&delimiter); 
-    while (true)
-    {
-        write (STDIN_FILENO, "> ", 2);
-        cur_line = get_next_line(STDIN_FILENO);
-        if (!cur_line)
-        {
-            put_err_msg("nnynyn", ERR_PROMT, "warning: here-document at line ", ft_itoa(mbox->count_cycles), " delimited by end-of-file (wanted `", ft_strtrim(delimiter, "\n"), "')");
-            exit_heredoc_child(mbox, fd, delimiter);
-        }
-        if (str_cmp_strct(cur_line, delimiter))
-        {
-            free (cur_line);
-            break ;
-        }
-        if (expand_vars && cur_line)
-            cur_line = expand_heredoc_input(mbox, cur_line);
-        write (fd[P_LEFT], cur_line, ft_strlen(cur_line));
-        free(cur_line);
-    }
-    exit_heredoc_child(mbox, fd, delimiter);
+	char	*cur_line;
+	t_bool	expand_vars;
+
+	close(fd[P_RIGHT]);
+	update_signals(SIGNAL_HEREDOC);
+	delimiter = ft_strjoin(delimiter, "\n");
+	expand_vars = check_lim_qoutes(&delimiter);
+	while (true)
+	{
+		write(STDIN_FILENO, "> ", 2);
+		cur_line = get_next_line(STDIN_FILENO);
+		if (!cur_line)
+		{
+			put_err_msg("nnynyn", ERR_PROMT, "warning: here-document at line ",
+					ft_itoa(mbox->count_cycles),
+					" delimited by end-of-file (wanted `", ft_strtrim(delimiter,
+						"\n"), "')");
+			exit_heredoc_child(mbox, fd, delimiter);
+		}
+		if (str_cmp_strct(cur_line, delimiter))
+		{
+			free(cur_line);
+			break ;
+		}
+		if (expand_vars && cur_line)
+			cur_line = expand_heredoc_input(mbox, cur_line);
+		write(fd[P_LEFT], cur_line, ft_strlen(cur_line));
+		free(cur_line);
+	}
+	exit_heredoc_child(mbox, fd, delimiter);
 }
 
-// TODO: 
+// TODO:
 //  - deal with var expansion (if LIM isnt qouted)
 //  if the var expansion turns out to be excatlly the lim str it still doesnt exit!
-int    heredoc(t_mbox *mbox, t_ast *redir_node, int *cmd_in_fd)
+void	heredoc(t_mbox *mbox, t_ast *redir_node, int *cmd_in_fd)
 {
-    int     fd[2];
-    int     status;
-    int     pid_hd;
+	int		fd[2];
+	int		exit_status;
+	char	*exit_status_str;
+	int		pid_hd;
 
-    if (pipe(fd) < 0)
-        err_free_and_close_box(mbox, EXIT_FAILURE);
-    update_signals(SIGNAL_PARENT);
-    pid_hd = fork();
-    if (pid_hd < 0)
-        err_free_and_close_box(mbox, EXIT_FAILURE);
-    if (pid_hd == 0)
-    {
-        dprintf (2, "HEREDOC PID %d\n", getpid());
-        heredoc_child(mbox, fd, redir_node->content);
-    }
-    close(fd[P_LEFT]);
-    waitpid(pid_hd, &status, 0);
-    update_signals(SIGNAL_CHILD);
-    if (WIFEXITED(status))
-        status = WEXITSTATUS(status);
-    else if (WIFSIGNALED(status))
-    {
-        status = WTERMSIG(status) + 128;
-        dprintf (2, "DDDDDDDDDDDDDDDDDDDDDDDDDDDD\nPID %d\n", getpid());
-    }
-    else
-        status = 1;
-    if (status == 0)
-        *cmd_in_fd = fd[P_RIGHT]; // info was written to the reaad end and will be redirected later using dup2
-    close(fd[P_RIGHT]);    
-    return (status); //TODO:
+	if (pipe(fd) < 0)
+		err_free_and_close_box(mbox, EXIT_FAILURE);
+	update_signals(SIGNAL_PARENT);
+	pid_hd = fork();
+	if (pid_hd < 0)
+		err_free_and_close_box(mbox, EXIT_FAILURE);
+	if (pid_hd == 0)
+	{
+		// dprintf (2, "HEREDOC PID %d\n", getpid());
+		heredoc_child(mbox, fd, redir_node->content);
+	}
+	close(fd[P_LEFT]);
+	waitpid(pid_hd, &exit_status, 0);
+	update_signals(SIGNAL_CHILD);
+	if (WIFEXITED(exit_status))
+		exit_status = WEXITSTATUS(exit_status);
+	else if (WIFSIGNALED(exit_status))
+	{
+		exit_status = WTERMSIG(exit_status) + 128;
+		dprintf(2, "DDDDDDDDDDDDDDDDDDDDDDDDDDDD\nPID %d\n", getpid());
+	}
+	else
+		exit_status = 1;
+	if (exit_status == 0)
+		*cmd_in_fd = fd[P_RIGHT];
+			// info was written to the reaad end and will be redirected later using dup2
+	// close(fd[P_RIGHT]);
+	exit_status_str = ft_itoa(exit_status);
+	set_var_value(mbox, "?", exit_status_str);
+	// dprintf(2, "{%s}{%s}\n", exit_status_str, get_var_value(mbox, "?"));
+	free(exit_status_str);
 }

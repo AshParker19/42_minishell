@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 17:55:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/08 22:10:56 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/09 16:15:27 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void    setup_process_std(t_mbox *mbox);
 t_bool    configure_redir(t_mbox *mbox, t_ast *redir_node);
 
 /* heredoc */
-int    heredoc(t_mbox *mbox, t_ast *redir_node, int *cmd_in_fd);
+void    heredoc(t_mbox *mbox, t_ast *redir_node, int *cmd_in_fd);
 char    *get_key(char *str, int *i);
 
 /* executor_utils */

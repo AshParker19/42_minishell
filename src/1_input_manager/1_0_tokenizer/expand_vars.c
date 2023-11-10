@@ -3,26 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expand_vars.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 12:58:49 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/08 22:06:46 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/10 00:29:00 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
-
-//TODO: RESTURCTURE IT AND MOVE IT INTO LIBFT
-// LOOK AT HERDOC FILE THERE IS A BETTER VERSION
-// static void appppppend_str(t_mbox *mbox, char *add_str)
-// {
-//     char    *temp;
-
-//     temp =  ft_strcat_multi(2, mbox->input_expanded, add_str);
-//     free(mbox->input_expanded);
-//     mbox->input_expanded = temp;
-// }
-
 
 /**
  * @brief	this function loops trough a string and sets all characters
@@ -53,100 +41,154 @@ static	char *mark_ws(char *str)
 	return(temp);
 }
 
-//TODO: make it less hard code so we can use it in herdoc
-static void found_key(t_mbox *mbox, int quote_s, int *k)
-{
-    int     end_of_key;
-    char    *temp_key;
-	char	*temp_value;
-    
-    end_of_key = *k;
-    while (mbox->inp_shift[end_of_key]
-            && (ft_isalnum(mbox->inp_shift[end_of_key])
-            || mbox->inp_shift[end_of_key] == '_'))
-                end_of_key++;
-    temp_key = ft_substr(mbox->inp_shift, *k, end_of_key - *k);
-	// A="ls    -l"
-	// IF THE KEY IS INSIDE OF QOUTES WE DONT CHANGE WHITESPACES
-	// 			echo "HI $A LOL"	-> HI ls     -l LOL
-	// IF THE KEY IS OUTSIDE OF QQOUTES WE REMOVE WS
-	// 			$A | wc				-> ls -l | wc	-> 42 0 0
-	temp_value = ft_strdup(get_var_value(mbox, temp_key));
-	if (quote_s == OUT_Q)
-		temp_value = mark_ws(temp_value);
-	mbox->inp_expand = append_str(mbox->inp_expand, temp_value , ft_true);
-    free(temp_key);
-    *k = end_of_key - 1;
-}
 
+/**
+ * @brief 			//TODO: Rename in expand_part
+ * 					should search for an key in str
+ * 					mbox->inp_shift at postion k.
+ * 					at beginnig k points to $ sign!
+ * 
+ * 					via 'get_key" a key will be found and the index k shiftet
+ * 					if found a key
+ * 						append expansion via 'append_str' to 'mbox->inp_expand'
+ * 					else
+ * 						reason can be those:
+ * 
+ * 					1.dollar is at end of string (Hello$)
+ * 						->append the $ sign
+ * 					2.$"asd"
+ * 					3.for $| or $> or $<
+ * 					4.$@lol
+ * 
+ * @param mbox 
+ * @param quote_s 
+ * @param k 
+ * @param cur_c 
+ */
 static void found_dollar(t_mbox *mbox, int quote_s, int *k, char cur_c)
 {
-    int     old_qoute_s;
+	char	*key;
+	
+	(*k)++;
+	key = get_key(mbox->inp_shift, k);
+	if(key)
+		mbox->inp_expand = append_str(mbox->inp_expand, get_var_value(mbox, key), ft_false);
+	else
+	{
+// no key means:
+		// only dollar (end of string)	-> print dollar					Hello$
+		(*k)++;
+		if(!mbox->inp_shift[*k] || mbox->inp_shift[*k] == '$')
+		{
+			mbox->inp_expand = append_str(mbox->inp_expand, "$", ft_false);
+		}
+		// $"SMTH"						-> skipp dollar					$"Hi"	//FIXME: << $""''USER"" cat this wont work maybe?
+		else if(quote_s == add_offset('"') && mbox->inp_shift[*k] == '\'')
+			mbox->inp_expand = append_str(mbox->inp_expand, "$", ft_false);
+		//  for $| or $> or $<
+		else if(mbox->inp_shift[*k] < 0)
+			mbox->inp_expand = append_str(mbox->inp_expand, "$", ft_false);
+		// $wrong key					-> skipp dollar and one char	$!LOL
+		else if (!ft_isalpha(mbox->inp_shift[*k]) && mbox->inp_shift[*k] != '_')
+			(*k)++;
+		(*k)--;
+	}
     
-    old_qoute_s = quote_s;
-    (*k)++;
-    cur_c = mbox->inp_shift[*k];
-    if (cur_c != '\0')
-    {
-        update_qoute_state(&quote_s, cur_c, ft_true);
-        if (quote_s != old_qoute_s)
-            mbox->inp_expand = append_str(mbox->inp_expand, ft_chr2str(cur_c), ft_true);
-        else if (cur_c == '?')
-            mbox->inp_expand = append_str(mbox->inp_expand, get_var_value(mbox, "?"), ft_false);
-        else if (cur_c == NO_SPACE || ft_isspace(cur_c))
-            mbox->inp_expand = append_str(mbox->inp_expand, "$", ft_false);
-        else if (ft_isalnum(cur_c) || cur_c == ' ')
-            found_key(mbox, quote_s, k);
-        else if(cur_c == '\'' || cur_c == '"')
-        {
-            mbox->inp_expand = append_str(mbox->inp_expand, "$", ft_false);
-            mbox->inp_expand = append_str(mbox->inp_expand, ft_chr2str(cur_c), ft_true);
-        }
-    }
-    else
-        mbox->inp_expand = append_str(mbox->inp_expand, ft_chr2str('$'), ft_true);
+	free(key);
 }
+
+/**
+ * @brief	counts the occurens of < symbols
+ * 			if two in a row the next thing will be the lummiter
+ * 			since the lim has a special expansion it will be dealt with here
+ * 
+ * @param mbox 
+ * @param k 
+ * @param quote_s 
+ * @param cur_c 
+ * @return t_bool 
+ */
+static t_bool detect_heredoc(t_mbox *mbox, int *k, int quote_s, char cur_c)
+{
+	static int     consecutive_lt; //FIXME: NOT SURE IF STATIC IS NESSESSARY
+
+	if (quote_s == OUT_Q)
+	{
+		if (remove_offset(cur_c) == '<')
+			consecutive_lt++;
+		else
+			consecutive_lt = 0;
+	}
+	if (consecutive_lt == 2)
+	{
+		mbox->inp_expand = append_str(mbox->inp_expand, ft_chr2str(cur_c), ft_true);
+		mbox->inp_expand = append_str(mbox->inp_expand, extract_limiter(mbox, k, &quote_s), ft_true);
+		return (ft_true);
+	}
+	return (ft_false);
+}
+
 
 /*
 	traverses through the input string, locates all the variable
 	names checking for a dollar sign, then replaces all the variable names
     by their values which are received from the environment
+
+	NEW COMMENT 10.11.2023
+	if founda  dollar pasing the index of the dollar to the function
+	'found_dollar' this function will deal with the expansion
+
+	'detect_heredoc' this function delals with the a little bit different
+	ar xpansion for herdoc limmiter.!
+	
 */
 t_bool  expand_variables(t_mbox *mbox, int k, int quote_state)
 {
-    char    cur_char;
-    int     consecutive_lt;
+    char    cur_c;
+    // int     consecutive_lt;
 
-    consecutive_lt = 0;
+    // consecutive_lt = 0;
     
     mbox->inp_expand = NULL;
     while (mbox->inp_shift[k])
     {
-        cur_char = mbox->inp_shift[k];
-        update_qoute_state(&quote_state, cur_char, ft_true);
-        if (quote_state == OUT_Q)
-        {
-            if (remove_offset(cur_char) == '<')
-                consecutive_lt++;
+		cur_c = mbox->inp_shift[k];
+        update_quote_state(&quote_state, cur_c, ft_true);
+		if(!detect_heredoc(mbox, &k, quote_state, cur_c))
+		{
+			if (quote_state != add_offset('\'') && cur_c == '$') 
+                found_dollar(mbox, quote_state, &k, cur_c);
             else
-                consecutive_lt = 0;
-        }
-        if (consecutive_lt == 2)
-        {
-            mbox->inp_expand = append_str(mbox->inp_expand, ft_chr2str(cur_char), ft_true);
-            mbox->inp_expand = append_str(mbox->inp_expand, extract_limiter(mbox, &k, &quote_state), ft_true);
-        }
-        else
-        {
-            if (quote_state != add_offset('\'') && cur_char == '$') 
-                found_dollar(mbox, quote_state, &k, cur_char);
-            else
-            mbox->inp_expand = append_str(mbox->inp_expand, ft_chr2str(cur_char), ft_true);
-        }
-        k++;
+         	   mbox->inp_expand = append_str(mbox->inp_expand, ft_chr2str(cur_c), ft_true);
+		}
+ 		k++;
+		
+
+		//old
+        // cur_c = mbox->inp_shift[k];
+        // update_quote_state(&quote_state, cur_c, ft_true);
+        // if (quote_state == OUT_Q)
+        // {
+        //     if (remove_offset(cur_c) == '<')
+        //         consecutive_lt++;
+        //     else
+        //         consecutive_lt = 0;
+        // }
+        // if (consecutive_lt == 2)
+        // {
+        //     mbox->inp_expand = append_str(mbox->inp_expand, ft_chr2str(cur_c), ft_true);
+        //     mbox->inp_expand = append_str(mbox->inp_expand, extract_limiter(mbox, &k, &quote_state), ft_true);
+        // }
+        // else
+        // {
+        //     if (quote_state != add_offset('\'') && cur_c == '$') 
+        //         found_dollar(mbox, quote_state, &k, cur_c);
+        //     else
+        //  	   mbox->inp_expand = append_str(mbox->inp_expand, ft_chr2str(cur_c), ft_true);
+        // }
+        // k++;
     }
-    // TODO: if expanded is NULLE RETURN FALS
-    if (!mbox->inp_expand)
+    if (!mbox->inp_expand || mbox->inp_expand[0] == '\0')
         return (ft_false);
     return (ft_true);    
 }
