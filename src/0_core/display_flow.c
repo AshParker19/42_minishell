@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   display_flow.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 19:11:12 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/08 22:05:21 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/10 12:30:26 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,12 @@
  * @param	txt 
  * @param	free_it 
  */
-static void put_text_center(char *txt, t_bool free_it)
+static void put_text_center(char *txt, t_bool free_it, char *clr)
 {
 	int wordlen;
 	int i;
 	
+	printf("%s", clr);
 	if (!txt)
 		return ;
 	wordlen = ft_strlen(txt);
@@ -42,6 +43,7 @@ static void put_text_center(char *txt, t_bool free_it)
 	printf("|\n");
 	if (free_it)
 		free(txt);
+	printf("%s", RESET);
 }
 
 /**
@@ -56,30 +58,20 @@ static void put_text_center(char *txt, t_bool free_it)
  * @param	top_part 
  * @param	i 
  */
-void	put_headline(char *caption, char *data, t_bool top_part, int i)
+void	put_headline(char *caption, char *data, t_bool top_part, char *clr)
 {
 	if (top_part)
 	{
-		printf(YELLOW" ");	
-		i = 0;
-		while (i++ < 40)
-			printf("-");
-		printf("\n");
-		put_text_center(caption, ft_false);
-		put_text_center(data, ft_true);
-		i = 0;
-		printf(" ");
-		while (i++ < 40)
-			printf("-");
+		print_line('-', clr);
+		put_text_center(caption, ft_false, clr);
+		put_text_center(data, ft_true, clr);
+		print_line('-', clr);
 		printf("\n"RESET);
 	}
 	else
 	{
-		printf(YELLOW " ");	
-		i = 0;
-		while (i++ < 40)
-			printf("=");
-		printf("\n\n"RESET);
+		print_line('=', clr);
+		printf("\n"RESET);
 	}
 }
 
@@ -128,7 +120,7 @@ void	display_info_str(t_mbox *mbox, char *state, char *str)
 	if (!ft_strcmp(state, "input original"))
 	{
 		printf ("\n");
-		put_headline("INPUT STATES", NULL, ft_true, 0);	
+		put_headline("INPUT STATES", NULL, ft_true, YELLOW);	
 	}
 	if (!ft_strcmp(state, "input original") ||
 		!ft_strcmp(state, "input trimmed"))
@@ -154,13 +146,13 @@ void	print_tokenizer_output(t_mbox *mbox)
 
 	if (!mbox->print_info)
 		return ;
-	put_headline("TOKENIZER", NULL, ft_true, 0);
+	put_headline("TOKENIZER", NULL, ft_true, YELLOW);
 	current = mbox->tokens;	
 	while (current)	
 	{	
 		printf ("type:(%d) \t token:(%s)\n", current->type, current->value);	
 		current = current->next;	
 	}	
-	put_headline("TOKENIZER", NULL, ft_false, 0);
+	put_headline("TOKENIZER", NULL, ft_false, YELLOW);
 }
 

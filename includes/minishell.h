@@ -161,11 +161,12 @@ void    free_tokens_v2(t_mbox *mbox);
 void    free_and_close_box_v2(t_mbox *mbox);
 
 /* display_flow.c */
-void    put_headline(char *caption, char *data, t_bool toqp_part, int i);
+void    put_headline(char *caption, char *data, t_bool top_part, char *clr);
 void	display_info_str(t_mbox *mbox, char *state, char *str);
 void	print_tokenizer_output(t_mbox *mbox);
 
 /* display_flow2.c */
+void	print_line(char symbol, char *clr);
 void	print_parser_output(t_mbox *mbox, t_bool top_part);
 void	print_executor_output(t_mbox *mbox, t_bool top_part);
 

@@ -3,14 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   display_flow2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 09:32:49 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/08 12:52:31 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/10 12:30:41 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
+
+void	print_line(char symbol, char *clr)
+{
+	int i;
+
+	i = 0;
+	printf(" ");
+	printf("%s", clr);
+	while (i++ < 40)
+		printf("%c", symbol);
+	printf("%s", RESET);
+	printf("\n");
+}
 
 /**
  * @brief	accepts an int 'type' and according to its value returns
@@ -81,11 +94,11 @@ void	print_parser_output(t_mbox *mbox, t_bool top_part)
 	if (!mbox->print_info)
 		return ;
 	if(top_part)
-		put_headline("PARSER", NULL, ft_true, 0);
+		put_headline("PARSER", NULL, ft_true, YELLOW);
 	else
 	{
 		display_ast(mbox->root, 0);
-		put_headline(NULL, NULL, ft_false, 0);
+		put_headline("PARSER", NULL, ft_false, YELLOW);
 	}
 }
 
@@ -104,13 +117,13 @@ void	print_executor_output(t_mbox *mbox, t_bool top_part)
 	if(top_part)
 	{
 		temp = ft_itoa(cmd_counter(mbox->root));
-		put_headline("EXECUTOR", ft_strcat_multi(3, "(cmd count: ",
-			temp, ")"), ft_true, 0);
+		// put_headline("EXECUTOR", ft_strcat_multi(3, "(cmd count: ",
+			// temp, ")"), ft_true, YELLOW);
 		if(!temp)
 			; // TODO: malloc error
 		else
 			free (temp);
 	}
 	else
-		put_headline(NULL, NULL, ft_false, 0);
+		put_headline(NULL, NULL, ft_false, YELLOW);
 }
