@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 12:58:49 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/09 23:43:35 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/10 00:06:12 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,46 +74,78 @@ static void found_dollar(t_mbox *mbox, int quote_s, int *k, char cur_c)
 	free(key);
 }
 
+
+static t_bool detect_heredoc(t_mbox *mbox, int *k, int quote_s, char cur_c)
+{
+	static int     consecutive_lt;
+
+	if (quote_s == OUT_Q)
+	{
+		if (remove_offset(cur_c) == '<')
+			consecutive_lt++;
+		else
+			consecutive_lt = 0;
+	}
+	if (consecutive_lt == 2)
+	{
+		mbox->inp_expand = append_str(mbox->inp_expand, ft_chr2str(cur_c), ft_true);
+		mbox->inp_expand = append_str(mbox->inp_expand, extract_limiter(mbox, k, &quote_s), ft_true);
+		return (ft_true);
+	}
+	return (ft_false);
+}
+
+
 /*
 	traverses through the input string, locates all the variable
 	names checking for a dollar sign, then replaces all the variable names
     by their values which are received from the environment
 */
-
-
-
 t_bool  expand_variables(t_mbox *mbox, int k, int quote_state)
 {
-    char    cur_char;
-    int     consecutive_lt;
+    char    cur_c;
+    // int     consecutive_lt;
 
-    consecutive_lt = 0;
+    // consecutive_lt = 0;
     
     mbox->inp_expand = NULL;
     while (mbox->inp_shift[k])
     {
-        cur_char = mbox->inp_shift[k];
-        update_quote_state(&quote_state, cur_char, ft_true);
-        if (quote_state == OUT_Q)
-        {
-            if (remove_offset(cur_char) == '<')
-                consecutive_lt++;
+		cur_c = mbox->inp_shift[k];
+        update_quote_state(&quote_state, cur_c, ft_true);
+		if(!detect_heredoc(mbox, &k, quote_state, cur_c))
+		{
+			if (quote_state != add_offset('\'') && cur_c == '$') 
+                found_dollar(mbox, quote_state, &k, cur_c);
             else
-                consecutive_lt = 0;
-        }
-        if (consecutive_lt == 2)
-        {
-            mbox->inp_expand = append_str(mbox->inp_expand, ft_chr2str(cur_char), ft_true);
-            mbox->inp_expand = append_str(mbox->inp_expand, extract_limiter(mbox, &k, &quote_state), ft_true);
-        }
-        else
-        {
-            if (quote_state != add_offset('\'') && cur_char == '$') 
-                found_dollar(mbox, quote_state, &k, cur_char);
-            else
-         	   mbox->inp_expand = append_str(mbox->inp_expand, ft_chr2str(cur_char), ft_true);
-        }
-        k++;
+         	   mbox->inp_expand = append_str(mbox->inp_expand, ft_chr2str(cur_c), ft_true);
+		}
+ 		k++;
+		
+
+		//old
+        // cur_c = mbox->inp_shift[k];
+        // update_quote_state(&quote_state, cur_c, ft_true);
+        // if (quote_state == OUT_Q)
+        // {
+        //     if (remove_offset(cur_c) == '<')
+        //         consecutive_lt++;
+        //     else
+        //         consecutive_lt = 0;
+        // }
+        // if (consecutive_lt == 2)
+        // {
+        //     mbox->inp_expand = append_str(mbox->inp_expand, ft_chr2str(cur_c), ft_true);
+        //     mbox->inp_expand = append_str(mbox->inp_expand, extract_limiter(mbox, &k, &quote_state), ft_true);
+        // }
+        // else
+        // {
+        //     if (quote_state != add_offset('\'') && cur_c == '$') 
+        //         found_dollar(mbox, quote_state, &k, cur_c);
+        //     else
+        //  	   mbox->inp_expand = append_str(mbox->inp_expand, ft_chr2str(cur_c), ft_true);
+        // }
+        // k++;
     }
     if (!mbox->inp_expand || mbox->inp_expand[0] == '\0')
         return (ft_false);

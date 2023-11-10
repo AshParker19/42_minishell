@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:06:17 by astein            #+#    #+#             */
-/*   Updated: 2023/11/09 18:07:22 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/09 23:58:56 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,15 @@ static void check_args(t_mbox *mbox, int ac, char **av)
 		return ;
 	if (ac == 2)
 	{
-		if (av[1] && str_cmp_strct(av[1], "--info"))
+		if (av[1] && (str_cmp_strct(av[1], "--info")
+			|| str_cmp_strct(av[1], "-i")))
 		{
 			mbox->print_info = ft_true;
 			printf(PURPLE"----\nADDITIONAL INFO WILL BE PRINTED!\n----\n"RESET);
 			return ;
 		}
 		else
-			put_err_msg("nn", ERR_PROMT, "wrong argument!\nuse: '--info'\n");
+			put_err_msg("nn", ERR_PROMT, "wrong argument!\nuse: -i ('--info')\n");
 	}
 	else
 		put_err_msg("nn", ERR_PROMT, "wrong number of arguments!");
