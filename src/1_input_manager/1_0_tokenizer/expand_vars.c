@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 12:58:49 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/10 00:29:00 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/10 17:07:17 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,16 +110,14 @@ static void found_dollar(t_mbox *mbox, int quote_s, int *k, char cur_c)
  */
 static t_bool detect_heredoc(t_mbox *mbox, int *k, int quote_s, char cur_c)
 {
-	static int     consecutive_lt; //FIXME: NOT SURE IF STATIC IS NESSESSARY
-
 	if (quote_s == OUT_Q)
 	{
 		if (remove_offset(cur_c) == '<')
-			consecutive_lt++;
+			mbox->consecutive_lt++;
 		else
-			consecutive_lt = 0;
+			mbox->consecutive_lt = 0;
 	}
-	if (consecutive_lt == 2)
+	if (mbox->consecutive_lt == 2)
 	{
 		mbox->inp_expand = append_str(mbox->inp_expand, ft_chr2str(cur_c), ft_true);
 		mbox->inp_expand = append_str(mbox->inp_expand, extract_limiter(mbox, k, &quote_s), ft_true);

@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 17:55:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/09 16:15:27 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/10 17:08:02 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void    setup_process_std(t_mbox *mbox);
 t_bool    configure_redir(t_mbox *mbox, t_ast *redir_node);
 
 /* heredoc */
+t_mbox	*get_mbox(t_mbox *mbox);
 void    heredoc(t_mbox *mbox, t_ast *redir_node, int *cmd_in_fd);
 char    *get_key(char *str, int *i);
 

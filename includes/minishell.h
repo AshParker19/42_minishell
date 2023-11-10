@@ -105,6 +105,7 @@ typedef struct s_mbox
     char        *inp_trim;
     char        *inp_shift;
     char        *inp_expand;
+	int			consecutive_lt;
     bool        error_status;
     t_history   *history;
     t_token     *tokens;
