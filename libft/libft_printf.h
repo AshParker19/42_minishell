@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:11:36 by astein            #+#    #+#             */
-/*   Updated: 2023/11/10 17:42:06 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/10 18:12:26 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,8 @@
 // BUFFER SIZE FOR GET NEXT LINE
 //******************************************************************************
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 4096
+#  define BUFFER_SIZE 1
 # endif
-# define GNL_INTERRUPTED -111
 
 //******************************************************************************
 // PARAMS FOR print_header.c
@@ -183,7 +182,7 @@ t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 //			gnl.c
 //******************************************************************************
 char				*gnl(int fd);
-char				*gnl_stoppable(int fd, t_bool stop);
+char				*gnl_stoppable(int fd, t_bool *stop);
 void				*gnl_zero_str(char *str);
 void				gnl_len_nl(char *str, size_t *len, t_bool *flg_nl);
 char				*gnl_safe_buffer(char *line, size_t len_line, char *buffer, size_t len_cpy);

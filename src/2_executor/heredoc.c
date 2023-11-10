@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:00:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/10 17:19:20 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/10 18:45:41 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,10 +157,18 @@ static void	heredoc_child(t_mbox *mbox, int *fd, char *delimiter)
 	update_signals(SIGNAL_HEREDOC);
 	delimiter = ft_strjoin(delimiter, "\n");
 	expand_vars = check_lim_qoutes(&delimiter);
+	mbox->stop_heredoc = ft_false;
 	while (true)
 	{
 		write(STDIN_FILENO, "> ", 2);
-		cur_line = gnl(STDIN_FILENO);
+		cur_line = gnl_stoppable(STDIN_FILENO, &mbox->stop_heredoc);
+		if(mbox->stop_heredoc == ft_true)
+		{
+			dprintf(2, "asdasdasdasdasdasdas\n");
+			free(cur_line);
+			set_var_value(mbox, "?", "130");
+			exit_heredoc_child(mbox, fd, delimiter);
+		}
 		if (!cur_line)
 		{
 			put_err_msg("nnynyn", ERR_PROMT, "warning: here-document at line ",
@@ -185,7 +193,7 @@ static void	heredoc_child(t_mbox *mbox, int *fd, char *delimiter)
 // TODO:
 //  - deal with var expansion (if LIM isnt qouted)
 //  if the var expansion turns out to be excatlly the lim str it still doesnt exit!
-void	heredoc(t_mbox *mbox, t_ast *redir_node, int *cmd_in_fd)
+t_bool	heredoc(t_mbox *mbox, t_ast *redir_node, int *cmd_in_fd)
 {
 	int		fd[2];
 	int		exit_status;
@@ -206,21 +214,36 @@ void	heredoc(t_mbox *mbox, t_ast *redir_node, int *cmd_in_fd)
 	close(fd[P_LEFT]);
 	waitpid(pid_hd, &exit_status, 0);
 	update_signals(SIGNAL_CHILD);
-	if (WIFEXITED(exit_status))
-		exit_status = WEXITSTATUS(exit_status);
-	else if (WIFSIGNALED(exit_status))
+	if (exit_status != EXIT_SUCCESS)
 	{
-		exit_status = WTERMSIG(exit_status) + 128;
-		dprintf(2, "DDDDDDDDDDDDDDDDDDDDDDDDDDDD\nPID %d\n", getpid());
+		set_var_value(mbox, "?", ft_chr2str(exit_status));
+		return (ft_false);
 	}
-	else
-		exit_status = 1;
+	
+	dprintf(2, "ABCDDDDDDDDDDDDDDDDDDDDDDDDDDDD\nPID %d\n", getpid());
+
+	// if (WIFEXITED(exit_status))
+	// 	exit_status = WEXITSTATUS(exit_status);
+	// else if (WIFSIGNALED(exit_status))
+	// {
+	// 	exit_status = WTERMSIG(exit_status) + 128;
+	// 	dprintf(2, "DDDDDDDDDDDDDDDDDDDDDDDDDDDD\nPID %d\n", getpid());
+	// }
+	// else
+	// 	exit_status = 1;
 	if (exit_status == 0)
+	{
 		*cmd_in_fd = fd[P_RIGHT];
+		return (ft_true);
+	}
 			// info was written to the reaad end and will be redirected later using dup2
 	// close(fd[P_RIGHT]);
-	exit_status_str = ft_itoa(exit_status);
-	set_var_value(mbox, "?", exit_status_str);
-	// dprintf(2, "{%s}{%s}\n", exit_status_str, get_var_value(mbox, "?"));
-	free(exit_status_str);
+
+
+
+	// FIX 10.11. 18:45 uncomment later maybe
+	// exit_status_str = ft_itoa(exit_status);
+	// set_var_value(mbox, "?", exit_status_str);
+	// // dprintf(2, "{%s}{%s}\n", exit_status_str, get_var_value(mbox, "?"));
+	// free(exit_status_str);
 }

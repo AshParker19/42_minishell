@@ -114,6 +114,7 @@ typedef struct s_mbox
     t_ast      *tmp_node;
     t_exec      executor;
     int         count_cycles;
+	t_bool		stop_heredoc;
     t_bool      print_info;
 }              t_mbox;
 

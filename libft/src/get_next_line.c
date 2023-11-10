@@ -60,7 +60,7 @@ char	*gnl(int fd)
  * @param fd 
  * @return char* 
  */
-char *gnl_stoppable(int fd, t_bool stop)
+char *gnl_stoppable(int fd, t_bool *stop)
 {
 	static char	buffer[FOPEN_MAX][BUFFER_SIZE + 1];
 	char		*line;
@@ -76,16 +76,17 @@ char *gnl_stoppable(int fd, t_bool stop)
 		return (NULL);
 	if (read(fd, 0, 0) < 0)
 		return (gnl_zero_str(buffer[fd]));
-	while ((buffer[fd][0] || read(fd, buffer[fd], BUFFER_SIZE) > 0) && !stop)
+	while ((buffer[fd][0] || read(fd, buffer[fd], BUFFER_SIZE) > 0) && !*stop)
 	{
+		dprintf(2, "% d", *stop);
 		gnl_len_nl(line, &len_line, &flg_nl);
 		gnl_len_nl(buffer[fd], &len_cpy, &flg_nl);
 		line = gnl_safe_buffer(line, len_line, buffer[fd], len_cpy);
 		gnl_shift_arr_to_front(buffer[fd], len_cpy);
-		if (flg_nl)
+		if (flg_nl || *stop)
 			break ;
 	}
-	if(stop)
-		return (ft_chr2str(GNL_INTERRUPTED));
+	if(*stop)
+		return (NULL);
 	return (line);
 }

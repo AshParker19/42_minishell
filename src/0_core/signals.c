@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 19:30:56 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/10 17:08:28 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/10 18:35:10 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,11 @@ static void	sig_handler_heredoc(int signal)
 		dprintf(2, "signal handler pid (%d)\n", getpid());
 		mbox = get_mbox(NULL);
 		set_var_value(mbox, "?", "130");
+		close(STDIN_FILENO);
 		g_signal_status = SIGNAL_HEREDOC;
+		mbox->stop_heredoc = ft_true;
 		// dprintf(2, "CTRL C IN HEREDOC\n");
-		write(STDIN_FILENO, "\n", 1);
+		// write(STDIN_FILENO, "\n", 1);
 		// free_and_close_box_v2(mbox);
 	}
 }
