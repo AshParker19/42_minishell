@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 11:32:13 by astein            #+#    #+#             */
-/*   Updated: 2023/11/06 13:44:22 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/10 18:09:06 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void    builtin_unset(t_mbox *mbox, t_ast *arg_node);
 void    builtin_env(t_mbox *mbox, t_ast *arg_node);
 void    builtin_exit(t_mbox *mbox, t_ast *arg_node);
 void    builtin_history(t_mbox *mbox, t_ast *arg_node);
+void	builtin_header(t_mbox *mbox, t_ast *arg_node);
 void    save_history(t_mbox *mbox, char *inp_hist);
 void    free_history(t_mbox *mbox);
 

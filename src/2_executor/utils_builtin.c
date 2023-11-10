@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:54:41 by astein            #+#    #+#             */
-/*   Updated: 2023/11/06 14:41:17 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/10 18:26:44 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,10 @@ void	initialize_builtins(t_mbox *mbox)
     mbox->executor.builtins[6].func_name = builtin_exit;
     mbox->executor.builtins[7].cmd_name = "history";
     mbox->executor.builtins[7].func_name = builtin_history;
-    mbox->executor.builtins[8].cmd_name = NULL;
-    mbox->executor.builtins[8].func_name = NULL;
+    mbox->executor.builtins[8].cmd_name = "42";
+    mbox->executor.builtins[8].func_name = builtin_header;
+    mbox->executor.builtins[9].cmd_name = NULL;
+    mbox->executor.builtins[9].func_name = NULL;
 }
 
 /**
