@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:19:44 by astein            #+#    #+#             */
-/*   Updated: 2023/11/09 18:32:41 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/10 19:29:42 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@ static void perform_child(t_mbox *mbox, t_ast *cmd_node, int cmd_pos, int *cur_p
 	setup_pipes(mbox, cur_pipe);
 	if (!configure_redir(mbox, cmd_node->left))
 	{
-		if (cur_pipe[P_RIGHT] != -1) //FIXME: 
-		// CASE 1 Heredoc 
-		// CASE 2 file without permissions
-			close(cur_pipe[P_RIGHT]);
+		// if (cur_pipe[P_RIGHT] != -1) //FIXME: 
+		// // CASE 1 Heredoc 
+		// // CASE 2 file without permissions
+		// 	close(cur_pipe[P_RIGHT]);
 		free_and_close_box_v2(mbox);
 	}
 	setup_process_std(mbox);
@@ -101,6 +101,7 @@ static void    wait_for_execution(t_mbox *mbox)
 			waitpid(mbox->executor.pid[i], &exit_status, 0);
 		if (g_signal_status == 0)
 		{
+			//TODO: wait for signal too
 			if (WIFEXITED(exit_status))
 			{
 				exit_status_str = ft_itoa(WEXITSTATUS(exit_status));
@@ -108,7 +109,6 @@ static void    wait_for_execution(t_mbox *mbox)
 				free (exit_status_str);		
 			}
 		}
-			//TODO: wait for signal too
 	}
 }
 

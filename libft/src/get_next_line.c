@@ -55,22 +55,23 @@ char	*gnl(int fd)
 }
 
 /**
- * @brief 
- * ak
- * @param fd 
- * @return char* 
+ * @brief 	Same then 'gnl' but it will stop if the parameter 'stop' is set to
+ * 			ft_true
+ * 
+ * @param	fd		The file descriptor from which to read
+ * @param	stop 	THIS BOOLEAN CAN STOP THIS FUNCTION!
+ * @return	char* 	read line
  */
-char *gnl_stoppable(int fd, t_bool *stop)
+char	*gnl_stoppable(int fd, t_bool *stop)
 {
 	static char	buffer[FOPEN_MAX][BUFFER_SIZE + 1];
 	char		*line;
-	size_t		len_line;
-	size_t		len_cpy;
+	size_t		len[2];
 	t_bool		flg_nl;
 
 	line = NULL;
-	len_line = 0;
-	len_cpy = 0;
+	len[0] = 0;
+	len[1] = 0;
 	flg_nl = ft_false;
 	if (fd < 0 || fd > FOPEN_MAX || !BUFFER_SIZE)
 		return (NULL);
@@ -78,15 +79,14 @@ char *gnl_stoppable(int fd, t_bool *stop)
 		return (gnl_zero_str(buffer[fd]));
 	while ((buffer[fd][0] || read(fd, buffer[fd], BUFFER_SIZE) > 0) && !*stop)
 	{
-		dprintf(2, "% d", *stop);
-		gnl_len_nl(line, &len_line, &flg_nl);
-		gnl_len_nl(buffer[fd], &len_cpy, &flg_nl);
-		line = gnl_safe_buffer(line, len_line, buffer[fd], len_cpy);
-		gnl_shift_arr_to_front(buffer[fd], len_cpy);
+		gnl_len_nl(line, &len[0], &flg_nl);
+		gnl_len_nl(buffer[fd], &len[1], &flg_nl);
+		line = gnl_safe_buffer(line, len[0], buffer[fd], len[1]);
+		gnl_shift_arr_to_front(buffer[fd], len[1]);
 		if (flg_nl || *stop)
 			break ;
 	}
-	if(*stop)
+	if (*stop)
 		return (NULL);
 	return (line);
 }

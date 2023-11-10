@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:47:15 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/10 18:53:10 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/10 19:28:20 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ static  t_bool setup_redir_in(t_mbox *mbox, t_ast *redir_node, int *in_fd)
 		{
 			g_signal_status = SIGNAL_HEREDOC;
 			return (ft_false);
-			// free_and_close_box_v2(mbox); //FIXME: check it
 		}
     }
     return (ft_true);

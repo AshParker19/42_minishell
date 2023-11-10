@@ -6,11 +6,35 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 19:28:09 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/10 17:07:41 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/10 19:53:41 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
+
+/**
+ * @brief	this function will be only called by 'heredoc' for each line
+ * 			if the heredoc recieves CRTL+D (EOF) => !line  it will print the 
+ * 			responding error message and exit the heredoc child process properly
+ * 			with exit status SUCCESS via 'exit_heredoc_child'
+ * 
+ * @param	mbox 
+ * @param	fd 
+ * @param	lim 
+ * @param	line 
+ */
+void check_ctrl_d(t_mbox *mbox, int *fd, char *lim, char *line)
+{
+	if (!line)
+	{
+		put_err_msg("nnynyn", ERR_PROMT, "warning: here-document at line ",
+				ft_itoa(mbox->count_cycles),
+				" delimited by end-of-file (wanted `", ft_strtrim(lim,
+					"\n"), "')");
+		set_var_value(mbox, "?", EXIT_STR_SUCCESS);
+		exit_heredoc_child(mbox, fd, lim, line);
+	}
+}
 
 /**
  * @brief	normally we just pass the mbo to all functions.
@@ -81,4 +105,20 @@ char *get_key(char *str, int *i)
     }   
 	(*i)--;
     return (key);
+}
+
+/**
+ * @brief	will be called to properly end the heredoc child process
+ * 
+ * @param	mbox 
+ * @param	fd 
+ * @param	lim 
+ * @param	line 
+ */
+void	exit_heredoc_child(t_mbox *mbox, int *fd, char *lim, char *line)
+{
+	close(fd[P_LEFT]); // close because it was WRITE END
+	free_whatever("pp", lim, line);
+	close_process_fds_v2(mbox);
+	free_and_close_box_v2(mbox);
 }
