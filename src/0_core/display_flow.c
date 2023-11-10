@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 19:11:12 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/10 12:30:26 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/10 12:51:22 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,21 +58,13 @@ static void put_text_center(char *txt, t_bool free_it, char *clr)
  * @param	top_part 
  * @param	i 
  */
-void	put_headline(char *caption, char *data, t_bool top_part, char *clr)
+void	put_headline(char *caption, char *data, char *clr)
 {
-	if (top_part)
-	{
-		print_line('-', clr);
-		put_text_center(caption, ft_false, clr);
-		put_text_center(data, ft_true, clr);
-		print_line('-', clr);
-		printf("\n"RESET);
-	}
-	else
-	{
-		print_line('=', clr);
-		printf("\n"RESET);
-	}
+	print_line('-', clr, ft_false);
+	put_text_center(caption, ft_false, clr);
+	put_text_center(data, ft_true, clr);
+	print_line('-', clr, ft_false);
+	printf(RESET);
 }
 
 static char *shift_readable(char *s)
@@ -120,7 +112,7 @@ void	display_info_str(t_mbox *mbox, char *state, char *str)
 	if (!ft_strcmp(state, "input original"))
 	{
 		printf ("\n");
-		put_headline("INPUT STATES", NULL, ft_true, YELLOW);	
+		put_headline("INPUT STATES", NULL, LIGHT_RED);	
 	}
 	if (!ft_strcmp(state, "input original") ||
 		!ft_strcmp(state, "input trimmed"))
@@ -129,9 +121,11 @@ void	display_info_str(t_mbox *mbox, char *state, char *str)
 	{
 		printf ("%s:\tshifted:\t(%s)\n", state, str);
 		readable = shift_readable (str);
-		printf ("\t\treadable:\t(%s)\n\n", readable);	
+		printf ("\t\treadable:\t(%s)\n", readable);	
 		free(readable);
 	}
+	if (!ft_strcmp(state, "input expanded"))
+		print_line('=', LIGHT_RED, ft_true);
 }
 
 /**
@@ -146,13 +140,13 @@ void	print_tokenizer_output(t_mbox *mbox)
 
 	if (!mbox->print_info)
 		return ;
-	put_headline("TOKENIZER", NULL, ft_true, YELLOW);
+	put_headline("TOKENIZER", NULL, YELLOW);
 	current = mbox->tokens;	
 	while (current)	
 	{	
 		printf ("type:(%d) \t token:(%s)\n", current->type, current->value);	
 		current = current->next;	
-	}	
-	put_headline("TOKENIZER", NULL, ft_false, YELLOW);
+	}
+	print_line('=', YELLOW, ft_true);	
 }
 

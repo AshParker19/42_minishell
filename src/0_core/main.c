@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:06:17 by astein            #+#    #+#             */
-/*   Updated: 2023/11/10 12:30:50 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/10 12:46:05 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,7 @@ static void check_args(t_mbox *mbox, int ac, char **av)
 			|| str_cmp_strct(av[1], "-i")))
 		{
 			mbox->print_info = ft_true;
-			put_headline("INFO MODE ACTIVATED!", NULL, ft_true, PURPLE);
-			// printf(PURPLE"	--------------------------------\n
-			// 				ADDITIONAL INFO WILL BE PRINTED!\n
-			// 				--------------------------------\n"RESET);
+			put_headline("INFO MODE ACTIVATED!", NULL, PURPLE);
 			return ;
 		}
 		else
