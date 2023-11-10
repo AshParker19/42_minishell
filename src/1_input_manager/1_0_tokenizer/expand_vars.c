@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 12:58:49 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/10 00:06:12 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/10 00:29:00 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,30 @@ static	char *mark_ws(char *str)
 	return(temp);
 }
 
-//TODO: Rename in expand_part
+
+/**
+ * @brief 			//TODO: Rename in expand_part
+ * 					should search for an key in str
+ * 					mbox->inp_shift at postion k.
+ * 					at beginnig k points to $ sign!
+ * 
+ * 					via 'get_key" a key will be found and the index k shiftet
+ * 					if found a key
+ * 						append expansion via 'append_str' to 'mbox->inp_expand'
+ * 					else
+ * 						reason can be those:
+ * 
+ * 					1.dollar is at end of string (Hello$)
+ * 						->append the $ sign
+ * 					2.$"asd"
+ * 					3.for $| or $> or $<
+ * 					4.$@lol
+ * 
+ * @param mbox 
+ * @param quote_s 
+ * @param k 
+ * @param cur_c 
+ */
 static void found_dollar(t_mbox *mbox, int quote_s, int *k, char cur_c)
 {
 	char	*key;
@@ -59,7 +82,7 @@ static void found_dollar(t_mbox *mbox, int quote_s, int *k, char cur_c)
 		{
 			mbox->inp_expand = append_str(mbox->inp_expand, "$", ft_false);
 		}
-		// $"SMTH"						-> skipp dollar					$"Hi"
+		// $"SMTH"						-> skipp dollar					$"Hi"	//FIXME: << $""''USER"" cat this wont work maybe?
 		else if(quote_s == add_offset('"') && mbox->inp_shift[*k] == '\'')
 			mbox->inp_expand = append_str(mbox->inp_expand, "$", ft_false);
 		//  for $| or $> or $<
@@ -74,10 +97,20 @@ static void found_dollar(t_mbox *mbox, int quote_s, int *k, char cur_c)
 	free(key);
 }
 
-
+/**
+ * @brief	counts the occurens of < symbols
+ * 			if two in a row the next thing will be the lummiter
+ * 			since the lim has a special expansion it will be dealt with here
+ * 
+ * @param mbox 
+ * @param k 
+ * @param quote_s 
+ * @param cur_c 
+ * @return t_bool 
+ */
 static t_bool detect_heredoc(t_mbox *mbox, int *k, int quote_s, char cur_c)
 {
-	static int     consecutive_lt;
+	static int     consecutive_lt; //FIXME: NOT SURE IF STATIC IS NESSESSARY
 
 	if (quote_s == OUT_Q)
 	{
@@ -100,6 +133,14 @@ static t_bool detect_heredoc(t_mbox *mbox, int *k, int quote_s, char cur_c)
 	traverses through the input string, locates all the variable
 	names checking for a dollar sign, then replaces all the variable names
     by their values which are received from the environment
+
+	NEW COMMENT 10.11.2023
+	if founda  dollar pasing the index of the dollar to the function
+	'found_dollar' this function will deal with the expansion
+
+	'detect_heredoc' this function delals with the a little bit different
+	ar xpansion for herdoc limmiter.!
+	
 */
 t_bool  expand_variables(t_mbox *mbox, int k, int quote_state)
 {
