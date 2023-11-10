@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   environment.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:16:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/09 21:41:34 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/10 23:05:48 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,53 +97,6 @@ char *get_var_value(const t_mbox *mbox, const char *key)
 }
 
 /**
- * @brief	This function
- * 				- either adds a new key value pair to the end of the ll
- * 				- or changes the value of an existing key
- * 
- *          therefore it always duplicates key and / or value!
- * 
- * @param	mbox	mbox is a struct that stores all runtime related infos
- * @param	key		key of the (new) key value pair
- * @param	value	value of the (new) key value pair
- */
-void    set_var_value(t_mbox *mbox, const char *key, const char *value)
-{
-    t_env_var   *new_var;
-    t_env_var   *cur;
-    
-    cur = mbox->env_vars;
-    if(is_var(mbox, key))
-    {
-        while(cur)
-        {
-            if(str_cmp_strct(key, cur->key))
-            {
-                if(cur->value)
-                    free(cur->value);
-                cur->value = ft_strdup(value);
-                return ;
-            }
-            cur = cur->next;
-        }
-    }
-    new_var = ft_calloc(1, sizeof(t_env_var));
-    if (!new_var)
-        return; //TODO: deal with malloc failure
-    new_var->key = ft_strdup(key); 
-    new_var->value = ft_strdup(value);
-    if (!mbox->env_vars)
-        mbox->env_vars = new_var;
-    else
-    {
-        cur = mbox->env_vars;
-        while (cur->next)
-            cur = cur->next;
-        cur->next = new_var;    
-    }
-}
-
-/**
  * @brief	This function checks if the 'key' exists in the ll and delets the
  * 			node from the ll using the function 'free_var_v2'
  * 
@@ -207,7 +160,3 @@ void free_vars_v2(t_mbox *mbox)
     }
     mbox->env_vars = NULL;
 }
-
-
-
-
