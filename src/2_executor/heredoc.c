@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:00:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/09 20:48:10 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/10 17:19:20 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,7 @@ static void	heredoc_child(t_mbox *mbox, int *fd, char *delimiter)
 	while (true)
 	{
 		write(STDIN_FILENO, "> ", 2);
-		cur_line = get_next_line(STDIN_FILENO);
+		cur_line = gnl(STDIN_FILENO);
 		if (!cur_line)
 		{
 			put_err_msg("nnynyn", ERR_PROMT, "warning: here-document at line ",
