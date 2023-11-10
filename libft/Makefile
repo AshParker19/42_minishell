@@ -5,11 +5,6 @@ CC = cc
 CFLAGS = -Wall -Werror -Wextra -g #-pg -fsanitize=address -fsanitize-address-use-after-scope
 RM = rm -f
 
-# DEBUG Messages on/off
-ifndef DEBUG
-	DEBUG = 0
-endif
-
 # Color codes
 RED    = 	\033[0;31m
 GREEN  = 	\033[0;32m
@@ -23,7 +18,6 @@ NAME = libft.a
 SRC_FOLDER = ./src/
 OBJS_FOLDER = ./obj/
 SRCS = $(addprefix $(SRC_FOLDER), \
-	debug.c \
 	ft_atoi.c \
 	ft_btoa.c \
 	ft_bzero.c \
@@ -79,6 +73,7 @@ SRCS = $(addprefix $(SRC_FOLDER), \
 	ft_toupper.c \
 	ft_swap_strings.c \
 	get_next_line.c \
+	get_next_line_utils.c \
 	print_char.c \
 	print_dez_to_hexa.c \
 	print_nbr.c \
@@ -103,7 +98,7 @@ $(NAME): $(OBJS)
 $(OBJS_FOLDER)%.o: $(SRC_FOLDER)%.c
 	@mkdir -p $(@D)
 	@echo -n "$(ORANGE).$(RESET)"
-	@$(CC) $(CFLAGS) -DDEBUG=$(DEBUG) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	@$(RM) $(OBJS) $(OBJS_BONUS)

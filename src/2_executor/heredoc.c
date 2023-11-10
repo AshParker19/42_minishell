@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:00:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/09 20:48:10 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/10 19:53:50 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,52 +140,36 @@ static t_bool	check_lim_qoutes(char **str)
 	return (expand_vars);
 }
 
-static void	exit_heredoc_child(t_mbox *mbox, int *fd, char *delimiter)
-{
-	close(fd[P_LEFT]); // close because it was WRITE END
-	free(delimiter);
-	close_process_fds_v2(mbox);
-	free_and_close_box_v2(mbox);
-}
-
-static void	heredoc_child(t_mbox *mbox, int *fd, char *delimiter)
+static void	heredoc_child(t_mbox *mbox, int *fd, char *lim)
 {
 	char	*cur_line;
 	t_bool	expand_vars;
 
 	close(fd[P_RIGHT]);
 	update_signals(SIGNAL_HEREDOC);
-	delimiter = ft_strjoin(delimiter, "\n");
-	expand_vars = check_lim_qoutes(&delimiter);
+	lim = ft_strjoin(lim, "\n");
+	expand_vars = check_lim_qoutes(&lim);
+	mbox->stop_heredoc = ft_false;
 	while (true)
 	{
 		write(STDIN_FILENO, "> ", 2);
-		cur_line = get_next_line(STDIN_FILENO);
-		if (!cur_line)
-		{
-			put_err_msg("nnynyn", ERR_PROMT, "warning: here-document at line ",
-					ft_itoa(mbox->count_cycles),
-					" delimited by end-of-file (wanted `", ft_strtrim(delimiter,
-						"\n"), "')");
-			exit_heredoc_child(mbox, fd, delimiter);
-		}
-		if (str_cmp_strct(cur_line, delimiter))
-		{
-			free(cur_line);
-			break ;
-		}
+		cur_line = gnl_stoppable(STDIN_FILENO, &mbox->stop_heredoc);
+		if(mbox->stop_heredoc == ft_true)
+			exit_heredoc_child(mbox, fd, lim, cur_line);
+		check_ctrl_d(mbox, fd, lim, cur_line);
+		if (str_cmp_strct(cur_line, lim))
+			exit_heredoc_child(mbox, fd, lim, cur_line);
 		if (expand_vars && cur_line)
 			cur_line = expand_heredoc_input(mbox, cur_line);
 		write(fd[P_LEFT], cur_line, ft_strlen(cur_line));
 		free(cur_line);
 	}
-	exit_heredoc_child(mbox, fd, delimiter);
 }
 
 // TODO:
 //  - deal with var expansion (if LIM isnt qouted)
 //  if the var expansion turns out to be excatlly the lim str it still doesnt exit!
-void	heredoc(t_mbox *mbox, t_ast *redir_node, int *cmd_in_fd)
+t_bool	heredoc(t_mbox *mbox, t_ast *redir_node, int *cmd_in_fd)
 {
 	int		fd[2];
 	int		exit_status;
@@ -199,28 +183,38 @@ void	heredoc(t_mbox *mbox, t_ast *redir_node, int *cmd_in_fd)
 	if (pid_hd < 0)
 		err_free_and_close_box(mbox, EXIT_FAILURE);
 	if (pid_hd == 0)
-	{
-		// dprintf (2, "HEREDOC PID %d\n", getpid());
 		heredoc_child(mbox, fd, redir_node->content);
-	}
 	close(fd[P_LEFT]);
 	waitpid(pid_hd, &exit_status, 0);
 	update_signals(SIGNAL_CHILD);
-	if (WIFEXITED(exit_status))
-		exit_status = WEXITSTATUS(exit_status);
-	else if (WIFSIGNALED(exit_status))
+	if (exit_status != EXIT_SUCCESS)
 	{
-		exit_status = WTERMSIG(exit_status) + 128;
-		dprintf(2, "DDDDDDDDDDDDDDDDDDDDDDDDDDDD\nPID %d\n", getpid());
+		set_var_value(mbox, "?", ft_chr2str(exit_status));//FIXME: new function will need to be implemted
+		return (ft_false);
 	}
-	else
-		exit_status = 1;
+	
+	// if (WIFEXITED(exit_status))
+	// 	exit_status = WEXITSTATUS(exit_status);
+	// else if (WIFSIGNALED(exit_status))
+	// {
+	// 	exit_status = WTERMSIG(exit_status) + 128;
+	// 	dprintf(2, "DDDDDDDDDDDDDDDDDDDDDDDDDDDD\nPID %d\n", getpid());
+	// }
+	// else
+	// 	exit_status = 1;
 	if (exit_status == 0)
+	{
 		*cmd_in_fd = fd[P_RIGHT];
+		return (ft_true);
+	}
 			// info was written to the reaad end and will be redirected later using dup2
 	// close(fd[P_RIGHT]);
-	exit_status_str = ft_itoa(exit_status);
-	set_var_value(mbox, "?", exit_status_str);
-	// dprintf(2, "{%s}{%s}\n", exit_status_str, get_var_value(mbox, "?"));
-	free(exit_status_str);
+
+
+
+	// FIX 10.11. 18:45 uncomment later maybe
+	// exit_status_str = ft_itoa(exit_status);
+	// set_var_value(mbox, "?", exit_status_str);
+	// // dprintf(2, "{%s}{%s}\n", exit_status_str, get_var_value(mbox, "?"));
+	// free(exit_status_str);
 }

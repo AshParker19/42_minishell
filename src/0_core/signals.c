@@ -6,11 +6,29 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 19:30:56 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/09 17:50:59 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/10 18:35:10 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	sig_handler_heredoc(int signal)
+{
+	t_mbox	*mbox;
+
+	if (signal == SIGINT)
+	{
+		dprintf(2, "signal handler pid (%d)\n", getpid());
+		mbox = get_mbox(NULL);
+		set_var_value(mbox, "?", "130");
+		close(STDIN_FILENO);
+		g_signal_status = SIGNAL_HEREDOC;
+		mbox->stop_heredoc = ft_true;
+		// dprintf(2, "CTRL C IN HEREDOC\n");
+		// write(STDIN_FILENO, "\n", 1);
+		// free_and_close_box_v2(mbox);
+	}
+}
 
 static void signal_handler(int signal)
 {
@@ -62,7 +80,7 @@ void update_signals(int sig_state)
     }
     else if (sig_state == SIGNAL_HEREDOC)
     {
-        signal(SIGINT, SIG_DFL);
+        signal(SIGINT, sig_handler_heredoc);
         signal(SIGQUIT, SIG_IGN);
     }
 }

@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:06:17 by astein            #+#    #+#             */
-/*   Updated: 2023/11/09 23:58:56 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/10 17:51:44 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void check_args(t_mbox *mbox, int ac, char **av)
 			|| str_cmp_strct(av[1], "-i")))
 		{
 			mbox->print_info = ft_true;
-			printf(PURPLE"----\nADDITIONAL INFO WILL BE PRINTED!\n----\n"RESET);
+			put_headline("INFO MODE ACTIVATED!", NULL, PURPLE);
 			return ;
 		}
 		else
@@ -51,13 +51,12 @@ static void check_args(t_mbox *mbox, int ac, char **av)
 int	main(int ac, char **av, char **env)
 {
 	t_mbox	mbox;
-	
+
 	g_signal_status = 0;
 	initialize_box_v2(&mbox, env);
 	load_vars_v2(&mbox);
 	initialize_builtins(&mbox);
 	check_args(&mbox, ac, av);
-	
 	while (FRANKENSHELL_RISES_AMIDTS_DEATH)
 	{
 		reset_cycle(&mbox);//TODO:

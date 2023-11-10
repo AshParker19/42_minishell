@@ -105,6 +105,7 @@ typedef struct s_mbox
     char        *inp_trim;
     char        *inp_shift;
     char        *inp_expand;
+	int			consecutive_lt;
     bool        error_status;
     t_history   *history;
     t_token     *tokens;
@@ -113,6 +114,7 @@ typedef struct s_mbox
     t_ast      *tmp_node;
     t_exec      executor;
     int         count_cycles;
+	t_bool		stop_heredoc;
     t_bool      print_info;
 }              t_mbox;
 
@@ -161,11 +163,12 @@ void    free_tokens_v2(t_mbox *mbox);
 void    free_and_close_box_v2(t_mbox *mbox);
 
 /* display_flow.c */
-void    put_headline(char *caption, char *data, t_bool toqp_part, int i);
+void	put_headline(char *caption, char *data, char *clr);
 void	display_info_str(t_mbox *mbox, char *state, char *str);
 void	print_tokenizer_output(t_mbox *mbox);
 
 /* display_flow2.c */
+void	print_line(char symbol, char *clr, t_bool app_new_line);
 void	print_parser_output(t_mbox *mbox, t_bool top_part);
 void	print_executor_output(t_mbox *mbox, t_bool top_part);
 
