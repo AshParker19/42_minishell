@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:38:32 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/10 12:15:41 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/10 12:32:44 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,7 @@ void	manage_input(t_mbox *mbox) //TODO: rename function and file into input main
     if (mbox->error_status == ft_false)
     {
         print_executor_output(mbox, ft_true);
-		printf(RED"");
         execute(mbox); //TODO: why don't we check if it fails
-		printf(RESET);
         print_executor_output(mbox, ft_false); 
     }
 }
