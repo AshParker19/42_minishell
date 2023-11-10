@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:00:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/10 19:53:50 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/10 23:11:51 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,7 +189,7 @@ t_bool	heredoc(t_mbox *mbox, t_ast *redir_node, int *cmd_in_fd)
 	update_signals(SIGNAL_CHILD);
 	if (exit_status != EXIT_SUCCESS)
 	{
-		set_var_value(mbox, "?", ft_chr2str(exit_status));//FIXME: new function will need to be implemted
+		set_var_value_int(mbox, "?", exit_status);
 		return (ft_false);
 	}
 	

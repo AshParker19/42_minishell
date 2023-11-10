@@ -20,12 +20,12 @@ extern int g_signal_status;
 
 
 /* promt strings */
-// # define PROMT      "\x1b[36mfrankenshell-->\033[0m "
-// # define ERR_PROMT  "\033[38;5;203mfrankenshell:\033[0m "
+# define PROMT      "\x1b[36mfrankenshell-->\033[0m "
+# define ERR_PROMT  "\033[38;5;203mfrankenshell:\033[0m "
 
 /* test prompts */
-# define PROMT "minishell:"
-# define ERR_PROMT "minishell:"
+// # define PROMT "minishell:"
+// # define ERR_PROMT "minishell:"
 
 # define FRANKENSHELL_RISES_AMIDTS_DEATH 1
 
@@ -141,7 +141,6 @@ void	manage_input(t_mbox *mbox);
 /* env.c */
 void    load_vars_v2(t_mbox *mbox);
 char    *get_var_value(const t_mbox *mbox,const char *key);
-void    set_var_value(t_mbox *mbox, const char *key, const char *value);
 void    delete_var(t_mbox *mbox, const char *key);
 void    free_vars_v2(t_mbox *mbox);
 
@@ -150,6 +149,11 @@ t_bool   is_var(const t_mbox *mbox, const char *key);
 void	increment_shlvl(t_mbox *mbox);
 char    **env_to_matrix(const t_mbox *mbox, const t_bool put_quotes);
 void    *free_var_v2(t_env_var *temp);
+
+
+/* env_utils2.c */
+void    set_var_value(t_mbox *mbox, const char *key, const char *value);
+void    set_var_value_int(t_mbox *mbox, const char *key, int int_value);
 
 
 /* signals.c */

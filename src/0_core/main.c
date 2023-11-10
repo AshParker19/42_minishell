@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:06:17 by astein            #+#    #+#             */
-/*   Updated: 2023/11/10 17:51:44 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/10 23:21:58 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,21 +62,16 @@ int	main(int ac, char **av, char **env)
 		reset_cycle(&mbox);//TODO:
 		mbox.count_cycles++;
 		mbox.inp_orig = readline(PROMT);
-
-		char	*exit_status;
-	
 		if(g_signal_status == SIGNAL_NEW_LINE)
 		{
 			g_signal_status = 0;
-			exit_status = ft_itoa(130);
-			set_var_value(&mbox, "?", exit_status);
-			free(exit_status);
+			set_var_value(&mbox, "?", "130");
 		}
 
 		if (!mbox.inp_orig)
 			builtin_exit(&mbox, NULL); //TODO: really nessesary? YES FOR CRTL + D!
 		else if (mbox.inp_orig[0] == '\0')
-			set_var_value(&mbox, "?", ft_itoa(127));
+			set_var_value(&mbox, "?", "127");
 		else
 		{
 			if (*mbox.inp_orig)
