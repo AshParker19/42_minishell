@@ -20,12 +20,12 @@ extern int g_signal_status;
 # define NO_EXIT_STATUS -99999
 
 /* promt strings */
-# define PROMT      "\x1b[36mfrankenshell-->\033[0m "
-# define ERR_PROMT  "\033[38;5;203mfrankenshell:\033[0m "
+// # define PROMT      "\x1b[36mfrankenshell-->\033[0m "
+// # define ERR_PROMT  "\033[38;5;203mfrankenshell:\033[0m "
 
 /* test prompts */
-// # define PROMT "minishell:"
-// # define ERR_PROMT "minishell:"
+# define PROMT "minishell:"
+# define ERR_PROMT "minishell:"
 
 # define FRANKENSHELL_RISES_AMIDTS_DEATH 1
 
