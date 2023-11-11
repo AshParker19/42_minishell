@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:32:13 by astein            #+#    #+#             */
-/*   Updated: 2023/11/11 03:16:03 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/11 15:43:37 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,5 +89,6 @@ void builtin_echo(t_mbox *mbox, t_ast *arg_node)
 			arg_node = arg_node->right;
 	}
 	if (print_nl)
-        ft_putchar_fd('\n', mbox->executor.io.cmd_fd[CMD_OUT]);    
+        ft_putchar_fd('\n', mbox->executor.io.cmd_fd[CMD_OUT]);
+	set_var_value_int(mbox, "?", EXIT_SUCCESS);
 }

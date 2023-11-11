@@ -10,4 +10,4 @@ pseudo_exex.nfs
 gmon.out
 .VSCodeCounter/
 .devcontainer
-
+./obj
