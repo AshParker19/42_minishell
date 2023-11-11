@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_utils2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 17:19:11 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/07 21:00:09 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/11 00:23:16 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_bool  check_sp(char *no_space)
  * 
  * @return t_bool 
  */
-t_bool	check_space_between_redir(char *str1, char *str2)
+t_bool	check_space_between_redir(t_mbox *mbox, char *str1, char *str2)
 {
 	t_bool	is_correct;
 
@@ -54,14 +54,16 @@ t_bool	check_space_between_redir(char *str1, char *str2)
 	if (str1[ft_strlen(str1) - 1] == add_offset('>')
 		&& str2[0] == add_offset('>'))
 	{
-		put_err_msg("nn", ERR_PROMT, "syntax error near unexpected token `>'");
+		//FIXME
+		put_err_msg(mbox, 2, "nn", ERR_PROMT, "syntax error near unexpected token `>'");
 		is_correct = ft_false;
 	}
 
 	if (str1[ft_strlen(str1) - 1] == add_offset('<')
 		&& str2[0] == add_offset('<'))
 	{
-		put_err_msg("nn", ERR_PROMT, "syntax error near unexpected token `<'");
+		//fixme
+		put_err_msg(mbox, 2, "nn", ERR_PROMT, "syntax error near unexpected token `<'");
 		is_correct = ft_false;
 	}
 	return (is_correct);

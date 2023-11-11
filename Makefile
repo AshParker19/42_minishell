@@ -145,7 +145,46 @@ DOT:
 	echo "DONE - NOW IS IN CLIPBOARD"
 
 stats:
-	./count_stats.sh
+	./tester/count_stats.sh
+
+t: t1 t2 t3
+
+t1: all
+	@echo "$(ORANGE)┌─────────────────────────────────────────────────┐"
+	@echo " $(BLUE)TEST1:  https://github.com/MariaAguiar/minitester "
+	@echo " $(BLUE)        START..."
+	@echo "$(ORANGE)└─────────────────────────────────────────────────┘$(RESET)"
+	@cp ./minishell ./tester/minishell
+	@cd ./tester/tester1 && bash ./minitester.sh
+	@echo "$(ORANGE)┌─────────────────────────────────────────────────┐"
+	@echo " $(BLUE)TEST1:  https://github.com/MariaAguiar/minitester "
+	@echo " $(BLUE)        ...DONE"
+	@echo "$(ORANGE)└─────────────────────────────────────────────────┘$(RESET)"
+
+
+t2: all
+	@echo "$(ORANGE)┌─────────────────────────────────────────────────────┐"
+	@echo " $(BLUE)TEST2:  https://github.com/LucasKuhn/minishell_tester"
+	@echo " $(BLUE)        START..."
+	@echo "$(ORANGE)└─────────────────────────────────────────────────────┘$(RESET)"
+	@cp ./minishell ./tester/minishell
+	@cd ./tester/tester2 && bash ./tester
+	@echo "$(ORANGE)┌─────────────────────────────────────────────────┐"
+	@echo " $(BLUE)TEST2:  https://github.com/MariaAguiar/minitester "
+	@echo " $(BLUE)        ...DONE"
+	@echo "$(ORANGE)└─────────────────────────────────────────────────┘$(RESET)"
+
+t3: all
+	@echo "$(ORANGE)┌────────────────────────────────────────────────────────┐"
+	@echo " $(BLUE)TEST3:  https://github.com/solaldunckel/minishell-tester "
+	@echo " $(BLUE)        START..."
+	@echo "$(ORANGE)└────────────────────────────────────────────────────────┘$(RESET)"
+	@cp ./minishell ./tester/minishell
+	@cd ./tester/tester3 && bash ./test.sh
+	@echo "$(ORANGE)┌────────────────────────────────────────────────────────┐"
+	@echo " $(BLUE)TEST3:  https://github.com/solaldunckel/minishell-tester "
+	@echo " $(BLUE)        ...DONE"
+	@echo "$(ORANGE)└────────────────────────────────────────────────────────┘$(RESET)"
 
 run: all
 	./minishell

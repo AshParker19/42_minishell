@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:33:09 by astein            #+#    #+#             */
-/*   Updated: 2023/11/08 22:35:11 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/10 23:53:25 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,7 @@ void builtin_export(t_mbox *mbox, t_ast *arg_node)
         if (!equal_sign)
         {
             if (!validate_key(arg_node->content))
-                put_err_msg("nnnn", ERR_PROMT, "export: `",
+                put_err_msg(mbox,1,"nnnn", ERR_PROMT, "export: `",
                     arg_node->content, "': not a valid identifier");
         }
         else
@@ -155,7 +155,7 @@ void builtin_export(t_mbox *mbox, t_ast *arg_node)
             if (validate_key(key))
                 set_var_value(mbox, key, value);
             else
-                put_err_msg("nnnn", ERR_PROMT, "export: `",
+                put_err_msg(mbox,1,"nnnn", ERR_PROMT, "export: `",
                     arg_node->content, "': not a valid identifier");
             free_whatever("pp", key, value);
         }

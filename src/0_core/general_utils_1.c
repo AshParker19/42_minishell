@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   general_utils_1.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:43:17 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/10 23:09:47 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/10 23:49:25 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,10 @@ void	*create_syntax_err(t_mbox *mbox, t_token *err_token)
 	{
 		mbox->error_status = ft_true;
 		if(err_token && err_token->value)
-			put_err_msg("nnnn", ERR_PROMT,
+			put_err_msg(mbox, 2, "nnnn", ERR_PROMT,
 				"syntax error near unexpected token `", err_token->value,"'" );
 		else
-			put_err_msg("nn", ERR_PROMT,
+			put_err_msg(mbox, 2, "nn", ERR_PROMT,
 				"syntax error near unexpected token `newline'");
 	}
 	if (err_token)
@@ -66,7 +66,7 @@ void	*create_syntax_err(t_mbox *mbox, t_token *err_token)
  * @param   format 
  * @param   ... 
  */
-void    put_err_msg(const char *format, ...)
+void    put_err_msg(t_mbox *mbox, int exit_status, const char *format, ...)
 {
 	va_list	args;
     char    *error_msg;
@@ -99,5 +99,7 @@ void    put_err_msg(const char *format, ...)
         ft_putendl_fd(error_msg, STDERR_FILENO);    
         free (error_msg);
     }
+	if(exit_status != NO_EXIT_STATUS)
+		set_var_value_int(mbox, "?", exit_status);
 }
 

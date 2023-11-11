@@ -1,4 +1,5 @@
 /obj
+/tester
 /minishell
 /libft/obj
 /libft/libft.a
@@ -23,3 +24,4 @@ gmon.out
 .devcontainer
 /minitester *
 aaa
+

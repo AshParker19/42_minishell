@@ -17,15 +17,15 @@ extern int g_signal_status;
 # define SIGNAL_NEW_LINE 1
 # define SIGNAL_EXIT_HD 2
 
-
+# define NO_EXIT_STATUS -99999
 
 /* promt strings */
-# define PROMT      "\x1b[36mfrankenshell-->\033[0m "
-# define ERR_PROMT  "\033[38;5;203mfrankenshell:\033[0m "
+// # define PROMT      "\x1b[36mfrankenshell-->\033[0m "
+// # define ERR_PROMT  "\033[38;5;203mfrankenshell:\033[0m "
 
 /* test prompts */
-// # define PROMT "minishell:"
-// # define ERR_PROMT "minishell:"
+# define PROMT "minishell:"
+# define ERR_PROMT "minishell: "
 
 # define FRANKENSHELL_RISES_AMIDTS_DEATH 1
 
@@ -179,7 +179,7 @@ void	print_executor_output(t_mbox *mbox, t_bool top_part);
 /* general_utils.c */
 void    reset_cycle(t_mbox *mbox);
 void    err_free_and_close_box(t_mbox *mbox, int exit_status);
-void    put_err_msg(const char *format, ...);
+void    put_err_msg(t_mbox *mbox, int exit_status, const char *format, ...);
 void	*create_syntax_err(t_mbox *mbox, t_token *err_token);
 
 
