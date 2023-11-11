@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:06:17 by astein            #+#    #+#             */
-/*   Updated: 2023/11/10 23:46:18 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/11 10:47:13 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ static void check_args(t_mbox *mbox, int ac, char **av)
 			return ;
 		}
 		else
-			put_err_msg(mbox, EXIT_FAILURE, "nn", ERR_PROMT, "wrong argument!\nuse: -i ('--info')\n");
+			put_err_msg(mbox, EXIT_FAILURE, "nn", ERR_PROMT,
+				"wrong argument!\nuse: -i ('--info')\n");
 	}
 	else
 		put_err_msg(mbox, 1, "nn", ERR_PROMT, "wrong number of arguments!");

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shifter.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 14:36:59 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/10 23:46:27 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/11 11:24:22 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,13 +133,12 @@ static void empty_quotes(t_mbox *mbox, int i, t_bool check_prev)
     char    cur_c;
     
     quote_state = OUT_Q;
-    while (mbox->inp_trim[i])
+    while (mbox->inp_trim[++i])
     {
         cur_c = mbox->inp_trim[i];
         quote_state_old = quote_state;
         update_quote_state(&quote_state, mbox->inp_trim[i], ft_false);
         if (quote_state != quote_state_old)
-        {
             if (check_if_shift(mbox, i, check_prev, quote_state))
             {
                 if (check_prev)
@@ -147,14 +146,13 @@ static void empty_quotes(t_mbox *mbox, int i, t_bool check_prev)
                 else
                     mbox->inp_shift[i] = NO_SPACE;
                 mbox->inp_shift[i + 1] = NO_SPACE;
-                // cur_c = mbox->inp_trim[i++];
                 update_quote_state(&quote_state, mbox->inp_trim[++i], ft_false);
             }
-        }
+
         if (!check_prev)
             return ;
-        i++;
-    }    
+    }
+    display_info_str(mbox, "empty quotes", mbox->inp_shift);
 }
 
 /**
@@ -175,9 +173,8 @@ static void empty_quotes(t_mbox *mbox, int i, t_bool check_prev)
 t_bool  shift_context_chars(t_mbox *mbox, int i, int quote_state)
 {
     mbox->inp_shift = ft_strdup(mbox->inp_trim);
-    empty_quotes(mbox, 0, ft_true);
-    display_info_str(mbox, "empty quotes", mbox->inp_shift);
-    while (mbox->inp_shift[i])
+    empty_quotes(mbox, -1, ft_true);
+    while (mbox->inp_shift[++i])
     {
         if(quote_state == OUT_Q && ft_isqoute(mbox->inp_shift[i]))
         {
@@ -193,7 +190,6 @@ t_bool  shift_context_chars(t_mbox *mbox, int i, int quote_state)
             mbox->inp_shift[i] = add_offset(mbox->inp_shift[i]);
             quote_state = OUT_Q;
         }
-        i++;
     }
     if (quote_state != OUT_Q)
     {

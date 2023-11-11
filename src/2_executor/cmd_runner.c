@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_runner.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:09:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/10 23:47:28 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/11 11:36:04 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ void    run_cmd_system(t_mbox *mbox, t_ast *cmd_node)
 		execve(abs_cmd_path, mbox->executor.cmd_av, cur_env);
 	}
 	free_whatever("mp", cur_env, abs_cmd_path);
-	put_err_msg(mbox, 127, "nnnn", ERR_PROMT, "command '", cmd_node->content, "' not found");
+	put_err_msg(mbox, 127, "nnnn", ERR_PROMT, "command '", cmd_node->content,
+		"' not found");
 	err_free_and_close_box(mbox, 127);
 }
 
@@ -74,7 +75,8 @@ void    run_cmd_builtin(t_mbox *mbox, t_ast *cmd_node)
     
     i = -1;
     while (mbox->executor.builtins[++i].cmd_name)
-        if (str_cmp_strct(mbox->executor.builtins[i].cmd_name, cmd_node->content))
+        if (str_cmp_strct(mbox->executor.builtins[i].cmd_name,
+			cmd_node->content))
             mbox->executor.builtins[i].func_name(mbox, cmd_node->right);
 }
 

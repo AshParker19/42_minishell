@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:16:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/10 23:05:48 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/11 10:29:34 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ char *get_var_value(const t_mbox *mbox, const char *key)
     return(value);
 }
 
+
 /**
  * @brief	This function checks if the 'key' exists in the ll and delets the
  * 			node from the ll using the function 'free_var_v2'
@@ -108,25 +109,19 @@ void delete_var(t_mbox *mbox, const char *key)
     t_env_var   *cur;
     t_env_var   *temp;
     
-    if(!mbox->env_vars)
+    if (!mbox->env_vars || !is_var(mbox, key))
         return ;
-    if(!is_var(mbox, key))
-        return ;
-
-    // delete head
-    if(str_cmp_strct(key, mbox->env_vars->key))
+    if (str_cmp_strct(key, mbox->env_vars->key))
     {
         temp = mbox->env_vars;
         mbox->env_vars = mbox->env_vars->next;
         free_var_v2(temp);
         return ;
     }
-    
-    // delete node in list
     cur = mbox->env_vars;
-    while(cur->next)
+    while (cur->next)
     {
-        if(str_cmp_strct(key, cur->next->key))
+        if (str_cmp_strct(key, cur->next->key))
         {
             temp = cur->next;
             cur->next = cur->next->next;

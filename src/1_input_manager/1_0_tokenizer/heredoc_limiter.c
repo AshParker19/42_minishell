@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_limiter.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 15:45:25 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/09 20:48:10 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/11 11:14:00 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,15 @@
  * @param lim 
  * @return char* 
  */
-static  char *treat_case_dollar(char *lim)
+static  char *treat_case_dollar(char *lim, int i, char *temp)
 {
-    int     i;
-    char    *temp;
     char    *left; 
     char    *right;
     t_bool  found_dollar;
 
     if (!lim)
         return (NULL);
-    i = -1;
     found_dollar = ft_false;
-    temp = NULL;
     while (lim[++i])
     {
         if (lim[i] == '$')
@@ -42,7 +38,7 @@ static  char *treat_case_dollar(char *lim)
         {
             left = ft_substr(lim, 0, i-1);
             right = ft_strdup(&lim[i]);
-            temp = treat_case_dollar(ft_strcat_multi(2, left, right));
+            temp = treat_case_dollar(ft_strcat_multi(2, left, right), -1, NULL);
             free_whatever("ppp", left, right, lim);
             return(temp);
             found_dollar = ft_false;
@@ -59,13 +55,11 @@ static  char *treat_case_dollar(char *lim)
  * @param mbox 
  * @return char* 
  */
-char *extract_limiter(t_mbox *mbox, int *k, int *quote_state)
+char *extract_limiter(t_mbox *mbox, int *k, int *quote_state, char *lim)
 {
     char    cur_char;
-    char    *lim;
     t_bool  lim_start;
 
-    lim = NULL;
     lim_start = ft_false;
     (*k)++;
     while (mbox->inp_shift[*k])
@@ -85,7 +79,7 @@ char *extract_limiter(t_mbox *mbox, int *k, int *quote_state)
         }
         (*k)++;
     }
-    lim = treat_case_dollar(lim);
+    lim = treat_case_dollar(lim, -1, NULL);
     (*k)--;
     return (lim);
 }

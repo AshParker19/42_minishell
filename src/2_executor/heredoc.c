@@ -6,11 +6,11 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:00:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/10 23:11:51 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/11 14:21:02 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+# include "minishell.h"
 
 /**
  * @brief	This file deals with all heredoc related topics
@@ -34,6 +34,27 @@
  *
  *              4.  SIGNALS TODO:
  */
+
+/* gets the value of expended vars inside of heredoc */
+static	char	*tmp_buck(t_mbox *mbox, char *str, int *i, char *expanded_str)
+{
+	char	*key;
+	char	*temp;
+
+	temp = NULL;
+	key = get_key(str, i);
+	if (!key)
+		temp = append_str(temp, "$", ft_false);
+	else if (str_cmp_strct(key, "$"))
+		temp = append_str(temp, key, ft_false);
+	else
+		temp = append_str(temp, get_var_value(mbox,
+								key), ft_false);
+	free (key);
+	expanded_str = append_str(expanded_str, temp, ft_false);
+	free (temp);
+	return (expanded_str);
+}
 
 /**
  * @brief   this function will be called for each line that will be inserted
@@ -60,12 +81,10 @@ static char	*expand_heredoc_input(t_mbox *mbox, char *str)
 	int		i;
 	t_bool	found_dollar;
 	char	*expanded_str;
-	char	*key;
 
 	i = -1;
 	found_dollar = ft_false;
 	expanded_str = NULL;
-	key = NULL;
 	while (str[++i])
 	{
 		if (!found_dollar && str[i] == '$')
@@ -75,15 +94,7 @@ static char	*expand_heredoc_input(t_mbox *mbox, char *str)
 			if (found_dollar)
 			{
 				found_dollar = ft_false;
-				key = get_key(str, &i);
-				if (!key)
-					expanded_str = append_str(expanded_str, "$", ft_false);
-				else if (str_cmp_strct(key, "$"))
-					expanded_str = append_str(expanded_str, key, ft_false);
-				else
-					expanded_str = append_str(expanded_str, get_var_value(mbox,
-								key), ft_false);
-				free(key);
+				expanded_str = tmp_buck(mbox, str, &i, expanded_str);
 			}
 			else
 				expanded_str = append_str(expanded_str, ft_chr2str(str[i]),
@@ -154,7 +165,7 @@ static void	heredoc_child(t_mbox *mbox, int *fd, char *lim)
 	{
 		write(STDIN_FILENO, "> ", 2);
 		cur_line = gnl_stoppable(STDIN_FILENO, &mbox->stop_heredoc);
-		if(mbox->stop_heredoc == ft_true)
+		if (mbox->stop_heredoc == ft_true)
 			exit_heredoc_child(mbox, fd, lim, cur_line);
 		check_ctrl_d(mbox, fd, lim, cur_line);
 		if (str_cmp_strct(cur_line, lim))

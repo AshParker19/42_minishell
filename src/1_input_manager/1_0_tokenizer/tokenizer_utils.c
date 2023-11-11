@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 15:05:22 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/02 19:03:39 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/11 11:29:30 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ int	remove_offset(int c)
 }
 
 /**
- * @brief these functions return true or false depending on the result of checking:
+ * @brief these functions return true or false depending on the result
+ * 		  of checking:
  * 
  */
 /* if the receiving character is single or double quote */

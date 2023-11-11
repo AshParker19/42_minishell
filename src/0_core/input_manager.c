@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_manager.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:38:32 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/11 01:52:47 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/11 11:20:43 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	manage_input(t_mbox *mbox) //TODO: rename function and file into input main
     if (!mbox->inp_trim || mbox->inp_trim[0] == 0)
         return ;
     display_info_str(mbox, "input trimmed", mbox->inp_trim);
-    if (!shift_context_chars(mbox, 0, 0))
+    if (!shift_context_chars(mbox, -1, OUT_Q))
         return ;
     display_info_str(mbox, "input shifted", mbox->inp_shift);
     if (!expand_variables(mbox, 0, OUT_Q))

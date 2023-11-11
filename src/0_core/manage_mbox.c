@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manage_mbox.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:49:13 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/10 17:05:19 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/11 10:47:54 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,10 @@ void	initialize_box_v2(t_mbox *mbox, char **env)
 }
 
 /**
- * @brief	This is the main freeing function which we call after each cycle of treating
- * 			an input promt.
- * 			It frees all allocated memory and closes all fds related to one cycle:
+ * @brief	This is the main freeing function which we call after each cycle
+ * 			of treating an input promt.
+ * 			It frees all allocated memory and closes all fds related to
+ * 			one cycle:
  * 				- free_input_strings_v2
  * 				- free_tokens_v2
  * 				- free_ast_v2
@@ -64,7 +65,6 @@ void	free_cycle_v2(t_mbox *mbox)
     mbox->root = NULL;
 	close_process_fds_v2(mbox);
 	free_process_v2(mbox);
-	// return (NULL);
 }
 
 /**
