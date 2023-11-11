@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 19:28:09 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/11 17:16:12 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/11 18:54:32 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,10 @@ void check_ctrl_d(t_mbox *mbox, int *fd, char *lim, char *line)
 {
 	if (!line)
 	{
-		put_err_msg(mbox, NO_EXIT_STATUS,"nnynyn", ERR_PROMPT,
+		put_err_msg(mbox, NO_EXIT_STATUS,"nnynnn", ERR_PROMPT,
             "warning: here-document at line ",
 				ft_itoa(mbox->count_cycles),
-				" delimited by end-of-file (wanted `", ft_strtrim(lim,
-					"\n"), "')");
+				" delimited by end-of-file (wanted `", lim, "')");
 		set_var_value(mbox, "?", EXIT_STR_SUCCESS);
 		exit_heredoc_child(mbox, fd, lim, line);
 	}

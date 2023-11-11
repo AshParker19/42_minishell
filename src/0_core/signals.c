@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 19:30:56 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/11 18:11:00 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/11 19:04:39 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,6 @@ static void	sig_handler_heredoc(int signal)
 		close(STDIN_FILENO);
 		g_signal_status = SIGNAL_HEREDOC;
 		mbox->stop_heredoc = ft_true;
-	}
-	else if (signal == SIGQUIT)
-	{
-		
 	}
 }
 

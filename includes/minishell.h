@@ -22,10 +22,12 @@ extern int g_signal_status;
 /* promt strings */
 // # define PROMPT      "\x1b[36mfrankenshell-->\033[0m "
 // # define ERR_PROMPT  "\033[38;5;203mfrankenshell:\033[0m "
+// # define HEREDOC_PROMPT "frankendoc> "
 
 /* test prompts */
 # define PROMPT "minishell:"
 # define ERR_PROMPT "minishell: "
+# define HEREDOC_PROMPT "> "
 
 # define FRANKENSHELL_RISES_AMIDTS_DEATH 1
 
