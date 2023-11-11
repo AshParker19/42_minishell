@@ -119,6 +119,9 @@ test: all
 norm:
 	norminette
 
+line:
+	norminette | grep "TOO_MANY_LINES"
+
 readline.supp:
 	wget https://raw.githubusercontent.com/benjaminbrassart/minishell/master/readline.supp
 
@@ -168,23 +171,11 @@ t2: all
 	@echo " $(BLUE)        START..."
 	@echo "$(ORANGE)└─────────────────────────────────────────────────────┘$(RESET)"
 	@cp ./minishell ./tester/minishell
-	@cd ./tester/tester2 && bash ./tester
+	@cd ./tester/tester2 && bash ./tester; bash ./tester syntax; bash ./tester os_specific
 	@echo "$(ORANGE)┌─────────────────────────────────────────────────┐"
 	@echo " $(BLUE)TEST2:  https://github.com/MariaAguiar/minitester "
 	@echo " $(BLUE)        ...DONE"
 	@echo "$(ORANGE)└─────────────────────────────────────────────────┘$(RESET)"
-
-t3: all
-	@echo "$(ORANGE)┌────────────────────────────────────────────────────────┐"
-	@echo " $(BLUE)TEST3:  https://github.com/solaldunckel/minishell-tester "
-	@echo " $(BLUE)        START..."
-	@echo "$(ORANGE)└────────────────────────────────────────────────────────┘$(RESET)"
-	@cp ./minishell ./tester/minishell
-	@cd ./tester/tester3 && bash ./test.sh
-	@echo "$(ORANGE)┌────────────────────────────────────────────────────────┐"
-	@echo " $(BLUE)TEST3:  https://github.com/solaldunckel/minishell-tester "
-	@echo " $(BLUE)        ...DONE"
-	@echo "$(ORANGE)└────────────────────────────────────────────────────────┘$(RESET)"
 
 run: all
 	./minishell
