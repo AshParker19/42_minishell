@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   history.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 11:45:50 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/08 22:13:33 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/11 16:47:52 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void    builtin_history(t_mbox *mbox, t_ast *arg_node)
         printf ("  %d  %s\n", cur->inp_count, cur->inp_hist); //TODO: write to the CMD FD
         cur = cur->next;
     }
+	set_var_value(mbox, "?", EXIT_STR_SUCCESS);
 }
 
 void    free_history(t_mbox *mbox)
