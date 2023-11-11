@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 12:58:49 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/11 11:05:51 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/11 11:11:15 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ static t_bool detect_heredoc(t_mbox *mbox, int *k, int quote_s, char cur_c)
 		mbox->inp_expand = append_str(mbox->inp_expand,
 			ft_chr2str(cur_c), ft_true);
 		mbox->inp_expand = append_str(mbox->inp_expand,
-			extract_limiter(mbox, k, &quote_s), ft_true);
+			extract_limiter(mbox, k, &quote_s, NULL), ft_true);
 		return (ft_true);
 	}
 	return (ft_false);

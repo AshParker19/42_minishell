@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_utils2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 17:19:11 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/11 00:23:16 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/11 11:30:17 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,16 +54,16 @@ t_bool	check_space_between_redir(t_mbox *mbox, char *str1, char *str2)
 	if (str1[ft_strlen(str1) - 1] == add_offset('>')
 		&& str2[0] == add_offset('>'))
 	{
-		//FIXME
-		put_err_msg(mbox, 2, "nn", ERR_PROMT, "syntax error near unexpected token `>'");
+		put_err_msg(mbox, 2, "nn", ERR_PROMT,
+			"syntax error near unexpected token `>'");
 		is_correct = ft_false;
 	}
 
 	if (str1[ft_strlen(str1) - 1] == add_offset('<')
 		&& str2[0] == add_offset('<'))
 	{
-		//fixme
-		put_err_msg(mbox, 2, "nn", ERR_PROMT, "syntax error near unexpected token `<'");
+		put_err_msg(mbox, 2, "nn", ERR_PROMT,
+			"syntax error near unexpected token `<'");
 		is_correct = ft_false;
 	}
 	return (is_correct);
