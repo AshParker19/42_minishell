@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_vars.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 12:58:49 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/10 17:07:17 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/11 10:53:34 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,29 +71,26 @@ static void found_dollar(t_mbox *mbox, int quote_s, int *k, char cur_c)
 	
 	(*k)++;
 	key = get_key(mbox->inp_shift, k);
-	if(key)
-		mbox->inp_expand = append_str(mbox->inp_expand, get_var_value(mbox, key), ft_false);
+	if (key)
+		mbox->inp_expand = append_str(mbox->inp_expand,
+			get_var_value(mbox, key), ft_false);
 	else
-	{
-// no key means:
-		// only dollar (end of string)	-> print dollar					Hello$
+	{ // only dollar (end of string)	-> print dollar					Hello$
 		(*k)++;
-		if(!mbox->inp_shift[*k] || mbox->inp_shift[*k] == '$')
+		if (!mbox->inp_shift[*k] || mbox->inp_shift[*k] == '$')
 		{
 			mbox->inp_expand = append_str(mbox->inp_expand, "$", ft_false);
-		}
-		// $"SMTH"						-> skipp dollar					$"Hi"	//FIXME: << $""''USER"" cat this wont work maybe?
-		else if(quote_s == add_offset('"') && mbox->inp_shift[*k] == '\'')
+		}	// $"SMTH"						-> skipp dollar					$"Hi"	//FIXME: << $""''USER"" cat this wont work maybe?
+		else if (quote_s == add_offset('"') && mbox->inp_shift[*k] == '\'')
 			mbox->inp_expand = append_str(mbox->inp_expand, "$", ft_false);
 		//  for $| or $> or $<
-		else if(mbox->inp_shift[*k] < 0)
+		else if (mbox->inp_shift[*k] < 0)
 			mbox->inp_expand = append_str(mbox->inp_expand, "$", ft_false);
 		// $wrong key					-> skipp dollar and one char	$!LOL
 		else if (!ft_isalpha(mbox->inp_shift[*k]) && mbox->inp_shift[*k] != '_')
 			(*k)++;
 		(*k)--;
 	}
-    
 	free(key);
 }
 
@@ -102,11 +99,11 @@ static void found_dollar(t_mbox *mbox, int quote_s, int *k, char cur_c)
  * 			if two in a row the next thing will be the lummiter
  * 			since the lim has a special expansion it will be dealt with here
  * 
- * @param mbox 
- * @param k 
- * @param quote_s 
- * @param cur_c 
- * @return t_bool 
+ * @param	mbox 
+ * @param	k 
+ * @param	quote_s 
+ * @param	cur_c 
+ * @return	t_bool 
  */
 static t_bool detect_heredoc(t_mbox *mbox, int *k, int quote_s, char cur_c)
 {
@@ -119,8 +116,10 @@ static t_bool detect_heredoc(t_mbox *mbox, int *k, int quote_s, char cur_c)
 	}
 	if (mbox->consecutive_lt == 2)
 	{
-		mbox->inp_expand = append_str(mbox->inp_expand, ft_chr2str(cur_c), ft_true);
-		mbox->inp_expand = append_str(mbox->inp_expand, extract_limiter(mbox, k, &quote_s), ft_true);
+		mbox->inp_expand = append_str(mbox->inp_expand,
+			ft_chr2str(cur_c), ft_true);
+		mbox->inp_expand = append_str(mbox->inp_expand,
+			extract_limiter(mbox, k, &quote_s), ft_true);
 		return (ft_true);
 	}
 	return (ft_false);
@@ -143,9 +142,6 @@ static t_bool detect_heredoc(t_mbox *mbox, int *k, int quote_s, char cur_c)
 t_bool  expand_variables(t_mbox *mbox, int k, int quote_state)
 {
     char    cur_c;
-    // int     consecutive_lt;
-
-    // consecutive_lt = 0;
     
     mbox->inp_expand = NULL;
     while (mbox->inp_shift[k])
@@ -157,34 +153,10 @@ t_bool  expand_variables(t_mbox *mbox, int k, int quote_state)
 			if (quote_state != add_offset('\'') && cur_c == '$') 
                 found_dollar(mbox, quote_state, &k, cur_c);
             else
-         	   mbox->inp_expand = append_str(mbox->inp_expand, ft_chr2str(cur_c), ft_true);
+         	   mbox->inp_expand = append_str(mbox->inp_expand,
+			   	ft_chr2str(cur_c), ft_true);
 		}
  		k++;
-		
-
-		//old
-        // cur_c = mbox->inp_shift[k];
-        // update_quote_state(&quote_state, cur_c, ft_true);
-        // if (quote_state == OUT_Q)
-        // {
-        //     if (remove_offset(cur_c) == '<')
-        //         consecutive_lt++;
-        //     else
-        //         consecutive_lt = 0;
-        // }
-        // if (consecutive_lt == 2)
-        // {
-        //     mbox->inp_expand = append_str(mbox->inp_expand, ft_chr2str(cur_c), ft_true);
-        //     mbox->inp_expand = append_str(mbox->inp_expand, extract_limiter(mbox, &k, &quote_state), ft_true);
-        // }
-        // else
-        // {
-        //     if (quote_state != add_offset('\'') && cur_c == '$') 
-        //         found_dollar(mbox, quote_state, &k, cur_c);
-        //     else
-        //  	   mbox->inp_expand = append_str(mbox->inp_expand, ft_chr2str(cur_c), ft_true);
-        // }
-        // k++;
     }
     if (!mbox->inp_expand || mbox->inp_expand[0] == '\0')
         return (ft_false);

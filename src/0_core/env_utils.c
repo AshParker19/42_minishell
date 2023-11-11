@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 21:35:50 by astein            #+#    #+#             */
-/*   Updated: 2023/11/08 22:32:56 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/11 10:11:44 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,20 +90,17 @@ static int  env_counter(const t_env_var *env_var)
  */
 char **env_to_matrix(const t_mbox *mbox, const t_bool put_quotes)
 {
-    char    **env_matrix;
+    char        **env_matrix;
     t_env_var   *cur_var;
-    int     count_vars;
-    int     i;
+    int         count_vars;
+    int         i;
 
     i = -1;
     count_vars = env_counter(mbox->env_vars);
     cur_var = mbox->env_vars;
     env_matrix = ft_calloc(count_vars + 1, sizeof(char *));
     if (!env_matrix)
-    {
-        dprintf (2, "HERE\n");
         return (NULL);
-    }
     while (++i < count_vars)
     {
 		if (!str_cmp_strct(cur_var->key, "?"))

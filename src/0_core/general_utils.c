@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   general_utils_1.c                                  :+:      :+:    :+:   */
+/*   general_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:43:17 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/10 23:49:25 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/11 10:46:38 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,17 @@ void	*create_syntax_err(t_mbox *mbox, t_token *err_token)
 	return(NULL);
 }
 
+static void    tmp_conclusion(t_mbox *mbox, char *err_msg, int exit_status)
+{
+    if (err_msg)
+    {
+        ft_putendl_fd(err_msg, STDERR_FILENO);    
+        free (err_msg);
+    }
+	if(exit_status != NO_EXIT_STATUS)
+		set_var_value_int(mbox, "?", exit_status);
+}
+
 /**
  * @brief   uses variadic variables to create a custom error message dynamically
  *          uses format string as an identifier if any of the accepted string
@@ -69,37 +80,30 @@ void	*create_syntax_err(t_mbox *mbox, t_token *err_token)
 void    put_err_msg(t_mbox *mbox, int exit_status, const char *format, ...)
 {
 	va_list	args;
-    char    *error_msg;
+    char    *err_msg;
     char    *temp;
     char    *str;
 
 	va_start(args, format);
-    error_msg = NULL;
+    err_msg = NULL;
     while (*format)
     {
         str = va_arg(args, char *);
         if (str)
         {
-            if (!error_msg)
-                error_msg = ft_strdup(str);
+            if (!err_msg)
+                err_msg = ft_strdup(str);
             else
             {
-                temp = ft_strjoin(error_msg, str);
-                free (error_msg);
-                error_msg = temp;
-                if (*format == 'y')
+                temp = ft_strjoin(err_msg, str);
+                free (err_msg);
+                err_msg = temp;
+                if (*format++ == 'y')
                     free (str);
             }
         }
-        format++;
     }
 	va_end(args);
-    if (error_msg)
-    {
-        ft_putendl_fd(error_msg, STDERR_FILENO);    
-        free (error_msg);
-    }
-	if(exit_status != NO_EXIT_STATUS)
-		set_var_value_int(mbox, "?", exit_status);
+    tmp_conclusion(mbox, err_msg, exit_status);
 }
 

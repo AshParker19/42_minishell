@@ -35,7 +35,7 @@ SRCS = $(addprefix $(SRC_FOLDER), 						\
 	0_core/environment.c								\
 	0_core/env_utils.c									\
 	0_core/env_utils2.c									\
-	0_core/general_utils_1.c							\
+	0_core/general_utils.c								\
 	0_core/input_manager.c								\
 	0_core/manage_mbox.c								\
 	0_core/signals.c									\
