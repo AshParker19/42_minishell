@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:00:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/11 19:06:10 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/11 19:34:06 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static	char	*tmp_buck(t_mbox *mbox, char *str, int *i, char *expanded_str)
 /**
  * @brief   this function will be called for each line that will be inserted
  *          into the heredoc. its purpose is to look for dollar signs and
- *          expand all env_vars. therefore it returns the expandend string
+ *          expand all env. therefore it returns the expandend string
  * 
  *          and frees the original one!
  * 

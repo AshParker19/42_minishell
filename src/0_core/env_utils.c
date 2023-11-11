@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 21:35:50 by astein            #+#    #+#             */
-/*   Updated: 2023/11/11 10:11:44 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/11 19:34:06 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_bool   is_var(const t_mbox *mbox, const char *key)
 
 	if (!key)
 		return (ft_false);
-    cur = mbox->env_vars;
+    cur = mbox->env;
     while(cur)
     {
         if(str_cmp_strct(key, cur->key))
@@ -96,8 +96,8 @@ char **env_to_matrix(const t_mbox *mbox, const t_bool put_quotes)
     int         i;
 
     i = -1;
-    count_vars = env_counter(mbox->env_vars);
-    cur_var = mbox->env_vars;
+    count_vars = env_counter(mbox->env);
+    cur_var = mbox->env;
     env_matrix = ft_calloc(count_vars + 1, sizeof(char *));
     if (!env_matrix)
         return (NULL);

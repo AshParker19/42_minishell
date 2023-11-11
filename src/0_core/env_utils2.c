@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 22:47:09 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/11 10:25:34 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/11 19:34:06 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@ static  void    tmp_add_back(t_mbox *mbox, t_env_var *new_var) //TODO: create un
 {
     t_env_var   *cur;
 
-    if (!mbox->env_vars)
-        mbox->env_vars = new_var;
+    if (!mbox->env)
+        mbox->env = new_var;
     else
     {
-        cur = mbox->env_vars;
+        cur = mbox->env;
         while (cur->next)
             cur = cur->next;
         cur->next = new_var;    
@@ -43,7 +43,7 @@ void    set_var_value(t_mbox *mbox, const char *key, const char *value)
     t_env_var   *new_var;
     t_env_var   *cur;
     
-    cur = mbox->env_vars;
+    cur = mbox->env;
     if(is_var(mbox, key))
     {
         while (cur)

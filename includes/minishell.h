@@ -99,8 +99,7 @@ enum e_signal_state
  */
 typedef struct s_mbox
 {
-    // char        **env;
-    t_env_var   *env_vars;
+    t_env_var   *env;
     
     char        *inp_orig;
     char        *inp_trim;
