@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:33:46 by astein            #+#    #+#             */
-/*   Updated: 2023/11/10 23:42:13 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/11 16:41:15 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,8 @@ void	builtin_env(t_mbox *mbox, t_ast *arg_node)
 	t_env_var	*cur;
 
 	if (arg_node)
-	{
-		put_err_msg(mbox, 1, "nnn", "env: ‘", arg_node->content,
+		put_err_msg(mbox, 127, "nnn", "env: ‘", arg_node->content,
 			"’: No such file or directory");
-		set_var_value(mbox, "?", EXIT_STR_FAILURE); // shouldnt be here, return false instead
-	}
 	else
 	{
 		cur = mbox->env_vars;
@@ -50,5 +47,6 @@ void	builtin_env(t_mbox *mbox, t_ast *arg_node)
 			}
 			cur = cur->next;
 		}
+		set_var_value(mbox, "?", EXIT_STR_SUCCESS);
 	}
 }
