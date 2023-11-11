@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:33:09 by astein            #+#    #+#             */
-/*   Updated: 2023/11/10 23:53:25 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/11 16:24:06 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,9 @@ void builtin_export(t_mbox *mbox, t_ast *arg_node)
     char    *equal_sign;
     char    *key;
     char    *value;
+	t_bool	all_args_correct;
     
+	all_args_correct = ft_true;
     if (!arg_node)
         sort_and_print_var(mbox);
     while (arg_node)
@@ -144,8 +146,11 @@ void builtin_export(t_mbox *mbox, t_ast *arg_node)
         if (!equal_sign)
         {
             if (!validate_key(arg_node->content))
-                put_err_msg(mbox,1,"nnnn", ERR_PROMT, "export: `",
+			{
+                put_err_msg(mbox, NO_EXIT_STATUS, "nnnn", ERR_PROMT, "export: `",
                     arg_node->content, "': not a valid identifier");
+				all_args_correct = ft_false;
+			}
         }
         else
         {
@@ -155,10 +160,17 @@ void builtin_export(t_mbox *mbox, t_ast *arg_node)
             if (validate_key(key))
                 set_var_value(mbox, key, value);
             else
-                put_err_msg(mbox,1,"nnnn", ERR_PROMT, "export: `",
+			{
+                put_err_msg(mbox, NO_EXIT_STATUS, "nnnn", ERR_PROMT, "export: `",
                     arg_node->content, "': not a valid identifier");
+				all_args_correct = ft_false;	
+			}
             free_whatever("pp", key, value);
         }
         arg_node = arg_node->right;
     }
+	if (all_args_correct)
+		set_var_value(mbox, "?", EXIT_STR_SUCCESS);
+	else
+		set_var_value(mbox, "?", EXIT_STR_FAILURE);
 }
