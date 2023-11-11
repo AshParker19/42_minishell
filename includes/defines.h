@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 21:35:01 by astein            #+#    #+#             */
-/*   Updated: 2023/11/11 21:43:34 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/11 21:57:45 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,5 @@
 # define MSG_SE_LT "syntax error near unexpected token `<'"
 # define MSG_CD "cd: "
 # define MSG_NO_PERM "Permission denied"
-
 
 #endif

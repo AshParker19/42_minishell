@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 13:07:56 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/11 17:16:12 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/11 22:47:18 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,8 @@ char    *get_cmd_path(t_mbox *mbox, char *cmd, int i, t_bool abs)
 	char    *path_temp;
 	char    **path_dirs;
 	
-	path_dirs = ft_split(get_var_value(mbox, "PATH"), ':');
-	if (!path_dirs)
-	{
-		put_err_msg(mbox, EXIT_FAILURE, "nnn", ERR_PROMPT, cmd, ": No such file or directory");
-		exit(0);//TODO: check frees and exit status
-	}
 	path = NULL;
+	path_dirs = NULL;
 	if (ft_strchr(cmd, '/'))
 	{
 		check = access(cmd, F_OK);
@@ -39,6 +34,13 @@ char    *get_cmd_path(t_mbox *mbox, char *cmd, int i, t_bool abs)
 	}
 	else
 	{
+		path_dirs = ft_split(get_var_value(mbox, "PATH"), ':');
+		if (!path_dirs)
+		{
+			//FIXME: check if we should print the error here
+			put_err_msg(mbox, EXIT_FAILURE, "nnn", ERR_PROMPT, cmd, ": No such file or directory");
+			exit(0);//TODO: check frees and exit status
+		}
 		while (path_dirs[++i])
 		{
 			path = ft_strcat_multi(3, path_dirs[i], "/", cmd);
@@ -79,7 +81,11 @@ void get_cmd_av(t_mbox *mbox, t_ast *cmd_node)
 	
 	if (!cmd_node && !cmd_node->content) //TODO: not sure if it need a content
 		return ;
-	cur_args_str = get_cmd_path(mbox, cmd_node->content, -1, ft_false);
+	dprintf(2, "AHOI\n");
+	// cur_args_str = get_cmd_path(mbox, cmd_node->content, -1, ft_false);
+	cur_args_str = "./hw";
+	dprintf(2, "cmd path: (%s)\n", cur_args_str);
+	dprintf(2, "AHOI\n");
 	if (!cur_args_str)
 		return ;
 	lim_split = ft_chr2str(add_offset('+'));

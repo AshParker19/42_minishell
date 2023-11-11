@@ -11,3 +11,6 @@ gmon.out
 .VSCodeCounter/
 .devcontainer
 ./obj
+hw
+out
+hwnp

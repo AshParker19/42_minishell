@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:09:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/11 21:25:39 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/11 22:58:53 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 static	void	put_wrong_cmd_err(t_mbox *mbox, char *cmd)
 {
 	int	err_code;
-
+	// TODO: implement the pseudo code above with the new defines.h
 	err_code = 126;
 	// if ()
 	put_err_msg(mbox, 127, "nnnn", ERR_PROMPT, "command '", cmd, "' not found");
@@ -82,7 +82,13 @@ void    run_cmd_system(t_mbox *mbox, t_ast *cmd_node)
 	{
 		abs_cmd_path = get_cmd_path(mbox, cmd_node->content, -1, ft_true);
 		cur_env = env_to_matrix(mbox, NULL);
-		execve(abs_cmd_path, mbox->executor.cmd_av, cur_env);
+		dprintf(2, "abs cmd path: (%s)\n", abs_cmd_path);
+		int i = -1;
+		while (mbox->executor.cmd_av[++i])
+			dprintf(2, "mbox->executor.cmd_av[%d]: (%s)\n", i, mbox->executor.cmd_av[i]);
+		mbox->executor.cmd_av[0] = ft_strdup("mnt/daten/GIT/42_minishell/hw");
+		execve("mnt/daten/GIT/42_minishell/hw", mbox->executor.cmd_av, cur_env);
+		dprintf(2, "LOL HERE\n");
 	}
 	free_whatever("mp", cur_env, abs_cmd_path);
 	put_wrong_cmd_err(mbox, cmd_node->content);
