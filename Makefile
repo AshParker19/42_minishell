@@ -145,7 +145,7 @@ DOT:
 	echo "DONE - NOW IS IN CLIPBOARD"
 
 stats:
-	./count_stats.sh
+	./tester/count_stats.sh
 
 run: all
 	./minishell
