@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   general_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:43:17 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/11 11:02:45 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/11 17:18:38 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,10 @@ void	*create_syntax_err(t_mbox *mbox, t_token *err_token)
 	{
 		mbox->error_status = ft_true;
 		if(err_token && err_token->value)
-			put_err_msg(mbox, 2, "nnnn", ERR_PROMT,
+			put_err_msg(mbox, 2, "nnnn", ERR_PROMPT,
 				"syntax error near unexpected token `", err_token->value,"'" );
 		else
-			put_err_msg(mbox, 2, "nn", ERR_PROMT,
+			put_err_msg(mbox, 2, "nn", ERR_PROMPT,
 				"syntax error near unexpected token `newline'");
 	}
 	if (err_token)

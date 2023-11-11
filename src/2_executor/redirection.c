@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:47:15 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/11 11:47:31 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/11 17:16:12 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 static   t_bool create_open_file_err(t_mbox *mbox, char *fn)
 {
     (void) mbox; //TODO: check it
-    put_err_msg(mbox, NO_EXIT_STATUS, "nnnn", ERR_PROMT, fn, ": ",
+    put_err_msg(mbox, NO_EXIT_STATUS, "nnnn", ERR_PROMPT, fn, ": ",
         strerror(errno)); //FIXME: prints some crap to the terminal
     return (ft_false);
 }

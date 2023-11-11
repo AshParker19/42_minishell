@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:33:57 by astein            #+#    #+#             */
-/*   Updated: 2023/11/11 15:02:17 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/11 17:16:12 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int is_exit_code_num(t_mbox *mbox, char *str)
 	exit_code = ft_atoi(str);
 	if(exit_code == 0 && str[0] != '0')
 	{
-		put_err_msg(mbox, 2,"nnnn", ERR_PROMT, "exit: ", str,
+		put_err_msg(mbox, 2,"nnnn", ERR_PROMPT, "exit: ", str,
 			": numeric argument required");
 		free_and_close_box_v2(mbox);	
 	}
@@ -73,7 +73,7 @@ void    builtin_exit(t_mbox *mbox, t_ast *arg_node)
 		{
 			if (get_var_value(mbox, "?")[0] == '0')
 				set_var_value_int(mbox, "?", 1);	
-			put_err_msg(mbox, NO_EXIT_STATUS,"nn", ERR_PROMT, "exit: too many arguments");
+			put_err_msg(mbox, NO_EXIT_STATUS,"nn", ERR_PROMPT, "exit: too many arguments");
 			free_cycle_v2(mbox);
 		}
 		else

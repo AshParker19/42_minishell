@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 19:30:56 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/10 23:04:05 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/11 18:11:00 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,29 +18,35 @@ static void	sig_handler_heredoc(int signal)
 
 	if (signal == SIGINT)
 	{
-		dprintf(2, "signal handler pid (%d)\n", getpid());
+		write(STDOUT_FILENO, "\n", 1);
 		mbox = get_mbox(NULL);
 		set_var_value(mbox, "?", "130");
 		close(STDIN_FILENO);
 		g_signal_status = SIGNAL_HEREDOC;
 		mbox->stop_heredoc = ft_true;
-		// dprintf(2, "CTRL C IN HEREDOC\n");
-		// write(STDIN_FILENO, "\n", 1);
-		// free_and_close_box_v2(mbox);
+	}
+	else if (signal == SIGQUIT)
+	{
+		
 	}
 }
 
+/**
+ * @brief	in main loop just print a new promt in a new line
+ * 
+ * 			TODO: EXIT CODE?
+ * 
+ * @param 	signal 
+ */
 static void signal_handler(int signal)
 {
     if (signal == SIGINT)
     {
-        // PRINT NEW PROMT
 		g_signal_status = SIGNAL_NEW_LINE;
-        write(STDIN_FILENO, "\n", 1);
-        write(1, PROMT, ft_strlen(PROMT));
-        rl_replace_line("", 1);
-		// if in heredoc
-		// amd ctrl c
+		ft_putchar_fd('\n', STDOUT_FILENO);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
     }
 }
 

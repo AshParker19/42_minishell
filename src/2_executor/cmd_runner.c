@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:09:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/11 15:45:43 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/11 17:16:12 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void    run_cmd_system(t_mbox *mbox, t_ast *cmd_node)
 		execve(abs_cmd_path, mbox->executor.cmd_av, cur_env);
 	}
 	free_whatever("mp", cur_env, abs_cmd_path);
-	put_err_msg(mbox, 127, "nnnn", ERR_PROMT, "command '", cmd_node->content,
+	put_err_msg(mbox, 127, "nnnn", ERR_PROMPT, "command '", cmd_node->content,
 		"' not found");
 	err_free_and_close_box(mbox, 127);
 }

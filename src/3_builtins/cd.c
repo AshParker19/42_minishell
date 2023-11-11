@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:32:31 by astein            #+#    #+#             */
-/*   Updated: 2023/11/11 16:46:37 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/11 17:16:12 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void change_pwd(t_mbox *mbox, char *new_path)
     if (is_var(mbox, "OLDPWD"))
         set_var_value(mbox, "OLDPWD", getcwd(NULL, 0));
     if (chdir(new_path) != 0)
-		put_err_msg(mbox, EXIT_FAILURE, "nnnn", ERR_PROMT, "cd: ", new_path,	
+		put_err_msg(mbox, EXIT_FAILURE, "nnnn", ERR_PROMPT, "cd: ", new_path,	
 			strerror(errno));
 	else
 	{
@@ -72,10 +72,10 @@ void	builtin_cd(t_mbox *mbox, t_ast *arg_node)
         if (is_var(mbox, "HOME"))
             change_pwd(mbox, get_var_value(mbox, "HOME"));
         else
-            put_err_msg(mbox, EXIT_FAILURE, "nn", ERR_PROMT, "cd: HOME not set");
+            put_err_msg(mbox, EXIT_FAILURE, "nn", ERR_PROMPT, "cd: HOME not set");
     }
     else if (arg_node->right)
-        put_err_msg(mbox, EXIT_FAILURE, "nn", ERR_PROMT, "cd: too many arguments");
+        put_err_msg(mbox, EXIT_FAILURE, "nn", ERR_PROMPT, "cd: too many arguments");
     else
     {
         // Check if it's a valid directory
@@ -86,18 +86,18 @@ void	builtin_cd(t_mbox *mbox, t_ast *arg_node)
                 if (access(arg_node->content, X_OK) == 0) 
                     change_pwd(mbox, arg_node->content);
                 else
-                    put_err_msg(mbox, EXIT_FAILURE, "nnnn", ERR_PROMT, "cd: ", arg_node->content,
+                    put_err_msg(mbox, EXIT_FAILURE, "nnnn", ERR_PROMPT, "cd: ", arg_node->content,
                     ": Permission denied");
             }
             else if (S_ISREG(path_stat.st_mode))
-                put_err_msg(mbox, EXIT_FAILURE,"nnnn", ERR_PROMT, "cd: ", arg_node->content,
+                put_err_msg(mbox, EXIT_FAILURE,"nnnn", ERR_PROMPT, "cd: ", arg_node->content,
                     ": Not a directory");
             else
-                put_err_msg(mbox, EXIT_FAILURE,"nnnn", ERR_PROMT, "cd: ", arg_node->content,
+                put_err_msg(mbox, EXIT_FAILURE,"nnnn", ERR_PROMPT, "cd: ", arg_node->content,
                     ": No such file or directory");
         }
         else
-             put_err_msg(mbox, EXIT_FAILURE,"nnnn", ERR_PROMT, "cd: ", arg_node->content,
+             put_err_msg(mbox, EXIT_FAILURE,"nnnn", ERR_PROMPT, "cd: ", arg_node->content,
                     ": No such file or directory");
     }     
 }
