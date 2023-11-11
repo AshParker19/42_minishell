@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:00:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/11 13:36:11 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/11 14:21:02 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,21 +36,23 @@
  */
 
 /* gets the value of expended vars inside of heredoc */
-static	char	*tmp_buck(t_mbox *mbox, char *str, int *i)
+static	char	*tmp_buck(t_mbox *mbox, char *str, int *i, char *expanded_str)
 {
 	char	*key;
-	char	*expanded_str;
+	char	*temp;
 
-	expanded_str = NULL;
+	temp = NULL;
 	key = get_key(str, i);
 	if (!key)
-		expanded_str = append_str(expanded_str, "$", ft_false);
+		temp = append_str(temp, "$", ft_false);
 	else if (str_cmp_strct(key, "$"))
-		expanded_str = append_str(expanded_str, key, ft_false);
+		temp = append_str(temp, key, ft_false);
 	else
-		expanded_str = append_str(expanded_str, get_var_value(mbox,
+		temp = append_str(temp, get_var_value(mbox,
 								key), ft_false);
 	free (key);
+	expanded_str = append_str(expanded_str, temp, ft_false);
+	free (temp);
 	return (expanded_str);
 }
 
@@ -92,7 +94,7 @@ static char	*expand_heredoc_input(t_mbox *mbox, char *str)
 			if (found_dollar)
 			{
 				found_dollar = ft_false;
-				expanded_str = tmp_buck(mbox, str, &i);
+				expanded_str = tmp_buck(mbox, str, &i, expanded_str);
 			}
 			else
 				expanded_str = append_str(expanded_str, ft_chr2str(str[i]),
