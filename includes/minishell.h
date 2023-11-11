@@ -14,25 +14,7 @@
 # define MINISHELL_H
 
 extern int g_signal_status;
-# define SIGNAL_NEW_LINE 1
-# define SIGNAL_EXIT_HD 2
 
-# define NO_EXIT_STATUS -99999
-
-/* promt strings */
-// # define PROMPT      "\x1b[36mfrankenshell-->\033[0m "
-// # define ERR_PROMPT  "\033[38;5;203mfrankenshell:\033[0m "
-// # define HEREDOC_PROMPT "frankendoc> "
-
-/* test prompts */
-# define PROMPT "minishell:"
-# define ERR_PROMPT "minishell: "
-# define HEREDOC_PROMPT "> "
-
-# define FRANKENSHELL_RISES_AMIDTS_DEATH 1
-
-# define EXIT_STR_SUCCESS "0"
-# define EXIT_STR_FAILURE "1"
 
 /* system includes */
 # include <curses.h>
@@ -68,6 +50,7 @@ extern int g_signal_status;
 # include "input_manager.h"
 # include "builtins.h"
 # include "executor.h"
+# include "defines.h"
 
 /******************************************************************************/
 /*    colors    */

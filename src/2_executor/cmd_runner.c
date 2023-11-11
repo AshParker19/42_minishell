@@ -6,12 +6,40 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:09:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/11 20:36:33 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/11 21:25:39 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
 
+/**
+ * @brief	as soon as we find one '/' in the string we think its a path
+ * 			is path
+ * 				if directory
+ * 					126	cmd is a directory
+ * 				else if is a file
+ * 					if has permissions
+ * 						FIXME: should be run from somewhere else
+ * 					else
+ * 						126 cmd has no permissions
+ * 				else
+ * 					127 No such file or directory
+ * 					
+ * 			else
+ * 				127 cmd not found
+ * 
+ * @param mbox 
+ * @param cmd 
+ */
+static	void	put_wrong_cmd_err(t_mbox *mbox, char *cmd)
+{
+	int	err_code;
+
+	err_code = 126;
+	// if ()
+	put_err_msg(mbox, 127, "nnnn", ERR_PROMPT, "command '", cmd, "' not found");
+	err_free_and_close_box(mbox, 127);
+}
 
 /*
 	decides if the command to be executed is a builtin cmd or a system cmd
@@ -57,9 +85,7 @@ void    run_cmd_system(t_mbox *mbox, t_ast *cmd_node)
 		execve(abs_cmd_path, mbox->executor.cmd_av, cur_env);
 	}
 	free_whatever("mp", cur_env, abs_cmd_path);
-	put_err_msg(mbox, 127, "nnnn", ERR_PROMPT, "command '", cmd_node->content,
-		"' not found");
-	err_free_and_close_box(mbox, 127);
+	put_wrong_cmd_err(mbox, cmd_node->content);
 }
 
 /**
