@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 15:35:02 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/09 20:48:10 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/11 00:22:46 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ t_bool	ft_isspace(char c);
 t_bool	ft_issep(char c);
 t_bool	ft_isqoute(char c);
 t_bool  check_sp(char *no_space);
-t_bool	check_space_between_redir(char *str1, char *str2);
+t_bool	check_space_between_redir(t_mbox *mbox, char *str1, char *str2);
 int     get_token_type(char c);
 void    free_tokens_v2(t_mbox *mbox);
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_system.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 13:07:56 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/08 23:57:32 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/10 23:50:26 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char    *get_cmd_path(t_mbox *mbox, char *cmd, int i, t_bool abs)
 	path_dirs = ft_split(get_var_value(mbox, "PATH"), ':');
 	if (!path_dirs)
 	{
-		put_err_msg("nnn", ERR_PROMT, cmd, ": No such file or directory");
+		put_err_msg(mbox, EXIT_FAILURE, "nnn", ERR_PROMT, cmd, ": No such file or directory");
 		exit(0);//TODO: check frees and exit status
 	}
 	path = NULL;

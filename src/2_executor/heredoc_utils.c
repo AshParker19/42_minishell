@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 19:28:09 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/10 19:53:41 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/10 23:55:57 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void check_ctrl_d(t_mbox *mbox, int *fd, char *lim, char *line)
 {
 	if (!line)
 	{
-		put_err_msg("nnynyn", ERR_PROMT, "warning: here-document at line ",
+		put_err_msg(mbox, NO_EXIT_STATUS,"nnynyn", ERR_PROMT, "warning: here-document at line ",
 				ft_itoa(mbox->count_cycles),
 				" delimited by end-of-file (wanted `", ft_strtrim(lim,
 					"\n"), "')");

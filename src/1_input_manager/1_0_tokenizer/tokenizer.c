@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 12:11:14 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/09 20:48:10 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/11 00:24:21 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,7 @@ t_bool	tokenize(t_mbox *mbox, int i)
 	no_space = ft_split(mbox->inp_expand, NO_SPACE);
 	while (no_space[i])
 	{
-		if (!check_space_between_redir(no_space[i], no_space[i+1]))
+		if (!check_space_between_redir(mbox, no_space[i], no_space[i+1]))
 		{
 			free_whatever("m", no_space);
 			free_cycle_v2(mbox);

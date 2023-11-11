@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 14:36:59 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/09 20:53:08 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/10 23:46:27 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,7 +197,7 @@ t_bool  shift_context_chars(t_mbox *mbox, int i, int quote_state)
     }
     if (quote_state != OUT_Q)
     {
-        put_err_msg("nn", ERR_PROMT, "Syntax error: unclosed quotes");
+        put_err_msg(mbox, 1, "nn", ERR_PROMT, "Syntax error: unclosed quotes");
         return (ft_false);
     }
     return (ft_true);
