@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:33:57 by astein            #+#    #+#             */
-/*   Updated: 2023/11/11 02:23:45 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/11 15:02:17 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,11 @@ static int is_exit_code_num(t_mbox *mbox, char *str)
  *	no arg 		'exit'						last exit status	exit	yes
  *	not num		see: 'is_exit_code_num'		2					exit	yes
  *	num	1 arg	'exit 42'					42					exit	yes
- *	num	2+ args	'exit 42 42','exit 42 a'	42					exit	no
- * 			
- * @param   mbox 
+ *	num	2+ args	'exit 42 42','exit 42 a'	if last != 0		exit	no
+ * 												old one
+ * 											else
+ * 												1
+ * @param   mbox 		
  * @param   arg_node 
  */
 void    builtin_exit(t_mbox *mbox, t_ast *arg_node)
@@ -69,12 +71,14 @@ void    builtin_exit(t_mbox *mbox, t_ast *arg_node)
 		exit_status = is_exit_code_num(mbox, arg_node->content);	
 		if (arg_node->right)
 		{
-			put_err_msg(mbox, 1,"nn", ERR_PROMT, "exit: too many arguments");
+			if (get_var_value(mbox, "?")[0] == '0')
+				set_var_value_int(mbox, "?", 1);	
+			put_err_msg(mbox, NO_EXIT_STATUS,"nn", ERR_PROMT, "exit: too many arguments");
 			free_cycle_v2(mbox);
 		}
 		else
 		{
-			set_var_value_int(mbox, "?", ft_atoi(arg_node->content) % 128);
+			set_var_value_int(mbox, "?", exit_status);
 			free_and_close_box_v2(mbox);	
 		}
 	}
