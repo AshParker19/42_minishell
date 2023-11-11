@@ -6,11 +6,26 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 22:47:09 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/10 22:56:44 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/11 10:25:34 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
+
+static  void    tmp_add_back(t_mbox *mbox, t_env_var *new_var) //TODO: create universal function for adding the node at the end ot use something from libft
+{
+    t_env_var   *cur;
+
+    if (!mbox->env_vars)
+        mbox->env_vars = new_var;
+    else
+    {
+        cur = mbox->env_vars;
+        while (cur->next)
+            cur = cur->next;
+        cur->next = new_var;    
+    }
+}
 
 /**
  * @brief	This function
@@ -31,11 +46,11 @@ void    set_var_value(t_mbox *mbox, const char *key, const char *value)
     cur = mbox->env_vars;
     if(is_var(mbox, key))
     {
-        while(cur)
+        while (cur)
         {
-            if(str_cmp_strct(key, cur->key))
+            if (str_cmp_strct(key, cur->key))
             {
-                if(cur->value)
+                if (cur->value)
                     free(cur->value);
                 cur->value = ft_strdup(value);
                 return ;
@@ -48,15 +63,7 @@ void    set_var_value(t_mbox *mbox, const char *key, const char *value)
         return; //TODO: deal with malloc failure
     new_var->key = ft_strdup(key); 
     new_var->value = ft_strdup(value);
-    if (!mbox->env_vars)
-        mbox->env_vars = new_var;
-    else
-    {
-        cur = mbox->env_vars;
-        while (cur->next)
-            cur = cur->next;
-        cur->next = new_var;    
-    }
+   tmp_add_back(mbox, new_var); //TEMP:
 }
 
 /**

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_manager.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 15:35:02 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/11 00:22:46 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/11 11:11:01 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void 	update_quote_state(int *quote_state, char cur_char, t_bool shift);
 t_bool  expand_variables(t_mbox *mbox, int k, int quote_state);
 
 /* HEREDOC UTILS*/
-char    *extract_limiter(t_mbox *mbox, int *k, int *quote_state);
+char    *extract_limiter(t_mbox *mbox, int *k, int *quote_state, char *lim);
 
 
 /* TOKENIZER */

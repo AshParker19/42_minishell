@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 20:24:39 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/07 22:05:10 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/11 11:35:04 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,3 +71,4 @@ static t_ast *redir_out_case2(t_mbox *mbox)
     mbox->tmp_token = mbox->tmp_token->next->next;
     return (red_out_tr_node);
 }
+

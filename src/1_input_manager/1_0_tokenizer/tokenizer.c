@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 12:11:14 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/11 00:24:21 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/11 11:33:31 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static	char	*check_shifted_values(char *str)
 	if (ft_strlen(str) == 1 && str[0] < 0)
 	{
 		if (str[0] == EMPTY_TOKEN)
-			temp = ft_calloc(1, sizeof(char));//TODO: check it in a calling fucntion(we need to afree the allocated part of the list because it crashed)
+			temp = ft_calloc(1, sizeof(char));//TODO: check it in a calling fucntion(we need to afree the allocated part of the list if it crashed) MALLOC PROTECION
 		else
 			temp = ft_chr2str(remove_offset(str[0]));
 	}
