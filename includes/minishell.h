@@ -99,8 +99,7 @@ enum e_signal_state
  */
 typedef struct s_mbox
 {
-    // TODO: REMOVE THE VARS THAT ARE ONLY FOR ONE CYCLE!!!
-    char        **env;
+    // char        **env;
     t_env_var   *env_vars;
     
     char        *inp_orig;
@@ -141,7 +140,7 @@ typedef struct  s_history
 void	manage_input(t_mbox *mbox);
 
 /* env.c */
-void    load_vars_v2(t_mbox *mbox);
+void	load_vars_v2(t_mbox *mbox, char **env);
 char    *get_var_value(const t_mbox *mbox,const char *key);
 void    delete_var(t_mbox *mbox, const char *key);
 void    free_vars_v2(t_mbox *mbox);
@@ -162,7 +161,7 @@ void    set_var_value_int(t_mbox *mbox, const char *key, int int_value);
 void    update_signals(int sig_state);
 
 /* manage_mbox.c */
-void	initialize_box_v2(t_mbox *mbox, char **env);
+void	initialize_box_v2(t_mbox *mbox);
 void    free_cycle_v2(t_mbox *mbox);
 void    free_input_strings_v2(t_mbox *mbox);
 void    free_tokens_v2(t_mbox *mbox);

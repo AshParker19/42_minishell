@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:06:17 by astein            #+#    #+#             */
-/*   Updated: 2023/11/11 17:52:03 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/11 19:31:34 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ int	main(int ac, char **av, char **env)
 	t_mbox	mbox;
 
 	g_signal_status = 0;
-	initialize_box_v2(&mbox, env);
-	load_vars_v2(&mbox);
+	initialize_box_v2(&mbox);
+	load_vars_v2(&mbox, env);	
 	initialize_builtins(&mbox);
 	check_args(&mbox, ac, av);
 	while (FRANKENSHELL_RISES_AMIDTS_DEATH)

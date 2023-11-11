@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   environment.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:16:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/11 10:29:34 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/11 19:31:11 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,22 +50,23 @@
  * 
  * @param	mbox	mbox is a struct that stores all runtime related infos
  */
-void load_vars_v2(t_mbox *mbox)
+void load_vars_v2(t_mbox *mbox, char **env)
 {
     int     i;
     char    *key;
 
     i = 0;
-    while(mbox->env[i])
+    while(env[i])
     {
-        key = ft_strchr(mbox->env[i], '=');
-        key = ft_substr(mbox->env[i], 0,
-            ft_strlen(mbox->env[i]) - ft_strlen(key));
+		key = ft_strchr(env[i], '=');
+        key = ft_substr(env[i], 0,
+            ft_strlen(env[i]) - ft_strlen(key));
         set_var_value(mbox, key, getenv(key));
         free (key);
         i++;    
     }
     set_var_value(mbox, "?", EXIT_STR_SUCCESS);
+	env_to_matrix(mbox, ft_false);
 }
 
 /**

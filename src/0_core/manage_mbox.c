@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manage_mbox.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:49:13 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/11 10:47:54 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/11 19:29:43 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,8 @@
  * @param mbox 
  * @param env 
  */
-void	initialize_box_v2(t_mbox *mbox, char **env)
+void	initialize_box_v2(t_mbox *mbox)
 {
-	mbox->env = env;
 	mbox->env_vars = NULL;
 	mbox->inp_orig = NULL;
 	mbox->inp_trim = NULL;
