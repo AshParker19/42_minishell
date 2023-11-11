@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 12:58:49 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/11 10:53:34 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/11 11:05:51 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,8 @@ static void found_dollar(t_mbox *mbox, int quote_s, int *k, char cur_c)
 	{ // only dollar (end of string)	-> print dollar					Hello$
 		(*k)++;
 		if (!mbox->inp_shift[*k] || mbox->inp_shift[*k] == '$')
-		{
 			mbox->inp_expand = append_str(mbox->inp_expand, "$", ft_false);
-		}	// $"SMTH"						-> skipp dollar					$"Hi"	//FIXME: << $""''USER"" cat this wont work maybe?
+		// $"SMTH"						-> skipp dollar					$"Hi"	//FIXME: << $""''USER"" cat this wont work maybe?
 		else if (quote_s == add_offset('"') && mbox->inp_shift[*k] == '\'')
 			mbox->inp_expand = append_str(mbox->inp_expand, "$", ft_false);
 		//  for $| or $> or $<
