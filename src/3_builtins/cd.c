@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:32:31 by astein            #+#    #+#             */
-/*   Updated: 2023/11/10 23:52:05 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/11 16:04:10 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,9 @@
  * 
  *          NOTE:
  *          If HOME is not set (e.g. via 'unset HOME') the PWD and OLDPWD are
- *          not supposed to update!
+ *          not supposed to update! (UPDATE: FIXME: THIS COMMENT IS WRONG!)
+ * 
+ * 			update the exit status to 0
  * 
  * @param   mbox 
  * @param   new_path 
@@ -29,19 +31,15 @@ static void change_pwd(t_mbox *mbox, char *new_path)
 {    
     if (is_var(mbox, "OLDPWD"))
         set_var_value(mbox, "OLDPWD", getcwd(NULL, 0));
-    // else
-    // {
-    //     if (first_pwd_unset == 0)
-    //     {
-    //         delete_var(mbox, "OLDPWD");
-    //         first_pwd_unset = 1;
-    //     }
-    //     else
-    //         set_var_value(mbox, "OLDPWD", getcwd(NULL, 0));        
-    // }
-    chdir(new_path);
-    if (is_var(mbox, "PWD"))
-        set_var_value(mbox, "PWD", getcwd(NULL, 0));
+    if (chdir(new_path) != 0)
+		put_err_msg(mbox, EXIT_FAILURE, "nnnn", ERR_PROMT, "cd: ", new_path,	
+			strerror(errno));
+	else
+	{
+		set_var_value(mbox, "?", EXIT_STR_SUCCESS);
+		if (is_var(mbox, "PWD"))
+        	set_var_value(mbox, "PWD", getcwd(NULL, 0));
+	}
 }
 
 
@@ -74,10 +72,10 @@ void	builtin_cd(t_mbox *mbox, t_ast *arg_node)
         if (is_var(mbox, "HOME"))
             change_pwd(mbox, get_var_value(mbox, "HOME"));
         else
-            put_err_msg(mbox, 1, "nn", ERR_PROMT, "cd: HOME not set");
+            put_err_msg(mbox, EXIT_FAILURE, "nn", ERR_PROMT, "cd: HOME not set");
     }
     else if (arg_node->right)
-        put_err_msg(mbox, 1, "nn", ERR_PROMT, "cd: too many arguments");
+        put_err_msg(mbox, EXIT_FAILURE, "nn", ERR_PROMT, "cd: too many arguments");
     else
     {
         // Check if it's a valid directory
