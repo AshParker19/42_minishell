@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 21:35:50 by astein            #+#    #+#             */
-/*   Updated: 2023/11/11 19:34:06 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/11 20:35:22 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,34 +83,35 @@ static int  env_counter(const t_env_var *env_var)
 }
 
 /**
- * @brief	
+ * @brief			matrix_size is the amount of variables in the matrix
+ * 					-1 because of the key '?' which is not exported
+ * 					+1 because of the NULL pointer at the end
  * 
  * @param	mbox	mbox is a struct that stores all runtime related infos
  * @return char**	
  */
-char **env_to_matrix(const t_mbox *mbox, const t_bool put_quotes)
+char **env_to_matrix(const t_mbox *mbox, const char *put_quotes)
 {
     char        **env_matrix;
     t_env_var   *cur_var;
-    int         count_vars;
+    int         matrix_size;
     int         i;
 
-    i = -1;
-    count_vars = env_counter(mbox->env);
     cur_var = mbox->env;
-    env_matrix = ft_calloc(count_vars + 1, sizeof(char *));
+    matrix_size = env_counter(mbox->env);
+    env_matrix = ft_calloc(matrix_size, sizeof(char *));
     if (!env_matrix)
         return (NULL);
-    while (++i < count_vars)
+    i = 0;
+    while (cur_var)
     {
-		if (!str_cmp_strct(cur_var->key, "?"))
+		if (str_cmp_strct(cur_var->key, "?"))
+			cur_var = cur_var->next;
+		else
 		{
-            if (put_quotes)
-			    env_matrix[i] = ft_strcat_multi(4, cur_var->key, "=\"" ,
-                    cur_var->value, "\"");
-            else
-			    env_matrix[i] = ft_strcat_multi(3, cur_var->key, "=" ,
-                    cur_var->value);
+			env_matrix[i] = ft_strcat_multi(5, cur_var->key, "=",put_quotes ,
+				cur_var->value, put_quotes);
+			i++;
 			cur_var = cur_var->next;
 		}
     }

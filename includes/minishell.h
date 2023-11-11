@@ -147,7 +147,7 @@ void    free_vars_v2(t_mbox *mbox);
 /* env_utils.c */
 t_bool   is_var(const t_mbox *mbox, const char *key);
 void	increment_shlvl(t_mbox *mbox);
-char    **env_to_matrix(const t_mbox *mbox, const t_bool put_quotes);
+char    **env_to_matrix(const t_mbox *mbox, const char *put_quotes);
 void    *free_var_v2(t_env_var *temp);
 
 

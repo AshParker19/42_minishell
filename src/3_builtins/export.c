@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:33:09 by astein            #+#    #+#             */
-/*   Updated: 2023/11/11 19:34:06 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/11 20:44:42 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,36 +40,6 @@ static t_bool validate_key(char *key)
 }
 
 /**
- * @brief   uses simple bubble sort method to sort 'env_copy' alphabetically
- * 
- * @param   env_copy 
- * @param   env_count 
- * @return  char** 
- */
-static char    **bubble_sort(char **env_copy, int env_count)
-{
-    int sorted;
-    int i;
-
-    sorted = 0;
-    while (!sorted)
-    {
-        sorted = 1;
-        i = -1;
-        while (++i < env_count - 1)
-        {
-            if (ft_strcmp(env_copy[i], env_copy[i + 1]) > 0)
-            {
-                ft_swap_strings(&env_copy[i], &env_copy[i + 1]);
-                sorted = 0;
-            }
-        }
-        env_count--;
-    }
-    return (env_copy); 
-}
-
-/**
  * @brief   recursively traverses through the ll and return
  *          the amount of nodes in it
  * 
@@ -85,30 +55,59 @@ static int  env_counter(t_env_var *env_var)
 }
 
 /**
+ * @brief   uses simple bubble sort method to sort 'env_copy' alphabetically
+ * 
+ * @param   env_copy 
+ * @param   env_count 
+ * @return  char** 
+ */
+static char    **bubble_sort(const t_mbox *mbox, char **env_matrix)
+{
+    int sorted;
+    int i;
+	int env_count;
+
+	env_count = env_counter(mbox->env) - 1;
+    sorted = 0;
+    while (!sorted)
+    {
+        sorted = 1;
+        i = -1;
+        while (++i < env_count - 1)
+        {
+            if (ft_strcmp(env_matrix[i], env_matrix[i + 1]) > 0)
+            {
+                ft_swap_strings(&env_matrix[i], &env_matrix[i + 1]);
+                sorted = 0;
+            }
+        }
+        env_count--;
+    }
+    return (env_matrix); 
+}
+
+/**
  * @brief   uses 'env_counter' to determine the size of the 't_env_var' ll;
  *          creates a matrix of the ll via 'env_to_matrix' and passes those
  *          informations to 'bubble_sort' to sort the array.
- * 
- *          prints the sorted matris to STDOUT //FIXME: PIPE CMD INSTEAD
- * 
- *          NOTE: the -1 for count_vars is becaus of the '?' node in the ll
  * 
  * @param   mbox 
  */
 static void    sort_and_print_var(const t_mbox *mbox)
 {
     char    **env_matrix;
-    int     count_vars;
+    int		i;
     
-    count_vars = env_counter(mbox->env) - 1;
-    env_matrix = env_to_matrix(mbox, ft_true);
-    env_matrix = bubble_sort(env_matrix, count_vars);
+    env_matrix = env_to_matrix(mbox, "\"");
+    env_matrix = bubble_sort(mbox, env_matrix);
     if (!env_matrix)
         return ;
-    int i;
     i = -1;
-    while (++i < count_vars)
-        printf ("declare -x %s\n", env_matrix[i]);
+    while (env_matrix[++i])
+	{
+		ft_putstr_fd("declare -x ", mbox->executor.io.cmd_fd[CMD_OUT]);
+		ft_putendl_fd(env_matrix[i], mbox->executor.io.cmd_fd[CMD_OUT]);
+	}
     free_whatever("m", env_matrix);
 }
 

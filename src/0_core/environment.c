@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:16:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/11 19:34:06 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/11 20:36:49 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ void load_vars_v2(t_mbox *mbox, char **env)
         i++;    
     }
     set_var_value(mbox, "?", EXIT_STR_SUCCESS);
-	env_to_matrix(mbox, ft_false);
 }
 
 /**
