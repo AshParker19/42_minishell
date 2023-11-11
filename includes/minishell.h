@@ -25,7 +25,7 @@ extern int g_signal_status;
 
 /* test prompts */
 # define PROMT "minishell:"
-# define ERR_PROMT "minishell:"
+# define ERR_PROMT "minishell: "
 
 # define FRANKENSHELL_RISES_AMIDTS_DEATH 1
 

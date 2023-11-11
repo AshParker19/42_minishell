@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:38:32 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/10 12:32:44 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/11 01:52:47 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,10 @@ void	manage_input(t_mbox *mbox) //TODO: rename function and file into input main
     print_parser_output(mbox, ft_false);
             
     if (mbox->root->type == CMD_NODE && str_cmp_strct(mbox->root->content, "exit"))
+	{
         builtin_exit(mbox, mbox->root->right);
+		return ;
+	}
         
     if (mbox->error_status == ft_false)
     {
