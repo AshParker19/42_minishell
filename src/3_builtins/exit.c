@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:33:57 by astein            #+#    #+#             */
-/*   Updated: 2023/11/11 17:16:12 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/12 04:58:55 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,34 @@
  *		exit 424242		50			|	exit a 1
  *		exit 0 a		0			|
  *		exit 1 1		1			|
- * 
+ * 		TODO: fix this funtion for big numbers
  * @param str 
  * @return int 
  */
 static int is_exit_code_num(t_mbox *mbox, char *str)
 {
-	int exit_code;
-
-	exit_code = ft_atoi(str);
-	if(exit_code == 0 && str[0] != '0')
+	long long exit_code;
+	int		  sign;
+	
+	exit_code = 0;
+	sign = 1;
+	str = ft_strtrim(str, "+");
+	if (*str == '-')
+	{
+		sign = -1;
+		str++;
+	}
+	while (*str)
+	{
+		if (!ft_isdigit(*str))
+			break ;
+		exit_code = exit_code * 10 + (*str - '0');
+		str++;
+	}
+	exit_code *= sign;
+	// dprintf(2, "exit_code: %lld\n", exit_code);
+	// exit_code = ft_atoi(str);
+	if(*str || (exit_code == 0 && str[0] != '0'))
 	{
 		put_err_msg(mbox, 2,"nnnn", ERR_PROMPT, "exit: ", str,
 			": numeric argument required");

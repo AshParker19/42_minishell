@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:09:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/12 03:51:16 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/12 04:24:37 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static	void	run_cmd_system_error(t_mbox *mbox, char *cmd)
 		else
 			put_err_msg(mbox, 127, "nnnn", ERR_PROMPT, cmd, MSG_CS, MSG_NO_FOD);
 	}
-	else	
+	else
 		put_err_msg(mbox, 127, "nnn", cmd, MSG_CS, MSG_CMD_N_FND); // else just cmd not found
 }
 
@@ -95,7 +95,8 @@ void    run_cmd_system(t_mbox *mbox, t_ast *cmd_node)
 	// INFO:
 	// in exeve() the first argument is the ABSOLUTE path to the executable
 	// 		  in the second argument is the RELATIVE path to the executable
-	execve(abs_cmd_path, cur_av, cur_env);
+	if(cur_av)
+		execve(abs_cmd_path, cur_av, cur_env);
 	cur_err_no = errno;
 	// if we arrive here execve failed
 	free_whatever("mm", cur_env, cur_av);

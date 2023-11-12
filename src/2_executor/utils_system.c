@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 13:07:56 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/12 03:49:31 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/12 04:37:06 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char    *get_abs_cmd_path(t_mbox *mbox, char *cmd)
 	int 	i;
 
 	// check if cmd is a path like ./hw.sh
-	if (!access(cmd, F_OK))
+	if (!access(cmd, X_OK))
 			return (ft_strdup(cmd));
 
 	// try to find a working path at the PATH variable
@@ -94,9 +94,9 @@ char **args_to_matrix(t_mbox *mbox, char *cmd, t_ast *arg_node)
 	char	*lim_null;
 
 	av = NULL;
-	if (!cmd)
+	args_str = seperate_cmd_from_path(cmd, ft_false);
+	if (!args_str)
 		return (av);
-	args_str = ft_strdup(cmd);
 	lim_split = ft_chr2str(add_offset('+'));
 	lim_null = ft_chr2str(add_offset('-'));
 	while (arg_node)
