@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:49:13 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/11 19:34:06 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/12 01:59:19 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	initialize_box_v2(t_mbox *mbox)
 	mbox->tmp_node = NULL;
 	initialize_io(mbox);
 	mbox->executor.pid = NULL;
-	mbox->executor.cmd_av = NULL;
 	mbox->count_cycles = 0;
 	mbox->print_info = ft_false;
 	mbox->consecutive_lt = 0;

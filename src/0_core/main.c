@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:06:17 by astein            #+#    #+#             */
-/*   Updated: 2023/11/11 19:31:34 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/12 03:47:52 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	main(int ac, char **av, char **env)
 		if (!mbox.inp_orig)
 			builtin_exit(&mbox, NULL); //TODO: really nessesary? YES FOR CRTL + D!
 		else if (mbox.inp_orig[0] == '\0')
-			set_var_value(&mbox, "?", "127");
+			set_var_value(&mbox, "?", "0");
 		else
 		{
 			if (*mbox.inp_orig)

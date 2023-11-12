@@ -6,12 +6,28 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 21:35:01 by astein            #+#    #+#             */
-/*   Updated: 2023/11/11 21:57:45 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/12 03:42:30 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef DEFINES_H
 # define DEFINES_H
+
+// THOSE I ALREADY USE!!!!
+# define MSG_CS ": "	//COLON SPACE
+# define MSG_CMD_N_FND "command not found"
+# define MSG_NO_FOD "No such file or directory"
+# define MSG_NO_PERM "Permission denied"
+# define MSG_IS_DIR "Is a directory"
+// ===================================
+
+
+
+
+
+
+
+
 
 # define SIGNAL_NEW_LINE 1
 # define SIGNAL_EXIT_HD 2
@@ -35,6 +51,6 @@
 
 # define MSG_SE_LT "syntax error near unexpected token `<'"
 # define MSG_CD "cd: "
-# define MSG_NO_PERM "Permission denied"
+
 
 #endif

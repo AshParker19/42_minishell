@@ -173,7 +173,7 @@ t2: all
 	@cd ./tester/tester2 && bash ./tester syntax || echo "TEST COMPLETED"
 	$(call print_header, OS SPECIFIC)
 	@cd ./tester/tester2 && bash ./tester os_specific || echo "TEST COMPLETED"
-	$(call print_header, FRANKENSHELL)
+	$(call print_header, FRANKENSHELL TEST)
 	@cd ./tester/tester2 && bash ./tester ./frankenshell/tests || echo "TEST COMPLETED"
 
 run: all

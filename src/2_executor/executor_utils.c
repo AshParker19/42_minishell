@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:23:39 by astein            #+#    #+#             */
-/*   Updated: 2023/11/02 19:30:40 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/12 01:59:59 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,5 @@ void	free_process_v2(t_mbox *mbox)
 	{
 		free (mbox->executor.pid);
 		mbox->executor.pid = NULL;
-	}
-	if (mbox->executor.cmd_av)
-	{
-		free_whatever("m", mbox->executor.cmd_av);
-		mbox->executor.cmd_av = NULL;
 	}
 }
