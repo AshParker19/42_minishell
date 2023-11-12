@@ -77,6 +77,13 @@ SRCS = $(addprefix $(SRC_FOLDER), 						\
 # Object files
 OBJS = $(SRCS:$(SRC_FOLDER)%.c=$(OBJ_FOLDER)%.o)
 
+define print_header
+	@echo "$(PURPLE) =========================================================$(RESET)"
+	@echo "$(PURPLE)| ⚠️ $1$(RESET)"
+	@echo "$(PURPLE) =========================================================$(RESET)\n"
+endef
+
+
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
 
 # TARGETS
@@ -153,29 +160,21 @@ stats:
 t: t1 t2 t3
 
 t1: all
-	@echo "$(ORANGE)┌─────────────────────────────────────────────────┐"
-	@echo " $(BLUE)TEST1:  https://github.com/MariaAguiar/minitester "
-	@echo " $(BLUE)        START..."
-	@echo "$(ORANGE)└─────────────────────────────────────────────────┘$(RESET)"
+	$(call print_header, "https://github.com/MariaAguiar/minitester")
 	@cp ./minishell ./tester/minishell
 	@cd ./tester/tester1 && bash ./minitester.sh
-	@echo "$(ORANGE)┌─────────────────────────────────────────────────┐"
-	@echo " $(BLUE)TEST1:  https://github.com/MariaAguiar/minitester "
-	@echo " $(BLUE)        ...DONE"
-	@echo "$(ORANGE)└─────────────────────────────────────────────────┘$(RESET)"
-
 
 t2: all
-	@echo "$(ORANGE)┌─────────────────────────────────────────────────────┐"
-	@echo " $(BLUE)TEST2:  https://github.com/LucasKuhn/minishell_tester"
-	@echo " $(BLUE)        START..."
-	@echo "$(ORANGE)└─────────────────────────────────────────────────────┘$(RESET)"
+	$(call print_header, "https://github.com/LucasKuhn/minishell_tester")
 	@cp ./minishell ./tester/minishell
-	@cd ./tester/tester2 && bash ./tester; bash ./tester syntax; bash ./tester os_specific
-	@echo "$(ORANGE)┌─────────────────────────────────────────────────┐"
-	@echo " $(BLUE)TEST2:  https://github.com/MariaAguiar/minitester "
-	@echo " $(BLUE)        ...DONE"
-	@echo "$(ORANGE)└─────────────────────────────────────────────────┘$(RESET)"
+	$(call print_header, NORMAL)
+	@cd ./tester/tester2 && bash ./tester || echo "TEST COMPLETED"
+	$(call print_header, SYNTAX)
+	@cd ./tester/tester2 && bash ./tester syntax || echo "TEST COMPLETED"
+	$(call print_header, OS SPECIFIC)
+	@cd ./tester/tester2 && bash ./tester os_specific || echo "TEST COMPLETED"
+	$(call print_header, FRANKENSHELL)
+	@cd ./tester/tester2 && bash ./tester ./frankenshell/tests || echo "TEST COMPLETED"
 
 run: all
 	./minishell
