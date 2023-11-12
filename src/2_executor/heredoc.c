@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:00:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/11 14:21:02 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/11 19:34:06 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static	char	*tmp_buck(t_mbox *mbox, char *str, int *i, char *expanded_str)
 /**
  * @brief   this function will be called for each line that will be inserted
  *          into the heredoc. its purpose is to look for dollar signs and
- *          expand all env_vars. therefore it returns the expandend string
+ *          expand all env. therefore it returns the expandend string
  * 
  *          and frees the original one!
  * 
@@ -158,22 +158,31 @@ static void	heredoc_child(t_mbox *mbox, int *fd, char *lim)
 
 	close(fd[P_RIGHT]);
 	update_signals(SIGNAL_HEREDOC);
-	lim = ft_strjoin(lim, "\n");
+	lim = ft_strdup(lim);
 	expand_vars = check_lim_qoutes(&lim);
 	mbox->stop_heredoc = ft_false;
-	while (true)
+	while (ft_true)
 	{
-		write(STDIN_FILENO, "> ", 2);
-		cur_line = gnl_stoppable(STDIN_FILENO, &mbox->stop_heredoc);
+		cur_line = readline(HEREDOC_PROMPT);
+
+
 		if (mbox->stop_heredoc == ft_true)
 			exit_heredoc_child(mbox, fd, lim, cur_line);
+
+
 		check_ctrl_d(mbox, fd, lim, cur_line);
-		if (str_cmp_strct(cur_line, lim))
-			exit_heredoc_child(mbox, fd, lim, cur_line);
-		if (expand_vars && cur_line)
-			cur_line = expand_heredoc_input(mbox, cur_line);
-		write(fd[P_LEFT], cur_line, ft_strlen(cur_line));
-		free(cur_line);
+		if(cur_line[0]!='\0')
+		{
+			if (str_cmp_strct(cur_line, lim))
+				exit_heredoc_child(mbox, fd, lim, cur_line);
+			if (expand_vars && cur_line)
+				cur_line = expand_heredoc_input(mbox, cur_line);
+			ft_putendl_fd(cur_line, fd[P_LEFT]);	
+		}
+		else
+			ft_putendl_fd("", fd[P_LEFT]);	
+		if(cur_line)
+			free(cur_line);
 	}
 }
 

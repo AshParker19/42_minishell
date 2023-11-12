@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   general_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:43:17 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/11 11:02:45 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/12 03:23:47 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,10 @@ void	*create_syntax_err(t_mbox *mbox, t_token *err_token)
 	{
 		mbox->error_status = ft_true;
 		if(err_token && err_token->value)
-			put_err_msg(mbox, 2, "nnnn", ERR_PROMT,
+			put_err_msg(mbox, 2, "nnnn", ERR_PROMPT,
 				"syntax error near unexpected token `", err_token->value,"'" );
 		else
-			put_err_msg(mbox, 2, "nn", ERR_PROMT,
+			put_err_msg(mbox, 2, "nn", ERR_PROMPT,
 				"syntax error near unexpected token `newline'");
 	}
 	if (err_token)
@@ -81,7 +81,6 @@ void    put_err_msg(t_mbox *mbox, int exit_status, const char *format, ...)
 {
 	va_list	args;
     char    *err_msg;
-    char    *temp;
     char    *str;
 
 	va_start(args, format);
@@ -95,9 +94,7 @@ void    put_err_msg(t_mbox *mbox, int exit_status, const char *format, ...)
                 err_msg = ft_strdup(str);
             else
             {
-                temp = ft_strjoin(err_msg, str);
-                free (err_msg);
-                err_msg = temp;
+				err_msg = append_str(err_msg, str, ft_false);
                 if (*format == 'y')
                     free (str);
             }
@@ -106,5 +103,43 @@ void    put_err_msg(t_mbox *mbox, int exit_status, const char *format, ...)
     }
 	va_end(args);
     tmp_conclusion(mbox, err_msg, exit_status);
+}
+
+/**
+ * @brief 		NOTE:
+ * 				This function can be uses similar like
+ * 				dprintf(2, ...);
+ * 
+ * 				But it only will be printed if minishell is run with --info
+ * 
+ * @param mbox 
+ * @param color 
+ * @param format 
+ * @param ... 
+ */
+void    put_info_msg(t_mbox *mbox, const char *format, ...)
+{
+	va_list	args;
+    char    *info_msg;
+    char    *str;
+
+	if(!mbox->print_info)
+		return ;
+	va_start(args, format);
+    info_msg = ft_strdup(RED" >>>INFO MSG>>>"RESET);
+    while (*format)
+    {
+        str = va_arg(args, char*);
+        if (str)
+        {
+			info_msg = append_str(info_msg, str, ft_false);
+			info_msg = append_str(info_msg, " ", ft_false);
+			if (*format == 'y')
+				free (str);
+        }
+        format++;
+    }
+	va_end(args);
+    tmp_conclusion(mbox, info_msg, NO_EXIT_STATUS);	
 }
 

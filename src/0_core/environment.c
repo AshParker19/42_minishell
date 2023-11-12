@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   environment.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:16:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/11 10:29:34 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/11 20:36:49 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 /**
  * @brief   THS FILE DEALS WITH ALL ENVIROMENT VARIABLE RELATED TOPICS
  * 
- * 	The head of the linked list (ll) is stored in mbox->env_vars
+ * 	The head of the linked list (ll) is stored in mbox->env
  * 	The ll nodes data structure is 't_env_var'
  * 	...a classic key value pair
  *	 key and value are both ALLOCATED MEMMORY and need to be freed on exit
  * 
  *  MANAGEMENT
  *  'load_vars_v2'			creates the ll on startup
- * 	'free_vars_v2'			iterates the ll (mbox->env_vars) and frees all nodes
+ * 	'free_vars_v2'			iterates the ll (mbox->env) and frees all nodes
  * 	'free_var_v2'			called by 'free_vars_v2' to free one node of the ll
  * 
  *  READ FUNCTIONS
@@ -41,7 +41,7 @@
  * @brief	This function must only be called at startup and creates a ll out
  * 			of the main param 'env' which can be accessed via 'mbox->env'
  * 			
- * 			The head of the created ll will be stored in 'mbox->env_vars' via the
+ * 			The head of the created ll will be stored in 'mbox->env' via the
  * 			function 'set_var_value'
  * 
  *          NOTE: only called once by 'main' on startup
@@ -50,17 +50,17 @@
  * 
  * @param	mbox	mbox is a struct that stores all runtime related infos
  */
-void load_vars_v2(t_mbox *mbox)
+void load_vars_v2(t_mbox *mbox, char **env)
 {
     int     i;
     char    *key;
 
     i = 0;
-    while(mbox->env[i])
+    while(env[i])
     {
-        key = ft_strchr(mbox->env[i], '=');
-        key = ft_substr(mbox->env[i], 0,
-            ft_strlen(mbox->env[i]) - ft_strlen(key));
+		key = ft_strchr(env[i], '=');
+        key = ft_substr(env[i], 0,
+            ft_strlen(env[i]) - ft_strlen(key));
         set_var_value(mbox, key, getenv(key));
         free (key);
         i++;    
@@ -82,7 +82,7 @@ char *get_var_value(const t_mbox *mbox, const char *key)
     t_env_var *cur;
     char *value;
 
-    cur = mbox->env_vars;
+    cur = mbox->env;
     value = NULL;
     while(cur)
     {
@@ -109,16 +109,16 @@ void delete_var(t_mbox *mbox, const char *key)
     t_env_var   *cur;
     t_env_var   *temp;
     
-    if (!mbox->env_vars || !is_var(mbox, key))
+    if (!mbox->env || !is_var(mbox, key))
         return ;
-    if (str_cmp_strct(key, mbox->env_vars->key))
+    if (str_cmp_strct(key, mbox->env->key))
     {
-        temp = mbox->env_vars;
-        mbox->env_vars = mbox->env_vars->next;
+        temp = mbox->env;
+        mbox->env = mbox->env->next;
         free_var_v2(temp);
         return ;
     }
-    cur = mbox->env_vars;
+    cur = mbox->env;
     while (cur->next)
     {
         if (str_cmp_strct(key, cur->next->key))
@@ -146,12 +146,12 @@ void free_vars_v2(t_mbox *mbox)
     t_env_var *cur;
     t_env_var *temp;
 
-    cur = mbox->env_vars;
+    cur = mbox->env;
     while (cur)
     {
         temp = cur;
         cur = cur->next;
         temp = free_var_v2(temp);
     }
-    mbox->env_vars = NULL;
+    mbox->env = NULL;
 }

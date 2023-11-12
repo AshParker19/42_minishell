@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:06:17 by astein            #+#    #+#             */
-/*   Updated: 2023/11/11 10:47:13 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/12 03:47:52 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@ static void check_args(t_mbox *mbox, int ac, char **av)
 			return ;
 		}
 		else
-			put_err_msg(mbox, EXIT_FAILURE, "nn", ERR_PROMT,
+			put_err_msg(mbox, EXIT_FAILURE, "nn", ERR_PROMPT,
 				"wrong argument!\nuse: -i ('--info')\n");
 	}
 	else
-		put_err_msg(mbox, 1, "nn", ERR_PROMT, "wrong number of arguments!");
+		put_err_msg(mbox, 1, "nn", ERR_PROMPT, "wrong number of arguments!");
 	set_var_value(mbox, "?", EXIT_STR_FAILURE);
 	free_and_close_box_v2(mbox);	
 }
@@ -54,15 +54,15 @@ int	main(int ac, char **av, char **env)
 	t_mbox	mbox;
 
 	g_signal_status = 0;
-	initialize_box_v2(&mbox, env);
-	load_vars_v2(&mbox);
+	initialize_box_v2(&mbox);
+	load_vars_v2(&mbox, env);	
 	initialize_builtins(&mbox);
 	check_args(&mbox, ac, av);
 	while (FRANKENSHELL_RISES_AMIDTS_DEATH)
 	{
 		reset_cycle(&mbox);//TODO:
 		mbox.count_cycles++;
-		mbox.inp_orig = readline(PROMT);
+		mbox.inp_orig = readline(PROMPT);
 		if(g_signal_status == SIGNAL_NEW_LINE)
 		{
 			g_signal_status = 0;
@@ -72,7 +72,7 @@ int	main(int ac, char **av, char **env)
 		if (!mbox.inp_orig)
 			builtin_exit(&mbox, NULL); //TODO: really nessesary? YES FOR CRTL + D!
 		else if (mbox.inp_orig[0] == '\0')
-			set_var_value(&mbox, "?", "127");
+			set_var_value(&mbox, "?", "0");
 		else
 		{
 			if (*mbox.inp_orig)

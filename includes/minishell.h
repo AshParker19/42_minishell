@@ -14,23 +14,7 @@
 # define MINISHELL_H
 
 extern int g_signal_status;
-# define SIGNAL_NEW_LINE 1
-# define SIGNAL_EXIT_HD 2
 
-# define NO_EXIT_STATUS -99999
-
-/* promt strings */
-# define PROMT      "\x1b[36mfrankenshell-->\033[0m "
-# define ERR_PROMT  "\033[38;5;203mfrankenshell:\033[0m "
-
-/* test prompts */
-// # define PROMT "minishell:"
-// # define ERR_PROMT "minishell: "
-
-# define FRANKENSHELL_RISES_AMIDTS_DEATH 1
-
-# define EXIT_STR_SUCCESS "0"
-# define EXIT_STR_FAILURE "1"
 
 /* system includes */
 # include <curses.h>
@@ -66,6 +50,7 @@ extern int g_signal_status;
 # include "input_manager.h"
 # include "builtins.h"
 # include "executor.h"
+# include "defines.h"
 
 /******************************************************************************/
 /*    colors    */
@@ -97,9 +82,7 @@ enum e_signal_state
  */
 typedef struct s_mbox
 {
-    // TODO: REMOVE THE VARS THAT ARE ONLY FOR ONE CYCLE!!!
-    char        **env;
-    t_env_var   *env_vars;
+    t_env_var   *env;
     
     char        *inp_orig;
     char        *inp_trim;
@@ -139,7 +122,7 @@ typedef struct  s_history
 void	manage_input(t_mbox *mbox);
 
 /* env.c */
-void    load_vars_v2(t_mbox *mbox);
+void	load_vars_v2(t_mbox *mbox, char **env);
 char    *get_var_value(const t_mbox *mbox,const char *key);
 void    delete_var(t_mbox *mbox, const char *key);
 void    free_vars_v2(t_mbox *mbox);
@@ -147,7 +130,7 @@ void    free_vars_v2(t_mbox *mbox);
 /* env_utils.c */
 t_bool   is_var(const t_mbox *mbox, const char *key);
 void	increment_shlvl(t_mbox *mbox);
-char    **env_to_matrix(const t_mbox *mbox, const t_bool put_quotes);
+char    **env_to_matrix(const t_mbox *mbox, const char *put_quotes);
 void    *free_var_v2(t_env_var *temp);
 
 
@@ -160,7 +143,7 @@ void    set_var_value_int(t_mbox *mbox, const char *key, int int_value);
 void    update_signals(int sig_state);
 
 /* manage_mbox.c */
-void	initialize_box_v2(t_mbox *mbox, char **env);
+void	initialize_box_v2(t_mbox *mbox);
 void    free_cycle_v2(t_mbox *mbox);
 void    free_input_strings_v2(t_mbox *mbox);
 void    free_tokens_v2(t_mbox *mbox);
@@ -180,6 +163,7 @@ void	print_executor_output(t_mbox *mbox, t_bool top_part);
 void    reset_cycle(t_mbox *mbox);
 void    err_free_and_close_box(t_mbox *mbox, int exit_status);
 void    put_err_msg(t_mbox *mbox, int exit_status, const char *format, ...);
+void    put_info_msg(t_mbox *mbox, const char *format, ...);
 void	*create_syntax_err(t_mbox *mbox, t_token *err_token);
 
 

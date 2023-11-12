@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shifter.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 14:36:59 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/11 11:24:22 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/11 17:16:12 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,7 +193,7 @@ t_bool  shift_context_chars(t_mbox *mbox, int i, int quote_state)
     }
     if (quote_state != OUT_Q)
     {
-        put_err_msg(mbox, 1, "nn", ERR_PROMT, "Syntax error: unclosed quotes");
+        put_err_msg(mbox, 1, "nn", ERR_PROMPT, "Syntax error: unclosed quotes");
         return (ft_false);
     }
     return (ft_true);

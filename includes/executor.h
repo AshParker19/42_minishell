@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 17:55:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/10 19:46:57 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/12 02:54:07 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ typedef struct s_io
 typedef struct s_exec
 {
     t_builtin_cmd   builtins[9];
-    char            **cmd_av;
     t_io            io;
     int             *pid;
     int             pid_index;
@@ -80,8 +79,10 @@ void 	check_ctrl_d(t_mbox *mbox, int *fd, char *lim, char *line);
 void	initialize_io(t_mbox *mbox);
 int		cmd_counter(t_ast *ast_node);
 void    get_cmd_av(t_mbox *mbox, t_ast *root);
+char 	**args_to_matrix(t_mbox *mbox, char *cmd, t_ast *arg_node);
 void	close_process_fds_v2(t_mbox *mbox);
 
-char    *get_cmd_path(t_mbox *mbox, char *cmd, int i, t_bool abs);
+// char    *get_cmd_path(t_mbox *mbox, char *cmd, int i, t_bool abs);
+char    *get_abs_cmd_path(t_mbox *mbox, char *cmd);
 void	free_process_v2(t_mbox *mbox);
 #endif

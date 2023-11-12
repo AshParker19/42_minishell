@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:19:44 by astein            #+#    #+#             */
-/*   Updated: 2023/11/11 11:36:56 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/12 04:32:19 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,10 @@ static void    wait_for_execution(t_mbox *mbox)
 		{
 			//TODO: wait for signal too
 			if (WIFEXITED(exit_status))
+			{
 				set_var_value_int(mbox, "?", WEXITSTATUS(exit_status));
+				put_info_msg(mbox, "ny", "exit status:", ft_itoa(WEXITSTATUS(exit_status)));
+			}
 		}
 	}
 }
