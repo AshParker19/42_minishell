@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:00:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/17 14:35:26 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/17 17:05:22 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,7 @@ static void	heredoc_child(t_mbox *mbox, int *fd, char *lim)
 	lim = ft_strdup(lim);
 	expand_vars = check_lim_qoutes(&lim);
 	mbox->stop_heredoc = ft_false;
-	while (ft_true)
+	while (FRANCENDOC_ECHOES_IN_ETERNITY)
 	{
 		cur_line = readline(HEREDOC_PROMPT);
 

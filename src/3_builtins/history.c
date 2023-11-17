@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   history.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 11:45:50 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/11 16:59:50 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/17 17:35:03 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void    builtin_history(t_mbox *mbox, t_ast *arg_node)
 		ft_putendl_fd(cur->inp_hist, mbox->executor.io.cmd_fd[CMD_OUT]);
         cur = cur->next;
     }
-	set_var_value(mbox, "?", EXIT_STR_SUCCESS);
+	set_var_value(mbox, "?", EXIT_SUCCESS_STR);
 }
 
 void    free_history(t_mbox *mbox)

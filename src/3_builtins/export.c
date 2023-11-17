@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:33:09 by astein            #+#    #+#             */
-/*   Updated: 2023/11/11 20:44:42 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/17 17:35:56 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,7 @@ void builtin_export(t_mbox *mbox, t_ast *arg_node)
         arg_node = arg_node->right;
     }
 	if (all_args_correct)
-		set_var_value(mbox, "?", EXIT_STR_SUCCESS);
+		set_var_value(mbox, "?", EXIT_SUCCESS_STR);
 	else
-		set_var_value(mbox, "?", EXIT_STR_FAILURE);
+		set_var_value(mbox, "?", EXIT_FAILURE_STR);
 }

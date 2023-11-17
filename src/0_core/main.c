@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:06:17 by astein            #+#    #+#             */
-/*   Updated: 2023/11/12 03:47:52 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/17 17:35:56 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void check_args(t_mbox *mbox, int ac, char **av)
 	}
 	else
 		put_err_msg(mbox, 1, "nn", ERR_PROMPT, "wrong number of arguments!");
-	set_var_value(mbox, "?", EXIT_STR_FAILURE);
+	set_var_value(mbox, "?", EXIT_FAILURE_STR);
 	free_and_close_box_v2(mbox);	
 }
 

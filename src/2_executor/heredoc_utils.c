@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 19:28:09 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/11 18:54:32 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/17 17:39:27 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void check_ctrl_d(t_mbox *mbox, int *fd, char *lim, char *line)
             "warning: here-document at line ",
 				ft_itoa(mbox->count_cycles),
 				" delimited by end-of-file (wanted `", lim, "')");
-		set_var_value(mbox, "?", EXIT_STR_SUCCESS);
+		set_var_value(mbox, "?", EXIT_SUCCESS_STR);
 		exit_heredoc_child(mbox, fd, lim, line);
 	}
 }

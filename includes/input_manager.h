@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 15:35:02 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/11 11:11:01 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/17 17:24:36 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,33 +43,6 @@ typedef struct	s_ast
 	struct s_ast	*right;
 }				t_ast;
 
-/* TOKEN TYPES FOR THE T_TOKEN LIST */
-enum e_token_type
-{
-    WORD_TOKEN,
-    PIPE_TOKEN,
-    RED_IN_TOKEN,
-    RED_OUT_TOKEN,
-};
-
-/* TOKEN TYPES FOR T_AST */
-enum e_node_type
-{
-    CMD_NODE,
-    ARG_NODE,
-    PIPE_NODE,
-    RED_IN,
-    RED_IN_HD,
-    RED_OUT_TR,
-    RED_OUT_AP
-};
-
-/* RIGHT OR LEFT BRANCH OF THE AST */
-enum e_three_branch
-{
-    RIGHT,
-    LEFT
-};
 /******************************************************************************/
 
 /* HANDLE QUOTES */
