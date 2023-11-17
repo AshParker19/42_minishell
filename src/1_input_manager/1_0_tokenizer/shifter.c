@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shifter.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 14:36:59 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/11 17:16:12 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/17 15:17:54 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,3 +198,4 @@ t_bool  shift_context_chars(t_mbox *mbox, int i, int quote_state)
     }
     return (ft_true);
 }
+

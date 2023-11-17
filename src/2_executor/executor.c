@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:19:44 by astein            #+#    #+#             */
-/*   Updated: 2023/11/17 15:06:16 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/17 15:18:05 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,3 +153,4 @@ t_bool    execute(t_mbox *mbox) //TODO: do exit for builtins
     print_executor_output(mbox, ft_false); 
 	return (ft_true);
 }
+
