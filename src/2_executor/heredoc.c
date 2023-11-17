@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:00:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/17 17:05:22 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/17 19:30:55 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,14 +164,10 @@ static void	heredoc_child(t_mbox *mbox, int *fd, char *lim)
 	while (FRANCENDOC_ECHOES_IN_ETERNITY)
 	{
 		cur_line = readline(HEREDOC_PROMPT);
-
-
 		if (mbox->stop_heredoc == ft_true)
 			exit_heredoc_child(mbox, fd, lim, cur_line);
-
-
 		check_ctrl_d(mbox, fd, lim, cur_line);
-		if(cur_line[0]!='\0')
+		if(cur_line[0] != '\0')
 		{
 			if (str_cmp_strct(cur_line, lim))
 				exit_heredoc_child(mbox, fd, lim, cur_line);
@@ -181,7 +177,7 @@ static void	heredoc_child(t_mbox *mbox, int *fd, char *lim)
 		}
 		else
 			ft_putendl_fd("", fd[P_LEFT]);	
-		if(cur_line)
+		if (cur_line)
 			free(cur_line);
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_runner.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:09:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/12 04:24:37 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/17 19:18:55 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,24 +88,19 @@ void    run_cmd_system(t_mbox *mbox, t_ast *cmd_node)
 		close(mbox->executor.io.cmd_fd[CMD_IN]);
 	if (mbox->executor.io.cmd_fd[CMD_OUT] != -1)
 		close(mbox->executor.io.cmd_fd[CMD_OUT]);
-
 	abs_cmd_path = get_abs_cmd_path(mbox, cmd_node->content);
 	cur_env = env_to_matrix(mbox, NULL);
 	cur_av = args_to_matrix(mbox, abs_cmd_path, cmd_node->right);
 	// INFO:
 	// in exeve() the first argument is the ABSOLUTE path to the executable
 	// 		  in the second argument is the RELATIVE path to the executable
-	if(cur_av)
+	if (cur_av)
 		execve(abs_cmd_path, cur_av, cur_env);
 	cur_err_no = errno;
 	// if we arrive here execve failed
 	free_whatever("mm", cur_env, cur_av);
 	run_cmd_system_error(mbox, cmd_node->content);
-
-
-	
-
-
+}
 	//OLD STUFF BELOW! 
 	// abs_cmd_path = NULL;
 	// abs_cmd_path = get_cmd_path(mbox, cmd_node->content, -1, ft_true);
@@ -121,7 +116,7 @@ void    run_cmd_system(t_mbox *mbox, t_ast *cmd_node)
 	// 	dprintf(2, "abs_cmd_path is NULL\n");
 	// 	// put_err_msg(mbox, 127, "nnn", cmd_node->content, MSG_CS, MSG_CMD_N_FND);
 	// free_whatever("mp", cur_env, abs_cmd_path);
-}
+
 
 /**
  * @brief   traverses through the ll and run builtin cmd via corresponding
