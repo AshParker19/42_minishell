@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 11:45:50 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/17 17:35:03 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/17 22:51:33 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,19 @@ void    builtin_history(t_mbox *mbox, t_ast *arg_node)
         cur = cur->next;
     }
 	set_var_value(mbox, "?", EXIT_SUCCESS_STR);
+}
+
+void    del_history(void *content)
+{
+    t_history   *node;
+
+    node = (t_history *)content;
+    if (node)
+    {
+        if (node->inp_hist)
+            free (node->inp_hist);
+        free (node);    
+    }
 }
 
 void    free_history(t_mbox *mbox)
