@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:19:44 by astein            #+#    #+#             */
-/*   Updated: 2023/11/12 04:32:19 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/17 15:06:16 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,13 +129,14 @@ t_bool    execute(t_mbox *mbox) //TODO: do exit for builtins
 {   
 	t_ast  *cur;
 	
+	print_executor_output(mbox, ft_true);
 	mbox->executor.pid = ft_calloc(cmd_counter(mbox->root), sizeof(int));
 	if (!mbox->executor.pid)
 		return (ft_false);
 	cur = mbox->root;
 	if (cur->type == CMD_NODE)
 	{
-		if (!execute_cmd(mbox, cur, SINGLE_CMD))
+		if (!execute_cmd(mbox, cur, SINGLE_CMD)) 
 			return (ft_false);
 	}
 	else
@@ -149,6 +150,6 @@ t_bool    execute(t_mbox *mbox) //TODO: do exit for builtins
 		execute_cmd(mbox, cur->right, LAST_CMD);    //TODO: check if execute_cmd doesn't return false,
 	}
 	wait_for_execution(mbox);
+    print_executor_output(mbox, ft_false); 
 	return (ft_true);
 }
-
