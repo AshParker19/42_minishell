@@ -67,7 +67,8 @@ typedef struct s_mbox
     char        *inp_expand;
 	int			consecutive_lt;
     bool        error_status;
-    t_history   *history;
+    // t_history   *history;
+	t_list		*history_lst;
     t_token     *tokens;
     t_token     *tmp_token;
     t_ast      *root;
@@ -87,12 +88,19 @@ typedef struct s_env_var
 }              t_env_var;
 
 /* list which stores all the input */
-typedef struct  s_history
+// typedef struct  s_history
+// {
+//     char                *inp;
+//     int                 index;
+//     struct  s_history   *next;
+//}               t_history;
+typedef struct  s_history2
 {
-    char                *inp_hist;
-    int                 inp_count;
-    struct  s_history   *next;
-}               t_history;
+    int                 index;
+    char                *inp;
+	t_mbox				*mbox;
+}               t_history2;
+
 /******************************************************************************/
 
 /* input_manager.c */
@@ -143,5 +151,13 @@ void    put_err_msg(t_mbox *mbox, int exit_status, const char *format, ...);
 void    put_info_msg(t_mbox *mbox, const char *format, ...);
 void	*create_syntax_err(t_mbox *mbox, t_token *err_token);
 
+
+/* ll functions in folder linkes_list */
+void    print_history_node(void *content);
+void    del_history_node(void *content);
+void    print_var_node(void *content);
+void    del_var_node(void *content);
+void    print_token_node(void *content);
+void    del_token_node(void *content);
 
 #endif

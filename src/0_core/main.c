@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:06:17 by astein            #+#    #+#             */
-/*   Updated: 2023/11/18 16:31:20 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/18 17:16:28 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	main(int ac, char **av, char **env)
 	// while(test_lst)
 	// {
 	// 	temp = (t_history *)test_lst->content;
-	// 	printf("%d, %s\n", temp->inp_count, temp->inp_hist);
+	// 	printf("%d, %s\n", temp->index, temp->inp);
 	// 	test_lst = test_lst->next;
 	// }
 //  TEST END
