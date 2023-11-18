@@ -1,0 +1,306 @@
+"  "
+""
+"" | ""
+''
+(|)
+..
+|
+$? * $?
+$LESS$VAR
+$SHLVL
+'$TERM'
+$TERM
+$test
+$test | $test
+$test && echo $?
+$test || echo $?
+>a ls >b >>c >d
+>a ls <machin >>c >d
+/bin/echo bonjour
+/bin/ls
+/bin/ls && echo $?
+/bin/ls || echo $?
+/bin/ls este_ficheir_nao_existe && echo $?
+/bin/ls este_ficheir_nao_existe || echo $?
+/bin/pwd
+>|cat
+cat bla
+(cat echo 5)
+cat echo 5 
+cat file.txt | grep 'error' | wc -l
+cat file.txt | tr -s ' ' '\n' | sort | uniq -c | sort -nr
+cat file.txt | tr -s ' ' '\n' | sort | uniq -c | sort -nr | awk '{print $2 $1}'
+cat *.h | grep struct > structs_file && echo "_STRUCT LIST:" >> structs_file && sort structs_file > sorted_structs && cat sorted_structs && rm *structs*
+(cat lonely)
+cat lonely
+cat lonely $test*
+cat lonely | clear | echo 5
+cat lonely || echo $?
+((cat lonely || echo $? > erro) | ls) && cat erro
+cat lonely && echo $? | > test
+cat lonely | (echo 5)
+cat lonely|(ls)
+cat lonely | ls && cat lonely | ls
+cat magic
+cat << magic > magic
+cat Makefile | grep pr | head -n 5 | cd file_not_exit
+cat Makefile | grep pr | head -n 5 | hello
+cat *test
+cat < test
+cat test
+cat test**
+cat test$*
+"cd .."
+'cd ..'
+cd ""
+cd ../../../../../..
+CD .
+CD ..
+cd $HOME/Bureau
+cd $vari
+cd $vari ""
+cd /home/..
+cd /home/dir
+cd /home/user42/
+cd ./path_not_found
+cd ~ && pwd
+cd . && pwd && cd .. && pwd && pwd && cd /bin/ls && pwd
+cd random_cmd && echo $?
+cd random_cmd ; echo $?
+cd too many arguments
+(clear)
+clear | $test
+clear < results
+clear > results
+diff test test2
+echo
+echo $*
+echo $>?
+echo $? % $?
+echo $? + $?
+echo $OLDPWD && cd $OLDPWD && echo $OLDPWD && cd $OLDPWD && echo $OLDPWD
+echo $PATH | wc -l | grep 1 | echo $? | grep 0
+echo $PWD >> test1 >> test2 > test1
+(echo $test) && echo $? > test3
+echo "$tests" "Makefile"
+echo "$tests""Makefile"
+echo "$tests"Makefile
+echo $USER
+echo $USER$var\$USER$USER\$USERtest$USER
+echo '$USER' echo $USER
+echo $var bonjour
+echo "12\""
+echo 2 > out1 >> out2
+echo 2 >> out1 > out2
+(echo 5)
+echo 5 
+(echo 5 cat)
+echo 5 cat
+echo 5 | (cat)
+echo\ a
+echo "'abc'"
+echo '"abc"'
+echo "agora 'mais' fdd"
+echo a"hey | ls
+echo a"hey" | ls
+echo a"hey"|ls
+echo a"hey|ls
+echo "bip | bip ><"
+echo "" bonjour
+echo bonjour > $test
+echo bonjour && ls
+echo bonjour \; ls
+echo bonjour > "test 1"
+echo "cat lol.c | cat > lol.c"
+echo "''" | grep ""
+echo "Hello && World!"
+echo "Hello | World!"
+echo "Hello || World!"
+echo "Hello && world!" > output.txt && cat output.txt && echo "Hello world!" >> output.txt && cat output.txt
+echo "Hello | world!" > output.txt && cat output.txt && echo "Hello world!" >> output.txt && cat output.txt
+echo "Hello || world!" > output.txt && cat output.txt && echo "Hello world!" >> output.txt && cat output.txt
+echo "hey" | ls
+echo "hey" | ls
+echo "hey"|ls
+echo "hey|ls
+echo -n
+echo -n ""
+(((echo -n 4) && echo 2))
+((echo -n 4) && echo 2)
+echo -nnm teste
+echo -nnm "" | wc -l | grep 1
+echo -n -nn -nnm teste
+echo -nnnn teste
+echo -nnn "" | wc -l | grep 0 | wc -l
+echo -n -nteste
+echo -n 'será"que vai dar'parsing"
+echo -n "" | wc -l | grep 0 | wc -l
+echo "" -n | wc -l | grep 1
+echo "pedro pinto"
+echo "\s" && echo "\\s"
+echo "\s" ; echo "\\s"
+echo test|
+echo test|>
+echo test|>cat
+echo test|cat
+echo test|cat>
+echo teste
+echo test > file test1
+echo "This is a error \n test file. line1\nline2 error \nline3error" > file.txt
+echo "" | wc -l | grep 1
+env
+env ""
+env $vari
+env > test
+env > test2
+exit 1 exit
+exit 300 || echo $?
+exit | echo $? > test
+exit exit 1
+exit << magic
+export
+export ""
+export ($test)
+(export $test) && export
+(export $test) && export > test1 && unset test && export > test2 && diff test1 test2
+export $test && export > test1 && unset test && export > test2 && diff test1 test2
+export $var
+export $var=test
+export $var=test && export $var
+export $var=test ; export $var
+export 3A && echo $? && unset 3A && echo $?
+export 3A && echo $? || unset 3A && echo $?
+export 3A || echo $? && unset 3A || echo $?
+export 3A || echo $? || unset 3A || echo $?
+export "" . : , ! \\ + = - _ _a
+export  a127  a=
+export  a127  a= " "
+export A2=34 A2=42 && export && export | wc -l && env | wc -l && echo $A2 && unset A2
+export A2=34 && export && export | wc -l && env | wc -l && echo $A2 && unset A2
+export A2=42 && export && export | wc -l && env | wc -l && echo $A2 && unset A2
+export a=a b=b c=c d=d e=e && echo "$a "$b" $c $d" "$e" && unset a b c d e
+export ...cookie? $OLDPWD
+export cookie OLDPWD
+(export (echo -n $test))
+export env
+export | grep cookie > test
+export | grep OLDPWD >> test
+export HOME= && cd
+export HOME= ; cd
+export loop='bonjour$loop' && echo $loop
+export loop='bonjour$loop' ; echo $loop
+export Nao_Existe && echo $?
+export Nao_Existe || echo $?
+export test=123\" && echo $test
+export test=123\" ; echo $test
+export test=123\\ && echo $test
+export test=123\\ ; echo $test
+export test=123\' && echo $test && echo $test
+export test=123\' ; echo $test ; echo $test
+export test1="export test2=test3" && $test1 && echo $test2
+export "" test=a
+export test=a && echo $test
+export test=a ; echo $test
+export test="env | grep OLDPWD" && $test
+export test="exit" && ($test) && echo $?
+(export test="exit 1123a" && ($test)) || echo $?
+(export test="exit 1224" && ($test)) || echo $?
+(export test="exit 1224a" && ($test)) || echo $?
+export test="  foo    bar  " && echo $test
+export test="  foo    bar  " ; echo $test
+export test=" foo   bar " && echo """$test"""
+export test=" foo   bar " && echo ""$test""
+export test=" foo   bar " && echo "$test"
+export test=" foo   bar " ; echo """$test"""
+export test=" foo   bar " ; echo ""$test""
+export test=" foo   bar " ; echo "$test"
+export test="  foo    bar  " && echo "ab"$test
+export test="  foo    bar  " && echo ab$test
+export test="  foo    bar  " ; echo "ab"$test
+export test="  foo    bar  " ; echo ab$test
+export test=" foo   bar " && echo ab"$test" | cat -e
+export test=" foo   bar " ; echo ab"$test" | cat -e
+export "test=ici"=coucou && echo $test
+export "test=ici"=coucou ; echo $test
+export ""  && unset ""
+export var=a && export $var=test && echo $var $a
+export var=a ; export $var=test ; echo $var $a
+export var=at && c$var Makefile
+export var=at ; c$var Makefile
+export var="cat Makefile | grep >" && echo $var
+export var="cat Makefile | grep >" ; echo $var
+export var então export var = teste
+export var= s\ -la && l$var
+export var= s\ -la ; l$var
+export VAR="This is a test variable." && echo $VAR && unset VAR && echo $VAR && cat output.txt
+export var="  truc"&& echo $var
+export var="  truc"; echo $var
+export var="truc  "&& echo $var | cat -e
+export var="truc  "; echo $var | cat -e
+>file
+file_name
+./file_that_is_not_an_executable
+find . -name "*.txt" -exec cat {} + | wc -l
+find /path/to/directory -type f -size +100M -printf '%f %s\n' | exit
+find . -type f | wc -l
+ls *
+ls bonjour && echo $?
+ls bonjour ; echo $?
+(ls)|cat
+(ls|)cat
+ls(|)cat
+ls | exit
+ls -l < input.txt > output.txt && cat output.txt
+ls | sort
+'ls | 'wc' '|' >> 1.txt'
+'ls | wc | >> 1.txt'
+ls | wc | >> 1.txt
+<< magic wc
+./minishell < exit 122 > lixo && echo $?
+./minishell < exit 122 > lixo || echo $?
+./minishell < exit 122 > lixo && echo $?
+./minishell < exit 122 > || echo $?
+./minishell < exit 50 > && echo $?
+./minishell < exit 50 > || echo $?
+./minishell < exit 50 > && echo $?
+./minishell < exit 50 > || echo $?
+./minishell < exit && > echo $?
+./minishell < exit || > echo $?
+./minishell < exit && > echo $?
+./minishell < exit || > echo $?
+./minishell	< ./minishell < exit 300 && echo $?
+not_cmd
+not_cmd bonjour > salut
+< potato cd $PWD
+ps aux --sort=-%mem | head -n 10
+pwd && cd . && (pwd && cd .. && pwd) && pwd && cd $OLDPWD && pwd && cd $PWD
+(pwd && cd .. && pwd) && pwd && cd .
+/sbin/env
+/snap/bin/no_command
+sort < output.txt && cat output.txt
+sort -r << test > potato
+sort t* > test
+TERM
+test|
+>test|cat
+test|cat
+test|cat>
+> test | echo blabla
+> test | echo blabla; rm test
+(unset $HOME) && env
+unset "" . : , ! \\ + = - _ _a
+unset a*
+unset  ...cookie? ""
+unset HOME
+unset / -n
+unset PATH && env && echo $? && export PATH="/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin" && env && echo $?
+unset PATH ; ls
+unset PWD
+unset TERM && env && export TERM=new_term_42
+unset "" test
+unset test && $test
+unset test && (export test="" && export > test1) && export $test > test2 && diff test1 test2
+unset test && export test="" && export > test1 && export $test > test2 && diff test1 test2
+unset var
+/usr/local/bin/pwd
+/usr/share/echo -n pinto
