@@ -27,13 +27,15 @@ extern int g_signal_status;
 # include <sys/wait.h>
 # include <unistd.h>
 
-//TODO: error checking FIXME: don't forget to remove at the end
+//TODO: error checking
+//	- don't forget to remove at the end
+//	- make protections for other fucntion which can break
+//  - when we exit in these cases, we don't care about the exit status, it's always 0
 // # define malloc(y) NULL
-// # define shift_context_chars(z,c,v) ft_false //TODO:
+// # define shift_context_chars(z,c,v) ft_false
 // # define fork() -1
 // # define pipe(x) -1
-// # define dup2(x, y) -1 //TODO: make protections for other fucntion which can break
- //!TODO: !!!IMPORTANT!!!  when we exit in these cases, we don't care about the exit status, it's always 0
+// # define dup2(x, y) -1
 
 /* project includes */
 # include "../libft/libft_printf.h"
@@ -65,7 +67,9 @@ typedef struct s_mbox
     char        *inp_expand;
 	int			consecutive_lt;
     bool        error_status;
-    t_history   *history;
+	t_list		*history_lst;
+	t_list		*token_lst; //TODO: implement
+	t_list		*env_lst; //TODO: implement
     t_token     *tokens;
     t_token     *tmp_token;
     t_ast      *root;
@@ -84,17 +88,18 @@ typedef struct s_env_var
     struct      s_env_var *next;
 }              t_env_var;
 
-/* list which stores all the input */
+/* list element which stores all the input in a t_list*/
 typedef struct  s_history
 {
-    char                *inp_hist;
-    int                 inp_count;
-    struct  s_history   *next;
+    int                 index;
+    char                *inp;
+	t_mbox				*mbox;
 }               t_history;
+
 /******************************************************************************/
 
 /* input_manager.c */
-void	manage_input(t_mbox *mbox);
+void	input_main(t_mbox *mbox);
 
 /* env.c */
 void	load_vars_v2(t_mbox *mbox, char **env);
@@ -141,5 +146,13 @@ void    put_err_msg(t_mbox *mbox, int exit_status, const char *format, ...);
 void    put_info_msg(t_mbox *mbox, const char *format, ...);
 void	*create_syntax_err(t_mbox *mbox, t_token *err_token);
 
+
+/* ll functions in folder linkes_list */
+void    print_history_node(void *content);
+void    del_history_node(void *content);
+void    print_var_node(void *content);
+void    del_var_node(void *content);
+void    print_token_node(void *content);
+void    del_token_node(void *content);
 
 #endif

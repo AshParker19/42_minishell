@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_manager.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:38:32 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/17 15:28:42 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/18 16:32:14 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
  * 
  * @param   mbox 
  */
-void	manage_input(t_mbox *mbox) //TODO: rename function and file into input main
+void	input_main(t_mbox *mbox)
 {
     mbox->error_status = ft_false; //TODO: understand this shit again
     add_history(mbox->inp_orig);
@@ -37,7 +37,7 @@ void	manage_input(t_mbox *mbox) //TODO: rename function and file into input main
     if (!shift_context_chars(mbox, -1, OUT_Q))
         return ;
     display_info_str(mbox, "input shifted", mbox->inp_shift);
-    if (!expand_variables(mbox, 0, OUT_Q))
+    if (!expand_vars_main(mbox, 0, OUT_Q))
         return ;
     display_info_str(mbox, "input expanded", mbox->inp_expand);
     if (!tokenize(mbox, 0))
@@ -50,5 +50,5 @@ void	manage_input(t_mbox *mbox) //TODO: rename function and file into input main
 		return ;
 	}    
     if (mbox->error_status == ft_false)
-        execute(mbox); //TODO: why don't we check if it fails
+        execute(mbox);
 }

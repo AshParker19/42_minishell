@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 21:35:50 by astein            #+#    #+#             */
-/*   Updated: 2023/11/11 20:35:22 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/18 15:44:02 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,32 +40,27 @@ t_bool   is_var(const t_mbox *mbox, const char *key)
 
 /**
  * @brief	Should be called if minishell is run in itself (nested)
- * 			This function tries to increase the shell level (SHLVL) in the ll
+ * 			This function tries to increase the shell level (SHLVL) in the ll.
  * 			if the var 'SHLVL' doesnt exist or isnt numeric it set the value
- * 			alwaxs to 1
+ * 			always to 1.
  * 
  * @param	mbox	mbox is a struct that stores all runtime related infos
  */
 void	increment_shlvl(t_mbox *mbox)
 {
-	// FIXME: what happens if we unset SHLVL???
-	// guess we need to reset it here
 	int     cur_shlvl_int;
-    char    *cur_shlvl_str;
-    char    *cur_real_shlvl_str;
-    char    *new_value;
 	
-    cur_shlvl_str = get_var_value(mbox, "SHLVL");
-	cur_shlvl_int = ft_atoi(cur_shlvl_str);
-    cur_real_shlvl_str = getenv("SHLVL");
-	if (cur_shlvl_int == 0)
-        cur_shlvl_int = 1;
-    else
-        cur_shlvl_int++;
-    new_value = ft_itoa(cur_shlvl_int);
-    set_var_value(mbox, "SHLVL", new_value);
-    free(new_value);
-    cur_real_shlvl_str = ft_itoa(cur_shlvl_int);
+	if(is_var(mbox, "SHLVL"))
+	{
+		cur_shlvl_int = ft_atoi(get_var_value(mbox, "SHLVL"));
+		if (cur_shlvl_int == 0)
+			cur_shlvl_int = 1;
+		else
+			cur_shlvl_int++;
+		set_var_value_int(mbox, "SHLVL", cur_shlvl_int);
+	}
+	else
+		set_var_value(mbox, "SHLVL", "1");
 }
 
 /**
