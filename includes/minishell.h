@@ -27,13 +27,15 @@ extern int g_signal_status;
 # include <sys/wait.h>
 # include <unistd.h>
 
-//TODO: error checking FIXME: don't forget to remove at the end
+//TODO: error checking
+//	- don't forget to remove at the end
+//	- make protections for other fucntion which can break
+//  - when we exit in these cases, we don't care about the exit status, it's always 0
 // # define malloc(y) NULL
-// # define shift_context_chars(z,c,v) ft_false //TODO:
+// # define shift_context_chars(z,c,v) ft_false
 // # define fork() -1
 // # define pipe(x) -1
-// # define dup2(x, y) -1 //TODO: make protections for other fucntion which can break
- //!TODO: !!!IMPORTANT!!!  when we exit in these cases, we don't care about the exit status, it's always 0
+// # define dup2(x, y) -1
 
 /* project includes */
 # include "../libft/libft_printf.h"
