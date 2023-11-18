@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:32:31 by astein            #+#    #+#             */
-/*   Updated: 2023/11/11 17:16:12 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/17 17:35:03 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void change_pwd(t_mbox *mbox, char *new_path)
 			strerror(errno));
 	else
 	{
-		set_var_value(mbox, "?", EXIT_STR_SUCCESS);
+		set_var_value(mbox, "?", EXIT_SUCCESS_STR);
 		if (is_var(mbox, "PWD"))
         	set_var_value(mbox, "PWD", getcwd(NULL, 0));
 	}

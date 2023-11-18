@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:47:15 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/11 17:16:12 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/17 17:35:56 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ t_bool    configure_redir(t_mbox *mbox, t_ast *redir_node)
     out_fd = -1;
     if (!redir_io(mbox, redir_node, &in_fd, &out_fd))
     {
-        set_var_value(mbox, "?", EXIT_STR_FAILURE); //FIXME: wrong for heredoc
+        set_var_value(mbox, "?", EXIT_FAILURE_STR); //FIXME: wrong for heredoc
         return (ft_false);
     }
     if (in_fd != -1)

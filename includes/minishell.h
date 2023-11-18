@@ -15,29 +15,19 @@
 
 extern int g_signal_status;
 
-
 /* system includes */
 # include <curses.h>
-# include <dirent.h>
 # include <errno.h>
-# include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <string.h>
-# include <sys/ioctl.h>
-# include <sys/resource.h>
 # include <sys/stat.h>
-# include <sys/time.h>
-# include <sys/types.h>
 # include <sys/wait.h>
-# include <term.h>
-# include <termios.h>
 # include <unistd.h>
 
-//TODO: cerror checking FIXME: don't forget to remove at the end
+//TODO: error checking FIXME: don't forget to remove at the end
 // # define malloc(y) NULL
 // # define shift_context_chars(z,c,v) ft_false //TODO:
 // # define fork() -1
@@ -50,31 +40,16 @@ extern int g_signal_status;
 # include "input_manager.h"
 # include "builtins.h"
 # include "executor.h"
-# include "defines.h"
+# include "config.h"
 
 /******************************************************************************/
-/*    colors    */
-# define GREEN 		"\033[0;32m"
-# define RED 		"\033[0;31m"
-# define LIGHT_RED  "\033[38;5;203m"
-# define YELLOW 	"\x1b[33m"
-# define CYAN 		"\x1b[36m"
-# define PURPLE 	"\x1b[35m"
-# define RESET 		"\033[0m"
+
 /******************************************************************************/
 /* info for mbox */
 typedef struct s_env_var t_env_var;
 typedef struct s_history t_history;
 typedef struct s_builtin_cmd t_builtin_cmd;
 typedef struct s_exec t_exec;
-
-enum e_signal_state
-{
-    SIGNAL_MAIN,
-    SIGNAL_PARENT,
-    SIGNAL_CHILD,
-    SIGNAL_HEREDOC
-};
 
 /* 
     the main structure of the program: it is being passed as an argument to all

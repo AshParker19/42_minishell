@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:16:49 by astein            #+#    #+#             */
-/*   Updated: 2023/11/07 22:04:07 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/17 19:50:56 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,13 @@
  */
 t_bool	parse(t_mbox *mbox)
 {
-    mbox->tmp_token = mbox->tokens;
-    mbox->root = job_main(mbox);
-    if (mbox->tmp_token)
-        create_syntax_err(mbox, mbox->tmp_token);
-    if (mbox->error_status)
-        return (ft_false);
-    return (ft_true);
+	print_parser_output(mbox, ft_true);
+	mbox->tmp_token = mbox->tokens;
+	mbox->root = job_main(mbox);
+	if (mbox->tmp_token)
+		create_syntax_err(mbox, mbox->tmp_token);
+	print_parser_output(mbox, ft_false);
+	if (mbox->error_status)
+		return (ft_false);
+	return (ft_true);
 }

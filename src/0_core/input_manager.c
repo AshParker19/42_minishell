@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:38:32 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/11 11:20:43 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/17 15:28:42 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,25 +40,15 @@ void	manage_input(t_mbox *mbox) //TODO: rename function and file into input main
     if (!expand_variables(mbox, 0, OUT_Q))
         return ;
     display_info_str(mbox, "input expanded", mbox->inp_expand);
-
     if (!tokenize(mbox, 0))
         return ;
-
-    print_parser_output(mbox, ft_true);
     if (!parse(mbox))
-        return ;
-    print_parser_output(mbox, ft_false);
-            
+        return ;    
     if (mbox->root->type == CMD_NODE && str_cmp_strct(mbox->root->content, "exit"))
 	{
         builtin_exit(mbox, mbox->root->right);
 		return ;
-	}
-        
+	}    
     if (mbox->error_status == ft_false)
-    {
-        print_executor_output(mbox, ft_true);
         execute(mbox); //TODO: why don't we check if it fails
-        print_executor_output(mbox, ft_false); 
-    }
 }

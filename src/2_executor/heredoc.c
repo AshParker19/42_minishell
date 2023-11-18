@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:00:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/11 19:34:06 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/17 19:30:55 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,17 +161,13 @@ static void	heredoc_child(t_mbox *mbox, int *fd, char *lim)
 	lim = ft_strdup(lim);
 	expand_vars = check_lim_qoutes(&lim);
 	mbox->stop_heredoc = ft_false;
-	while (ft_true)
+	while (FRANCENDOC_ECHOES_IN_ETERNITY)
 	{
 		cur_line = readline(HEREDOC_PROMPT);
-
-
 		if (mbox->stop_heredoc == ft_true)
 			exit_heredoc_child(mbox, fd, lim, cur_line);
-
-
 		check_ctrl_d(mbox, fd, lim, cur_line);
-		if(cur_line[0]!='\0')
+		if(cur_line[0] != '\0')
 		{
 			if (str_cmp_strct(cur_line, lim))
 				exit_heredoc_child(mbox, fd, lim, cur_line);
@@ -181,7 +177,7 @@ static void	heredoc_child(t_mbox *mbox, int *fd, char *lim)
 		}
 		else
 			ft_putendl_fd("", fd[P_LEFT]);	
-		if(cur_line)
+		if (cur_line)
 			free(cur_line);
 	}
 }
@@ -227,6 +223,7 @@ t_bool	heredoc(t_mbox *mbox, t_ast *redir_node, int *cmd_in_fd)
 		*cmd_in_fd = fd[P_RIGHT];
 		return (ft_true);
 	}
+	return (-1); //FIXME: temp solution because it wasn't compiling on the schools PC
 			// info was written to the reaad end and will be redirected later using dup2
 	// close(fd[P_RIGHT]);
 

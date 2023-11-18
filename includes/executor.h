@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 17:55:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/12 02:54:07 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/17 16:15:36 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,26 +29,6 @@ typedef struct s_exec
     int             pid_index;
 }   t_exec;
 
-
-enum e_cmd_type
-{
-    SINGLE_CMD,
-    FIRST_CMD,
-    MIDDLE_CMD,
-    LAST_CMD
-};
-
-enum e_cmd_dir
-{
-    CMD_IN,       //    stdin 0    std out 1
-    CMD_OUT
-};
-
-enum e_pipe_side
-{
-    P_RIGHT,  //     1 in   ->     0 out
-    P_LEFT
-};
 
 /******************************************************************************/
 /* executor */
