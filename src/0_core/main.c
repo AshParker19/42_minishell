@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:06:17 by astein            #+#    #+#             */
-/*   Updated: 2023/11/17 17:35:56 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/18 14:50:15 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,23 @@ static void check_args(t_mbox *mbox, int ac, char **av)
 int	main(int ac, char **av, char **env)
 {
 	t_mbox	mbox;
+
+// THIS IS A T LIST TEST AND IT WORKS. WE NEED TO IMPLEMENT IT EVERYWHERE
+	// t_list *test_lst;
+	// t_history *temp;
+
+	// ft_lstadd_back(&test_lst, ft_lstnew(&(t_history){"test2", 2}));
+	// ft_lstadd_back(&test_lst, ft_lstnew(&(t_history){"test3", 3}));
+
+
+	// while(test_lst)
+	// {
+	// 	temp = (t_history *)test_lst->content;
+	// 	printf("%d, %s\n", temp->inp_count, temp->inp_hist);
+	// 	test_lst = test_lst->next;
+	// }
+//  TEST END
+
 
 	g_signal_status = 0;
 	initialize_box_v2(&mbox);
