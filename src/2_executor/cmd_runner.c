@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:09:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/18 16:24:10 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/18 16:35:15 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static	void	run_cmd_system_error(t_mbox *mbox, char *cmd)
 void    run_cmd_main(t_mbox *mbox, t_ast *cmd_node)
 {
 	if (!cmd_node || !cmd_node->content)
-		return ; // TODO: DO WE NEED TO EXIT THE CHILD? IS IT AWAYS A CHILD?
+		return ;
 	if (is_cmd_builtin(mbox, cmd_node->content))
 		run_cmd_builtin(mbox, cmd_node);
 	else

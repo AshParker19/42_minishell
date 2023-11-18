@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:00:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/18 16:25:47 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/18 16:41:15 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,9 +182,21 @@ static void	heredoc_child(t_mbox *mbox, int *fd, char *lim)
 	}
 }
 
-// TODO:
-//  - deal with var expansion (if LIM isnt qouted)
-//  if the var expansion turns out to be excatlly the lim str it still doesnt exit!
+/**
+ * @brief 
+ * 
+ * 			NOTE: if the var expansion turns out to be excatlly the lim str
+ * 					it still doesnt exit the heredoc
+ * 				e.g. << -R cat
+ * 					   > asd
+ * 					   > $LESS (this expands to -R but doens't exit the heredoc)
+ * 					   > -R
+ * 
+ * @param mbox 
+ * @param redir_node 
+ * @param cmd_in_fd 
+ * @return t_bool 
+ */
 t_bool	heredoc(t_mbox *mbox, t_ast *redir_node, int *cmd_in_fd)
 {
 	int		fd[2];

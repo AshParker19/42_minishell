@@ -96,7 +96,7 @@ typedef struct  s_history
 /******************************************************************************/
 
 /* input_manager.c */
-void	manage_input(t_mbox *mbox);
+void	input_main(t_mbox *mbox);
 
 /* env.c */
 void	load_vars_v2(t_mbox *mbox, char **env);

@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 12:58:49 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/18 16:22:42 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/18 16:33:18 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static	char *mark_ws(char *str)
 
 
 /**
- * @brief 			//TODO: Rename in expand_part
+ * @brief 			
  * 					should search for an key in str
  * 					mbox->inp_shift at postion k.
  * 					at beginnig k points to $ sign!
@@ -65,7 +65,7 @@ static	char *mark_ws(char *str)
  * @param k 
  * @param cur_c 
  */
-static void found_dollar(t_mbox *mbox, int quote_s, int *k, char cur_c)
+static void expand_var(t_mbox *mbox, int quote_s, int *k, char cur_c)
 {
 	char	*key;
 	char	temp;
@@ -132,13 +132,13 @@ static t_bool detect_heredoc(t_mbox *mbox, int *k, int quote_s, char cur_c)
 
 	NEW COMMENT 10.11.2023
 	if founda  dollar pasing the index of the dollar to the function
-	'found_dollar' this function will deal with the expansion
+	'expand_var' this function will deal with the expansion
 
 	'detect_heredoc' this function delals with the a little bit different
 	ar xpansion for herdoc limmiter.!
 	
 */
-t_bool  expand_variables(t_mbox *mbox, int k, int quote_state)
+t_bool  expand_vars_main(t_mbox *mbox, int k, int quote_state)
 {
     char    cur_c;
     
@@ -150,7 +150,7 @@ t_bool  expand_variables(t_mbox *mbox, int k, int quote_state)
 		if(!detect_heredoc(mbox, &k, quote_state, cur_c))
 		{
 			if (quote_state != add_offset('\'') && cur_c == '$') 
-                found_dollar(mbox, quote_state, &k, cur_c);
+                expand_var(mbox, quote_state, &k, cur_c);
             else
          	   mbox->inp_expand = append_str(mbox->inp_expand,
 			   	ft_chr2str(cur_c), ft_true);

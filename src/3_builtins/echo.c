@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:32:13 by astein            #+#    #+#             */
-/*   Updated: 2023/11/11 15:43:37 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/18 16:44:50 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static t_bool is_flag(char *arg, t_bool *found_text, t_bool *print_nl)
 
 /**
  * @brief   - concatenates all the arg nodes values with single space in between
- *          - if flag -n is not present as a FIRST ARG NODE! //TODO:
+ *          - if flag -n is not present (at least once) as a FIRST ARG NODE!
  *              - adds a '\n'
  *          - writes to the proper FD
  * 

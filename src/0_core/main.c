@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:06:17 by astein            #+#    #+#             */
-/*   Updated: 2023/11/18 14:50:15 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/18 16:31:20 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	main(int ac, char **av, char **env)
 	check_args(&mbox, ac, av);
 	while (FRANKENSHELL_RISES_AMIDTS_DEATH)
 	{
-		reset_cycle(&mbox);//TODO:
+		reset_cycle(&mbox);
 		mbox.count_cycles++;
 		mbox.inp_orig = readline(PROMPT);
 		if(g_signal_status == SIGNAL_NEW_LINE)
@@ -87,14 +87,14 @@ int	main(int ac, char **av, char **env)
 		}
 
 		if (!mbox.inp_orig)
-			builtin_exit(&mbox, NULL); //TODO: really nessesary? YES FOR CRTL + D!
+			builtin_exit(&mbox, NULL);
 		else if (mbox.inp_orig[0] == '\0')
 			set_var_value(&mbox, "?", "0");
 		else
 		{
 			if (*mbox.inp_orig)
 				save_history(&mbox, mbox.inp_orig);			
-			manage_input(&mbox);
+			input_main(&mbox);
 		}
 	}
 	return (0);
