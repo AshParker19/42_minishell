@@ -67,8 +67,9 @@ typedef struct s_mbox
     char        *inp_expand;
 	int			consecutive_lt;
     bool        error_status;
-    // t_history   *history;
 	t_list		*history_lst;
+	t_list		*token_lst; //TODO: implement
+	t_list		*env_lst; //TODO: implement
     t_token     *tokens;
     t_token     *tmp_token;
     t_ast      *root;
@@ -87,19 +88,13 @@ typedef struct s_env_var
     struct      s_env_var *next;
 }              t_env_var;
 
-/* list which stores all the input */
-// typedef struct  s_history
-// {
-//     char                *inp;
-//     int                 index;
-//     struct  s_history   *next;
-//}               t_history;
-typedef struct  s_history2
+/* list element which stores all the input in a t_list*/
+typedef struct  s_history
 {
     int                 index;
     char                *inp;
 	t_mbox				*mbox;
-}               t_history2;
+}               t_history;
 
 /******************************************************************************/
 

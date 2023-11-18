@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/18 17:31:19 by astein            #+#    #+#             */
-/*   Updated: 2023/11/18 17:43:02 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/18 17:44:50 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@
  */
 void    print_history_node(void *content)
 {
-	t_history2   *node;
+	t_history   *node;
 
-	node = (t_history2 *)content;
+	node = (t_history *)content;
 	if (node)
 	{
 		ft_putstr_fd("  ", node->mbox->executor.io.cmd_fd[CMD_OUT]);
@@ -38,9 +38,9 @@ void    print_history_node(void *content)
  */
 void    del_history_node(void *content)
 {
-    t_history2   *node;
+    t_history   *node;
 
-    node = (t_history2 *)content;
+    node = (t_history *)content;
     if (node)
 	{
 		if (node->inp)
