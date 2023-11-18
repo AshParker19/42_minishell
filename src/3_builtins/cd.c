@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:32:31 by astein            #+#    #+#             */
-/*   Updated: 2023/11/17 17:35:03 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/18 16:26:51 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,6 @@
  *          - updates OLDPWD to current PWD
  *          - updates PWD to param 'new_path'
  *          - changes directory via 'chdir'
- * 
- *          NOTE:
- *          If HOME is not set (e.g. via 'unset HOME') the PWD and OLDPWD are
- *          not supposed to update! (UPDATE: FIXME: THIS COMMENT IS WRONG!)
  * 
  * 			update the exit status to 0
  * 

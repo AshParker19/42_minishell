@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_runner.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:09:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/17 19:18:55 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/18 16:24:10 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
  *					 					126	cmd is a directory
  *					 				else if is a file
  *					 					if has permissions
- *					 						FIXME: should be run from somewhere else
+ *											we should have executed the file!
  *					 					else
  *			13		126						cmd has no permissions
  *					 				else

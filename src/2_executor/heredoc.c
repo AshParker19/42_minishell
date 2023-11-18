@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:00:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/17 19:30:55 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/18 16:25:47 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,6 +208,11 @@ t_bool	heredoc(t_mbox *mbox, t_ast *redir_node, int *cmd_in_fd)
 		set_var_value_int(mbox, "?", exit_status);
 		return (ft_false);
 	}
+	else
+	{
+		*cmd_in_fd = fd[P_RIGHT];
+		return (ft_true);
+	}
 	
 	// if (WIFEXITED(exit_status))
 	// 	exit_status = WEXITSTATUS(exit_status);
@@ -218,12 +223,6 @@ t_bool	heredoc(t_mbox *mbox, t_ast *redir_node, int *cmd_in_fd)
 	// }
 	// else
 	// 	exit_status = 1;
-	if (exit_status == 0)
-	{
-		*cmd_in_fd = fd[P_RIGHT];
-		return (ft_true);
-	}
-	return (-1); //FIXME: temp solution because it wasn't compiling on the schools PC
 			// info was written to the reaad end and will be redirected later using dup2
 	// close(fd[P_RIGHT]);
 
