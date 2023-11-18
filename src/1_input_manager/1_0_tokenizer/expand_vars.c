@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_vars.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 12:58:49 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/17 15:28:48 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/18 16:22:42 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,13 @@ static	char *mark_ws(char *str)
  * 					if found a key
  * 						append expansion via 'append_str' to 'mbox->inp_expand'
  * 					else
- * 						reason can be those:
+ * 						reason can be one of those:
  * 
- * 					1.dollar is at end of string (Hello$)
- * 						->append the $ sign
- * 					2.$"asd"
- * 					3.for $| or $> or $<
- * 					4.$@lol
+ * 		1. dollar is at end of string 'Hello$'	-> append the '$' str)
+ * 		1. inside quotes						-> append the '$' str)
+ * 		2. $"SMTH" or $'SMTH'					-> skipp dollar
+ * 		3. for $| or $> or $<					-> append the '$' str)
+ * 		4. $@lol								-> skipp dollar
  * 
  * @param mbox 
  * @param quote_s 
@@ -68,6 +68,7 @@ static	char *mark_ws(char *str)
 static void found_dollar(t_mbox *mbox, int quote_s, int *k, char cur_c)
 {
 	char	*key;
+	char	temp;
 	
 	(*k)++;
 	key = get_key(mbox->inp_shift, k);
@@ -75,18 +76,17 @@ static void found_dollar(t_mbox *mbox, int quote_s, int *k, char cur_c)
 		mbox->inp_expand = append_str(mbox->inp_expand,
 			get_var_value(mbox, key), ft_false);
 	else
-	{ // only dollar (end of string)	-> print dollar					Hello$
+	{ 	
 		(*k)++;
-		if (!mbox->inp_shift[*k] || mbox->inp_shift[*k] == '$')
+		temp = mbox->inp_shift[*k]; 
+		if (!temp || temp == '$' || quote_s != OUT_Q)
 			mbox->inp_expand = append_str(mbox->inp_expand, "$", ft_false);
-		// $"SMTH"						-> skipp dollar					$"Hi"	//FIXME: << $""''USER"" cat this wont work maybe?
-		else if (quote_s == add_offset('"') && mbox->inp_shift[*k] == '\'')
+		else if ((temp == add_offset('"') || temp == add_offset('\'')))
+			(*k)++;
+		else if (temp < 0 &&
+			!(temp == add_offset('"') || temp == add_offset('\'')))
 			mbox->inp_expand = append_str(mbox->inp_expand, "$", ft_false);
-		//  for $| or $> or $<
-		else if (mbox->inp_shift[*k] < 0)
-			mbox->inp_expand = append_str(mbox->inp_expand, "$", ft_false);
-		// $wrong key					-> skipp dollar and one char	$!LOL
-		else if (!ft_isalpha(mbox->inp_shift[*k]) && mbox->inp_shift[*k] != '_')
+		else if (!ft_isalpha(temp) && temp != '_')
 			(*k)++;
 		(*k)--;
 	}
