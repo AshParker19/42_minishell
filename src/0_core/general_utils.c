@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   general_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:43:17 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/12 03:23:47 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/19 18:02:46 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,9 @@ void	*create_syntax_err(t_mbox *mbox, t_token *err_token)
 	{
 		mbox->error_status = ft_true;
 		if(err_token && err_token->value)
-			put_err_msg(mbox, 2, "nnnn", ERR_PROMPT,
-				"syntax error near unexpected token `", err_token->value,"'" );
+			err_msg(mbox, 2, "nnnn", ERR_P, SE_UT, err_token->value, SQ);
 		else
-			put_err_msg(mbox, 2, "nn", ERR_PROMPT,
-				"syntax error near unexpected token `newline'");
+			err_msg(mbox, 2, "nn", ERR_P, SE_NL);
 	}
 	if (err_token)
 		mbox->tmp_token = err_token->next;
@@ -70,14 +68,14 @@ static void    tmp_conclusion(t_mbox *mbox, char *err_msg, int exit_status)
  *          uses format string as an identifier if any of the accepted string
  *          should be allocated
  * 
- *put_err_msg("ccaca", "HI", "HI", ft_strup(), "HI", random_allocated_char)
+ *err_msg("ccaca", "HI", "HI", ft_strup(), "HI", random_allocated_char)
  *                   n = no =  constant string   -> free needed
  *                   y = yes = allocated         -> need to be freed
  * 
  * @param   format 
  * @param   ... 
  */
-void    put_err_msg(t_mbox *mbox, int exit_status, const char *format, ...)
+void    err_msg(t_mbox *mbox, int exit_status, const char *format, ...)
 {
 	va_list	args;
     char    *err_msg;

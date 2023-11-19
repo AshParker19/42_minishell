@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:47:15 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/18 16:26:12 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/19 17:56:56 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,7 @@
  */
 static   t_bool create_open_file_err(t_mbox *mbox, char *fn)
 {
-    put_err_msg(mbox, NO_EXIT_STATUS, "nnnn", ERR_PROMPT, fn, ": ",
-        strerror(errno));
+    err_msg(mbox, NO_EXIT_STATUS, "nnnn", ERR_P, fn, CS, strerror(errno));
     return (ft_false);
 }
 

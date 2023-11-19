@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:33:57 by astein            #+#    #+#             */
-/*   Updated: 2023/11/18 16:45:44 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/19 18:01:08 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 
 static void err_exit_exit(t_mbox *mbox, char *str)
 {
-	put_err_msg(mbox, 2,"nnnn", ERR_PROMPT, "exit: ", str,
-		": numeric argument required");
+	err_msg(mbox, 2,"nnnnn", ERR_P, "exit: ", str, CS, NAR);
 	free_and_close_box_v2(mbox);
 }
 
@@ -77,8 +76,7 @@ static int is_exit_code_num(t_mbox *mbox, char *s)
 	// exit_code = ft_atoi(str);
 	if(*str || (exit_code == 0 && s[0] != '0'))
 	{
-		put_err_msg(mbox, 2,"nnnn", ERR_PROMPT, "exit: ", str,
-			": numeric argument required");
+		err_msg(mbox, 2,"nnnnn", ERR_P, "exit: ", str, CS, NAR);
 		free_and_close_box_v2(mbox);	
 	}
 	return (exit_code % 128);
@@ -115,7 +113,7 @@ void    builtin_exit(t_mbox *mbox, t_ast *arg_node)
 		{
 			if (get_var_value(mbox, "?")[0] == '0')
 				set_var_value_int(mbox, "?", 1);	
-			put_err_msg(mbox, NO_EXIT_STATUS,"nn", ERR_PROMPT, "exit: too many arguments");
+			err_msg(mbox, NO_EXIT_STATUS,"nnnn", ERR_P, "exit", CS, TMA);
 			free_cycle_v2(mbox);
 		}
 		else

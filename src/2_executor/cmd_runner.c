@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_runner.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:09:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/18 16:35:15 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/19 17:56:56 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,22 +34,23 @@
 static	void	run_cmd_system_error(t_mbox *mbox, char *cmd)
 {
 	struct stat path_stat;
+	
 	if (ft_strchr(cmd, '/'))	
 	{
 		if (stat(cmd, &path_stat) == 0)
 		{
 			if (S_ISREG(path_stat.st_mode))
-				put_err_msg(mbox, 126, "nnnn", ERR_PROMPT, cmd, MSG_CS, MSG_NO_PERM);
+				err_msg(mbox, 126, "nnnn", ERR_P, cmd, CS, NO_PERM);
 			else if (S_ISDIR(path_stat.st_mode))
-				put_err_msg(mbox, 126, "nnnn", ERR_PROMPT, cmd, MSG_CS, MSG_IS_DIR);
+				err_msg(mbox, 126, "nnnn", ERR_P, cmd, CS, IS_DIR);
 			else
-				put_err_msg(mbox, 127, "nnnn", ERR_PROMPT, cmd, MSG_CS, MSG_NO_FOD);
+				err_msg(mbox, 127, "nnnn", ERR_P, cmd, CS, NO_FOD);
 		}
 		else
-			put_err_msg(mbox, 127, "nnnn", ERR_PROMPT, cmd, MSG_CS, MSG_NO_FOD);
+			err_msg(mbox, 127, "nnnn", ERR_P, cmd, CS, NO_FOD);
 	}
 	else
-		put_err_msg(mbox, 127, "nnn", cmd, MSG_CS, MSG_CMD_N_FND); // else just cmd not found
+		err_msg(mbox, 127, "nnn", cmd, CS, CMD_N_FND); // else just cmd not found
 }
 
 /*
@@ -110,11 +111,11 @@ void    run_cmd_system(t_mbox *mbox, t_ast *cmd_node)
 	// 	cur_env = env_to_matrix(mbox, NULL);
 	// 	// execve(abs_cmd_path, mbox->executor.cmd_av, cur_env);
 	// 	set_exit_status(mbox, errno);
-	// 	put_err_msg(mbox, NO_EXIT_STATUS, "nnnn", ERR_PROMPT, cmd_node->content, MSG_CS, strerror(errno));
+	// 	err_msg(mbox, NO_EXIT_STATUS, "nnnn", ERR_P, cmd_node->content, CS, strerror(errno));
 	// }
 	// else
 	// 	dprintf(2, "abs_cmd_path is NULL\n");
-	// 	// put_err_msg(mbox, 127, "nnn", cmd_node->content, MSG_CS, MSG_CMD_N_FND);
+	// 	// err_msg(mbox, 127, "nnn", cmd_node->content, CS, CMD_N_FND);
 	// free_whatever("mp", cur_env, abs_cmd_path);
 
 

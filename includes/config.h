@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 16:07:39 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/17 17:36:04 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/19 18:17:36 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,38 @@
 
 /******************************# ERROR MESSAGES #******************************/
 
-// THOSE I ALREADY USE!!!!
-# define MSG_CS ": "	//COLON SPACE
-# define MSG_CMD_N_FND "command not found"
-# define MSG_NO_FOD "No such file or directory"
-# define MSG_NO_PERM "Permission denied"
-# define MSG_IS_DIR "Is a directory"
-// ===================================
-# define MSG_SE_LT "syntax error near unexpected token `<'"
-# define MSG_CD "cd: "
+# define CS                 ": "
+# define SQ                 "'"
+# define CMD_N_FND          "command not found"
+# define NO_FOD             "No such file or directory"
+# define IS_DIR             "Is a directory"
+# define NO_DIR             "Not a directory"
+# define NO_PERM            "Permission denied"
+# define NO_VI              "not a valid identifier"
+# define SE_LT              "syntax error near unexpected token `<'"
+# define SE_GT              "syntax error near unexpected token `>'"
+# define SE_UT              "syntax error near unexpected token `"
+# define SE_NL              "syntax error near unexpected token `newline'"
+# define SE_UQ 				"syntax error: unclosed quotes"
+# define CD                 "cd: "
+# define CD_H               "cd: HOME not set"
+# define CD_A               "cd: too many arguments"
+# define WA_F 				"wrong argument!\nuse: -i ('--info')"
+# define WN   				"wrong number of arguments!"
+# define W_HD 				"warning: here-document at line "
+# define DW 				" delimited by end-of-file (wanted `"
+# define NAR				"numeric argument required"
+# define TMA				"too many arguments"
 
 /**********************************# COLORS #**********************************/
 
-# define GREEN 		"\033[0;32m"
-# define RED 		"\033[0;31m"
-# define LIGHT_RED  "\033[38;5;203m"
-# define YELLOW 	"\x1b[33m"
-# define CYAN 		"\x1b[36m"
-# define PURPLE 	"\x1b[35m"
-# define RESET 		"\033[0m"
+# define GREEN 				"\033[0;32m"
+# define RED 				"\033[0;31m"
+# define LIGHT_RED  		"\033[38;5;203m"
+# define YELLOW 			"\x1b[33m"
+# define CYAN 				"\x1b[36m"
+# define PURPLE 			"\x1b[35m"
+# define RESET 				"\033[0m"
 
 /*********************************# SIGNALS #**********************************/
 
@@ -43,21 +56,21 @@
 
 enum e_signal_state
 {
-    SIGNAL_MAIN,
-    SIGNAL_PARENT,
-    SIGNAL_CHILD,
-    SIGNAL_HEREDOC
+	SIGNAL_MAIN,
+	SIGNAL_PARENT,
+	SIGNAL_CHILD,
+	SIGNAL_HEREDOC
 };
 
 /******************************# PROMPT FORMAT #*******************************/
 /* promt strings */
 // # define PROMPT      "\x1b[36mfrankenshell-->\033[0m "
-// # define ERR_PROMPT  "\033[38;5;203mfrankenshell:\033[0m "
+// # define ERR_P  "\033[38;5;203mfrankenshell:\033[0m "
 // # define HEREDOC_PROMPT "frankendoc> "
 /* test prompts */
-# define PROMPT			"minishell:"
-# define ERR_PROMPT 	"minishell: "
-# define HEREDOC_PROMPT "> "
+# define PROMPT								"minishell:"
+# define ERR_P          					"minishell: "
+# define HEREDOC_PROMPT 					"> "
 
 /******************************# INFINITE LOOPS #******************************/
 
@@ -66,37 +79,37 @@ enum e_signal_state
 
 /****************************# EXIT STATUS STRING #****************************/
 
-# define EXIT_SUCCESS_STR "0"
-# define EXIT_FAILURE_STR "1"
+# define EXIT_SUCCESS_STR 					"0"
+# define EXIT_FAILURE_STR 					"1"
 
 /********************************# TOKENIZER #*********************************/
 
 /* token types for the t_token list */
 enum e_token_type
 {
-    WORD_TOKEN,
-    PIPE_TOKEN,
-    RED_IN_TOKEN,
-    RED_OUT_TOKEN,
+	WORD_TOKEN,
+	PIPE_TOKEN,
+	RED_IN_TOKEN,
+	RED_OUT_TOKEN,
 };
 
 /* token types for t_ast */
 enum e_node_type
 {
-    CMD_NODE,
-    ARG_NODE,
-    PIPE_NODE,
-    RED_IN,
-    RED_IN_HD,
-    RED_OUT_TR,
-    RED_OUT_AP
+	CMD_NODE,
+	ARG_NODE,
+	PIPE_NODE,
+	RED_IN,
+	RED_IN_HD,
+	RED_OUT_TR,
+	RED_OUT_AP
 };
 
 /* right or left branch of the ast */
 enum e_three_branch
 {
-    RIGHT,
-    LEFT
+	RIGHT,
+	LEFT
 };
 
 /*********************************# EXECUTOR #*********************************/
@@ -104,24 +117,24 @@ enum e_three_branch
 /* command state  */
 enum e_cmd_type
 {
-    SINGLE_CMD,
-    FIRST_CMD,
-    MIDDLE_CMD,
-    LAST_CMD
+	SINGLE_CMD,
+	FIRST_CMD,
+	MIDDLE_CMD,
+	LAST_CMD
 };
 
 /* file descriptors for commands */
 enum e_cmd_dir
 {
-    CMD_IN,       //    stdin 0    std out 1
-    CMD_OUT
+	CMD_IN,
+	CMD_OUT
 };
 
 /* file descriptors for pipe */
 enum e_pipe_side
 {
-    P_RIGHT,  //     1 in   ->     0 out
-    P_LEFT
+	P_RIGHT,
+	P_LEFT
 };
 
 #endif
