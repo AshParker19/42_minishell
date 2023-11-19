@@ -3,28 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 22:47:09 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/11 19:34:06 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/19 17:00:41 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
 
-static  void    tmp_add_back(t_mbox *mbox, t_env_var *new_var) //TODO: create universal function for adding the node at the end ot use something from libft
+void	rewrite_var(void *content)
 {
-    t_env_var   *cur;
+	t_env	*node;
 
-    if (!mbox->env)
-        mbox->env = new_var;
-    else
-    {
-        cur = mbox->env;
-        while (cur->next)
-            cur = cur->next;
-        cur->next = new_var;    
-    }
+	node = (t_env *)content;
+	if (str_cmp_strct(node->key, pass_along(NULL, false)))
+	{
+		if (node->value)
+			free (node->value);
+		node->value = ft_strdup(getenv(node->key));	
+	}
+}
+
+static char	*pass_along(char *save, bool set)
+{
+	static char	*key = NULL;
+	
+	if (set)
+		key = save;
+	return (key);
 }
 
 /**
@@ -40,31 +47,30 @@ static  void    tmp_add_back(t_mbox *mbox, t_env_var *new_var) //TODO: create un
  */
 void    set_var_value(t_mbox *mbox, const char *key, const char *value)
 {
-    t_env_var   *new_var;
-    t_env_var   *cur;
-    
-    cur = mbox->env;
-    if(is_var(mbox, key))
-    {
-        while (cur)
-        {
-            if (str_cmp_strct(key, cur->key))
-            {
-                if (cur->value)
-                    free(cur->value);
-                cur->value = ft_strdup(value);
-                return ;
-            }
-            cur = cur->next;
-        }
-    }
-    new_var = ft_calloc(1, sizeof(t_env_var));
-    if (!new_var)
-        return; //TODO: deal with malloc failure
-    new_var->key = ft_strdup(key); 
-    new_var->value = ft_strdup(value);
-   tmp_add_back(mbox, new_var); //TEMP:
+	t_env	*new_node;
+	t_env	*cur;
+	
+	if (is_var(mbox, key))
+	{	
+		pass_along(key, true); /*in a case when we need to rewrite the value of the existing variable,
+		we would need to store the current key somewhere to  rewrite the exesting var, but we can't pass it the t_env
+		because the we change the t_env struct and it's not a linked list anymore, now it's t_list is a used ll which has only void *content
+		and we try to use the function pointer ft_lstiter so we don't iterate in set_var_value()
+
+		AND IN GENERAL WE WOULD NEED TO CHANGE A LOT BECAUSE NOW WE CAN'T JUST GO env->next, because it's a fucking void *content only
+		*/
+		ft_lstiter(mbox->env_lst, rewrite_var);
+		return ;
+	}
+	new_node = ft_calloc(1, sizeof(t_env));
+	if (!new_node)
+		return ; //TODO: deal with malloc failure
+	new_node->key = ft_strdup(key);
+	new_node->value = ft_strdup(value);
+	new_node->mbox = mbox;
+   	ft_lstadd_back(&(mbox->env_lst), ft_lstnew(new_node)); // this is a big improvement but it takes a big price
 }
+
 
 /**
  * @brief   
@@ -75,10 +81,10 @@ void    set_var_value(t_mbox *mbox, const char *key, const char *value)
  */
 void    set_var_value_int(t_mbox *mbox, const char *key, int int_value)
 {
-    char    *char_value;
+	char    *char_value;
 
-    char_value = ft_itoa(int_value);
-    set_var_value(mbox, key, char_value);
-    free (char_value);
+	char_value = ft_itoa(int_value);
+	set_var_value(mbox, key, char_value);
+	free (char_value);
 }
 

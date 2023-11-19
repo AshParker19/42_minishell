@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/18 17:31:23 by astein            #+#    #+#             */
-/*   Updated: 2023/11/19 13:10:18 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/19 14:01:18 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,10 @@
 
 void    print_var_node(void *content)
 {
-	// TODO: implement
+	t_env	*node;
+
+	node = (t_env *)content;
+	
 }
 
 void    del_var_node(void *content)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 21:35:50 by astein            #+#    #+#             */
-/*   Updated: 2023/11/18 15:44:02 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/19 15:55:47 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	increment_shlvl(t_mbox *mbox)
  * @param	env_var	
  * @return	int 	
  */
-static int  env_counter(const t_env_var *env_var)
+static int  env_counter(const t_var *env_var)
 {
     if (!env_var)
         return (0);
@@ -88,7 +88,7 @@ static int  env_counter(const t_env_var *env_var)
 char **env_to_matrix(const t_mbox *mbox, const char *put_quotes)
 {
     char        **env_matrix;
-    t_env_var   *cur_var;
+    t_var       *cur_var;
     int         matrix_size;
     int         i;
 

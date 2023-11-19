@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:06:17 by astein            #+#    #+#             */
-/*   Updated: 2023/11/18 17:16:28 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/19 14:24:07 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	main(int ac, char **av, char **env)
 		reset_cycle(&mbox);
 		mbox.count_cycles++;
 		mbox.inp_orig = readline(PROMPT);
-		if(g_signal_status == SIGNAL_NEW_LINE)
+		if (g_signal_status == SIGNAL_NEW_LINE)
 		{
 			g_signal_status = 0;
 			set_var_value(&mbox, "?", "130");
