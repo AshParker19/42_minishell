@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:16:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/19 16:51:25 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/19 23:57:52 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,19 +80,21 @@ void load_vars_v2(t_mbox *mbox, char **env)
  */
 char	*get_var_value(const t_mbox *mbox, const char *key)
 {
-	t_env *cur;
-	char *value;
+	t_list	*cur_node;
+	t_env	*cur_env;
+	char	*value;
 
-	cur = mbox->env;
+	cur_node = mbox->env_lst;
 	value = NULL;
-	while (cur)
+	while (cur_node)
 	{
-		if(str_cmp_strct(key, cur->key))
+		cur_env = (t_env *)cur_node->content;
+		if (str_cmp_strct(key, cur_env->key))
 		{
-			value = cur->value;
+			value = cur_env->value;
 			break;
 		}
-		cur = cur->next;
+		cur_node = cur_node->next;
 	}
 	return(value);
 }
@@ -110,7 +112,7 @@ void	delete_var(t_mbox *mbox, const char *key)
 	t_env  *cur;
 	t_env  *temp;
 	
-	if (!mbox->env || !is_var(mbox, key))
+	if (!mbox->env_lst || !mbox->env_lst->content || !is_var(mbox, key))
 		return ;
 	if (str_cmp_strct(key, mbox->env->key))
 	{

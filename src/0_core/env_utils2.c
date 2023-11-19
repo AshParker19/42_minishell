@@ -6,32 +6,23 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 22:47:09 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/19 17:00:41 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/19 23:30:48 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
 
-void	rewrite_var(void *content)
+void	rewrite_var(void *content, char *key, char *value)
 {
 	t_env	*node;
 
 	node = (t_env *)content;
-	if (str_cmp_strct(node->key, pass_along(NULL, false)))
+	if (str_cmp_strct(node->key, key))
 	{
 		if (node->value)
 			free (node->value);
-		node->value = ft_strdup(getenv(node->key));	
+		node->value = ft_strdup(value);	
 	}
-}
-
-static char	*pass_along(char *save, bool set)
-{
-	static char	*key = NULL;
-	
-	if (set)
-		key = save;
-	return (key);
 }
 
 /**
@@ -52,14 +43,7 @@ void    set_var_value(t_mbox *mbox, const char *key, const char *value)
 	
 	if (is_var(mbox, key))
 	{	
-		pass_along(key, true); /*in a case when we need to rewrite the value of the existing variable,
-		we would need to store the current key somewhere to  rewrite the exesting var, but we can't pass it the t_env
-		because the we change the t_env struct and it's not a linked list anymore, now it's t_list is a used ll which has only void *content
-		and we try to use the function pointer ft_lstiter so we don't iterate in set_var_value()
-
-		AND IN GENERAL WE WOULD NEED TO CHANGE A LOT BECAUSE NOW WE CAN'T JUST GO env->next, because it's a fucking void *content only
-		*/
-		ft_lstiter(mbox->env_lst, rewrite_var);
+		ft_lstiter_chr(mbox->env_lst, rewrite_var, key, value);
 		return ;
 	}
 	new_node = ft_calloc(1, sizeof(t_env));

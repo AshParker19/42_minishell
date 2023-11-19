@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft_printf.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:11:36 by astein            #+#    #+#             */
-/*   Updated: 2023/11/10 18:12:26 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/19 23:31:05 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,6 +175,7 @@ void				ft_lstclear(t_list **lst, void (*del)(void *));
 void				null_ptr(void *nothing);
 void				free_content(void *node);
 void				ft_lstiter(t_list *lst, void (*f)(void *));
+void				ft_lstiter_chr(t_list *lst, void (*f)(void *, char *, char *), char *str, char *value);
 t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 						void (*del)(void *));
 

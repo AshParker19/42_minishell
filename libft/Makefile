@@ -36,6 +36,7 @@ SRCS = $(addprefix $(SRC_FOLDER), \
 	ft_lstclear.c \
 	ft_lstdelone.c \
 	ft_lstiter.c \
+	ft_lstiter_chr.c \
 	ft_lstlast.c \
 	ft_lstmap.c \
 	ft_lstnew.c \
