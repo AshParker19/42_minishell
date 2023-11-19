@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:09:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/19 17:56:56 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/19 19:35:36 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,12 @@ static	void	run_cmd_system_error(t_mbox *mbox, char *cmd)
 			err_msg(mbox, 127, "nnnn", ERR_P, cmd, CS, NO_FOD);
 	}
 	else
-		err_msg(mbox, 127, "nnn", cmd, CS, CMD_N_FND); // else just cmd not found
+	{
+		if (!*cmd)
+			err_msg(mbox, 127, "nnn", "''", CS, CMD_N_FND);
+		else
+			err_msg(mbox, 127, "nnn", cmd, CS, CMD_N_FND); // else just cmd not found
+	}
 }
 
 /*
@@ -99,6 +104,8 @@ void    run_cmd_system(t_mbox *mbox, t_ast *cmd_node)
 		execve(abs_cmd_path, cur_av, cur_env);
 	cur_err_no = errno;
 	// if we arrive here execve failed
+	if (abs_cmd_path)
+		free (abs_cmd_path);
 	free_whatever("mm", cur_env, cur_av);
 	run_cmd_system_error(mbox, cmd_node->content);
 }
