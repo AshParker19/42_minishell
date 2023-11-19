@@ -48,7 +48,7 @@ extern int g_signal_status;
 
 /******************************************************************************/
 /* info for mbox */
-typedef struct s_env_var t_env_var;
+typedef struct s_env t_env;
 typedef struct s_history t_history;
 typedef struct s_builtin_cmd t_builtin_cmd;
 typedef struct s_exec t_exec;
@@ -59,7 +59,7 @@ typedef struct s_exec t_exec;
  */
 typedef struct s_mbox
 {
-    t_env_var   *env;
+    t_env   *env;
     
     char        *inp_orig;
     char        *inp_trim;
@@ -81,12 +81,12 @@ typedef struct s_mbox
 }              t_mbox;
 
 /* list of environment variables (definition) */
-typedef struct s_env_var
+typedef struct s_env
 {
     char        *key;
     char        *value;
-    struct      s_env_var *next;
-}              t_env_var;
+    struct      s_env *next;
+}              t_env;
 
 /* list element which stores all the input in a t_list*/
 typedef struct  s_history
@@ -111,7 +111,7 @@ void    free_vars_v2(t_mbox *mbox);
 t_bool   is_var(const t_mbox *mbox, const char *key);
 void	increment_shlvl(t_mbox *mbox);
 char    **env_to_matrix(const t_mbox *mbox, const char *put_quotes);
-void    *free_var_v2(t_env_var *temp);
+void    *free_var_v2(t_env *temp);
 
 
 /* env_utils2.c */

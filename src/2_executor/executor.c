@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:19:44 by astein            #+#    #+#             */
-/*   Updated: 2023/11/17 15:18:05 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/19 22:01:04 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,10 +103,7 @@ static void    wait_for_execution(t_mbox *mbox)
 		{
 			//TODO: wait for signal too
 			if (WIFEXITED(exit_status))
-			{
 				set_var_value_int(mbox, "?", WEXITSTATUS(exit_status));
-				put_info_msg(mbox, "ny", "exit status:", ft_itoa(WEXITSTATUS(exit_status)));
-			}
 		}
 	}
 }

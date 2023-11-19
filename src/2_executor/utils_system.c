@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   utils_system.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 13:07:56 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/12 04:37:06 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/19 21:47:16 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 //TODO: rename file to cmd_system and the other one to cmd_builtin
-
 
 /**
  * @brief 		NOTE: MALLOCS!

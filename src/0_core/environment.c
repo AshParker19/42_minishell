@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:16:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/17 17:35:03 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/19 22:03:04 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
  * @brief   THS FILE DEALS WITH ALL ENVIROMENT VARIABLE RELATED TOPICS
  * 
  * 	The head of the linked list (ll) is stored in mbox->env
- * 	The ll nodes data structure is 't_env_var'
+ * 	The ll nodes data structure is 't_env'
  * 	...a classic key value pair
  *	 key and value are both ALLOCATED MEMMORY and need to be freed on exit
  * 
@@ -79,7 +79,7 @@ void load_vars_v2(t_mbox *mbox, char **env)
  */
 char *get_var_value(const t_mbox *mbox, const char *key)
 {
-    t_env_var *cur;
+    t_env *cur;
     char *value;
 
     cur = mbox->env;
@@ -106,8 +106,8 @@ char *get_var_value(const t_mbox *mbox, const char *key)
  */
 void delete_var(t_mbox *mbox, const char *key)
 {
-    t_env_var   *cur;
-    t_env_var   *temp;
+    t_env   *cur;
+    t_env   *temp;
     
     if (!mbox->env || !is_var(mbox, key))
         return ;
@@ -143,8 +143,8 @@ void delete_var(t_mbox *mbox, const char *key)
  */
 void free_vars_v2(t_mbox *mbox)
 {
-    t_env_var *cur;
-    t_env_var *temp;
+    t_env *cur;
+    t_env *temp;
 
     cur = mbox->env;
     while (cur)

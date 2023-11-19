@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:43:17 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/19 18:02:46 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/19 22:00:54 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static void    tmp_conclusion(t_mbox *mbox, char *err_msg, int exit_status)
         ft_putendl_fd(err_msg, STDERR_FILENO);    
         free (err_msg);
     }
-	if(exit_status != NO_EXIT_STATUS)
+	if (exit_status != NO_EXIT_STATUS)
 		set_var_value_int(mbox, "?", exit_status);
 }
 
@@ -115,19 +115,19 @@ void    err_msg(t_mbox *mbox, int exit_status, const char *format, ...)
  * @param format 
  * @param ... 
  */
-void    put_info_msg(t_mbox *mbox, const char *format, ...)
+void    put_info_msg(t_mbox *mbox, const char *format, ...) //this function wasnt freeing properly so I removed it for the time being
 {
 	va_list	args;
     char    *info_msg;
     char    *str;
 
-	if(!mbox->print_info)
+	if (!mbox->print_info)
 		return ;
 	va_start(args, format);
-    info_msg = ft_strdup(RED" >>>INFO MSG>>>"RESET);
+    info_msg = ft_strdup(RED" >>>INFO MSG>>> \n"RESET);
     while (*format)
     {
-        str = va_arg(args, char*);
+        str = va_arg(args, char *);
         if (str)
         {
 			info_msg = append_str(info_msg, str, ft_false);

@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:33:09 by astein            #+#    #+#             */
-/*   Updated: 2023/11/19 18:03:51 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/19 22:03:04 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static t_bool validate_key(char *key)
  * @param   env_var 
  * @return  int     amount of nodes
  */
-static int  env_counter(t_env_var *env_var)
+static int  env_counter(t_env *env_var)
 {
     if (!env_var)
         return (0);
@@ -87,7 +87,7 @@ static char    **bubble_sort(const t_mbox *mbox, char **env_matrix)
 }
 
 /**
- * @brief   uses 'env_counter' to determine the size of the 't_env_var' ll;
+ * @brief   uses 'env_counter' to determine the size of the 't_env' ll;
  *          creates a matrix of the ll via 'env_to_matrix' and passes those
  *          informations to 'bubble_sort' to sort the array.
  * 
@@ -114,7 +114,7 @@ static void    sort_and_print_var(const t_mbox *mbox)
 /**
  * @brief   responsible for 2 things:
  *              if doesnt have one 'arg_node'
- *                  sorts & prints the 't_env_var' ll via 'sort_and_print_var'
+ *                  sorts & prints the 't_env' ll via 'sort_and_print_var'
  *              else
  *                for each 'arg_node'
  *                  CASE: correct (PATH=hello)
