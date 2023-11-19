@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 14:36:59 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/19 17:56:56 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/19 18:57:11 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,6 @@ static  t_bool  check_if_shift(t_mbox *mbox, int i, t_bool check_prev, int qs)
  */
 static void empty_quotes(t_mbox *mbox, int i, t_bool check_prev)
 {
-    int     quote_state_old;
     int     quote_state;
     char    cur_c;
     
@@ -136,9 +135,8 @@ static void empty_quotes(t_mbox *mbox, int i, t_bool check_prev)
     while (mbox->inp_trim[++i])
     {
         cur_c = mbox->inp_trim[i];
-        quote_state_old = quote_state;
         update_quote_state(&quote_state, mbox->inp_trim[i], ft_false);
-        if (quote_state != quote_state_old)
+        if (quote_state != OUT_Q)
             if (check_if_shift(mbox, i, check_prev, quote_state))
             {
                 if (check_prev)
@@ -148,13 +146,12 @@ static void empty_quotes(t_mbox *mbox, int i, t_bool check_prev)
                 mbox->inp_shift[i + 1] = NO_SPACE;
                 update_quote_state(&quote_state, mbox->inp_trim[++i], ft_false);
             }
-
         if (!check_prev)
             return ;
     }
     display_info_str(mbox, "empty quotes", mbox->inp_shift);
 }
-
+// echo "a' "
 /**
  * @brief   traverses through the string and if a quotes_state is Q_OUT,
  *          checks if a cur character is one of the separated ones 
