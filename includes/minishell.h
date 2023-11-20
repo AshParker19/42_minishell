@@ -67,7 +67,7 @@ typedef struct s_mbox
     char        *inp_expand;
 	int			consecutive_lt;
     bool        error_status;
-	t_list		*history_lst;
+    t_history   *history;
 	t_list		*token_lst; //TODO: implement
 	t_list		*env_lst; //TODO: implement
     t_token     *tokens;
@@ -93,6 +93,7 @@ typedef struct  s_history
 {
     int                 index;
     char                *inp;
+    t_list              *lst;
 	t_mbox				*mbox;
 }               t_history;
 
