@@ -6,13 +6,11 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 18:00:32 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/20 23:35:05 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/20 23:36:39 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
-
-# define B_WHITE "\x1b[97m"
 
 void	builtin_header(t_mbox *mbox, t_ast *arg_node)
 {
@@ -37,7 +35,6 @@ void	builtin_header(t_mbox *mbox, t_ast *arg_node)
 	B_WHITE"::::::"CYAN"44"YELLOW"2"B_WHITE"::::::"YELLOW"2222222"B_WHITE":::::"\
 	YELLOW"2\n"CYAN"        4"B_WHITE"::::::::"CYAN"4"YELLOW"2"\
 	B_WHITE"::::::::::::::::::"YELLOW"2\n"CYAN"        4444444444"\
-	YELLOW"22222222222222222222\n", mbox->executor.io.cmd_fd[CMD_OUT]);
+	YELLOW"22222222222222222222\n"RESET, mbox->executor.io.cmd_fd[CMD_OUT]);
 	set_var_value(mbox, "?", EXIT_SUCCESS_STR);
 }
-

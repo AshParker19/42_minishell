@@ -72,7 +72,7 @@ SRCS = $(addprefix $(SRC_FOLDER), 						\
 	3_builtins/env.c									\
 	3_builtins/exit.c									\
 	3_builtins/history.c								\
-	3_builtins/history_tlist.c							\
+	3_builtins/header.c									\
 	)
 
 # Object files
@@ -96,7 +96,7 @@ $(NAME): $(LIBFT) $(OBJS)
 	@$(CC) $(OBJS) $(CFLAGS) $(CLIBS) $(CINCLUDES) -o $(NAME)
 	@echo "\n$(ORANGE)╔═══════════════════════╗"
 	@echo "$(ORANGE)║  $(GREEN)$(NAME):  created$(ORANGE)  ║" #revived
-	@echo "$(ORANGE)╚═══════════════════════╝"
+	@echo "$(ORANGE)╚═══════════════════════╝$(RESET)"
 
 $(OBJ_FOLDER)%.o: $(SRC_FOLDER)%.c 
 	@mkdir -p $(@D)

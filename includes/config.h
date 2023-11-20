@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 16:07:39 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/19 18:17:36 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/20 23:36:30 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@
 # define YELLOW 			"\x1b[33m"
 # define CYAN 				"\x1b[36m"
 # define PURPLE 			"\x1b[35m"
+# define B_WHITE			"\x1b[97m"
 # define RESET 				"\033[0m"
 
 /*********************************# SIGNALS #**********************************/
