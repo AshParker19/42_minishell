@@ -6,11 +6,47 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 11:45:50 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/20 00:19:42 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/20 21:57:42 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
+
+/**
+ * @brief only used via 'ft_lstiter' in 'builtin_history'
+ * 
+ * @param content 
+ */
+void    print_history_node(void *content)
+{
+	t_history   *node;
+
+	node = (t_history *)content;
+	if (node)
+	{
+		ft_putstr_fd("  ", node->mbox->executor.io.cmd_fd[CMD_OUT]);
+		ft_putnbr_fd(node->index, node->mbox->executor.io.cmd_fd[CMD_OUT]);
+		ft_putstr_fd("  ", node->mbox->executor.io.cmd_fd[CMD_OUT]);
+		ft_putendl_fd(node->inp, node->mbox->executor.io.cmd_fd[CMD_OUT]);
+	}
+}
+/**
+ * @brief only used via 'ft_lstclear' in 'free_history'
+ * 
+ * @param content 
+ */
+void    del_history_node(void *content)
+{
+    t_history   *node;
+
+    node = (t_history *)content;
+    if (node)
+	{
+		if (node->inp)
+			free (node->inp);
+		free(node);
+	}	
+}
 
 void    save_history(t_mbox *mbox, char *inp)
 {

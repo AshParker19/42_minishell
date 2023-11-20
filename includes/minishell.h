@@ -68,8 +68,6 @@ typedef struct s_mbox
 	int			consecutive_lt;
     bool        error_status;
 	t_list		*history_lst;
-	t_list		*token_lst; //TODO: implement
-	t_list		*env_lst; //TODO: implement
     t_token     *tokens;
     t_token     *tmp_token;
     t_ast      *root;
@@ -145,14 +143,5 @@ void    err_free_and_close_box(t_mbox *mbox, int exit_status);
 void    err_msg(t_mbox *mbox, int exit_status, const char *format, ...);
 void    put_info_msg(t_mbox *mbox, const char *format, ...);
 void	*create_syntax_err(t_mbox *mbox, t_token *err_token);
-
-
-/* ll functions in folder linkes_list */
-void    print_history_node(void *content);
-void    del_history_node(void *content);
-void    print_var_node(void *content);
-void    del_var_node(void *content);
-void    print_token_node(void *content);
-void    del_token_node(void *content);
 
 #endif
