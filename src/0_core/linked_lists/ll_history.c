@@ -6,12 +6,11 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/18 17:31:19 by astein            #+#    #+#             */
-/*   Updated: 2023/11/20 12:57:09 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/20 14:57:33 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 /**
  * @brief only used via 'ft_lstiter' in 'builtin_history'
@@ -45,6 +44,6 @@ void    del_history_node(void *content)
 	{
 		if (node->inp)
 			free (node->inp);
-		free(node);
-	}	
+		free (node);
+	}
 }
