@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:16:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/19 23:57:52 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/20 00:38:36 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,29 +109,31 @@ char	*get_var_value(const t_mbox *mbox, const char *key)
  */
 void	delete_var(t_mbox *mbox, const char *key)
 {
-	t_env  *cur;
-	t_env  *temp;
+	t_list	*cur_node;
+	t_env	*cur_env;
+	t_env	*temp;
 	
 	if (!mbox->env_lst || !mbox->env_lst->content || !is_var(mbox, key))
 		return ;
-	if (str_cmp_strct(key, mbox->env->key))
+	// if (str_cmp_strct(key, mbox->env->key))
+	// {
+	// 	temp = mbox->env;
+	// 	mbox->env = mbox->env->next;
+	// 	free_var_v2(temp);
+	// 	return ;
+	// }
+	cur_node = mbox->env_lst;
+	while (cur_node->next)
 	{
-		temp = mbox->env;
-		mbox->env = mbox->env->next;
-		free_var_v2(temp);
-		return ;
-	}
-	cur = mbox->env;
-	while (cur->next)
-	{
-		if (str_cmp_strct(key, cur->next->key))
+		cur_env = (t_env *)cur_node->content;
+		if (str_cmp_strct(key, cur_node->next->key))
 		{
-			temp = cur->next;
+			temp = cur->next;e
 			cur->next = cur->next->next;
 			free_var_v2(temp);
 			break ;
 		}
-		cur = cur->next;
+		cur_node = cur_node->next;
    }
 }
 
