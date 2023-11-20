@@ -6,11 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:16:31 by anshovah          #+#    #+#             */
-<<<<<<< Updated upstream
-/*   Updated: 2023/11/19 22:03:04 by anshovah         ###   ########.fr       */
-=======
-/*   Updated: 2023/11/20 00:08:36 by anshovah         ###   ########.fr       */
->>>>>>> Stashed changes
+/*   Updated: 2023/11/20 00:28:38 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
