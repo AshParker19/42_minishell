@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:23:39 by astein            #+#    #+#             */
-/*   Updated: 2023/11/21 19:19:37 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/21 22:37:26 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	initialize_io(t_mbox *mbox)
 void	close_process_fds_v2(t_mbox *mbox)
 {
 	if (mbox->executor.io.cmd_fd[CMD_IN] != -1)
-		close (mbox->executor.io.cmd_fd[CMD_IN]);	
+		close (mbox->executor.io.cmd_fd[CMD_IN]);
 	if (mbox->executor.io.cmd_fd[CMD_OUT] != -1)
 		close (mbox->executor.io.cmd_fd[CMD_OUT]);
 	if (mbox->executor.io.dup_fd[CMD_IN] != -1)

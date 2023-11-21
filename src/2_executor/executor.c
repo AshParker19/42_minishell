@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:19:44 by astein            #+#    #+#             */
-/*   Updated: 2023/11/21 19:19:21 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/21 22:38:53 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ static void exec_child(t_mbox *mbox, t_ast *cmd_node, int cmd_pos, int *cur_p)
 	if (!configure_redir(mbox, cmd_node->left))
 	{
 		// if (cur_p[P_RIGHT] != -1) //FIXME: 
-		// // CASE 1 Heredoc 
-		// // CASE 2 file without permissions
 		// 	close(cur_p[P_RIGHT]);
 		free_and_close_box_v2(mbox);
 	}

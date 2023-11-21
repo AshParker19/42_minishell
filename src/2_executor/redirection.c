@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:47:15 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/21 17:06:20 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/21 22:39:23 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,7 @@ static t_bool   redir_io(t_mbox *mbox, t_ast *redir_node, int *in, int *out)
 			if (!setup_redir_in(mbox, tmp, in)) // can I do return(setup_redir_in(mbox, tmp, in))?
 				return (ft_false);
 		}
-		else if (tmp->type == RED_OUT_TR
-			|| tmp->type == RED_OUT_AP)
+		else if (tmp->type == RED_OUT_TR || tmp->type == RED_OUT_AP)
 		{
 			if (!setup_redir_out(mbox, tmp, out))
 				return (ft_false);
