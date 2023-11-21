@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:54:41 by astein            #+#    #+#             */
-/*   Updated: 2023/11/20 23:41:49 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/21 17:01:54 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,10 @@ t_bool  is_cmd_builtin(t_mbox *mbox, char *cmd)
     
     i = -1;
     while (mbox->executor.builtins[++i].cmd_name)
+	{
         if (str_cmp_strct(mbox->executor.builtins[i].cmd_name, cmd))
             return (ft_true);
+	}
     return (ft_false);
 }
 

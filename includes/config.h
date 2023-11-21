@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 16:07:39 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/20 23:36:30 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/21 16:20:10 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,13 @@ enum e_signal_state
 
 /******************************# PROMPT FORMAT #*******************************/
 /* promt strings */
-// # define PROMPT      "\x1b[36mfrankenshell-->\033[0m "
-// # define ERR_P  "\033[38;5;203mfrankenshell:\033[0m "
-// # define HEREDOC_PROMPT "frankendoc> "
+# define PROMPT      "\x1b[36mfrankenshell-->\033[0m "
+# define ERR_P  "\033[38;5;203mfrankenshell:\033[0m "
+# define HEREDOC_PROMPT "\x1b[33mfrankendoc>\033[0m "
 /* test prompts */
-# define PROMPT								"minishell:"
-# define ERR_P          					"minishell: "
-# define HEREDOC_PROMPT 					"> "
+// # define PROMPT								"minishell:"
+// # define ERR_P          					"minishell: "
+// # define HEREDOC_PROMPT 					"> "
 
 /******************************# INFINITE LOOPS #******************************/
 

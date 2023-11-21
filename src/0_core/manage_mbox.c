@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manage_mbox.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:49:13 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/18 17:36:42 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/21 17:04:54 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,6 @@ void free_and_close_box_v2(t_mbox *mbox)
 		return ;
 	exit_status = ft_atoi(get_var_value(mbox, "?"));
 	free_cycle_v2(mbox);
-	// free_history(mbox);
-	// ft_lstclear((t_list **)&mbox->history, del_history_node);
 	ft_lstclear(&(mbox->history_lst), del_history_node);
 	free_vars_v2(mbox);
 	// dprintf (2, "\n---\nFREE AND CLOSE BOX EXECUTED FOR\n\tPID (%d)\n\tEXIT STATUS (%d)\n---\n", getpid(), exit_status);

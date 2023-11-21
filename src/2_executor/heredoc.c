@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:00:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/21 15:53:44 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/21 16:59:32 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,13 @@ static t_bool	check_lim_qoutes(char **str)
 	return (expand_vars);
 }
 
+static void	tmp_exiter(t_mbox *mbox, int *fd, char *lim, char *cur_line)
+{
+	if (mbox->stop_heredoc == ft_true)
+		exit_heredoc_child(mbox, fd, lim, cur_line);
+	check_ctrl_d(mbox, fd, lim, cur_line);	
+}
+
 static void	heredoc_child(t_mbox *mbox, int *fd, char *lim)
 {
 	char	*cur_line;
@@ -164,9 +171,7 @@ static void	heredoc_child(t_mbox *mbox, int *fd, char *lim)
 	while (FRANCENDOC_ECHOES_IN_ETERNITY)
 	{
 		cur_line = readline(HEREDOC_PROMPT);
-		if (mbox->stop_heredoc == ft_true)
-			exit_heredoc_child(mbox, fd, lim, cur_line);
-		check_ctrl_d(mbox, fd, lim, cur_line);
+		tmp_exiter(mbox, fd, lim, cur_line);
 		if(cur_line[0] != '\0')
 		{
 			if (str_cmp_strct(cur_line, lim))
@@ -179,6 +184,26 @@ static void	heredoc_child(t_mbox *mbox, int *fd, char *lim)
 			ft_putendl_fd("", fd[P_LEFT]);	
 		if (cur_line)
 			free(cur_line);
+	}
+}
+
+t_bool	heredoc_parent(t_mbox *mbox, int pid_hd, int *cmd_in_fd, int *fd)
+{
+	int	exit_status;
+
+	close(fd[P_LEFT]);
+	waitpid(pid_hd, &exit_status, 0);
+	update_signals(SIGNAL_CHILD);
+	if (exit_status != EXIT_SUCCESS)
+	{
+		set_var_value_int(mbox, "?", exit_status);
+		close (fd[P_RIGHT]);
+		return (ft_false);
+	}
+	else
+	{
+		*cmd_in_fd = fd[P_RIGHT];
+		return (ft_true);
 	}
 }
 
@@ -201,7 +226,6 @@ t_bool	heredoc(t_mbox *mbox, t_ast *redir_node, int *cmd_in_fd)
 {
 	int		fd[2];
 	int		exit_status;
-	char	*exit_status_str;
 	int		pid_hd;
 
 	if (pipe(fd) < 0)
@@ -212,20 +236,10 @@ t_bool	heredoc(t_mbox *mbox, t_ast *redir_node, int *cmd_in_fd)
 		return (err_free_and_close_box(mbox, EXIT_FAILURE));
 	if (pid_hd == 0)
 		heredoc_child(mbox, fd, redir_node->content);
-	close(fd[P_LEFT]);
-	waitpid(pid_hd, &exit_status, 0);
-	update_signals(SIGNAL_CHILD);
-	if (exit_status != EXIT_SUCCESS)
-	{
-		set_var_value_int(mbox, "?", exit_status);
-		return (ft_false);
-	}
-	else
-	{
-		*cmd_in_fd = fd[P_RIGHT];
-		return (ft_true);
-	}
-	
+	return (heredoc_parent(mbox, pid_hd, cmd_in_fd, fd));
+}
+
+	// OLD SHIT!!!	
 	// if (WIFEXITED(exit_status))
 	// 	exit_status = WEXITSTATUS(exit_status);
 	// else if (WIFSIGNALED(exit_status))
@@ -245,4 +259,3 @@ t_bool	heredoc(t_mbox *mbox, t_ast *redir_node, int *cmd_in_fd)
 	// set_var_value(mbox, "?", exit_status_str);
 	// // dprintf(2, "{%s}{%s}\n", exit_status_str, get_var_value(mbox, "?"));
 	// free(exit_status_str);
-}
