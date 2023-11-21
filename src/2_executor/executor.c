@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:19:44 by astein            #+#    #+#             */
-/*   Updated: 2023/11/21 16:11:21 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/21 19:19:21 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,15 +104,6 @@ static void    wait_for_execution(t_mbox *mbox)
 				set_var_value_int(mbox, "?", WEXITSTATUS(exit_status));
 		}
 	}
-}
-
-static	t_bool	allocate_pid_array(t_mbox *mbox)
-{
-	print_executor_output(mbox, ft_true);
-	mbox->executor.pid = ft_calloc(cmd_counter(mbox->root), sizeof(int));
-	if (!mbox->executor.pid)
-		return (ft_false);
-	return (ft_true);	
 }
 
 /**

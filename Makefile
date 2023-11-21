@@ -64,6 +64,7 @@ SRCS = $(addprefix $(SRC_FOLDER), 						\
 	2_executor/redirection.c							\
 	2_executor/heredoc.c								\
 	2_executor/heredoc_utils.c							\
+	2_executor/heredoc_utils2.c							\
 	3_builtins/cd.c										\
 	3_builtins/echo.c									\
 	3_builtins/pwd.c									\
@@ -77,13 +78,6 @@ SRCS = $(addprefix $(SRC_FOLDER), 						\
 
 # Object files
 OBJS = $(SRCS:$(SRC_FOLDER)%.c=$(OBJ_FOLDER)%.o)
-
-define print_header
-	@echo "$(PURPLE) =========================================================$(RESET)"
-	@echo "$(PURPLE)| ⚠️ $1$(RESET)"
-	@echo "$(PURPLE) =========================================================$(RESET)\n"
-endef
-
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
 
@@ -121,9 +115,6 @@ fclean: clean
 
 re: fclean all
 
-test: all
-	gnome-terminal --window --hide-menubar --title "ASTEINS MINITALK TESTER" --geometry=60x10+630+100 --working-directory="$(CURDIR)$(TEST_FOLDER)" -- "./run.sh" &
-
 norm:
 	norminette
 
@@ -158,7 +149,7 @@ DOT:
 stats:
 	./tester/count_stats.sh
 
-t: t1 t2 t3
+t: t1 t2
 
 t1: all
 	$(call print_header, "https://github.com/MariaAguiar/minitester")

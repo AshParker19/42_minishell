@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:49:13 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/21 18:13:31 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/21 19:00:10 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	free_cycle_v2(t_mbox *mbox)
  * 
  * @param	mbox 
  */
-void free_and_close_box_v2(t_mbox *mbox)
+void	free_and_close_box_v2(t_mbox *mbox)
 {
 	int	exit_status;
 	
@@ -85,6 +85,12 @@ void free_and_close_box_v2(t_mbox *mbox)
 	free_cycle_v2(mbox);
 	ft_lstclear(&(mbox->history_lst), del_history_node);
 	free_vars_v2(mbox);
-	// dprintf (2, "\n---\nFREE AND CLOSE BOX EXECUTED FOR\n\tPID (%d)\n\tEXIT STATUS (%d)\n---\n", getpid(), exit_status);
 	exit(exit_status);
+}
+
+t_bool    err_free_and_close_box(t_mbox *mbox, int exit_status)
+{
+	set_var_value_int(mbox, "?", exit_status);
+	free_and_close_box_v2(mbox);
+	return (ft_false);
 }

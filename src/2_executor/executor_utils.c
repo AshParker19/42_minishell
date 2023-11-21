@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:23:39 by astein            #+#    #+#             */
-/*   Updated: 2023/11/12 01:59:59 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/21 19:19:37 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,13 @@ void	free_process_v2(t_mbox *mbox)
 		free (mbox->executor.pid);
 		mbox->executor.pid = NULL;
 	}
+}
+
+t_bool	allocate_pid_array(t_mbox *mbox)
+{
+	print_executor_output(mbox, ft_true);
+	mbox->executor.pid = ft_calloc(cmd_counter(mbox->root), sizeof(int));
+	if (!mbox->executor.pid)
+		return (ft_false);
+	return (ft_true);	
 }
