@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:19:44 by astein            #+#    #+#             */
-/*   Updated: 2023/11/21 15:15:33 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/21 16:11:21 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,10 @@ static t_bool    execute_cmd(t_mbox *mbox, t_ast *cmd_node, int cmd_pos)
 		setup_use_pipe(mbox, cmd_pos);
 		if (cmd_pos == FIRST_CMD || cmd_pos == MIDDLE_CMD)
 			if (pipe(cur_pipe) < 0)
-				err_free_and_close_box(mbox, EXIT_FAILURE);    
+				return (err_free_and_close_box(mbox, EXIT_FAILURE));    
 		mbox->executor.pid[mbox->executor.pid_index] = fork();
 		if (mbox->executor.pid[mbox->executor.pid_index] < 0)
-			err_free_and_close_box(mbox, EXIT_FAILURE);    
+			return (err_free_and_close_box(mbox, EXIT_FAILURE));    
 		update_signals(SIGNAL_PARENT);
 		if (mbox->executor.pid[mbox->executor.pid_index] == 0)
 			exec_child(mbox, cmd_node, cmd_pos, cur_pipe);
@@ -106,6 +106,15 @@ static void    wait_for_execution(t_mbox *mbox)
 	}
 }
 
+static	t_bool	allocate_pid_array(t_mbox *mbox)
+{
+	print_executor_output(mbox, ft_true);
+	mbox->executor.pid = ft_calloc(cmd_counter(mbox->root), sizeof(int));
+	if (!mbox->executor.pid)
+		return (ft_false);
+	return (ft_true);	
+}
+
 /**
  * @brief	traverses trough the AST checks cmd POSITION
  * 
@@ -120,34 +129,31 @@ static void    wait_for_execution(t_mbox *mbox)
  * @param	mbox 
  * @return	t_bool 
  */
-t_bool    execute(t_mbox *mbox) //TODO: do exit for builtins
+void    execute(t_mbox *mbox) //TODO: do exit for builtins
 {   
 	t_ast  *cur;
 	
-	print_executor_output(mbox, ft_true);
-	mbox->executor.pid = ft_calloc(cmd_counter(mbox->root), sizeof(int));
-	if (!mbox->executor.pid)
-		return (ft_false);
+	if (!allocate_pid_array(mbox))
+		return ;
 	cur = mbox->root;
 	if (cur->type == CMD_NODE)
 	{
-		if (!execute_cmd(mbox, cur, SINGLE_CMD)) 
-			return (ft_false);
+		if (!execute_cmd(mbox, cur, SINGLE_CMD))
+			return ;
 	}
 	else
 	{
 		if (!execute_cmd(mbox, cur->left, FIRST_CMD))
-			return (ft_false);
+			return ;
 		while (cur->right->type == PIPE_NODE)
 		{
 			cur = cur->right;
 			if (!execute_cmd(mbox, cur->left, MIDDLE_CMD))
-				return (ft_false);
+				return ;
 		}
 		if (!execute_cmd(mbox, cur->right, LAST_CMD))
-			return (ft_false);
+			return ;
 	}
 	wait_for_execution(mbox);
 	print_executor_output(mbox, ft_false); 
-	return (ft_true);
 }

@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 17:55:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/20 23:45:52 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/21 16:03:10 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,24 @@
 
 typedef struct s_io
 {
-    t_bool  use_pipe[2];
-    int     cmd_fd[2];
-    int     dup_fd[2];
-    int     prev_pipe[2];
+	t_bool  use_pipe[2];
+	int     cmd_fd[2];
+	int     dup_fd[2];
+	int     prev_pipe[2];
 }   t_io;
 
 typedef struct s_exec
 {
-    t_builtin_cmd   builtins[10];
-    t_io            io;
-    int             *pid;
-    int             pid_index;
+	t_builtin_cmd   builtins[10];
+	t_io            io;
+	int             *pid;
+	int             pid_index;
 }   t_exec;
 
 
 /******************************************************************************/
 /* executor */
-t_bool  execute(t_mbox *mbox);
+void	execute(t_mbox *mbox);
 void    run_cmd_system(t_mbox *mbox, t_ast *cmd_node);
 
 /* cmd runner */

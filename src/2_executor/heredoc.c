@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:00:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/18 16:41:15 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/21 15:53:44 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,11 +205,11 @@ t_bool	heredoc(t_mbox *mbox, t_ast *redir_node, int *cmd_in_fd)
 	int		pid_hd;
 
 	if (pipe(fd) < 0)
-		err_free_and_close_box(mbox, EXIT_FAILURE);
+		return (err_free_and_close_box(mbox, EXIT_FAILURE));
 	update_signals(SIGNAL_PARENT);
 	pid_hd = fork();
 	if (pid_hd < 0)
-		err_free_and_close_box(mbox, EXIT_FAILURE);
+		return (err_free_and_close_box(mbox, EXIT_FAILURE));
 	if (pid_hd == 0)
 		heredoc_child(mbox, fd, redir_node->content);
 	close(fd[P_LEFT]);

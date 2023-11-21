@@ -139,7 +139,7 @@ void	print_executor_output(t_mbox *mbox, t_bool top_part);
 
 /* general_utils.c */
 void    reset_cycle(t_mbox *mbox);
-void    err_free_and_close_box(t_mbox *mbox, int exit_status);
+t_bool    err_free_and_close_box(t_mbox *mbox, int exit_status);
 void    err_msg(t_mbox *mbox, int exit_status, const char *format, ...);
 void    put_info_msg(t_mbox *mbox, const char *format, ...);
 void	*create_syntax_err(t_mbox *mbox, t_token *err_token);
