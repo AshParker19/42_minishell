@@ -6,14 +6,42 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:16:49 by astein            #+#    #+#             */
-/*   Updated: 2023/11/17 19:50:56 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/21 18:38:52 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * @brief   takes the ll of tokens abd builds an AST of it
+ * @brief   takes the ll of tokens abd builds an AST of it using BNF notaion:
+ * 
+ *			<job>          : <command> '|' <job>    
+ *			               | <command>              
+ *			               ;
+ *
+ *			<command>      : <token list>           
+ *			               ;
+ *
+ *			<token list>   : [name]  <token list>   
+ *			               | [arg]   <token list>   
+ *			               | <redir> <token list>   
+ *			               ;
+ *
+ *			<redir>        : <redir in> 
+ *			               | <redir out>
+ *			               ;
+ *
+ *			<redir in>     : '<<' [file]
+ *			               | '<'  [file]
+ *			               ;
+ *
+ *			<redir out>    : '>>' [file]
+ *			               | '>'  [file]
+ *			               ;
+ * 			
+ * 			this BNF form was taken from Gabriel Tocha
+ * 										(https://github.com/portugueseTorch)
+ * 			Thank you Gabriel for your help!
  * 
  * @param   mbox 
  * @return  t_bool 

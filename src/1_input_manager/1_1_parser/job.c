@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 17:49:29 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/17 19:47:48 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/21 18:39:28 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,11 @@ static t_ast	*job_case2(t_mbox *mbox);
 
 /**
  * @brief   main function for job case
- *          check BNF notation for the better understanding
- * 
+ * 			
+ * 			<job>          : <command> '|' <job>    
+ *			               | <command>              
+ *			               ;
+ 
  * @param   mbox 
  * @return  t_ast* 
  */

@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 17:50:11 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/17 19:45:48 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/21 18:39:50 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 /**
  * @brief   main function for command case
- *          check BNF notation for the better understanding
+ * 
+ *          <command>      : <token list>           
+ *			               ;
  * 
  * @param mbox 
  * @return t_ast* 
