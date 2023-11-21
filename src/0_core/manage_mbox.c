@@ -6,11 +6,11 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:49:13 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/21 17:04:54 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/21 18:13:31 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
 /**
  * @brief	sets all variables in mbox to ini values
@@ -20,8 +20,9 @@
  * @param mbox 
  * @param env 
  */
-void	initialize_box_v2(t_mbox *mbox)
+void	initialize_box_v2(t_mbox *mbox, char **env)
 {
+	g_signal_status = 0;
 	mbox->env = NULL;
 	mbox->inp_orig = NULL;
 	mbox->inp_trim = NULL;
@@ -39,6 +40,8 @@ void	initialize_box_v2(t_mbox *mbox)
 	mbox->print_info = ft_false;
 	mbox->consecutive_lt = 0;
 	get_mbox(mbox);
+	load_vars_v2(mbox, env);
+	initialize_builtins(mbox);
 }
 
 /**
@@ -57,10 +60,10 @@ void	free_cycle_v2(t_mbox *mbox)
 {
 	if (!mbox)
 		return ;
-    free_input_strings_v2(mbox);    
-    free_tokens_v2(mbox);
+	free_input_strings_v2(mbox);    
+	free_tokens_v2(mbox);
 	free_ast_v2(mbox->root);
-    mbox->root = NULL;
+	mbox->root = NULL;
 	close_process_fds_v2(mbox);
 	free_process_v2(mbox);
 }
@@ -83,5 +86,5 @@ void free_and_close_box_v2(t_mbox *mbox)
 	ft_lstclear(&(mbox->history_lst), del_history_node);
 	free_vars_v2(mbox);
 	// dprintf (2, "\n---\nFREE AND CLOSE BOX EXECUTED FOR\n\tPID (%d)\n\tEXIT STATUS (%d)\n---\n", getpid(), exit_status);
-    exit(exit_status);
+	exit(exit_status);
 }

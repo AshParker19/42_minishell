@@ -121,7 +121,7 @@ void    set_var_value_int(t_mbox *mbox, const char *key, int int_value);
 void    update_signals(int sig_state);
 
 /* manage_mbox.c */
-void	initialize_box_v2(t_mbox *mbox);
+void	initialize_box_v2(t_mbox *mbox, char **env);
 void    free_cycle_v2(t_mbox *mbox);
 void    free_input_strings_v2(t_mbox *mbox);
 void    free_tokens_v2(t_mbox *mbox);

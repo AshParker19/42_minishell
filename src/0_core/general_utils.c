@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:43:17 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/21 15:53:15 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/21 18:08:43 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,19 @@
  */
 void    reset_cycle(t_mbox *mbox)
 {
-    free_cycle_v2 (mbox);
+	free_cycle_v2 (mbox);
 	mbox->executor.io.prev_pipe[P_LEFT] = -1;
 	mbox->executor.io.prev_pipe[P_RIGHT] = -1;
 	mbox->executor.pid_index = 0;
-    update_signals(SIGNAL_MAIN);
+	update_signals(SIGNAL_MAIN);
 	g_signal_status = 0;
 	mbox->consecutive_lt = 0;
 }
 
 t_bool    err_free_and_close_box(t_mbox *mbox, int exit_status)
 {
-    set_var_value_int(mbox, "?", exit_status);
-    free_and_close_box_v2(mbox);
+	set_var_value_int(mbox, "?", exit_status);
+	free_and_close_box_v2(mbox);
 	return (ft_false);
 }
 
@@ -55,11 +55,11 @@ void	*create_syntax_err(t_mbox *mbox, t_token *err_token)
 
 static void    tmp_conclusion(t_mbox *mbox, char *err_msg, int exit_status)
 {
-    if (err_msg)
-    {
-        ft_putendl_fd(err_msg, STDERR_FILENO);    
-        free (err_msg);
-    }
+	if (err_msg)
+	{
+		ft_putendl_fd(err_msg, STDERR_FILENO);    
+		free (err_msg);
+	}
 	if (exit_status != NO_EXIT_STATUS)
 		set_var_value_int(mbox, "?", exit_status);
 }
@@ -79,29 +79,29 @@ static void    tmp_conclusion(t_mbox *mbox, char *err_msg, int exit_status)
 void    err_msg(t_mbox *mbox, int exit_status, const char *format, ...)
 {
 	va_list	args;
-    char    *err_msg;
-    char    *str;
+	char    *err_msg;
+	char    *str;
 
 	va_start(args, format);
-    err_msg = NULL;
-    while (*format)
-    {
-        str = va_arg(args, char *);
-        if (str)
-        {
-            if (!err_msg)
-                err_msg = ft_strdup(str);
-            else
-            {
+	err_msg = NULL;
+	while (*format)
+	{
+		str = va_arg(args, char *);
+		if (str)
+		{
+			if (!err_msg)
+				err_msg = ft_strdup(str);
+			else
+			{
 				err_msg = append_str(err_msg, str, ft_false);
-                if (*format == 'y')
-                    free (str);
-            }
-        }
-        format++;
-    }
+				if (*format == 'y')
+					free (str);
+			}
+		}
+		format++;
+	}
 	va_end(args);
-    tmp_conclusion(mbox, err_msg, exit_status);
+	tmp_conclusion(mbox, err_msg, exit_status);
 }
 
 /**
@@ -119,26 +119,26 @@ void    err_msg(t_mbox *mbox, int exit_status, const char *format, ...)
 void    put_info_msg(t_mbox *mbox, const char *format, ...) //this function wasnt freeing properly so I removed it for the time being
 {
 	va_list	args;
-    char    *info_msg;
-    char    *str;
+	char    *info_msg;
+	char    *str;
 
 	if (!mbox->print_info)
 		return ;
 	va_start(args, format);
-    info_msg = ft_strdup(RED" >>>INFO MSG>>> \n"RESET);
-    while (*format)
-    {
-        str = va_arg(args, char *);
-        if (str)
-        {
+	info_msg = ft_strdup(RED" >>>INFO MSG>>> \n"RESET);
+	while (*format)
+	{
+		str = va_arg(args, char *);
+		if (str)
+		{
 			info_msg = append_str(info_msg, str, ft_false);
 			info_msg = append_str(info_msg, " ", ft_false);
 			if (*format == 'y')
 				free (str);
-        }
-        format++;
-    }
+		}
+		format++;
+	}
 	va_end(args);
-    tmp_conclusion(mbox, info_msg, NO_EXIT_STATUS);	
+	tmp_conclusion(mbox, info_msg, NO_EXIT_STATUS);	
 }
 
