@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:09:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/19 21:45:50 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/21 14:54:38 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,10 @@ static	void	run_cmd_system_error(t_mbox *mbox, char *cmd)
 		if (!*cmd)
 			err_msg(mbox, 127, "nnn", "''", CS, CMD_N_FND);
 		else
-			err_msg(mbox, 127, "nnn", cmd, CS, CMD_N_FND); // else just cmd not found
+			err_msg(mbox, 127, "nnn", cmd, CS, CMD_N_FND);
 	}
 }
+
 
 /*
 	decides if the command to be executed is a builtin cmd or a system cmd
@@ -88,7 +89,7 @@ void    run_cmd_system(t_mbox *mbox, t_ast *cmd_node)
 	char	*abs_cmd_path;
 	char	**cur_env;
 	char	**cur_av;
-	int		cur_err_no;	//error number of execve not exit code!
+	int		cur_err_no;
 	
 	if (mbox->executor.io.cmd_fd[CMD_IN] != -1)
 		close(mbox->executor.io.cmd_fd[CMD_IN]);
@@ -97,13 +98,9 @@ void    run_cmd_system(t_mbox *mbox, t_ast *cmd_node)
 	abs_cmd_path = get_abs_cmd_path(mbox, cmd_node->content);
 	cur_env = env_to_matrix(mbox, NULL);
 	cur_av = args_to_matrix(mbox, abs_cmd_path, cmd_node->right);
-	// INFO:
-	// in exeve() the first argument is the ABSOLUTE path to the executable
-	// 		  in the second argument is the RELATIVE path to the executable
 	if (cur_av)
 		execve(abs_cmd_path, cur_av, cur_env);
 	cur_err_no = errno;
-	// if we arrive here execve failed
 	if (abs_cmd_path)
 		free (abs_cmd_path);
 	free_whatever("mm", cur_env, cur_av);
@@ -150,7 +147,6 @@ t_bool run_single_builtin(t_mbox *mbox)
 	mbox->executor.io.cmd_fd[CMD_OUT] = STDOUT_FILENO;
 	if (!configure_redir(mbox, mbox->root->left))
 	{
-		// TODO: does all of the if makes sence?
 		if (mbox->executor.io.cmd_fd[CMD_IN] != STDIN_FILENO)
 			close (mbox->executor.io.cmd_fd[CMD_IN]);
 		if (mbox->executor.io.cmd_fd[CMD_OUT] != STDOUT_FILENO)
@@ -159,7 +155,7 @@ t_bool run_single_builtin(t_mbox *mbox)
 		mbox->executor.io.cmd_fd[CMD_OUT] = -1;
 		return (ft_false);
 	}
-	run_cmd_builtin(mbox, mbox->root);  // we should make builtins return bool, if it false, set exit status as EXIT_FAILURE
+	run_cmd_builtin(mbox, mbox->root);
 	if (mbox->executor.io.cmd_fd[CMD_IN] != STDIN_FILENO)
 		close (mbox->executor.io.cmd_fd[CMD_IN]);
 	if (mbox->executor.io.cmd_fd[CMD_OUT] != STDOUT_FILENO)

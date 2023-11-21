@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:47:15 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/19 17:56:56 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/21 15:07:10 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /**
  * @brief   here we dont need to exit because:
  *              - either we are not in a child
- *              - or the function 'perform_child' will exit the child properly
+ *              - or the function 'exec_child' will exit the child properly
  *                  since we are pasing the ft_false all the way back there
  *                  so each funtion on the way has the posibillity to free all
  *                  allocated stuff
