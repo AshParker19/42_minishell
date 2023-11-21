@@ -58,8 +58,8 @@ SRCS = $(addprefix $(SRC_FOLDER), 						\
 	2_executor/executor.c								\
 	2_executor/cmd_runner.c								\
 	2_executor/executor_utils.c							\
-	2_executor/utils_system.c							\
-	2_executor/utils_builtin.c							\
+	2_executor/cmd_system.c								\
+	2_executor/cmd_builtin.c							\
 	2_executor/pipes.c									\
 	2_executor/redirection.c							\
 	2_executor/heredoc.c								\

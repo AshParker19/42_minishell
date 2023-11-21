@@ -1,18 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_system.c                                     :+:      :+:    :+:   */
+/*   cmd_system.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 13:07:56 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/19 21:47:16 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/21 18:01:17 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-//TODO: rename file to cmd_system and the other one to cmd_builtin
 
 /**
  * @brief 		NOTE: MALLOCS!
@@ -56,7 +54,6 @@ char    *get_abs_cmd_path(t_mbox *mbox, char *cmd)
 	// check if cmd is a path like ./hw.sh
 	if (!access(cmd, X_OK))
 			return (ft_strdup(cmd));
-
 	// try to find a working path at the PATH variable
 	path_dirs = ft_split(get_var_value(mbox, "PATH"), ':');
 	if (!path_dirs) // NO PATH VARIALE so no change to find an absolute path (CASE: unset PATH)
@@ -76,6 +73,25 @@ char    *get_abs_cmd_path(t_mbox *mbox, char *cmd)
 	free_whatever("m", path_dirs);
 	return (path);
 }
+
+char	**tmp_freer(char *args_str, char *lim_null)
+{
+	int 	i;
+	char	**av;
+
+	i = -1;
+	av = ft_split(args_str, add_offset('+'));
+	while (av[++i])
+	{
+		if (str_cmp_strct(av[i], lim_null))
+		{
+			free(av[i]);
+			av[i] = "\0";
+		}
+	}
+	return (av);
+}
+
 /**
  * @brief	take all the arg nodes and put them into a char** matrix
  * 			first arg is the paramter 'cmd'
@@ -92,10 +108,9 @@ char **args_to_matrix(t_mbox *mbox, char *cmd, t_ast *arg_node)
 	char	*lim_split;
 	char	*lim_null;
 
-	av = NULL;
 	args_str = seperate_cmd_from_path(cmd, ft_false);
 	if (!args_str)
-		return (av);
+		return (NULL);
 	lim_split = ft_chr2str(add_offset('+'));
 	lim_null = ft_chr2str(add_offset('-'));
 	while (arg_node)
@@ -107,16 +122,7 @@ char **args_to_matrix(t_mbox *mbox, char *cmd, t_ast *arg_node)
 			args_str = append_str(args_str, arg_node->content, ft_false);
 		arg_node = arg_node->right;
 	}
-	av = ft_split(args_str, add_offset('+'));
-	int i = -1;
-	while(av[++i])
-	{
-		if(str_cmp_strct(av[i], lim_null))
-		{
-			free(av[i]);
-			av[i] = "\0";
-		}
-	}
+	av = tmp_freer(args_str, lim_null);
 	free_whatever("ppp", args_str, lim_null, lim_split);
 	return(av);
 }
