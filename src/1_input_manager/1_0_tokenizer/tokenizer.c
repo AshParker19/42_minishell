@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"     
-	
+
 /**
  * @brief	accepts a string which could contain shifted values and cheks if:
  * 				- contains only one char
@@ -27,9 +27,9 @@
  */
 static	char	*check_shifted_values(char *str)
 {
-	char 	*temp;
+	char	*temp;
 	int		i;
-	
+
 	if (!str)
 		return (NULL);
 	temp = NULL;
@@ -45,9 +45,9 @@ static	char	*check_shifted_values(char *str)
 		i = -1;
 		while (str[++i])
 			if (str[i] != add_offset('\'') && str[i] != add_offset('"'))
-				temp = append_str(temp, ft_chr2str(str[i]), ft_true);	
+				temp = append_str(temp, ft_chr2str(str[i]), ft_true);
 	}
-	free (str);		
+	free (str);
 	return (temp);
 }
 
@@ -87,6 +87,7 @@ static void	add_token(t_mbox *mbox, char *value, int token_type)
 static void	just_word(t_mbox *mbox, char *str, int *i)
 {
 	int	j;
+
 	if (ft_issep(remove_offset(*str)))
 	{
 		add_token(mbox, ft_substr(str, 0, 1), get_token_type(*str));
@@ -143,7 +144,6 @@ static void	split_by_sep(t_mbox *mbox, char *str, int i, int quote_state)
 	}
 }
 
-
 /**
  * @brief	creates a linked list (ll) with tokens generated from
  * 				'mbox->inp_expand'
@@ -168,7 +168,7 @@ t_bool	tokenize(t_mbox *mbox, int i)
 	no_space = ft_split(mbox->inp_expand, NO_SPACE);
 	while (no_space[i])
 	{
-		if (!check_space_between_redir(mbox, no_space[i], no_space[i+1]))
+		if (!check_space_between_redir(mbox, no_space[i], no_space[i + 1]))
 		{
 			free_whatever("m", no_space);
 			free_cycle_v2(mbox);
@@ -184,6 +184,5 @@ t_bool	tokenize(t_mbox *mbox, int i)
 	print_tokenizer_output(mbox);
 	if (!mbox->tokens)
 		return (ft_false); //TODO: check return values of all the funcs and check if the list didnt fail in the middle
-	return (ft_true);	
+	return (ft_true);
 }
-

@@ -21,7 +21,7 @@
  * @param	no_space 
  * @return	t_bool 
  */
-t_bool  check_sp(char *no_space)
+t_bool	check_sp(char *no_space)
 {
 	if (ft_strchr(no_space, add_offset('|'))
 		|| ft_strchr(no_space, add_offset('>'))
@@ -77,11 +77,11 @@ int	get_token_type(char c)
 {
 	if (remove_offset(c) == '|')
 		return (PIPE_TOKEN);
-	else if(remove_offset(c) == '<')
+	else if (remove_offset(c) == '<')
 		return (RED_IN_TOKEN);
-	else if(remove_offset(c) == '>')
+	else if (remove_offset(c) == '>')
 		return (RED_OUT_TOKEN);
-	return (WORD_TOKEN);		
+	return (WORD_TOKEN);
 }
 
 /**
@@ -91,11 +91,11 @@ int	get_token_type(char c)
  * 
  * @param   mbox 
  */
-void free_tokens_v2(t_mbox *mbox)
+void	free_tokens_v2(t_mbox *mbox)
 {
-	t_token *cur;
+	t_token	*cur;
 
-	while(mbox->tokens)
+	while (mbox->tokens)
 	{
 		cur = mbox->tokens;
 		mbox->tokens = mbox->tokens->next;
@@ -104,4 +104,3 @@ void free_tokens_v2(t_mbox *mbox)
 	}
 	mbox->tokens = NULL;
 }
-

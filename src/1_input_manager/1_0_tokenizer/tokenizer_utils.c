@@ -58,4 +58,3 @@ t_bool	ft_isspace(char c)
 	return (c == ' ' || c == '\n' || c == '\t' || c == '\v' || c == '\a'
 		|| c == '\b' || c == '\f' || c == '\r');
 }
-

@@ -21,11 +21,11 @@
  * @param lim 
  * @return char* 
  */
-static  char *treat_case_dollar(char *lim, int i, char *temp)
+static char	*treat_case_dollar(char *lim, int i, char *temp)
 {
-	char    *left; 
-	char    *right;
-	t_bool  found_dollar;
+	char	*left; 
+	char	*right;
+	t_bool	found_dollar;
 
 	if (!lim)
 		return (NULL);
@@ -36,16 +36,16 @@ static  char *treat_case_dollar(char *lim, int i, char *temp)
 			found_dollar = ft_true;
 		else if (found_dollar && (lim[i] == '\'' || lim[i] == '"'))
 		{
-			left = ft_substr(lim, 0, i-1);
+			left = ft_substr(lim, 0, i - 1);
 			right = ft_strdup(&lim[i]);
 			temp = treat_case_dollar(ft_strcat_multi(2, left, right), -1, NULL);
 			free_whatever("ppp", left, right, lim);
-			return(temp);
+			return (temp);
 			found_dollar = ft_false;
 		}
 		else
-			found_dollar = ft_false;    
-	}    
+			found_dollar = ft_false;
+	}
 	return (lim);
 }
 
@@ -55,10 +55,10 @@ static  char *treat_case_dollar(char *lim, int i, char *temp)
  * @param mbox 
  * @return char* 
  */
-char *extract_limiter(t_mbox *mbox, int *k, int *quote_state, char *lim)
+char	*extract_limiter(t_mbox *mbox, int *k, int *quote_state, char *lim)
 {
-	char    cur_char;
-	t_bool  lim_start;
+	char	cur_char;
+	t_bool	lim_start;
 
 	lim_start = ft_false;
 	(*k)++;
