@@ -83,7 +83,7 @@ void    run_cmd_main(t_mbox *mbox, t_ast *cmd_node)
 	if (mbox->executor.io.cmd_fd[CMD_OUT] != -1)
 		close(mbox->executor.io.cmd_fd[CMD_OUT]);
 	if (is_cmd_builtin(mbox, cmd_node->content))
-		run_cmd_builtin(mbox, cmd_node, false);
+		run_cmd_builtin(mbox, cmd_node, ft_false);
 	else
 		run_cmd_system(mbox, cmd_node);
 }
@@ -164,7 +164,7 @@ t_bool run_single_builtin(t_mbox *mbox)
 		mbox->executor.io.cmd_fd[CMD_IN] = STDIN_FILENO;
 	if (mbox->executor.io.cmd_fd[CMD_OUT] == -1)
 		mbox->executor.io.cmd_fd[CMD_OUT] = STDOUT_FILENO; 
-	run_cmd_builtin(mbox, mbox->root, true);
+	run_cmd_builtin(mbox, mbox->root, ft_true);
 	if (mbox->executor.io.cmd_fd[CMD_IN] != STDIN_FILENO)
 		close (mbox->executor.io.cmd_fd[CMD_IN]);
 	if (mbox->executor.io.cmd_fd[CMD_OUT] != STDOUT_FILENO)
@@ -175,4 +175,3 @@ t_bool run_single_builtin(t_mbox *mbox)
 	free_cycle_v2(mbox);
 	return (ft_true);
 }
-
