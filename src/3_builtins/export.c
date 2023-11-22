@@ -6,11 +6,11 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:33:09 by astein            #+#    #+#             */
-/*   Updated: 2023/11/19 22:03:04 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/22 09:54:26 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
 // check if first char is alpha or _
 // check if all other chars are alphanum including _

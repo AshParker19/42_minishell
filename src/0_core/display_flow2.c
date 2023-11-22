@@ -6,15 +6,15 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 09:32:49 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/11 10:10:22 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/22 09:50:11 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void print_line(char symbol, char *clr, t_bool app_new_line)
+void	print_line(char symbol, char *clr, t_bool app_new_line)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	printf(" ");
@@ -34,7 +34,7 @@ void print_line(char symbol, char *clr, t_bool app_new_line)
  * @param code
  * @return char*
  */
-static char *get_node_type(int type)
+static char	*get_node_type(int type)
 {
 	if (type == ARG_NODE)
 		return (ft_strdup("arg"));
@@ -61,14 +61,14 @@ static char *get_node_type(int type)
  * @param	root
  * @param	indent_level
  */
-static void display_ast(t_ast *root, int indent_level)
+static void	display_ast(t_ast *root, int indent_level)
 {
-	char *type;
-	int distance;
-	int i;
+	char	*type;
+	int		distance;
+	int		i;
 
 	if (root == NULL)
-		return;
+		return ;
 	distance = 7;
 	indent_level += distance;
 	display_ast(root->right, indent_level);
@@ -91,10 +91,10 @@ static void display_ast(t_ast *root, int indent_level)
  * 			of each of the 'ast' nodes
  *
  */
-void print_parser_output(t_mbox *mbox, t_bool top_part)
+void	print_parser_output(t_mbox *mbox, t_bool top_part)
 {
 	if (!mbox->print_info)
-		return;
+		return ;
 	if (top_part)
 		put_headline("PARSER", NULL, CYAN);
 	else
@@ -110,12 +110,12 @@ void print_parser_output(t_mbox *mbox, t_bool top_part)
  * @param	mbox
  * @param	top_part
  */
-void print_executor_output(t_mbox *mbox, t_bool top_part)
+void	print_executor_output(t_mbox *mbox, t_bool top_part)
 {
-	char *temp;
+	char	*temp;
 
 	if (!mbox->print_info)
-		return;
+		return ;
 	if (top_part)
 	{
 		temp = ft_itoa(cmd_counter(mbox->root));

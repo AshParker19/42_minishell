@@ -6,11 +6,11 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 17:19:11 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/19 17:56:56 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/22 09:52:57 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
 /**
  * @brief	accepts the substring of the matrix and checks if there is

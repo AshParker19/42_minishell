@@ -6,11 +6,11 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 14:36:59 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/19 18:57:11 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/22 09:52:46 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
 static void empty_quotes(t_mbox *mbox, int i, t_bool check_prev);
 
@@ -32,31 +32,31 @@ static void empty_quotes(t_mbox *mbox, int i, t_bool check_prev);
  */
 void update_quote_state(int *quote_state, char cur_char, t_bool shift)
 {
-    char    single_q;
-    char    double_q;
+	char    single_q;
+	char    double_q;
 
-    single_q = '\'';
-    double_q = '"';
-    if (shift)
-    {
-        single_q = add_offset('\'');
-        double_q = add_offset('"');
-    }
-    if (*quote_state == OUT_Q)
-    {
-        if (cur_char == single_q)
-            *quote_state = cur_char;
-        else if (cur_char == double_q)
-            *quote_state = cur_char;
-    }
-    else if (*quote_state == single_q)
-    {
-        if (cur_char == single_q)
-            *quote_state = OUT_Q;
-    }
-    else if (*quote_state == double_q)
-        if (cur_char == double_q)
-            *quote_state = OUT_Q;
+	single_q = '\'';
+	double_q = '"';
+	if (shift)
+	{
+		single_q = add_offset('\'');
+		double_q = add_offset('"');
+	}
+	if (*quote_state == OUT_Q)
+	{
+		if (cur_char == single_q)
+			*quote_state = cur_char;
+		else if (cur_char == double_q)
+			*quote_state = cur_char;
+	}
+	else if (*quote_state == single_q)
+	{
+		if (cur_char == single_q)
+			*quote_state = OUT_Q;
+	}
+	else if (*quote_state == double_q)
+		if (cur_char == double_q)
+			*quote_state = OUT_Q;
 }
 
 /**
@@ -78,19 +78,19 @@ void update_quote_state(int *quote_state, char cur_char, t_bool shift)
  */
 static  t_bool  check_if_shift(t_mbox *mbox, int i, t_bool check_prev, int qs)
 {
-    if (check_prev && i > 0 && !ft_isspace(mbox->inp_trim[i - 1]))
-        return(ft_false);
-    if (mbox->inp_trim[i + 1] != qs)
-        return(ft_false);
-    if (mbox->inp_trim[i + 1] && mbox->inp_trim[i + 2]
-        && !ft_isspace(mbox->inp_trim[i + 2]))
-    {
-        if (ft_isqoute(mbox->inp_trim[i + 2]))  
-            empty_quotes(mbox, i + 2, ft_false);
-        else
-            return(ft_false);
-    }
-    return (ft_true);
+	if (check_prev && i > 0 && !ft_isspace(mbox->inp_trim[i - 1]))
+		return(ft_false);
+	if (mbox->inp_trim[i + 1] != qs)
+		return(ft_false);
+	if (mbox->inp_trim[i + 1] && mbox->inp_trim[i + 2]
+		&& !ft_isspace(mbox->inp_trim[i + 2]))
+	{
+		if (ft_isqoute(mbox->inp_trim[i + 2]))  
+			empty_quotes(mbox, i + 2, ft_false);
+		else
+			return(ft_false);
+	}
+	return (ft_true);
 }
 
 /**
@@ -128,28 +128,28 @@ static  t_bool  check_if_shift(t_mbox *mbox, int i, t_bool check_prev, int qs)
  */
 static void empty_quotes(t_mbox *mbox, int i, t_bool check_prev)
 {
-    int     quote_state;
-    char    cur_c;
-    
-    quote_state = OUT_Q;
-    while (mbox->inp_trim[++i])
-    {
-        cur_c = mbox->inp_trim[i];
-        update_quote_state(&quote_state, mbox->inp_trim[i], ft_false);
-        if (quote_state != OUT_Q)
-            if (check_if_shift(mbox, i, check_prev, quote_state))
-            {
-                if (check_prev)
-                    mbox->inp_shift[i] = EMPTY_TOKEN;
-                else
-                    mbox->inp_shift[i] = NO_SPACE;
-                mbox->inp_shift[i + 1] = NO_SPACE;
-                update_quote_state(&quote_state, mbox->inp_trim[++i], ft_false);
-            }
-        if (!check_prev)
-            return ;
-    }
-    display_info_str(mbox, "empty quotes", mbox->inp_shift);
+	int     quote_state;
+	char    cur_c;
+	
+	quote_state = OUT_Q;
+	while (mbox->inp_trim[++i])
+	{
+		cur_c = mbox->inp_trim[i];
+		update_quote_state(&quote_state, mbox->inp_trim[i], ft_false);
+		if (quote_state != OUT_Q)
+			if (check_if_shift(mbox, i, check_prev, quote_state))
+			{
+				if (check_prev)
+					mbox->inp_shift[i] = EMPTY_TOKEN;
+				else
+					mbox->inp_shift[i] = NO_SPACE;
+				mbox->inp_shift[i + 1] = NO_SPACE;
+				update_quote_state(&quote_state, mbox->inp_trim[++i], ft_false);
+			}
+		if (!check_prev)
+			return ;
+	}
+	display_info_str(mbox, "empty quotes", mbox->inp_shift);
 }
 // echo "a' "
 /**
@@ -169,30 +169,30 @@ static void empty_quotes(t_mbox *mbox, int i, t_bool check_prev)
  */
 t_bool  shift_context_chars(t_mbox *mbox, int i, int quote_state)
 {
-    mbox->inp_shift = ft_strdup(mbox->inp_trim);
-    empty_quotes(mbox, -1, ft_true);
-    while (mbox->inp_shift[++i])
-    {
-        if(quote_state == OUT_Q && ft_isqoute(mbox->inp_shift[i]))
-        {
-            mbox->inp_shift[i] = add_offset(mbox->inp_shift[i]);
-            quote_state = mbox->inp_shift[i];
-        }
-        else if(quote_state == OUT_Q && ft_issep(mbox->inp_shift[i]))
-            mbox->inp_shift[i] = add_offset(mbox->inp_shift[i]);
-        else if(quote_state == OUT_Q && ft_isspace(mbox->inp_shift[i]))
-            mbox->inp_shift[i] = NO_SPACE;
-        else if(quote_state == add_offset(mbox->inp_shift[i]))
-        {
-            mbox->inp_shift[i] = add_offset(mbox->inp_shift[i]);
-            quote_state = OUT_Q;
-        }
-    }
-    if (quote_state != OUT_Q)
-    {
-        err_msg(mbox, 1, "nn", ERR_P, SE_UQ);
-        return (ft_false);
-    }
-    return (ft_true);
+	mbox->inp_shift = ft_strdup(mbox->inp_trim);
+	empty_quotes(mbox, -1, ft_true);
+	while (mbox->inp_shift[++i])
+	{
+		if(quote_state == OUT_Q && ft_isqoute(mbox->inp_shift[i]))
+		{
+			mbox->inp_shift[i] = add_offset(mbox->inp_shift[i]);
+			quote_state = mbox->inp_shift[i];
+		}
+		else if(quote_state == OUT_Q && ft_issep(mbox->inp_shift[i]))
+			mbox->inp_shift[i] = add_offset(mbox->inp_shift[i]);
+		else if(quote_state == OUT_Q && ft_isspace(mbox->inp_shift[i]))
+			mbox->inp_shift[i] = NO_SPACE;
+		else if(quote_state == add_offset(mbox->inp_shift[i]))
+		{
+			mbox->inp_shift[i] = add_offset(mbox->inp_shift[i]);
+			quote_state = OUT_Q;
+		}
+	}
+	if (quote_state != OUT_Q)
+	{
+		err_msg(mbox, 1, "nn", ERR_P, SE_UQ);
+		return (ft_false);
+	}
+	return (ft_true);
 }
 

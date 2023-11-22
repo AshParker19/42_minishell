@@ -6,11 +6,11 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:09:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/21 14:54:38 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/22 09:53:33 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
 /**
  * @brief	as soon as we find one '/' in the string we think its a path
@@ -132,13 +132,13 @@ void    run_cmd_system(t_mbox *mbox, t_ast *cmd_node)
  */
 void    run_cmd_builtin(t_mbox *mbox, t_ast *cmd_node)
 {
-    int i;
-    
-    i = -1;
-    while (mbox->executor.builtins[++i].cmd_name)
-        if (str_cmp_strct(mbox->executor.builtins[i].cmd_name,
+	int i;
+	
+	i = -1;
+	while (mbox->executor.builtins[++i].cmd_name)
+		if (str_cmp_strct(mbox->executor.builtins[i].cmd_name,
 			cmd_node->content))
-            mbox->executor.builtins[i].func_name(mbox, cmd_node->right);
+			mbox->executor.builtins[i].func_name(mbox, cmd_node->right);
 }
 
 t_bool run_single_builtin(t_mbox *mbox)

@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:54:41 by astein            #+#    #+#             */
-/*   Updated: 2023/11/21 18:01:57 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/22 09:53:23 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,26 +22,26 @@
  */
 void	initialize_builtins(t_mbox *mbox)
 {
-    mbox->executor.builtins[0].cmd_name = "echo";
-    mbox->executor.builtins[0].func_name = builtin_echo;
-    mbox->executor.builtins[1].cmd_name = "cd";
-    mbox->executor.builtins[1].func_name = builtin_cd;
-    mbox->executor.builtins[2].cmd_name = "pwd";
-    mbox->executor.builtins[2].func_name = builtin_pwd;
-    mbox->executor.builtins[3].cmd_name = "export";
-    mbox->executor.builtins[3].func_name = builtin_export;
-    mbox->executor.builtins[4].cmd_name = "unset";
-    mbox->executor.builtins[4].func_name = builtin_unset;
-    mbox->executor.builtins[5].cmd_name = "env";
-    mbox->executor.builtins[5].func_name = builtin_env;
-    mbox->executor.builtins[6].cmd_name = "exit";
-    mbox->executor.builtins[6].func_name = builtin_exit;
-    mbox->executor.builtins[7].cmd_name = "history";
-    mbox->executor.builtins[7].func_name = builtin_history;
-    mbox->executor.builtins[8].cmd_name = "42";
-    mbox->executor.builtins[8].func_name = builtin_header;
-    mbox->executor.builtins[9].cmd_name = NULL;
-    mbox->executor.builtins[9].func_name = NULL;
+	mbox->executor.builtins[0].cmd_name = "echo";
+	mbox->executor.builtins[0].func_name = builtin_echo;
+	mbox->executor.builtins[1].cmd_name = "cd";
+	mbox->executor.builtins[1].func_name = builtin_cd;
+	mbox->executor.builtins[2].cmd_name = "pwd";
+	mbox->executor.builtins[2].func_name = builtin_pwd;
+	mbox->executor.builtins[3].cmd_name = "export";
+	mbox->executor.builtins[3].func_name = builtin_export;
+	mbox->executor.builtins[4].cmd_name = "unset";
+	mbox->executor.builtins[4].func_name = builtin_unset;
+	mbox->executor.builtins[5].cmd_name = "env";
+	mbox->executor.builtins[5].func_name = builtin_env;
+	mbox->executor.builtins[6].cmd_name = "exit";
+	mbox->executor.builtins[6].func_name = builtin_exit;
+	mbox->executor.builtins[7].cmd_name = "history";
+	mbox->executor.builtins[7].func_name = builtin_history;
+	mbox->executor.builtins[8].cmd_name = "42";
+	mbox->executor.builtins[8].func_name = builtin_header;
+	mbox->executor.builtins[9].cmd_name = NULL;
+	mbox->executor.builtins[9].func_name = NULL;
 }
 
 /**
@@ -55,14 +55,14 @@ void	initialize_builtins(t_mbox *mbox)
  */
 t_bool  is_cmd_builtin(t_mbox *mbox, char *cmd)
 {
-    int i;
-    
-    i = -1;
-    while (mbox->executor.builtins[++i].cmd_name)
+	int i;
+	
+	i = -1;
+	while (mbox->executor.builtins[++i].cmd_name)
 	{
-        if (str_cmp_strct(mbox->executor.builtins[i].cmd_name, cmd))
-            return (ft_true);
+		if (str_cmp_strct(mbox->executor.builtins[i].cmd_name, cmd))
+			return (ft_true);
 	}
-    return (ft_false);
+	return (ft_false);
 }
 

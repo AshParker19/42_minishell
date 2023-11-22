@@ -6,11 +6,11 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:19:44 by astein            #+#    #+#             */
-/*   Updated: 2023/11/21 22:38:53 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/22 09:53:49 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
 static void exec_child(t_mbox *mbox, t_ast *cmd_node, int cmd_pos, int *cur_p)
 {

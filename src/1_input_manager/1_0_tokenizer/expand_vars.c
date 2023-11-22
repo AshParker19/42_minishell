@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expand_vars.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 12:58:49 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/18 16:33:18 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/22 09:52:27 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
 /**
  * @brief	this function loops trough a string and sets all characters
@@ -26,9 +26,9 @@ static	char *mark_ws(char *str)
 	int		i;
 	char	*temp;
 
-    if (!str)
-        return (NULL);
-    temp = NULL;
+	if (!str)
+		return (NULL);
+	temp = NULL;
 	i = -1;
 	while (str[++i])
 	{
@@ -128,7 +128,7 @@ static t_bool detect_heredoc(t_mbox *mbox, int *k, int quote_s, char cur_c)
 /*
 	traverses through the input string, locates all the variable
 	names checking for a dollar sign, then replaces all the variable names
-    by their values which are received from the environment
+	by their values which are received from the environment
 
 	NEW COMMENT 10.11.2023
 	if founda  dollar pasing the index of the dollar to the function
@@ -140,24 +140,24 @@ static t_bool detect_heredoc(t_mbox *mbox, int *k, int quote_s, char cur_c)
 */
 t_bool  expand_vars_main(t_mbox *mbox, int k, int quote_state)
 {
-    char    cur_c;
-    
-    mbox->inp_expand = NULL;
-    while (mbox->inp_shift[k])
-    {
+	char    cur_c;
+	
+	mbox->inp_expand = NULL;
+	while (mbox->inp_shift[k])
+	{
 		cur_c = mbox->inp_shift[k];
-        update_quote_state(&quote_state, cur_c, ft_true);
+		update_quote_state(&quote_state, cur_c, ft_true);
 		if(!detect_heredoc(mbox, &k, quote_state, cur_c))
 		{
 			if (quote_state != add_offset('\'') && cur_c == '$') 
-                expand_var(mbox, quote_state, &k, cur_c);
-            else
-         	   mbox->inp_expand = append_str(mbox->inp_expand,
+				expand_var(mbox, quote_state, &k, cur_c);
+			else
+		 	   mbox->inp_expand = append_str(mbox->inp_expand,
 			   	ft_chr2str(cur_c), ft_true);
 		}
  		k++;
-    }
-    if (!mbox->inp_expand || mbox->inp_expand[0] == '\0')
-        return (ft_false);
-    return (ft_true);    
+	}
+	if (!mbox->inp_expand || mbox->inp_expand[0] == '\0')
+		return (ft_false);
+	return (ft_true);    
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 19:30:56 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/11 19:04:39 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/22 09:51:48 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,14 @@ static void	sig_handler_heredoc(int signal)
  */
 static void signal_handler(int signal)
 {
-    if (signal == SIGINT)
-    {
+	if (signal == SIGINT)
+	{
 		g_signal_status = SIGNAL_NEW_LINE;
 		ft_putchar_fd('\n', STDOUT_FILENO);
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
-    }
+	}
 }
 
 /**
@@ -65,24 +65,24 @@ static void signal_handler(int signal)
  */
 void update_signals(int sig_state)
 {
-    if (sig_state == SIGNAL_MAIN)
-    {
-        signal(SIGINT, signal_handler);
-        signal(SIGQUIT, SIG_IGN);
-    }
-    else if (sig_state == SIGNAL_PARENT)
-    {
-        signal(SIGINT, SIG_IGN);
-        signal(SIGQUIT, SIG_IGN);
-    }
-    else if (sig_state == SIGNAL_CHILD)
-    {
-        signal(SIGINT, SIG_DFL);
-        signal(SIGQUIT, SIG_DFL);
-    }
-    else if (sig_state == SIGNAL_HEREDOC)
-    {
-        signal(SIGINT, sig_handler_heredoc);
-        signal(SIGQUIT, SIG_IGN);
-    }
+	if (sig_state == SIGNAL_MAIN)
+	{
+		signal(SIGINT, signal_handler);
+		signal(SIGQUIT, SIG_IGN);
+	}
+	else if (sig_state == SIGNAL_PARENT)
+	{
+		signal(SIGINT, SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
+	}
+	else if (sig_state == SIGNAL_CHILD)
+	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
+	}
+	else if (sig_state == SIGNAL_HEREDOC)
+	{
+		signal(SIGINT, sig_handler_heredoc);
+		signal(SIGQUIT, SIG_IGN);
+	}
 }
