@@ -26,7 +26,7 @@ typedef struct 	s_builtin_cmd
 /* builtins_utils */
 void	initialize_builtins(t_mbox *mbox);
 t_bool  is_cmd_builtin(t_mbox *mbox, char *cmd);
-void    run_cmd_builtin(t_mbox *mbox, t_ast *cmd_node);
+void    run_cmd_builtin(t_mbox *mbox, t_ast *cmd_node, t_bool parent);
 void    save_history(t_mbox *mbox, char *inp);
 void    del_history_node(void *content);
 

@@ -15,19 +15,13 @@
 static void exec_child(t_mbox *mbox, t_ast *cmd_node, int cmd_pos, int *cur_p)
 {
 	update_signals(SIGNAL_CHILD);
-	if (cmd_pos == SINGLE_CMD && str_cmp_strct("./minishell",
-		cmd_node->content))
-		increment_shlvl(mbox);
-	if (is_cmd_builtin(mbox, cmd_node->content))
-	{
-		mbox->executor.io.cmd_fd[CMD_IN] = STDIN_FILENO;
-		mbox->executor.io.cmd_fd[CMD_OUT] = STDOUT_FILENO;
-	}
 	setup_pipes(mbox, cur_p);
 	if (!configure_redir(mbox, cmd_node->left))
 	{
-		// if (cur_p[P_RIGHT] != -1) //FIXME: 
-		// 	close(cur_p[P_RIGHT]);
+		if (cmd_pos == FIRST_CMD || cmd_pos == MIDDLE_CMD)
+			close(cur_p[P_RIGHT]);
+		if (cmd_pos != FIRST_CMD && mbox->executor.io.prev_pipe[P_RIGHT] != -1)
+			close(mbox->executor.io.prev_pipe[P_RIGHT]);
 		free_and_close_box_v2(mbox);
 	}
 	setup_process_std(mbox);

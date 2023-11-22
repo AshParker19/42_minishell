@@ -54,6 +54,7 @@ int	main(int ac, char **av, char **env)
 
 	initialize_box_v2(&mbox, env);	
 	check_args(&mbox, ac, av);
+	increment_shlvl(&mbox);
 	while (FRANKENSHELL_RISES_AMIDTS_DEATH)
 	{
 		reset_cycle(&mbox);

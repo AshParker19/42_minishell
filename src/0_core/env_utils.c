@@ -53,10 +53,7 @@ void	increment_shlvl(t_mbox *mbox)
 	if(is_var(mbox, "SHLVL"))
 	{
 		cur_shlvl_int = ft_atoi(get_var_value(mbox, "SHLVL"));
-		if (cur_shlvl_int == 0)
-			cur_shlvl_int = 1;
-		else
-			cur_shlvl_int++;
+		cur_shlvl_int++;
 		set_var_value_int(mbox, "SHLVL", cur_shlvl_int);
 	}
 	else

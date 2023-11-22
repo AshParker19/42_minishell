@@ -107,29 +107,11 @@ static t_bool   redir_io(t_mbox *mbox, t_ast *redir_node, int *in, int *out)
  */
 t_bool    configure_redir(t_mbox *mbox, t_ast *redir_node)
 {
-	int     in_fd;
-	int     out_fd;
-
-	in_fd = -1;
-	out_fd = -1;
-	if (!redir_io(mbox, redir_node, &in_fd, &out_fd))
+	if (!redir_io(mbox, redir_node, &mbox->executor.io.cmd_fd[CMD_IN],
+		&mbox->executor.io.cmd_fd[CMD_OUT]))
 	{
 		set_var_value(mbox, "?", EXIT_FAILURE_STR); //FIXME: wrong for heredoc
 		return (ft_false);
-	}
-	if (in_fd != -1)
-	{
-		if (mbox->executor.io.cmd_fd[CMD_IN] != -1
-			&& mbox->executor.io.cmd_fd[CMD_IN] != STDIN_FILENO)
-			close(mbox->executor.io.cmd_fd[CMD_IN]);
-		mbox->executor.io.cmd_fd[CMD_IN] = in_fd;
-	}
-	if (out_fd != -1)
-	{
-		if (mbox->executor.io.cmd_fd[CMD_OUT] != -1
-			&& mbox->executor.io.cmd_fd[CMD_OUT] != STDOUT_FILENO)
-			close(mbox->executor.io.cmd_fd[CMD_OUT]);
-		mbox->executor.io.cmd_fd[CMD_OUT] = out_fd;
 	}
 	return (ft_true);
 }

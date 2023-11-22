@@ -32,7 +32,6 @@ extern int g_signal_status;
 //	- make protections for other fucntion which can break
 //  - when we exit in these cases, we don't care about the exit status, it's always 0
 // # define malloc(y) NULL
-// # define shift_context_chars(z,c,v) ft_false
 // # define fork() -1
 // # define pipe(x) -1
 // # define dup2(x, y) -1
