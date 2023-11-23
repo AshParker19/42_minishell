@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:33:25 by astein            #+#    #+#             */
-/*   Updated: 2023/11/17 17:35:03 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/19 22:03:04 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /**
  * @brief   traverses through the arguments of arg_node and deletes
- *          the corresponding nodes from the t_env_var ll 
+ *          the corresponding nodes from the t_env ll 
  * 
  * @param   mbox 
  * @param   arg_node 

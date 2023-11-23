@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:06:17 by astein            #+#    #+#             */
-/*   Updated: 2023/11/18 17:16:28 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/22 09:51:16 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,10 @@ static void check_args(t_mbox *mbox, int ac, char **av)
 			return ;
 		}
 		else
-			put_err_msg(mbox, EXIT_FAILURE, "nn", ERR_PROMPT,
-				"wrong argument!\nuse: -i ('--info')\n");
+			err_msg(mbox, EXIT_FAILURE, "nn", ERR_P, WA_F);
 	}
 	else
-		put_err_msg(mbox, 1, "nn", ERR_PROMPT, "wrong number of arguments!");
+		err_msg(mbox, 1, "nn", ERR_P, WN);
 	set_var_value(mbox, "?", EXIT_FAILURE_STR);
 	free_and_close_box_v2(mbox);	
 }
@@ -53,28 +52,9 @@ int	main(int ac, char **av, char **env)
 {
 	t_mbox	mbox;
 
-// THIS IS A T LIST TEST AND IT WORKS. WE NEED TO IMPLEMENT IT EVERYWHERE
-	// t_list *test_lst;
-	// t_history *temp;
-
-	// ft_lstadd_back(&test_lst, ft_lstnew(&(t_history){"test2", 2}));
-	// ft_lstadd_back(&test_lst, ft_lstnew(&(t_history){"test3", 3}));
-
-
-	// while(test_lst)
-	// {
-	// 	temp = (t_history *)test_lst->content;
-	// 	printf("%d, %s\n", temp->index, temp->inp);
-	// 	test_lst = test_lst->next;
-	// }
-//  TEST END
-
-
-	g_signal_status = 0;
-	initialize_box_v2(&mbox);
-	load_vars_v2(&mbox, env);	
-	initialize_builtins(&mbox);
+	initialize_box_v2(&mbox, env);	
 	check_args(&mbox, ac, av);
+	increment_shlvl(&mbox);
 	while (FRANKENSHELL_RISES_AMIDTS_DEATH)
 	{
 		reset_cycle(&mbox);
@@ -85,7 +65,6 @@ int	main(int ac, char **av, char **env)
 			g_signal_status = 0;
 			set_var_value(&mbox, "?", "130");
 		}
-
 		if (!mbox.inp_orig)
 			builtin_exit(&mbox, NULL);
 		else if (mbox.inp_orig[0] == '\0')
@@ -97,5 +76,4 @@ int	main(int ac, char **av, char **env)
 			input_main(&mbox);
 		}
 	}
-	return (0);
 }

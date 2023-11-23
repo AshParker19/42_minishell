@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_manager.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:38:32 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/18 16:32:14 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/22 09:51:09 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,28 +27,30 @@
  */
 void	input_main(t_mbox *mbox)
 {
-    mbox->error_status = ft_false; //TODO: understand this shit again
-    add_history(mbox->inp_orig);
-    display_info_str(mbox, "input original", mbox->inp_orig);
-    mbox->inp_trim = ft_strtrim(mbox->inp_orig, " \n\t\v\a\b\f\r");
-    if (!mbox->inp_trim || mbox->inp_trim[0] == 0)
-        return ;
-    display_info_str(mbox, "input trimmed", mbox->inp_trim);
-    if (!shift_context_chars(mbox, -1, OUT_Q))
-        return ;
-    display_info_str(mbox, "input shifted", mbox->inp_shift);
-    if (!expand_vars_main(mbox, 0, OUT_Q))
-        return ;
-    display_info_str(mbox, "input expanded", mbox->inp_expand);
-    if (!tokenize(mbox, 0))
-        return ;
-    if (!parse(mbox))
-        return ;    
-    if (mbox->root->type == CMD_NODE && str_cmp_strct(mbox->root->content, "exit"))
+	mbox->error_status = ft_false; //TODO: understand this shit again
+	add_history(mbox->inp_orig);
+	display_info_str(mbox, "input original", mbox->inp_orig);
+	mbox->inp_trim = ft_strtrim(mbox->inp_orig, " \n\t\v\a\b\f\r");
+	if (!mbox->inp_trim || mbox->inp_trim[0] == 0)
+		return ;
+	display_info_str(mbox, "input trimmed", mbox->inp_trim);
+	if (!shift_context_chars(mbox, -1, OUT_Q))
+		return ;
+	display_info_str(mbox, "input shifted", mbox->inp_shift);
+	if (!expand_vars_main(mbox, 0, OUT_Q))
+		return ;
+	display_info_str(mbox, "input expanded", mbox->inp_expand);
+	if (!tokenize(mbox, 0))
+		return ;
+	if (!parse(mbox))
+		return ;    
+	if (mbox->root->type == CMD_NODE
+		&& str_cmp_strct(mbox->root->content, "exit"))
 	{
-        builtin_exit(mbox, mbox->root->right);
+		builtin_exit(mbox, mbox->root->right);
 		return ;
 	}    
-    if (mbox->error_status == ft_false)
-        execute(mbox);
+	if (mbox->error_status == ft_false)
+		execute(mbox);
 }
+

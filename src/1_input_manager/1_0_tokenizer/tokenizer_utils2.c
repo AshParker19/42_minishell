@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_utils2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 17:19:11 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/11 20:52:11 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/22 09:52:57 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
 /**
  * @brief	accepts the substring of the matrix and checks if there is
@@ -21,7 +21,7 @@
  * @param	no_space 
  * @return	t_bool 
  */
-t_bool  check_sp(char *no_space)
+t_bool	check_sp(char *no_space)
 {
 	if (ft_strchr(no_space, add_offset('|'))
 		|| ft_strchr(no_space, add_offset('>'))
@@ -53,15 +53,13 @@ t_bool	check_space_between_redir(t_mbox *mbox, char *str1, char *str2)
 	if (str1[ft_strlen(str1) - 1] == add_offset('>')
 		&& str2[0] == add_offset('>'))
 	{
-		put_err_msg(mbox, 2, "nn", ERR_PROMPT,
-			"syntax error near unexpected token `>'");
+		err_msg(mbox, 2, "nn", ERR_P, SE_GT);
 		is_correct = ft_false;
 	}
 	if (str1[ft_strlen(str1) - 1] == add_offset('<')
 		&& str2[0] == add_offset('<'))
 	{
-		put_err_msg(mbox, 2, "nn", ERR_PROMPT,
-			"syntax error near unexpected token `<'");
+		err_msg(mbox, 2, "nn", ERR_P, SE_LT);
 		is_correct = ft_false;
 	}
 	return (is_correct);
@@ -79,11 +77,11 @@ int	get_token_type(char c)
 {
 	if (remove_offset(c) == '|')
 		return (PIPE_TOKEN);
-	else if(remove_offset(c) == '<')
+	else if (remove_offset(c) == '<')
 		return (RED_IN_TOKEN);
-	else if(remove_offset(c) == '>')
+	else if (remove_offset(c) == '>')
 		return (RED_OUT_TOKEN);
-	return (WORD_TOKEN);		
+	return (WORD_TOKEN);
 }
 
 /**
@@ -93,11 +91,11 @@ int	get_token_type(char c)
  * 
  * @param   mbox 
  */
-void free_tokens_v2(t_mbox *mbox)
+void	free_tokens_v2(t_mbox *mbox)
 {
-	t_token *cur;
+	t_token	*cur;
 
-	while(mbox->tokens)
+	while (mbox->tokens)
 	{
 		cur = mbox->tokens;
 		mbox->tokens = mbox->tokens->next;
@@ -106,4 +104,3 @@ void free_tokens_v2(t_mbox *mbox)
 	}
 	mbox->tokens = NULL;
 }
-

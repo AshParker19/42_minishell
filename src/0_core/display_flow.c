@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   display_flow.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 19:11:12 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/10 12:51:22 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/22 09:48:44 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
 /**
  * @brief	printf the middle line of the header
@@ -21,24 +21,24 @@
  * @param	txt 
  * @param	free_it 
  */
-static void put_text_center(char *txt, t_bool free_it, char *clr)
+static void	put_text_center(char *txt, t_bool free_it, char *clr)
 {
-	int wordlen;
-	int i;
-	
+	int	wordlen;
+	int	i;
+
 	printf("%s", clr);
 	if (!txt)
 		return ;
 	wordlen = ft_strlen(txt);
 	printf("|");
 	i = 0;
-	while (i++ < (40-wordlen) / 2)
+	while (i++ < (40 - wordlen) / 2)
 		printf(" ");
 	printf("%s", txt);
 	i = 0;
-	while (i++ < (40-wordlen) / 2)
+	while (i++ < (40 - wordlen) / 2)
 		printf(" ");
-	if(wordlen % 2 != 0)
+	if (wordlen % 2 != 0)
 		printf(" ");
 	printf("|\n");
 	if (free_it)
@@ -67,30 +67,30 @@ void	put_headline(char *caption, char *data, char *clr)
 	printf(RESET);
 }
 
-static char *shift_readable(char *s)
+static char	*shift_readable(char *s)
 {
-	int 	i;
-    char	*readable;
-	
+	int		i;
+	char	*readable;
+
 	i = -1;
 	readable = ft_strdup(s);
-    while (readable[++i])
-    {
-        if (readable[i] == add_offset('\''))
-            readable[i] = '`';
-        else if (readable[i] == add_offset('"'))
-            readable[i] = 'D';
-        else if (readable[i] == add_offset('|'))
-            readable[i] = 'P';
-        else if (readable[i] == add_offset('<'))
-            readable[i] = 'I';
-        else if (readable[i] == add_offset('>'))
-            readable[i] = 'O';
-        else if (readable[i] == NO_SPACE)
-            readable[i] = '_';
-        else if (readable[i] == EMPTY_TOKEN)
-            readable[i] = 'E';
-    }
+	while (readable[++i])
+	{
+		if (readable[i] == add_offset('\''))
+			readable[i] = '`';
+		else if (readable[i] == add_offset('"'))
+			readable[i] = 'D';
+		else if (readable[i] == add_offset('|'))
+			readable[i] = 'P';
+		else if (readable[i] == add_offset('<'))
+			readable[i] = 'I';
+		else if (readable[i] == add_offset('>'))
+			readable[i] = 'O';
+		else if (readable[i] == NO_SPACE)
+			readable[i] = '_';
+		else if (readable[i] == EMPTY_TOKEN)
+			readable[i] = 'E';
+	}
 	return (readable);
 }
 
@@ -105,23 +105,23 @@ static char *shift_readable(char *s)
  */
 void	display_info_str(t_mbox *mbox, char *state, char *str)
 {
-	char *readable;
-	
+	char	*readable;
+
 	if (!mbox->print_info)
 		return ;
 	if (!ft_strcmp(state, "input original"))
 	{
 		printf ("\n");
-		put_headline("INPUT STATES", NULL, LIGHT_RED);	
+		put_headline("INPUT STATES", NULL, LIGHT_RED);
 	}
-	if (!ft_strcmp(state, "input original") ||
-		!ft_strcmp(state, "input trimmed"))
-		printf ("%s:\t\t\t(%s)\n\n", state, str);	
+	if (!ft_strcmp(state, "input original")
+		|| !ft_strcmp(state, "input trimmed"))
+		printf ("%s:\t\t\t(%s)\n\n", state, str);
 	else
 	{
 		printf ("%s:\tshifted:\t(%s)\n", state, str);
 		readable = shift_readable (str);
-		printf ("\t\treadable:\t(%s)\n", readable);	
+		printf ("\t\treadable:\t(%s)\n", readable);
 		free(readable);
 	}
 	if (!ft_strcmp(state, "input expanded"))
@@ -136,17 +136,16 @@ void	display_info_str(t_mbox *mbox, char *state, char *str)
  */
 void	print_tokenizer_output(t_mbox *mbox)
 {
-	t_token *current;
+	t_token	*current;
 
 	if (!mbox->print_info)
 		return ;
 	put_headline("TOKENIZER", NULL, YELLOW);
-	current = mbox->tokens;	
-	while (current)	
-	{	
-		printf ("type:(%d) \t token:(%s)\n", current->type, current->value);	
-		current = current->next;	
+	current = mbox->tokens;
+	while (current)
+	{
+		printf ("type:(%d) \t token:(%s)\n", current->type, current->value);
+		current = current->next;
 	}
-	print_line('=', YELLOW, ft_true);	
+	print_line('=', YELLOW, ft_true);
 }
-

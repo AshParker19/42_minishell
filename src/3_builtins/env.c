@@ -6,14 +6,14 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:33:46 by astein            #+#    #+#             */
-/*   Updated: 2023/11/17 17:35:03 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/19 22:03:04 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * @brief	prints all key-value pairs of the t_env_var ll
+ * @brief	prints all key-value pairs of the t_env ll
  * 
  * 			if the cmd will have an 'arg_node' prints an error instead
  * 			NOTE:
@@ -27,11 +27,10 @@
  */
 void	builtin_env(t_mbox *mbox, t_ast *arg_node)
 {
-	t_env_var	*cur;
+	t_env	*cur;
 
 	if (arg_node)
-		put_err_msg(mbox, 127, "nnn", "env: ‘", arg_node->content,
-			"’: No such file or directory");
+		err_msg(mbox, 127, "nnnn", "env: ‘", arg_node->content, "’: ", NO_FOD);
 	else
 	{
 		cur = mbox->env;

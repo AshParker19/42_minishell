@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:16:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/17 17:35:03 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/22 09:50:51 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
  * @brief   THS FILE DEALS WITH ALL ENVIROMENT VARIABLE RELATED TOPICS
  * 
  * 	The head of the linked list (ll) is stored in mbox->env
- * 	The ll nodes data structure is 't_env_var'
+ * 	The ll nodes data structure is 't_env'
  * 	...a classic key value pair
  *	 key and value are both ALLOCATED MEMMORY and need to be freed on exit
  * 
@@ -52,20 +52,20 @@
  */
 void load_vars_v2(t_mbox *mbox, char **env)
 {
-    int     i;
-    char    *key;
+	int     i;
+	char    *key;
 
-    i = 0;
-    while(env[i])
-    {
+	i = 0;
+	while(env[i])
+	{
 		key = ft_strchr(env[i], '=');
-        key = ft_substr(env[i], 0,
-            ft_strlen(env[i]) - ft_strlen(key));
-        set_var_value(mbox, key, getenv(key));
-        free (key);
-        i++;    
-    }
-    set_var_value(mbox, "?", EXIT_SUCCESS_STR);
+		key = ft_substr(env[i], 0,
+			ft_strlen(env[i]) - ft_strlen(key));
+		set_var_value(mbox, key, getenv(key));
+		free (key);
+		i++;    
+	}
+	set_var_value(mbox, "?", EXIT_SUCCESS_STR);
 }
 
 /**
@@ -79,21 +79,21 @@ void load_vars_v2(t_mbox *mbox, char **env)
  */
 char *get_var_value(const t_mbox *mbox, const char *key)
 {
-    t_env_var *cur;
-    char *value;
+	t_env *cur;
+	char *value;
 
-    cur = mbox->env;
-    value = NULL;
-    while(cur)
-    {
-        if(str_cmp_strct(key, cur->key))
-        {
-            value = cur->value;
-            break;
-        }
-        cur = cur->next;
-    }
-    return(value);
+	cur = mbox->env;
+	value = NULL;
+	while(cur)
+	{
+		if(str_cmp_strct(key, cur->key))
+		{
+			value = cur->value;
+			break;
+		}
+		cur = cur->next;
+	}
+	return(value);
 }
 
 
@@ -106,30 +106,30 @@ char *get_var_value(const t_mbox *mbox, const char *key)
  */
 void delete_var(t_mbox *mbox, const char *key)
 {
-    t_env_var   *cur;
-    t_env_var   *temp;
-    
-    if (!mbox->env || !is_var(mbox, key))
-        return ;
-    if (str_cmp_strct(key, mbox->env->key))
-    {
-        temp = mbox->env;
-        mbox->env = mbox->env->next;
-        free_var_v2(temp);
-        return ;
-    }
-    cur = mbox->env;
-    while (cur->next)
-    {
-        if (str_cmp_strct(key, cur->next->key))
-        {
-            temp = cur->next;
-            cur->next = cur->next->next;
-            free_var_v2(temp);
-            break ;
-        }
-        cur = cur->next;
-   }
+	t_env   *cur;
+	t_env   *temp;
+	
+	if (!mbox->env || !is_var(mbox, key))
+		return ;
+	if (str_cmp_strct(key, mbox->env->key))
+	{
+		temp = mbox->env;
+		mbox->env = mbox->env->next;
+		free_var_v2(temp);
+		return ;
+	}
+	cur = mbox->env;
+	while (cur->next)
+	{
+		if (str_cmp_strct(key, cur->next->key))
+		{
+			temp = cur->next;
+			cur->next = cur->next->next;
+			free_var_v2(temp);
+			break ;
+		}
+		cur = cur->next;
+	}
 }
 
 /**
@@ -143,15 +143,15 @@ void delete_var(t_mbox *mbox, const char *key)
  */
 void free_vars_v2(t_mbox *mbox)
 {
-    t_env_var *cur;
-    t_env_var *temp;
+	t_env *cur;
+	t_env *temp;
 
-    cur = mbox->env;
-    while (cur)
-    {
-        temp = cur;
-        cur = cur->next;
-        temp = free_var_v2(temp);
-    }
-    mbox->env = NULL;
+	cur = mbox->env;
+	while (cur)
+	{
+		temp = cur;
+		cur = cur->next;
+		temp = free_var_v2(temp);
+	}
+	mbox->env = NULL;
 }

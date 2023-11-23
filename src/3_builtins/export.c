@@ -6,11 +6,11 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:33:09 by astein            #+#    #+#             */
-/*   Updated: 2023/11/17 17:35:56 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/22 09:54:26 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
 // check if first char is alpha or _
 // check if all other chars are alphanum including _
@@ -46,7 +46,7 @@ static t_bool validate_key(char *key)
  * @param   env_var 
  * @return  int     amount of nodes
  */
-static int  env_counter(t_env_var *env_var)
+static int  env_counter(t_env *env_var)
 {
     if (!env_var)
         return (0);
@@ -87,7 +87,7 @@ static char    **bubble_sort(const t_mbox *mbox, char **env_matrix)
 }
 
 /**
- * @brief   uses 'env_counter' to determine the size of the 't_env_var' ll;
+ * @brief   uses 'env_counter' to determine the size of the 't_env' ll;
  *          creates a matrix of the ll via 'env_to_matrix' and passes those
  *          informations to 'bubble_sort' to sort the array.
  * 
@@ -114,7 +114,7 @@ static void    sort_and_print_var(const t_mbox *mbox)
 /**
  * @brief   responsible for 2 things:
  *              if doesnt have one 'arg_node'
- *                  sorts & prints the 't_env_var' ll via 'sort_and_print_var'
+ *                  sorts & prints the 't_env' ll via 'sort_and_print_var'
  *              else
  *                for each 'arg_node'
  *                  CASE: correct (PATH=hello)
@@ -146,8 +146,8 @@ void builtin_export(t_mbox *mbox, t_ast *arg_node)
         {
             if (!validate_key(arg_node->content))
 			{
-                put_err_msg(mbox, NO_EXIT_STATUS, "nnnn", ERR_PROMPT, "export: `",
-                    arg_node->content, "': not a valid identifier");
+                err_msg(mbox, NO_EXIT_STATUS, "nnnnnn", ERR_P, "export: `",
+                    arg_node->content, SQ, CS, NO_VI);
 				all_args_correct = ft_false;
 			}
         }
@@ -160,8 +160,8 @@ void builtin_export(t_mbox *mbox, t_ast *arg_node)
                 set_var_value(mbox, key, value);
             else
 			{
-                put_err_msg(mbox, NO_EXIT_STATUS, "nnnn", ERR_PROMPT, "export: `",
-                    arg_node->content, "': not a valid identifier");
+                err_msg(mbox, NO_EXIT_STATUS, "nnnnnn", ERR_P, "export: `",
+                    arg_node->content, SQ, CS, NO_VI);
 				all_args_correct = ft_false;	
 			}
             free_whatever("pp", key, value);

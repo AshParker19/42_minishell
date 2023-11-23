@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   manage_mbox.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:49:13 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/18 17:36:42 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/22 09:51:28 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
 /**
  * @brief	sets all variables in mbox to ini values
@@ -20,8 +20,9 @@
  * @param mbox 
  * @param env 
  */
-void	initialize_box_v2(t_mbox *mbox)
+void	initialize_box_v2(t_mbox *mbox, char **env)
 {
+	g_signal_status = 0;
 	mbox->env = NULL;
 	mbox->inp_orig = NULL;
 	mbox->inp_trim = NULL;
@@ -39,6 +40,8 @@ void	initialize_box_v2(t_mbox *mbox)
 	mbox->print_info = ft_false;
 	mbox->consecutive_lt = 0;
 	get_mbox(mbox);
+	load_vars_v2(mbox, env);
+	initialize_builtins(mbox);
 }
 
 /**
@@ -57,10 +60,10 @@ void	free_cycle_v2(t_mbox *mbox)
 {
 	if (!mbox)
 		return ;
-    free_input_strings_v2(mbox);    
-    free_tokens_v2(mbox);
+	free_input_strings_v2(mbox);    
+	free_tokens_v2(mbox);
 	free_ast_v2(mbox->root);
-    mbox->root = NULL;
+	mbox->root = NULL;
 	close_process_fds_v2(mbox);
 	free_process_v2(mbox);
 }
@@ -72,7 +75,7 @@ void	free_cycle_v2(t_mbox *mbox)
  * 
  * @param	mbox 
  */
-void free_and_close_box_v2(t_mbox *mbox)
+void	free_and_close_box_v2(t_mbox *mbox)
 {
 	int	exit_status;
 	
@@ -80,10 +83,14 @@ void free_and_close_box_v2(t_mbox *mbox)
 		return ;
 	exit_status = ft_atoi(get_var_value(mbox, "?"));
 	free_cycle_v2(mbox);
-	// free_history(mbox);
-	// ft_lstclear((t_list **)&mbox->history, del_history_node);
 	ft_lstclear(&(mbox->history_lst), del_history_node);
 	free_vars_v2(mbox);
-	// dprintf (2, "\n---\nFREE AND CLOSE BOX EXECUTED FOR\n\tPID (%d)\n\tEXIT STATUS (%d)\n---\n", getpid(), exit_status);
-    exit(exit_status);
+	exit(exit_status);
+}
+
+t_bool    err_free_and_close_box(t_mbox *mbox, int exit_status)
+{
+	set_var_value_int(mbox, "?", exit_status);
+	free_and_close_box_v2(mbox);
+	return (ft_false);
 }

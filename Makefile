@@ -41,9 +41,6 @@ SRCS = $(addprefix $(SRC_FOLDER), 						\
 	0_core/signals.c									\
 	0_core/display_flow.c								\
 	0_core/display_flow2.c								\
-	0_core/linked_lists/ll_history.c					\
-	0_core/linked_lists/ll_tokens.c						\
-	0_core/linked_lists/ll_vars.c						\
 	1_input_manager/1_0_tokenizer/expand_vars.c			\
 	1_input_manager/1_0_tokenizer/tokenizer.c 			\
 	1_input_manager/1_0_tokenizer/tokenizer_utils.c		\
@@ -61,12 +58,13 @@ SRCS = $(addprefix $(SRC_FOLDER), 						\
 	2_executor/executor.c								\
 	2_executor/cmd_runner.c								\
 	2_executor/executor_utils.c							\
-	2_executor/utils_system.c							\
-	2_executor/utils_builtin.c							\
+	2_executor/cmd_system.c								\
+	2_executor/cmd_builtin.c							\
 	2_executor/pipes.c									\
 	2_executor/redirection.c							\
 	2_executor/heredoc.c								\
 	2_executor/heredoc_utils.c							\
+	2_executor/heredoc_utils2.c							\
 	3_builtins/cd.c										\
 	3_builtins/echo.c									\
 	3_builtins/pwd.c									\
@@ -75,18 +73,11 @@ SRCS = $(addprefix $(SRC_FOLDER), 						\
 	3_builtins/env.c									\
 	3_builtins/exit.c									\
 	3_builtins/history.c								\
-	3_builtins/history_tlist.c							\
+	3_builtins/header.c									\
 	)
 
 # Object files
 OBJS = $(SRCS:$(SRC_FOLDER)%.c=$(OBJ_FOLDER)%.o)
-
-define print_header
-	@echo "$(PURPLE) =========================================================$(RESET)"
-	@echo "$(PURPLE)| ⚠️ $1$(RESET)"
-	@echo "$(PURPLE) =========================================================$(RESET)\n"
-endef
-
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
 
@@ -99,7 +90,7 @@ $(NAME): $(LIBFT) $(OBJS)
 	@$(CC) $(OBJS) $(CFLAGS) $(CLIBS) $(CINCLUDES) -o $(NAME)
 	@echo "\n$(ORANGE)╔═══════════════════════╗"
 	@echo "$(ORANGE)║  $(GREEN)$(NAME):  created$(ORANGE)  ║" #revived
-	@echo "$(ORANGE)╚═══════════════════════╝"
+	@echo "$(ORANGE)╚═══════════════════════╝$(RESET)"
 
 $(OBJ_FOLDER)%.o: $(SRC_FOLDER)%.c 
 	@mkdir -p $(@D)
@@ -123,9 +114,6 @@ fclean: clean
 	@$(RM) $(NAME)
 
 re: fclean all
-
-test: all
-	gnome-terminal --window --hide-menubar --title "ASTEINS MINITALK TESTER" --geometry=60x10+630+100 --working-directory="$(CURDIR)$(TEST_FOLDER)" -- "./run.sh" &
 
 norm:
 	norminette
@@ -161,7 +149,7 @@ DOT:
 stats:
 	./tester/count_stats.sh
 
-t: t1 t2 t3
+t: t1 t2
 
 t1: all
 	$(call print_header, "https://github.com/MariaAguiar/minitester")

@@ -32,7 +32,6 @@ extern int g_signal_status;
 //	- make protections for other fucntion which can break
 //  - when we exit in these cases, we don't care about the exit status, it's always 0
 // # define malloc(y) NULL
-// # define shift_context_chars(z,c,v) ft_false
 // # define fork() -1
 // # define pipe(x) -1
 // # define dup2(x, y) -1
@@ -48,7 +47,7 @@ extern int g_signal_status;
 
 /******************************************************************************/
 /* info for mbox */
-typedef struct s_env_var t_env_var;
+typedef struct s_env t_env;
 typedef struct s_history t_history;
 typedef struct s_builtin_cmd t_builtin_cmd;
 typedef struct s_exec t_exec;
@@ -59,7 +58,7 @@ typedef struct s_exec t_exec;
  */
 typedef struct s_mbox
 {
-    t_env_var   *env;
+    t_env   *env;
     
     char        *inp_orig;
     char        *inp_trim;
@@ -68,8 +67,6 @@ typedef struct s_mbox
 	int			consecutive_lt;
     bool        error_status;
 	t_list		*history_lst;
-	t_list		*token_lst; //TODO: implement
-	t_list		*env_lst; //TODO: implement
     t_token     *tokens;
     t_token     *tmp_token;
     t_ast      *root;
@@ -81,12 +78,12 @@ typedef struct s_mbox
 }              t_mbox;
 
 /* list of environment variables (definition) */
-typedef struct s_env_var
+typedef struct s_env
 {
     char        *key;
     char        *value;
-    struct      s_env_var *next;
-}              t_env_var;
+    struct      s_env *next;
+}              t_env;
 
 /* list element which stores all the input in a t_list*/
 typedef struct  s_history
@@ -111,7 +108,7 @@ void    free_vars_v2(t_mbox *mbox);
 t_bool   is_var(const t_mbox *mbox, const char *key);
 void	increment_shlvl(t_mbox *mbox);
 char    **env_to_matrix(const t_mbox *mbox, const char *put_quotes);
-void    *free_var_v2(t_env_var *temp);
+void    *free_var_v2(t_env *temp);
 
 
 /* env_utils2.c */
@@ -123,7 +120,7 @@ void    set_var_value_int(t_mbox *mbox, const char *key, int int_value);
 void    update_signals(int sig_state);
 
 /* manage_mbox.c */
-void	initialize_box_v2(t_mbox *mbox);
+void	initialize_box_v2(t_mbox *mbox, char **env);
 void    free_cycle_v2(t_mbox *mbox);
 void    free_input_strings_v2(t_mbox *mbox);
 void    free_tokens_v2(t_mbox *mbox);
@@ -141,18 +138,9 @@ void	print_executor_output(t_mbox *mbox, t_bool top_part);
 
 /* general_utils.c */
 void    reset_cycle(t_mbox *mbox);
-void    err_free_and_close_box(t_mbox *mbox, int exit_status);
-void    put_err_msg(t_mbox *mbox, int exit_status, const char *format, ...);
+t_bool    err_free_and_close_box(t_mbox *mbox, int exit_status);
+void    err_msg(t_mbox *mbox, int exit_status, const char *format, ...);
 void    put_info_msg(t_mbox *mbox, const char *format, ...);
 void	*create_syntax_err(t_mbox *mbox, t_token *err_token);
-
-
-/* ll functions in folder linkes_list */
-void    print_history_node(void *content);
-void    del_history_node(void *content);
-void    print_var_node(void *content);
-void    del_var_node(void *content);
-void    print_token_node(void *content);
-void    del_token_node(void *content);
 
 #endif

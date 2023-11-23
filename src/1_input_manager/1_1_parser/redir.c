@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 17:50:45 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/17 19:54:14 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/21 18:40:24 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,10 @@ static t_ast	*redir_case2(t_mbox *mbox);
 
 /**
  * @brief   main function for redir case
- *          check BNF notation for the better understanding
+ *          
+ * 			<redir>        : <redir in> 
+ *			               | <redir out>
+ *			               ;
  * 
  * @param   mbox 
  * @return  t_ast* 

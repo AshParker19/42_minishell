@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 21:35:50 by astein            #+#    #+#             */
-/*   Updated: 2023/11/18 15:44:02 by astein           ###   ########.fr       */
+/*   Updated: 2023/11/22 09:50:39 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,18 @@
  */
 t_bool   is_var(const t_mbox *mbox, const char *key)
 {
-    t_env_var   *cur;
+	t_env   *cur;
 
 	if (!key)
 		return (ft_false);
-    cur = mbox->env;
-    while(cur)
-    {
-        if(str_cmp_strct(key, cur->key))
-            return (ft_true);
-        cur = cur->next;
-    }
-    return (ft_false);
+	cur = mbox->env;
+	while(cur)
+	{
+		if(str_cmp_strct(key, cur->key))
+			return (ft_true);
+		cur = cur->next;
+	}
+	return (ft_false);
 }
 
 /**
@@ -53,10 +53,7 @@ void	increment_shlvl(t_mbox *mbox)
 	if(is_var(mbox, "SHLVL"))
 	{
 		cur_shlvl_int = ft_atoi(get_var_value(mbox, "SHLVL"));
-		if (cur_shlvl_int == 0)
-			cur_shlvl_int = 1;
-		else
-			cur_shlvl_int++;
+		cur_shlvl_int++;
 		set_var_value_int(mbox, "SHLVL", cur_shlvl_int);
 	}
 	else
@@ -69,12 +66,12 @@ void	increment_shlvl(t_mbox *mbox)
  * @param	env_var	
  * @return	int 	
  */
-static int  env_counter(const t_env_var *env_var)
+static int  env_counter(const t_env *env_var)
 {
-    if (!env_var)
-        return (0);
-    else
-        return (1 + env_counter(env_var->next));
+	if (!env_var)
+		return (0);
+	else
+		return (1 + env_counter(env_var->next));
 }
 
 /**
@@ -87,19 +84,19 @@ static int  env_counter(const t_env_var *env_var)
  */
 char **env_to_matrix(const t_mbox *mbox, const char *put_quotes)
 {
-    char        **env_matrix;
-    t_env_var   *cur_var;
-    int         matrix_size;
-    int         i;
+	char        **env_matrix;
+	t_env   *cur_var;
+	int         matrix_size;
+	int         i;
 
-    cur_var = mbox->env;
-    matrix_size = env_counter(mbox->env);
-    env_matrix = ft_calloc(matrix_size, sizeof(char *));
-    if (!env_matrix)
-        return (NULL);
-    i = 0;
-    while (cur_var)
-    {
+	cur_var = mbox->env;
+	matrix_size = env_counter(mbox->env);
+	env_matrix = ft_calloc(matrix_size, sizeof(char *));
+	if (!env_matrix)
+		return (NULL);
+	i = 0;
+	while (cur_var)
+	{
 		if (str_cmp_strct(cur_var->key, "?"))
 			cur_var = cur_var->next;
 		else
@@ -109,8 +106,8 @@ char **env_to_matrix(const t_mbox *mbox, const char *put_quotes)
 			i++;
 			cur_var = cur_var->next;
 		}
-    }
-    return (env_matrix);
+	}
+	return (env_matrix);
 }
 
 
@@ -121,14 +118,14 @@ char **env_to_matrix(const t_mbox *mbox, const char *put_quotes)
  * 
  * @param	temp	var node to be freed
  */
-void    *free_var_v2(t_env_var *temp)
+void    *free_var_v2(t_env *temp)
 {
-    if  (!temp)
-        return (NULL);    
-    if (temp->key)
-        free(temp->key);
-    if(temp->value)
-        free(temp->value);
-    free(temp);
-    return (NULL);
+	if  (!temp)
+		return (NULL);    
+	if (temp->key)
+		free(temp->key);
+	if(temp->value)
+		free(temp->value);
+	free(temp);
+	return (NULL);
 }

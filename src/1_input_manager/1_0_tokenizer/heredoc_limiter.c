@@ -6,11 +6,11 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 15:45:25 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/11 11:14:00 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/22 09:52:38 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
 /**
  * @brief   This function treats those special cases:
@@ -21,32 +21,32 @@
  * @param lim 
  * @return char* 
  */
-static  char *treat_case_dollar(char *lim, int i, char *temp)
+static char	*treat_case_dollar(char *lim, int i, char *temp)
 {
-    char    *left; 
-    char    *right;
-    t_bool  found_dollar;
+	char	*left; 
+	char	*right;
+	t_bool	found_dollar;
 
-    if (!lim)
-        return (NULL);
-    found_dollar = ft_false;
-    while (lim[++i])
-    {
-        if (lim[i] == '$')
-            found_dollar = ft_true;
-        else if (found_dollar && (lim[i] == '\'' || lim[i] == '"'))
-        {
-            left = ft_substr(lim, 0, i-1);
-            right = ft_strdup(&lim[i]);
-            temp = treat_case_dollar(ft_strcat_multi(2, left, right), -1, NULL);
-            free_whatever("ppp", left, right, lim);
-            return(temp);
-            found_dollar = ft_false;
-        }
-        else
-            found_dollar = ft_false;    
-    }    
-    return (lim);
+	if (!lim)
+		return (NULL);
+	found_dollar = ft_false;
+	while (lim[++i])
+	{
+		if (lim[i] == '$')
+			found_dollar = ft_true;
+		else if (found_dollar && (lim[i] == '\'' || lim[i] == '"'))
+		{
+			left = ft_substr(lim, 0, i - 1);
+			right = ft_strdup(&lim[i]);
+			temp = treat_case_dollar(ft_strcat_multi(2, left, right), -1, NULL);
+			free_whatever("ppp", left, right, lim);
+			return (temp);
+			found_dollar = ft_false;
+		}
+		else
+			found_dollar = ft_false;
+	}
+	return (lim);
 }
 
 /**
@@ -55,31 +55,31 @@ static  char *treat_case_dollar(char *lim, int i, char *temp)
  * @param mbox 
  * @return char* 
  */
-char *extract_limiter(t_mbox *mbox, int *k, int *quote_state, char *lim)
+char	*extract_limiter(t_mbox *mbox, int *k, int *quote_state, char *lim)
 {
-    char    cur_char;
-    t_bool  lim_start;
+	char	cur_char;
+	t_bool	lim_start;
 
-    lim_start = ft_false;
-    (*k)++;
-    while (mbox->inp_shift[*k])
-    {
-        cur_char = mbox->inp_shift[*k];
-        update_quote_state(quote_state, cur_char, ft_true);
-        if (cur_char != NO_SPACE)
-            lim_start = ft_true;
-        if (lim_start)
-        {
-            if (cur_char < 0)
-                cur_char = remove_offset(cur_char);
-            if (*quote_state == OUT_Q)
-                if (ft_issep(cur_char) || add_offset(cur_char) == NO_SPACE)
-                    break ;
-            lim = append_str(lim, ft_chr2str(cur_char), ft_true);
-        }
-        (*k)++;
-    }
-    lim = treat_case_dollar(lim, -1, NULL);
-    (*k)--;
-    return (lim);
+	lim_start = ft_false;
+	(*k)++;
+	while (mbox->inp_shift[*k])
+	{
+		cur_char = mbox->inp_shift[*k];
+		update_quote_state(quote_state, cur_char, ft_true);
+		if (cur_char != NO_SPACE)
+			lim_start = ft_true;
+		if (lim_start)
+		{
+			if (cur_char < 0)
+				cur_char = remove_offset(cur_char);
+			if (*quote_state == OUT_Q)
+				if (ft_issep(cur_char) || add_offset(cur_char) == NO_SPACE)
+					break ;
+			lim = append_str(lim, ft_chr2str(cur_char), ft_true);
+		}
+		(*k)++;
+	}
+	lim = treat_case_dollar(lim, -1, NULL);
+	(*k)--;
+	return (lim);
 }

@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 17:50:29 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/17 19:56:13 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/11/21 18:40:07 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,11 @@ static t_ast	*token_list_case3(t_mbox *mbox);
 
 /**
  * @brief   main function for token list case
- *          check BNF notation for the better understanding
+ *          
+ * 			<token list>   : [name]  <token list>   
+ *			               | [arg]   <token list>   
+ *			               | <redir> <token list>   
+ *			               ;
  * 
  * @param   mbox 
  */
