@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:16:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/22 09:50:51 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/01 15:15:12 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,20 +50,20 @@
  * 
  * @param	mbox	mbox is a struct that stores all runtime related infos
  */
-void load_vars_v2(t_mbox *mbox, char **env)
+void	load_vars_v2(t_mbox *mbox, char **env)
 {
-	int     i;
-	char    *key;
+	int		i;
+	char	*key;
 
 	i = 0;
-	while(env[i])
+	while (env[i])
 	{
 		key = ft_strchr(env[i], '=');
 		key = ft_substr(env[i], 0,
-			ft_strlen(env[i]) - ft_strlen(key));
+				ft_strlen(env[i]) - ft_strlen(key));
 		set_var_value(mbox, key, getenv(key));
 		free (key);
-		i++;    
+		i++;
 	}
 	set_var_value(mbox, "?", EXIT_SUCCESS_STR);
 }
@@ -77,25 +77,24 @@ void load_vars_v2(t_mbox *mbox, char **env)
  * @return	char*	POINTER to the value of the param 'key'
  * 					NULL if key doesnt exist
  */
-char *get_var_value(const t_mbox *mbox, const char *key)
+char	*get_var_value(const t_mbox *mbox, const char *key)
 {
-	t_env *cur;
-	char *value;
+	t_env	*cur;
+	char	*value;
 
 	cur = mbox->env;
 	value = NULL;
-	while(cur)
+	while (cur)
 	{
-		if(str_cmp_strct(key, cur->key))
+		if (str_cmp_strct(key, cur->key))
 		{
 			value = cur->value;
-			break;
+			break ;
 		}
 		cur = cur->next;
 	}
-	return(value);
+	return (value);
 }
-
 
 /**
  * @brief	This function checks if the 'key' exists in the ll and delets the
@@ -104,11 +103,11 @@ char *get_var_value(const t_mbox *mbox, const char *key)
  * @param	mbox	mbox is a struct that stores all runtime related infos
  * @param	key		key of the node which should be deleted
  */
-void delete_var(t_mbox *mbox, const char *key)
+void	delete_var(t_mbox *mbox, const char *key)
 {
-	t_env   *cur;
-	t_env   *temp;
-	
+	t_env	*cur;
+	t_env	*temp;
+
 	if (!mbox->env || !is_var(mbox, key))
 		return ;
 	if (str_cmp_strct(key, mbox->env->key))
@@ -141,10 +140,10 @@ void delete_var(t_mbox *mbox, const char *key)
  * 
  * @param	mbox mbox is a struct that stores all runtime related infos
  */
-void free_vars_v2(t_mbox *mbox)
+void	free_vars_v2(t_mbox *mbox)
 {
-	t_env *cur;
-	t_env *temp;
+	t_env	*cur;
+	t_env	*temp;
 
 	cur = mbox->env;
 	while (cur)

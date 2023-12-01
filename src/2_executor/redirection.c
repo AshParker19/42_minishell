@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:47:15 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/22 09:54:14 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/01 16:13:01 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@
  * @param fn        filename of the file causing the errror
  * @return t_bool 
  */
-static   t_bool create_open_file_err(t_mbox *mbox, char *fn)
+static t_bool	create_open_file_err(t_mbox *mbox, char *fn)
 {
 	err_msg(mbox, NO_EXIT_STATUS, "nnnn", ERR_P, fn, CS, strerror(errno));
 	return (ft_false);
 }
 
-static  t_bool setup_redir_in(t_mbox *mbox, t_ast *redir_node, int *in_fd)
+static t_bool	setup_redir_in(t_mbox *mbox, t_ast *redir_node, int *in_fd)
 {
 	if (redir_node->type == RED_IN)
 	{
@@ -52,7 +52,7 @@ static  t_bool setup_redir_in(t_mbox *mbox, t_ast *redir_node, int *in_fd)
 	return (ft_true);
 }
 
-static t_bool   setup_redir_out(t_mbox *mbox, t_ast *redir_node, int *out)
+static t_bool	setup_redir_out(t_mbox *mbox, t_ast *redir_node, int *out)
 {
 	if (redir_node->type == RED_OUT_TR)
 	{
@@ -73,9 +73,9 @@ static t_bool   setup_redir_out(t_mbox *mbox, t_ast *redir_node, int *out)
 	return (ft_true);
 }
 
-static t_bool   redir_io(t_mbox *mbox, t_ast *redir_node, int *in, int *out)
+static t_bool	redir_io(t_mbox *mbox, t_ast *redir_node, int *in, int *out)
 {
-	t_ast   *tmp;
+	t_ast	*tmp;
 
 	tmp = redir_node;
 	while (tmp)
@@ -89,7 +89,7 @@ static t_bool   redir_io(t_mbox *mbox, t_ast *redir_node, int *in, int *out)
 		{
 			if (!setup_redir_out(mbox, tmp, out))
 				return (ft_false);
-		}    
+		}
 		tmp = tmp->left;
 	}
 	return (ft_true);
@@ -105,10 +105,10 @@ static t_bool   redir_io(t_mbox *mbox, t_ast *redir_node, int *in, int *out)
  * @param   redir_node 
  * @return  t_bool 
  */
-t_bool    configure_redir(t_mbox *mbox, t_ast *redir_node)
+t_bool	configure_redir(t_mbox *mbox, t_ast *redir_node)
 {
 	if (!redir_io(mbox, redir_node, &mbox->executor.io.cmd_fd[CMD_IN],
-		&mbox->executor.io.cmd_fd[CMD_OUT]))
+			&mbox->executor.io.cmd_fd[CMD_OUT]))
 	{
 		set_var_value(mbox, "?", EXIT_FAILURE_STR); //FIXME: wrong for heredoc
 		return (ft_false);

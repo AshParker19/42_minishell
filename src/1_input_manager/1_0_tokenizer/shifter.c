@@ -6,13 +6,13 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 14:36:59 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/22 10:45:13 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/01 14:43:31 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	empty_quotes(t_mbox *mbox, int i, t_bool check_prev, int *qs);
+static void	empty_quotes(t_mbox *mbox, int i, t_bool check_prev, int qs);
 
 /**
  * @brief   accepts an address of quote_state to update it using
@@ -129,16 +129,16 @@ static t_bool	is_make_empty(t_mbox *mbox, int i, int qs, t_bool check_prev)
  * 		TODO: why we never change 'check_prev' in these functions???
  * @param mbox 
  */
-static void	empty_quotes(t_mbox *mbox, int i, t_bool check_prev, int *qs)
+static void	empty_quotes(t_mbox *mbox, int i, t_bool check_prev, int qs)
 {
 	t_bool	make_empty;
 
 	while (mbox->inp_trim[i])
 	{
-		update_quote_state(qs, mbox->inp_trim[i], ft_false);
-		if (*qs != OUT_Q)
+		update_quote_state(&qs, mbox->inp_trim[i], ft_false);
+		if (qs != OUT_Q)
 		{
-			make_empty = is_make_empty(mbox, i, *qs, check_prev);
+			make_empty = is_make_empty(mbox, i, qs, check_prev);
 			if (make_empty)
 			{
 				if (check_prev)
@@ -148,7 +148,7 @@ static void	empty_quotes(t_mbox *mbox, int i, t_bool check_prev, int *qs)
 				mbox->inp_shift[i + 1] = NO_SPACE;
 				i++;
 				mbox->inp_trim[i] = mbox->inp_trim[i];
-				update_quote_state(qs, mbox->inp_trim[i], ft_false);
+				update_quote_state(&qs, mbox->inp_trim[i], ft_false);
 			}
 		}
 		if (!check_prev)
@@ -175,7 +175,7 @@ static void	empty_quotes(t_mbox *mbox, int i, t_bool check_prev, int *qs)
 t_bool	shift_context_chars(t_mbox *mbox, int i, int quote_state)
 {
 	mbox->inp_shift = ft_strdup(mbox->inp_trim);
-	empty_quotes(mbox, -1, ft_true, OUT_Q);
+	empty_quotes(mbox, 0, ft_true, OUT_Q);
 	while (mbox->inp_shift[++i])
 	{
 		if (quote_state == OUT_Q && ft_isqoute(mbox->inp_shift[i]))

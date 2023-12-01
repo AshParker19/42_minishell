@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:54:41 by astein            #+#    #+#             */
-/*   Updated: 2023/11/22 09:53:23 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/01 15:39:38 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,10 @@ void	initialize_builtins(t_mbox *mbox)
  * @param   cmd 
  * @return  t_bool 
  */
-t_bool  is_cmd_builtin(t_mbox *mbox, char *cmd)
+t_bool	is_cmd_builtin(t_mbox *mbox, char *cmd)
 {
-	int i;
-	
+	int	i;
+
 	i = -1;
 	while (mbox->executor.builtins[++i].cmd_name)
 	{
@@ -65,4 +65,3 @@ t_bool  is_cmd_builtin(t_mbox *mbox, char *cmd)
 	}
 	return (ft_false);
 }
-

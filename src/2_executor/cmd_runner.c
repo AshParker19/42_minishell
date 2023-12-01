@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:09:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/22 09:53:33 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/01 15:56:01 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@
  */
 static	void	run_cmd_system_error(t_mbox *mbox, char *cmd)
 {
-	struct stat path_stat;
-	
-	if (ft_strchr(cmd, '/'))	
+	struct stat	path_stat;
+
+	if (ft_strchr(cmd, '/'))
 	{
 		if (stat(cmd, &path_stat) == 0)
 		{
@@ -58,7 +58,6 @@ static	void	run_cmd_system_error(t_mbox *mbox, char *cmd)
 	}
 }
 
-
 /*
 	decides if the command to be executed is a builtin cmd or a system cmd
 
@@ -74,7 +73,7 @@ static	void	run_cmd_system_error(t_mbox *mbox, char *cmd)
  * @param	mbox		
  * @param	cmd_node	
  */
-void    run_cmd_main(t_mbox *mbox, t_ast *cmd_node)
+void	run_cmd_main(t_mbox *mbox, t_ast *cmd_node)
 {
 	if (!cmd_node || !cmd_node->content)
 		return ;
@@ -88,13 +87,13 @@ void    run_cmd_main(t_mbox *mbox, t_ast *cmd_node)
 		run_cmd_system(mbox, cmd_node);
 }
 
-void    run_cmd_system(t_mbox *mbox, t_ast *cmd_node)
+void	run_cmd_system(t_mbox *mbox, t_ast *cmd_node)
 {
 	char	*abs_cmd_path;
 	char	**cur_env;
 	char	**cur_av;
 	int		cur_err_no;
-	
+
 	abs_cmd_path = get_abs_cmd_path(mbox, cmd_node->content);
 	cur_env = env_to_matrix(mbox, NULL);
 	cur_av = args_to_matrix(mbox, abs_cmd_path, cmd_node->right);
@@ -122,7 +121,6 @@ void    run_cmd_system(t_mbox *mbox, t_ast *cmd_node)
 	// 	// err_msg(mbox, 127, "nnn", cmd_node->content, CS, CMD_N_FND);
 	// free_whatever("mp", cur_env, abs_cmd_path);
 
-
 /**
  * @brief   traverses through the ll and run builtin cmd via corresponding
  *          function pointer
@@ -130,10 +128,10 @@ void    run_cmd_system(t_mbox *mbox, t_ast *cmd_node)
  * @param   mbox 
  * @param   cmd_node 
  */
-void    run_cmd_builtin(t_mbox *mbox, t_ast *cmd_node, t_bool parent)
+void	run_cmd_builtin(t_mbox *mbox, t_ast *cmd_node, t_bool parent)
 {
-	int i;
-	
+	int	i;
+
 	i = -1;
 	if (!parent)
 	{
@@ -143,19 +141,19 @@ void    run_cmd_builtin(t_mbox *mbox, t_ast *cmd_node, t_bool parent)
 	while (mbox->executor.builtins[++i].cmd_name)
 	{
 		if (str_cmp_strct(mbox->executor.builtins[i].cmd_name,
-			cmd_node->content))
+				cmd_node->content))
 			mbox->executor.builtins[i].func_name(mbox, cmd_node->right);
 	}
 }
 
-t_bool run_single_builtin(t_mbox *mbox)
+t_bool	run_single_builtin(t_mbox *mbox)
 {
 	if (!configure_redir(mbox, mbox->root->left))
 	{
 		if (mbox->executor.io.cmd_fd[CMD_IN] != -1)
 			close (mbox->executor.io.cmd_fd[CMD_IN]);
 		if (mbox->executor.io.cmd_fd[CMD_OUT] != -1)
-			close (mbox->executor.io.cmd_fd[CMD_OUT]);  
+			close (mbox->executor.io.cmd_fd[CMD_OUT]);
 		mbox->executor.io.cmd_fd[CMD_IN] = -1;
 		mbox->executor.io.cmd_fd[CMD_OUT] = -1;
 		return (ft_false);
@@ -168,7 +166,7 @@ t_bool run_single_builtin(t_mbox *mbox)
 	if (mbox->executor.io.cmd_fd[CMD_IN] != STDIN_FILENO)
 		close (mbox->executor.io.cmd_fd[CMD_IN]);
 	if (mbox->executor.io.cmd_fd[CMD_OUT] != STDOUT_FILENO)
-		close (mbox->executor.io.cmd_fd[CMD_OUT]);  
+		close (mbox->executor.io.cmd_fd[CMD_OUT]);
 	mbox->executor.io.cmd_fd[CMD_IN] = -1;
 	mbox->executor.io.cmd_fd[CMD_OUT] = -1;
 	close_process_fds_v2(mbox);

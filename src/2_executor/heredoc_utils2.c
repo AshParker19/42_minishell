@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 19:02:16 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/22 09:53:58 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/01 16:08:47 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ t_bool	check_lim_qoutes(char **str)
 	return (expand_vars);
 }
 
-
 /**
  * @brief	This file deals with all heredoc related topics
  *			the only non static function 'heredoc' will be only called by
@@ -95,8 +94,7 @@ static	char	*tmp_buck(t_mbox *mbox, char *str, int *i, char *expanded_str)
 	else if (str_cmp_strct(key, "$"))
 		temp = append_str(temp, key, ft_false);
 	else
-		temp = append_str(temp, get_var_value(mbox,
-								key), ft_false);
+		temp = append_str(temp, get_var_value(mbox, key), ft_false);
 	free (key);
 	expanded_str = append_str(expanded_str, temp, ft_false);
 	free (temp);
