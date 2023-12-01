@@ -6,22 +6,22 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:06:17 by astein            #+#    #+#             */
-/*   Updated: 2023/11/22 09:51:16 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/01 15:19:33 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int g_signal_status;
+int	g_signal_status;
 
-static void check_args(t_mbox *mbox, int ac, char **av)
+static void	check_args(t_mbox *mbox, int ac, char **av)
 {
 	if (ac == 1)
 		return ;
 	if (ac == 2)
 	{
 		if (av[1] && (str_cmp_strct(av[1], "--info")
-			|| str_cmp_strct(av[1], "-i")))
+				|| str_cmp_strct(av[1], "-i")))
 		{
 			mbox->print_info = ft_true;
 			put_headline("INFO MODE ACTIVATED!", NULL, PURPLE);
@@ -33,7 +33,7 @@ static void check_args(t_mbox *mbox, int ac, char **av)
 	else
 		err_msg(mbox, 1, "nn", ERR_P, WN);
 	set_var_value(mbox, "?", EXIT_FAILURE_STR);
-	free_and_close_box_v2(mbox);	
+	free_and_close_box_v2(mbox);
 }
 
 /**
@@ -52,7 +52,7 @@ int	main(int ac, char **av, char **env)
 {
 	t_mbox	mbox;
 
-	initialize_box_v2(&mbox, env);	
+	initialize_box_v2(&mbox, env);
 	check_args(&mbox, ac, av);
 	increment_shlvl(&mbox);
 	while (FRANKENSHELL_RISES_AMIDTS_DEATH)
@@ -60,7 +60,7 @@ int	main(int ac, char **av, char **env)
 		reset_cycle(&mbox);
 		mbox.count_cycles++;
 		mbox.inp_orig = readline(PROMPT);
-		if(g_signal_status == SIGNAL_NEW_LINE)
+		if (g_signal_status == SIGNAL_NEW_LINE)
 		{
 			g_signal_status = 0;
 			set_var_value(&mbox, "?", "130");
@@ -72,7 +72,7 @@ int	main(int ac, char **av, char **env)
 		else
 		{
 			if (*mbox.inp_orig)
-				save_history(&mbox, mbox.inp_orig);			
+				save_history(&mbox, mbox.inp_orig);	
 			input_main(&mbox);
 		}
 	}

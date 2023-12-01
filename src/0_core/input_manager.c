@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:38:32 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/22 09:51:09 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/01 15:17:45 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,13 @@ void	input_main(t_mbox *mbox)
 	if (!tokenize(mbox, 0))
 		return ;
 	if (!parse(mbox))
-		return ;    
+		return ;
 	if (mbox->root->type == CMD_NODE
 		&& str_cmp_strct(mbox->root->content, "exit"))
 	{
 		builtin_exit(mbox, mbox->root->right);
 		return ;
-	}    
+	}
 	if (mbox->error_status == ft_false)
 		execute(mbox);
 }
-

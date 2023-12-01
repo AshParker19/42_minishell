@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 19:30:56 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/22 09:51:48 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/01 15:26:10 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	sig_handler_heredoc(int signal)
  * 
  * @param 	signal 
  */
-static void signal_handler(int signal)
+static void	signal_handler(int signal)
 {
 	if (signal == SIGINT)
 	{
@@ -63,7 +63,7 @@ static void signal_handler(int signal)
  * 
  * @param sig_state 
  */
-void update_signals(int sig_state)
+void	update_signals(int sig_state)
 {
 	if (sig_state == SIGNAL_MAIN)
 	{

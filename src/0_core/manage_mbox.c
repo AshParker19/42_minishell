@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:49:13 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/22 09:51:28 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/01 15:21:41 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	free_cycle_v2(t_mbox *mbox)
 {
 	if (!mbox)
 		return ;
-	free_input_strings_v2(mbox);    
+	free_input_strings_v2(mbox);
 	free_tokens_v2(mbox);
 	free_ast_v2(mbox->root);
 	mbox->root = NULL;
@@ -78,7 +78,7 @@ void	free_cycle_v2(t_mbox *mbox)
 void	free_and_close_box_v2(t_mbox *mbox)
 {
 	int	exit_status;
-	
+
 	if (!mbox)
 		return ;
 	exit_status = ft_atoi(get_var_value(mbox, "?"));
@@ -88,7 +88,7 @@ void	free_and_close_box_v2(t_mbox *mbox)
 	exit(exit_status);
 }
 
-t_bool    err_free_and_close_box(t_mbox *mbox, int exit_status)
+t_bool	err_free_and_close_box(t_mbox *mbox, int exit_status)
 {
 	set_var_value_int(mbox, "?", exit_status);
 	free_and_close_box_v2(mbox);

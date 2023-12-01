@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 21:35:50 by astein            #+#    #+#             */
-/*   Updated: 2023/11/22 09:50:39 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/01 15:10:55 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,16 @@
  * 				ft_false	if the 'key" wasn"t found in linked list
  * 							if the 'ket' is NULL
  */
-t_bool   is_var(const t_mbox *mbox, const char *key)
+t_bool	is_var(const t_mbox *mbox, const char *key)
 {
-	t_env   *cur;
+	t_env	*cur;
 
 	if (!key)
 		return (ft_false);
 	cur = mbox->env;
-	while(cur)
+	while (cur)
 	{
-		if(str_cmp_strct(key, cur->key))
+		if (str_cmp_strct(key, cur->key))
 			return (ft_true);
 		cur = cur->next;
 	}
@@ -48,9 +48,9 @@ t_bool   is_var(const t_mbox *mbox, const char *key)
  */
 void	increment_shlvl(t_mbox *mbox)
 {
-	int     cur_shlvl_int;
-	
-	if(is_var(mbox, "SHLVL"))
+	int	cur_shlvl_int;
+
+	if (is_var(mbox, "SHLVL"))
 	{
 		cur_shlvl_int = ft_atoi(get_var_value(mbox, "SHLVL"));
 		cur_shlvl_int++;
@@ -66,7 +66,7 @@ void	increment_shlvl(t_mbox *mbox)
  * @param	env_var	
  * @return	int 	
  */
-static int  env_counter(const t_env *env_var)
+static int	env_counter(const t_env *env_var)
 {
 	if (!env_var)
 		return (0);
@@ -82,12 +82,12 @@ static int  env_counter(const t_env *env_var)
  * @param	mbox	mbox is a struct that stores all runtime related infos
  * @return char**	
  */
-char **env_to_matrix(const t_mbox *mbox, const char *put_quotes)
+char	**env_to_matrix(const t_mbox *mbox, const char *put_quotes)
 {
-	char        **env_matrix;
-	t_env   *cur_var;
-	int         matrix_size;
-	int         i;
+	char	**env_matrix;
+	t_env	*cur_var;
+	int		matrix_size;
+	int		i;
 
 	cur_var = mbox->env;
 	matrix_size = env_counter(mbox->env);
@@ -101,15 +101,14 @@ char **env_to_matrix(const t_mbox *mbox, const char *put_quotes)
 			cur_var = cur_var->next;
 		else
 		{
-			env_matrix[i] = ft_strcat_multi(5, cur_var->key, "=",put_quotes ,
-				cur_var->value, put_quotes);
+			env_matrix[i] = ft_strcat_multi(5, cur_var->key, "=", put_quotes,
+					cur_var->value, put_quotes);
 			i++;
 			cur_var = cur_var->next;
 		}
 	}
 	return (env_matrix);
 }
-
 
 /**
  * @brief	frees the 'key', the 'value' and the given node itself
@@ -118,13 +117,13 @@ char **env_to_matrix(const t_mbox *mbox, const char *put_quotes)
  * 
  * @param	temp	var node to be freed
  */
-void    *free_var_v2(t_env *temp)
+void	*free_var_v2(t_env *temp)
 {
-	if  (!temp)
-		return (NULL);    
+	if (!temp)
+		return (NULL);
 	if (temp->key)
 		free(temp->key);
-	if(temp->value)
+	if (temp->value)
 		free(temp->value);
 	free(temp);
 	return (NULL);

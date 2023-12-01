@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:43:17 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/22 09:50:56 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/01 15:17:05 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
  * 
  * @param mbox 
  */
-void    reset_cycle(t_mbox *mbox)
+void	reset_cycle(t_mbox *mbox)
 {
 	free_cycle_v2 (mbox);
 	mbox->executor.io.prev_pipe[P_LEFT] = -1;
@@ -36,21 +36,21 @@ void	*create_syntax_err(t_mbox *mbox, t_token *err_token)
 	if (mbox->error_status == ft_false)
 	{
 		mbox->error_status = ft_true;
-		if(err_token && err_token->value)
+		if (err_token && err_token->value)
 			err_msg(mbox, 2, "nnnn", ERR_P, SE_UT, err_token->value, SQ);
 		else
 			err_msg(mbox, 2, "nn", ERR_P, SE_NL);
 	}
 	if (err_token)
 		mbox->tmp_token = err_token->next;
-	return(NULL);
+	return (NULL);
 }
 
-static void    tmp_conclusion(t_mbox *mbox, char *err_msg, int exit_status)
+static void	tmp_conclusion(t_mbox *mbox, char *err_msg, int exit_status)
 {
 	if (err_msg)
 	{
-		ft_putendl_fd(err_msg, STDERR_FILENO);    
+		ft_putendl_fd(err_msg, STDERR_FILENO);
 		free (err_msg);
 	}
 	if (exit_status != NO_EXIT_STATUS)
@@ -69,11 +69,11 @@ static void    tmp_conclusion(t_mbox *mbox, char *err_msg, int exit_status)
  * @param   format 
  * @param   ... 
  */
-void    err_msg(t_mbox *mbox, int exit_status, const char *format, ...)
+void	err_msg(t_mbox *mbox, int exit_status, const char *format, ...)
 {
 	va_list	args;
-	char    *err_msg;
-	char    *str;
+	char	*err_msg;
+	char	*str;
 
 	va_start(args, format);
 	err_msg = NULL;
@@ -109,11 +109,11 @@ void    err_msg(t_mbox *mbox, int exit_status, const char *format, ...)
  * @param format 
  * @param ... 
  */
-void    put_info_msg(t_mbox *mbox, const char *format, ...) //this function wasnt freeing properly so I removed it for the time being
+void	put_info_msg(t_mbox *mbox, const char *format, ...) //this function wasnt freeing properly so I removed it for the time being
 {
 	va_list	args;
-	char    *info_msg;
-	char    *str;
+	char	*info_msg;
+	char	*str;
 
 	if (!mbox->print_info)
 		return ;
@@ -132,6 +132,5 @@ void    put_info_msg(t_mbox *mbox, const char *format, ...) //this function wasn
 		format++;
 	}
 	va_end(args);
-	tmp_conclusion(mbox, info_msg, NO_EXIT_STATUS);	
+	tmp_conclusion(mbox, info_msg, NO_EXIT_STATUS);
 }
-
