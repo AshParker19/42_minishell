@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 19:28:09 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/22 09:53:54 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/01 16:07:17 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@
  * @param	lim 
  * @param	line 
  */
-void check_ctrl_d(t_mbox *mbox, int *fd, char *lim, char *line)
+void	check_ctrl_d(t_mbox *mbox, int *fd, char *lim, char *line)
 {
 	if (!line)
 	{
-		err_msg(mbox, NO_EXIT_STATUS,"nnynnn", ERR_P,
+		err_msg(mbox, NO_EXIT_STATUS, "nnynnn", ERR_P,
 			W_HD, ft_itoa(mbox->count_cycles), DW, lim, "')");
 		set_var_value(mbox, "?", EXIT_SUCCESS_STR);
 		exit_heredoc_child(mbox, fd, lim, line);
@@ -77,9 +77,10 @@ t_mbox	*get_mbox(t_mbox *mbox)
  * @param	str 
  * @return	char* 
  */
-char *get_key(char *str, int *i)
+char	*get_key(char *str, int *i)
 {
-	char    *key;
+	char	*key;
+
 	key = NULL;
 	if (!str)
 		return (key);
@@ -88,9 +89,9 @@ char *get_key(char *str, int *i)
 	if (!ft_isalpha(str[(*i)]) && str[(*i)] != '_')
 	{
 		(*i)--;
-		return(key);
+		return (key);
 	}
-	while(str[*i])
+	while (str[*i])
 	{
 		if (ft_isalnum(str[*i]) || str[*i] == '_')
 			key = append_str(key, ft_chr2str(str[*i]), ft_true);
@@ -100,7 +101,7 @@ char *get_key(char *str, int *i)
 			return (key);
 		}
 		(*i)++;
-	}   
+	}
 	(*i)--;
 	return (key);
 }

@@ -6,13 +6,13 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:19:44 by astein            #+#    #+#             */
-/*   Updated: 2023/11/22 09:53:49 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/01 16:05:10 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void exec_child(t_mbox *mbox, t_ast *cmd_node, int cmd_pos, int *cur_p)
+static void	exec_child(t_mbox *mbox, t_ast *cmd_node, int cmd_pos, int *cur_p)
 {
 	update_signals(SIGNAL_CHILD);
 	setup_pipes(mbox, cur_p);
@@ -42,7 +42,7 @@ static void	exec_parent(t_mbox *mbox, int cmd_pos, int *cur_p)
 	mbox->executor.pid_index++;
 	mbox->executor.io.prev_pipe[P_RIGHT] = cur_p[P_RIGHT];
 	mbox->executor.io.prev_pipe[P_LEFT] = cur_p[P_LEFT];
-	close_process_fds_v2(mbox);	
+	close_process_fds_v2(mbox);
 }
 
 /**
@@ -53,9 +53,9 @@ static void	exec_parent(t_mbox *mbox, int cmd_pos, int *cur_p)
  * @param	cmd_pos 
  * @return	t_bool 
  */
-static t_bool    execute_cmd(t_mbox *mbox, t_ast *cmd_node, int cmd_pos)
+static t_bool	execute_cmd(t_mbox *mbox, t_ast *cmd_node, int cmd_pos)
 {
-	int cur_pipe[2];
+	int	cur_pipe[2];
 
 	initialize_io(mbox);
 	if (cmd_pos == SINGLE_CMD && is_cmd_builtin(mbox, cmd_node->content))
@@ -65,10 +65,10 @@ static t_bool    execute_cmd(t_mbox *mbox, t_ast *cmd_node, int cmd_pos)
 		setup_use_pipe(mbox, cmd_pos);
 		if (cmd_pos == FIRST_CMD || cmd_pos == MIDDLE_CMD)
 			if (pipe(cur_pipe) < 0)
-				return (err_free_and_close_box(mbox, EXIT_FAILURE));    
+				return (err_free_and_close_box(mbox, EXIT_FAILURE));
 		mbox->executor.pid[mbox->executor.pid_index] = fork();
 		if (mbox->executor.pid[mbox->executor.pid_index] < 0)
-			return (err_free_and_close_box(mbox, EXIT_FAILURE));    
+			return (err_free_and_close_box(mbox, EXIT_FAILURE));
 		update_signals(SIGNAL_PARENT);
 		if (mbox->executor.pid[mbox->executor.pid_index] == 0)
 			exec_child(mbox, cmd_node, cmd_pos, cur_pipe);
@@ -78,12 +78,12 @@ static t_bool    execute_cmd(t_mbox *mbox, t_ast *cmd_node, int cmd_pos)
 	return (ft_true);
 }
 
-static void    wait_for_execution(t_mbox *mbox)
+static void	wait_for_execution(t_mbox *mbox)
 {
-	int 	i;
+	int		i;
 	int		exit_status;
 	char	*exit_status_str;
-	
+
 	i = -1;
 	if (mbox->executor.pid_index != 0)
 	{
@@ -112,10 +112,10 @@ static void    wait_for_execution(t_mbox *mbox)
  * @param	mbox 
  * @return	t_bool 
  */
-void    execute(t_mbox *mbox) //TODO: do exit for builtins
-{   
-	t_ast  *cur;
-	
+void	execute(t_mbox *mbox) //TODO: do exit for builtins
+{
+	t_ast	*cur;
+
 	if (!allocate_pid_array(mbox))
 		return ;
 	cur = mbox->root;

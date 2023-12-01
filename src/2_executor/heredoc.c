@@ -6,18 +6,17 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:00:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/22 09:54:03 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/01 16:10:49 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
 static void	tmp_exiter(t_mbox *mbox, int *fd, char *lim, char *cur_line)
 {
 	if (mbox->stop_heredoc == ft_true)
 		exit_heredoc_child(mbox, fd, lim, cur_line);
-	check_ctrl_d(mbox, fd, lim, cur_line);	
+	check_ctrl_d(mbox, fd, lim, cur_line);
 }
 
 static void	heredoc_child(t_mbox *mbox, int *fd, char *lim)
@@ -34,16 +33,16 @@ static void	heredoc_child(t_mbox *mbox, int *fd, char *lim)
 	{
 		cur_line = readline(HEREDOC_PROMPT);
 		tmp_exiter(mbox, fd, lim, cur_line);
-		if(cur_line[0] != '\0')
+		if (cur_line[0] != '\0')
 		{
 			if (str_cmp_strct(cur_line, lim))
 				exit_heredoc_child(mbox, fd, lim, cur_line);
 			if (expand_vars && cur_line)
 				cur_line = expand_heredoc_input(mbox, cur_line);
-			ft_putendl_fd(cur_line, fd[P_LEFT]);	
+			ft_putendl_fd(cur_line, fd[P_LEFT]);
 		}
 		else
-			ft_putendl_fd("", fd[P_LEFT]);	
+			ft_putendl_fd("", fd[P_LEFT]);
 		if (cur_line)
 			free(cur_line);
 	}
@@ -113,9 +112,6 @@ t_bool	heredoc(t_mbox *mbox, t_ast *redir_node, int *cmd_in_fd)
 	// 	exit_status = 1;
 			// info was written to the reaad end and will be redirected later using dup2
 	// close(fd[P_RIGHT]);
-
-
-
 	// FIX 10.11. 18:45 uncomment later maybe
 	// exit_status_str = ft_itoa(exit_status);
 	// set_var_value(mbox, "?", exit_status_str);

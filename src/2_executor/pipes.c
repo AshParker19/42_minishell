@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:23:27 by astein            #+#    #+#             */
-/*   Updated: 2023/11/22 09:54:07 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/01 16:11:21 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	setup_use_pipe(t_mbox *mbox, int status)
  * @param   mbox 
  * @param   cur_pipe 
  */
-void    setup_pipes(t_mbox *mbox, int *cur_pipe)
+void	setup_pipes(t_mbox *mbox, int *cur_pipe)
 {
 	if (mbox->executor.io.use_pipe[CMD_IN])
 		mbox->executor.io.cmd_fd[CMD_IN] = mbox->executor.io.prev_pipe[P_RIGHT];
@@ -60,7 +60,7 @@ void    setup_pipes(t_mbox *mbox, int *cur_pipe)
 		mbox->executor.io.cmd_fd[CMD_OUT] = cur_pipe[P_LEFT];
 }
 
-void    setup_process_std(t_mbox *mbox) //TODO: rename it 
+void	setup_process_std(t_mbox *mbox) //TODO: rename it 
 {
 	if (mbox->executor.io.cmd_fd[CMD_IN] != -1)
 	{

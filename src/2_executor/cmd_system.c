@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 13:07:56 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/22 09:53:38 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/01 15:59:31 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*seperate_cmd_from_path(char *path, t_bool free_path)
 {
 	char	*cmd;
 
-	if(!path)
+	if (!path)
 		return (NULL);
 	cmd = ft_strrchr(path, '/');
 	cmd++;
@@ -45,11 +45,11 @@ char	*seperate_cmd_from_path(char *path, t_bool free_path)
  * @param i 
  * @return char* 
  */
-char    *get_abs_cmd_path(t_mbox *mbox, char *cmd)
+char	*get_abs_cmd_path(t_mbox *mbox, char *cmd)
 {
-	char    **path_dirs;
+	char	**path_dirs;
 	char	*path;
-	int 	i;
+	int		i;
 
 	// check if cmd is a path like ./hw.sh
 	if (!access(cmd, X_OK))
@@ -66,7 +66,7 @@ char    *get_abs_cmd_path(t_mbox *mbox, char *cmd)
 			break ;
 		else
 		{
-			free (path);    
+			free (path);   
 			path = NULL;
 		}
 	}
@@ -76,7 +76,7 @@ char    *get_abs_cmd_path(t_mbox *mbox, char *cmd)
 
 char	**tmp_freer(char *args_str, char *lim_null)
 {
-	int 	i;
+	int		i;
 	char	**av;
 
 	i = -1;
@@ -101,10 +101,10 @@ char	**tmp_freer(char *args_str, char *lim_null)
  * @param arg_node 
  * @return char** 
  */
-char **args_to_matrix(t_mbox *mbox, char *cmd, t_ast *arg_node)
+char	**args_to_matrix(t_mbox *mbox, char *cmd, t_ast *arg_node)
 {
 	char	**av;
-	char    *args_str;
+	char	*args_str;
 	char	*lim_split;
 	char	*lim_null;
 
@@ -124,5 +124,5 @@ char **args_to_matrix(t_mbox *mbox, char *cmd, t_ast *arg_node)
 	}
 	av = tmp_freer(args_str, lim_null);
 	free_whatever("ppp", args_str, lim_null, lim_split);
-	return(av);
+	return (av);
 }
