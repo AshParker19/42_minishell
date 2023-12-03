@@ -151,12 +151,14 @@ stats:
 
 t: t2 t3
 
-t1: all
+t1: CFLAGS += -D BASIC_PROMTS=TRUE
+t1: re
 	$(call print_header, "https://github.com/MariaAguiar/minitester")
 	@cp ./minishell ./tester/minishell
 	@cd ./tester/tester1 && bash ./minitester.sh
 
-t2: all
+t2: CFLAGS += -D BASIC_PROMTS=TRUE
+t2: re
 	$(call print_header, "https://github.com/LucasKuhn/minishell_tester")
 	@cp ./minishell ./tester/minishell
 	$(call print_header, NORMAL)
@@ -166,7 +168,8 @@ t2: all
 	$(call print_header, OS SPECIFIC)
 	@cd ./tester/tester2 && bash ./tester os_specific || echo "TEST COMPLETED"
 
-t3: all
+t3: CFLAGS += -D BASIC_PROMTS=TRUE
+t3: re
 	$(call print_header, FRANKENSHELL TEST)
 	@cd ./tester/tester2 && bash ./tester frankenshell || echo "TEST COMPLETED"
 
