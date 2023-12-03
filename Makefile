@@ -84,7 +84,7 @@ OBJS = $(SRCS:$(SRC_FOLDER)%.c=$(OBJ_FOLDER)%.o)
 # TARGETS
 .PHONY: all clean fclean re norm
 
-all:  $(NAME)
+all:  art $(NAME)
 
 $(NAME): $(LIBFT) $(OBJS)
 	@$(CC) $(OBJS) $(CFLAGS) $(CLIBS) $(CINCLUDES) -o $(NAME)
@@ -149,7 +149,7 @@ DOT:
 stats:
 	./tester/count_stats.sh
 
-t: t1 t2
+t: t2 t3
 
 t1: all
 	$(call print_header, "https://github.com/MariaAguiar/minitester")
@@ -165,8 +165,10 @@ t2: all
 	@cd ./tester/tester2 && bash ./tester syntax || echo "TEST COMPLETED"
 	$(call print_header, OS SPECIFIC)
 	@cd ./tester/tester2 && bash ./tester os_specific || echo "TEST COMPLETED"
+
+t3: all
 	$(call print_header, FRANKENSHELL TEST)
-	@cd ./tester/tester2 && bash ./tester ./frankenshell/tests || echo "TEST COMPLETED"
+	@cd ./tester/tester2 && bash ./tester frankenshell || echo "TEST COMPLETED"
 
 run: all
 	./minishell
@@ -203,8 +205,8 @@ art:
 	@echo "⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠻⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿"
 	@echo "⣿⣿⡿⠿⠛⠛⠋⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠄⠀⠀⠿⢻⣿⣿⣿⣿⣿⣿⣿"
 	@echo "⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠠⠀⠀⠀⠀⠹⢿⣿⣿⣿⣿⣿"
-	@echo "⢀⣀⣀⣀⡀⠀⠀⠀⡀⠀⠀⠀⠀⠀⠀⢠⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡄⠀⠀⠀⠀⠀⠀⠀⡄⢠⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢛⣿⣿⣿⣿"
-	@echo "⢸⡇⠀⠀⠀⣤⠤⣠⠽⢤⠀⢠⡤⢤⡀⢸⠀⣠⠄⣠⠤⣄⠀⣤⠤⢤⠀⡠⠤⣄⠀⣧⠤⣄⠀⣠⠤⣄⠀⡇⢸⡇⠀⠀⠀⠀⠀⠀⢀⡶⢶⣾⢻⣿⣿⣿"
-	@echo "⢸⡏⠉⠉⠀⡇⠀⣠⠖⢺⡇⢺⠀⠀⡇⢸⠾⡅⠀⡗⠒⠚⠀⡇⠀⢸⠀⠑⠶⢤⠀⡇⠀⢸⠀⡗⠒⠚⠀⡇⢸⡇⠀⠀⡀⠀⠀⠀⠀⠉⣉⠉⣸⣿⣿⣿"
-	@echo "⠘⠃⠀⠀⠀⠃⠀⠙⠶⠚⠃⠚⠀⠀⠃⠘⠀⠙⠂⠙⠲⠚⠀⠃⠀⠘⠀⠓⠶⠚⠀⠃⠀⠘⠀⠙⠲⠚⠀⠃⠘⠃⠀⠕⠈⠀⠀⠀⠁⠂⠳⠘⢿⣿⣿⣿"
+	@echo "⠀⢀⣀⣀⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡄⠀⠀⠀⠀⠀⠀⠀⡄ ⡄⠀  ⠀⠀⠀⠀⠀⢛⣿⣿⣿⣿"
+	@echo "⠀⢸⡇⠀⠀⠀⣤⠤⣠⠤⢤⠀⢠⡤⢤⡀⢸⠀⣠⠄⣠⠤⣄⠀⣤⠤⢤⠀⡠⠤⣄⠀⣧⠤⣄⠀⣠⠤⣄⠀⡇ ⡇⠀  ⠀⠀⢀⡶⢶⣾⢻⣿⣿⣿"
+	@echo "⠀⢸⡏⠉⠉⠀⡇⠀⣠⠖⢺⡇⢺⠀⠀⡇⢸⠾⡅⠀⡗⠒⠚⠀⡇⠀⢸⠀⠑⠶⢤⠀⡇⠀⢸⠀⡗⠒⠚⠀⡇ ⡇⠀  ⠀⠀⠀⠉⣉⠉⣸⣿⣿⣿"
+	@echo "⠀⠘⠃⠀⠀⠀⠃⠀⠙⠶⠚⠃⠚⠀⠀⠃⠘⠀⠙⠂⠙⠲⠚⠀⠃⠀⠘⠀⠓⠶⠚⠀⠃⠀⠘⠀⠙⠲⠚⠀⠃ ⠃⠀  ⠀⠀⠁⠂⠳⠘⢿⣿⣿⣿"
 	@echo "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠠⠀⢠⢺⣿⣿⣿⣿"
