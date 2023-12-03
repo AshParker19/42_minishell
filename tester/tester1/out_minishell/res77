@@ -1,4 +1,4 @@
-[36mfrankenshell-->[0m echo a"hey" | ls
+[36mfrankenshell--> [0mecho a"hey" | ls
 ?
 1.txt
 a
@@ -28,4 +28,4 @@ test_list
 tests_bonus.txt
 tests.txt
 veridict.sh
-[36mfrankenshell-->[0m exit
+[36mfrankenshell--> [0mexit

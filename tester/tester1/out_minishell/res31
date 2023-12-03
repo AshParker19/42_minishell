@@ -1,4 +1,4 @@
-[36mfrankenshell-->[0m cat Makefile | grep pr | head -n 5 | cd file_not_exit
-[38;5;203mfrankenshell:[0m cd: file_not_exit: No such file or directory
+[36mfrankenshell--> [0mcat Makefile | grep pr | head -n 5 | cd file_not_exit
 cat: Makefile: No such file or directory
-[36mfrankenshell-->[0m exit
+[38;5;203mfrankenshell: [0mcd: file_not_exit: No such file or directory
+[36mfrankenshell--> [0mexit

@@ -1,3 +1,3 @@
-[36mfrankenshell-->[0m echo '"abc"'
+[36mfrankenshell--> [0mecho '"abc"'
 "abc"
-[36mfrankenshell-->[0m exit
+[36mfrankenshell--> [0mexit

@@ -1,4 +1,4 @@
-[36mfrankenshell-->[0m env
+[36mfrankenshell--> [0menv
 SHELL=/usr/bin/zsh
 LSCOLORS=Gxfxcxdxbxegedabagacad
 SESSION_MANAGER=local/0815-ubuntu:@/tmp/.ICE-unix/2229,unix/0815-ubuntu:/tmp/.ICE-unix/2229
@@ -34,7 +34,7 @@ XDG_CURRENT_DESKTOP=ubuntu:GNOME
 VTE_VERSION=7400
 WAYLAND_DISPLAY=wayland-0
 VIRTUAL_ENV_DISABLE_PROMPT=1
-GNOME_TERMINAL_SCREEN=/org/gnome/Terminal/screen/e835dcfa_890c_49bd_a9d0_57f44dcf58f5
+GNOME_TERMINAL_SCREEN=/org/gnome/Terminal/screen/33b4b48f_644e_48ef_8348_b5f63cdcf8ed
 MFLAGS=
 GNOME_SETUP_DISPLAY=:1
 XDG_SESSION_CLASS=user
@@ -62,4 +62,4 @@ DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus
 LC_NUMERIC=de_DE.UTF-8
 OLDPWD=/mnt/daten/GIT/42_minishell
 _=../minishell
-[36mfrankenshell-->[0m exit
+[36mfrankenshell--> [0mexit

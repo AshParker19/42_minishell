@@ -1,4 +1,4 @@
-[36mfrankenshell-->[0m export
+[36mfrankenshell--> [0mexport
 declare -x COLORTERM="truecolor"
 declare -x DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/1000/bus"
 declare -x DESKTOP_SESSION="ubuntu"
@@ -8,7 +8,7 @@ declare -x GNOME_DESKTOP_SESSION_ID="this-is-deprecated"
 declare -x GNOME_KEYRING_CONTROL="/run/user/1000/keyring"
 declare -x GNOME_SETUP_DISPLAY=":1"
 declare -x GNOME_SHELL_SESSION_MODE="ubuntu"
-declare -x GNOME_TERMINAL_SCREEN="/org/gnome/Terminal/screen/e835dcfa_890c_49bd_a9d0_57f44dcf58f5"
+declare -x GNOME_TERMINAL_SCREEN="/org/gnome/Terminal/screen/33b4b48f_644e_48ef_8348_b5f63cdcf8ed"
 declare -x GNOME_TERMINAL_SERVICE=":1.139"
 declare -x GTK_MODULES="gail:atk-bridge"
 declare -x HOME="/home/astein"
@@ -62,4 +62,4 @@ declare -x XDG_SESSION_TYPE="wayland"
 declare -x XMODIFIERS="@im=ibus"
 declare -x ZSH="/home/astein/.oh-my-zsh"
 declare -x _="../minishell"
-[36mfrankenshell-->[0m exit
+[36mfrankenshell--> [0mexit

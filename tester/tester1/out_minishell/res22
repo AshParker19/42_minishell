@@ -1,4 +1,4 @@
-[36mfrankenshell-->[0m cat echo 5
+[36mfrankenshell--> [0mcat echo 5
 cat: echo: No such file or directory
 cat: 5: No such file or directory
-[36mfrankenshell-->[0m exit
+[36mfrankenshell--> [0mexit

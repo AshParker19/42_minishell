@@ -1,2 +1,2 @@
-[36mfrankenshell-->[0m echo "This is a error n test file. line1nline2 error nline3error" > file.txt
-[36mfrankenshell-->[0m exit
+[36mfrankenshell--> [0mecho "This is a error n test file. line1nline2 error nline3error" > file.txt
+[36mfrankenshell--> [0mexit

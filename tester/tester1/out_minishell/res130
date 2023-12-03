@@ -1,4 +1,4 @@
-[36mfrankenshell-->[0m export ...cookie? $OLDPWD
-[38;5;203mfrankenshell:[0m export: `...cookie?': not a valid identifier
-[38;5;203mfrankenshell:[0m export: `/mnt/daten/GIT/42_minishell': not a valid identifier
-[36mfrankenshell-->[0m exit
+[36mfrankenshell--> [0mexport ...cookie? $OLDPWD
+[38;5;203mfrankenshell: [0mexport: `...cookie?': not a valid identifier
+[38;5;203mfrankenshell: [0mexport: `/mnt/daten/GIT/42_minishell': not a valid identifier
+[36mfrankenshell--> [0mexit

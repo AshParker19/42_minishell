@@ -1,3 +1,3 @@
-[36mfrankenshell-->[0m cat file.txt | tr -s ' ' 'n' | sort | uniq -c | sort -nr
+[36mfrankenshell--> [0mcat file.txt | tr -s ' ' 'n' | sort | uniq -c | sort -nr
 1 Thisnisnanerrorntestnfile.nline1nline2nerrornline3error
-[36mfrankenshell-->[0m exit
+[36mfrankenshell--> [0mexit

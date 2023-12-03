@@ -1,2 +1,2 @@
-[36mfrankenshell-->[0m ls | wc | >> 1.txt
-[36mfrankenshell-->[0m exit
+[36mfrankenshell--> [0mls | wc | >> 1.txt
+[36mfrankenshell--> [0mexit

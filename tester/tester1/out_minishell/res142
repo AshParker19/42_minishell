@@ -1,3 +1,3 @@
-[36mfrankenshell-->[0m find . -name "*.txt" -exec cat {} + | wc -l
+[36mfrankenshell--> [0mfind . -name "*.txt" -exec cat {} + | wc -l
 482
-[36mfrankenshell-->[0m exit
+[36mfrankenshell--> [0mexit

@@ -1,4 +1,4 @@
-[36mfrankenshell-->[0m cat Makefile | grep pr | head -n 5 | hello
+[36mfrankenshell--> [0mcat Makefile | grep pr | head -n 5 | hello
 cat: Makefile: No such file or directory
 hello: command not found
-[36mfrankenshell-->[0m exit
+[36mfrankenshell--> [0mexit

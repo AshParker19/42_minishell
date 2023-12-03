@@ -1,3 +1,3 @@
-[36mfrankenshell-->[0m echo 5 cat
+[36mfrankenshell--> [0mecho 5 cat
 5 cat
-[36mfrankenshell-->[0m exit
+[36mfrankenshell--> [0mexit

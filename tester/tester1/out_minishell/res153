@@ -1,3 +1,3 @@
-[36mfrankenshell-->[0m not_cmd bonjour > salut
+[36mfrankenshell--> [0mnot_cmd bonjour > salut
 not_cmd: command not found
-[36mfrankenshell-->[0m exit
+[36mfrankenshell--> [0mexit
