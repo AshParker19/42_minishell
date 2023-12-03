@@ -3,14 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 19:30:56 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/01 15:26:10 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/03 21:19:18 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	sig_handler_print(int signal)
+{
+	if (signal == SIGQUIT)
+		ft_putstr_fd("Quit (core dumped)\n", STDERR_FILENO);
+	else if (signal == SIGINT)
+		ft_putstr_fd("\n", STDERR_FILENO);
+}
+
 
 static void	sig_handler_heredoc(int signal)
 {
@@ -72,8 +81,8 @@ void	update_signals(int sig_state)
 	}
 	else if (sig_state == SIGNAL_PARENT)
 	{
-		signal(SIGINT, SIG_IGN);
-		signal(SIGQUIT, SIG_IGN);
+		signal(SIGINT, sig_handler_print);
+		signal(SIGQUIT, sig_handler_print);
 	}
 	else if (sig_state == SIGNAL_CHILD)
 	{
