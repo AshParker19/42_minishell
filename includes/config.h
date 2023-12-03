@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 16:07:39 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/03 12:53:34 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/03 19:06:31 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ enum e_signal_state
 		the characters between them are printing.		
 */
 /* promt strings */
-#define PROMPT "\001\x1b[36m\002frankenshell--> \001\033[0m\002"
+# define PROMPT "\001\x1b[36m\002frankenshell--> \001\033[0m\002"
 # define ERR_P  "\001\033[38;5;203m\002frankenshell: \001\033[0m\002"
 # define HEREDOC_PROMPT "\001\x1b[33m\002frankendoc> \001\033[0m\002"
 /* test prompts */

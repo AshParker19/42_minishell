@@ -10,6 +10,8 @@ if [[ $1 == "frankenshell" ]]; then
 		"./frankenshell/var_expansion"
 		"./frankenshell/tokenizer"
 		"./frankenshell/parser"
+		"./frankenshell/executor"
+		"./frankenshell/builtins"
 		
 	)
 elif [[ $1 ]]; then

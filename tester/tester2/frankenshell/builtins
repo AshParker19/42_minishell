@@ -1,0 +1,21 @@
+cd "some folder"
+cd some folder
+echo --n World
+echo -n --n World
+echo -n -nnann World
+echo -n Hi -n World
+echo -nna World
+echo -nnn -n "Hello"
+echo "-n" Hello World
+export ?=lol
+export 123
+export a = b
+export A=""
+export A=""l         s      a    u""
+echo $A
+export AA=asd AAA=asd = AAAAAA 123=123 AA123_123=@@@ AA@@=asd=asd
+export AAA=
+env | grep AAA
+export AAA=BBB=CCC
+export asd@@@
+export asd=asd@@@
