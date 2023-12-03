@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:32:31 by astein            #+#    #+#             */
-/*   Updated: 2023/11/19 17:57:24 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/03 19:51:28 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,14 @@
  */
 static void change_pwd(t_mbox *mbox, char *new_path)
 {    
+	char *temp_pwd;
+
     if (is_var(mbox, "OLDPWD"))
-        set_var_value(mbox, "OLDPWD", getcwd(NULL, 0));
+	{
+		temp_pwd = getcwd(NULL, 0);
+		set_var_value(mbox, "OLDPWD", temp_pwd);
+		free(temp_pwd);
+	}
     if (chdir(new_path) != 0)
 		err_msg(mbox, EXIT_FAILURE, "nnnn", ERR_P, CD, new_path,	
 			strerror(errno));
@@ -34,7 +40,11 @@ static void change_pwd(t_mbox *mbox, char *new_path)
 	{
 		set_var_value(mbox, "?", EXIT_SUCCESS_STR);
 		if (is_var(mbox, "PWD"))
-        	set_var_value(mbox, "PWD", getcwd(NULL, 0));
+		{
+			temp_pwd = getcwd(NULL, 0);
+			set_var_value(mbox, "PWD", temp_pwd);
+			free(temp_pwd);
+		}
 	}
 }
 
