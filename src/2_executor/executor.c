@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:19:44 by astein            #+#    #+#             */
-/*   Updated: 2023/12/03 14:58:10 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/03 20:46:12 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ static void	wait_for_execution(t_mbox *mbox)
 {
 	int		i;
 	int		exit_status;
-	char	*exit_status_str;
 
 	i = -1;
 	if (mbox->executor.pid_index != 0)

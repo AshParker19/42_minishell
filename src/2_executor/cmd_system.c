@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_system.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 13:07:56 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/01 15:59:31 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/03 20:47:24 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ char	**args_to_matrix(t_mbox *mbox, char *cmd, t_ast *arg_node)
 	char	*lim_split;
 	char	*lim_null;
 
+	(void)mbox;
 	args_str = seperate_cmd_from_path(cmd, ft_false);
 	if (!args_str)
 		return (NULL);

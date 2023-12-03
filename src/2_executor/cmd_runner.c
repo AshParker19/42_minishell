@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:09:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/03 12:04:25 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/03 20:46:45 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,14 +92,12 @@ void	run_cmd_system(t_mbox *mbox, t_ast *cmd_node)
 	char	*abs_cmd_path;
 	char	**cur_env;
 	char	**cur_av;
-	int		cur_err_no;
 
 	abs_cmd_path = get_abs_cmd_path(mbox, cmd_node->content);
 	cur_env = env_to_matrix(mbox, NULL);
 	cur_av = args_to_matrix(mbox, abs_cmd_path, cmd_node->right);
 	if (cur_av)
 		execve(abs_cmd_path, cur_av, cur_env);
-	cur_err_no = errno;
 	if (abs_cmd_path)
 		free (abs_cmd_path);
 	free_whatever("mm", cur_env, cur_av);

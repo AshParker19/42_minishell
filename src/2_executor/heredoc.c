@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:00:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/03 12:07:46 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/03 20:59:33 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ t_bool	hd_parent(t_mbox *mbox, int pid_hd, int *cmd_in_fd, int *fd)
 t_bool	heredoc(t_mbox *mbox, t_ast *redir_node, int *cur_p)
 {
 	int		fd[2];
-	int		exit_status;
 	int		pid_hd;
 
 	if (pipe(fd) < 0)

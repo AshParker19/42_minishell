@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 12:58:49 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/03 20:24:16 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/03 20:45:03 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static char	*mark_ws(char *str)
  * @param k 
  * @param cur_c 
  */
-static void	expand_var(t_mbox *mbox, int quote_s, int *k, char cur_c)
+static void	expand_var(t_mbox *mbox, int quote_s, int *k)
 {
 	char	*key;
 	char	temp;
@@ -146,7 +146,7 @@ t_bool	expand_vars_main(t_mbox *mbox, int k, int quote_state)
 		if (!detect_heredoc(mbox, &k, quote_state, cur_c))
 		{
 			if (quote_state != add_offset('\'') && cur_c == '$') 
-				expand_var(mbox, quote_state, &k, cur_c);
+				expand_var(mbox, quote_state, &k);
 			else
 				mbox->inp_expand = append_str(mbox->inp_expand,
 						ft_chr2str(cur_c), ft_true);
