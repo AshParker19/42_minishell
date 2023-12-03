@@ -27,9 +27,7 @@ echo hi >txt lol
 cat txt
 echo hi >"l"> lol42
 echo "> >> < * ? [ ] | ; [ ] || && ( ) & # $  <<" 
-echo a'
-echo 'b
 ls -l "" "HI'LOL'|" | >> hi echo cat $LESS
 cat file.txt | grep 'error' | wc -l
-echo $>?
+echo $>"?"
 nocmdddd | nocmdddd
