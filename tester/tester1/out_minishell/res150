@@ -1,0 +1,2 @@
+[36mfrankenshell-->[0m ls | wc | >> 1.txt
+[36mfrankenshell-->[0m exit

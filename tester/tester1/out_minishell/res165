@@ -1,0 +1,3 @@
+[36mfrankenshell-->[0m > test | echo blabla
+blabla
+[36mfrankenshell-->[0m exit

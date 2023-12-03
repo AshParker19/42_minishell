@@ -1,0 +1,5 @@
+[36mfrankenshell-->[0m export var=a && export $var=test && echo $var $a
+[38;5;203mfrankenshell:[0m export: `&&': not a valid identifier
+[38;5;203mfrankenshell:[0m export: `=test': not a valid identifier
+[38;5;203mfrankenshell:[0m export: `&&': not a valid identifier
+[36mfrankenshell-->[0m exit

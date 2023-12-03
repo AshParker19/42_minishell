@@ -1,0 +1,3 @@
+[36mfrankenshell-->[0m echo "" | wc -l | grep 1
+1
+[36mfrankenshell-->[0m exit

@@ -1,0 +1,3 @@
+[36mfrankenshell-->[0m echo "12""
+[38;5;203mfrankenshell:[0m syntax error: unclosed quotes
+[36mfrankenshell-->[0m exit

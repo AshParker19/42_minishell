@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_runner.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:09:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/01 15:56:01 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/03 12:04:25 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ void	run_cmd_builtin(t_mbox *mbox, t_ast *cmd_node, t_bool parent)
 
 t_bool	run_single_builtin(t_mbox *mbox)
 {
-	if (!configure_redir(mbox, mbox->root->left))
+	if (!configure_redir(mbox, mbox->root->left, NULL))
 	{
 		if (mbox->executor.io.cmd_fd[CMD_IN] != -1)
 			close (mbox->executor.io.cmd_fd[CMD_IN]);

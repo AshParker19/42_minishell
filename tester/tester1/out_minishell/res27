@@ -1,0 +1,4 @@
+[36mfrankenshell-->[0m cat lonely $test*
+cat: lonely: No such file or directory
+cat: '*': No such file or directory
+[36mfrankenshell-->[0m exit

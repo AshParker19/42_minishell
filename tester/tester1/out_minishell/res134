@@ -1,0 +1,2 @@
+[36mfrankenshell-->[0m export | grep OLDPWD >> test
+[36mfrankenshell-->[0m exit

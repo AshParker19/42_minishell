@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 17:55:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/21 19:19:47 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/03 11:56:08 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,11 @@ void    setup_pipes(t_mbox *mbox, int *cur_pipe);
 void    setup_process_std(t_mbox *mbox);
 
 /* redirections */
-t_bool    configure_redir(t_mbox *mbox, t_ast *redir_node);
+t_bool	configure_redir(t_mbox *mbox, t_ast *redir_node, int *cur_p);
 
 /* heredoc */
 t_mbox	*get_mbox(t_mbox *mbox);
-t_bool   heredoc(t_mbox *mbox, t_ast *redir_node, int *cmd_in_fd);
+t_bool	heredoc(t_mbox *mbox, t_ast *redir_node, int *cur_p);
 char    *get_key(char *str, int *i);
 void	exit_heredoc_child(t_mbox *mbox, int *fd, char *lim, char *line);
 void 	check_ctrl_d(t_mbox *mbox, int *fd, char *lim, char *line);

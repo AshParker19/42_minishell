@@ -1,0 +1,3 @@
+[36mfrankenshell-->[0m 'ls | wc | >> 1.txt'
+ls | wc | >> 1.txt: command not found
+[36mfrankenshell-->[0m exit

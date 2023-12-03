@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:00:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/01 16:10:49 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/03 12:07:46 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,14 @@ static void	tmp_exiter(t_mbox *mbox, int *fd, char *lim, char *cur_line)
 	check_ctrl_d(mbox, fd, lim, cur_line);
 }
 
-static void	heredoc_child(t_mbox *mbox, int *fd, char *lim)
+static void	hd_child(t_mbox *mbox, int *fd, char *lim, int *cur_p)
 {
 	char	*cur_line;
 	t_bool	expand_vars;
 
 	close(fd[P_RIGHT]);
+	if (cur_p && cur_p[P_RIGHT] != -1)
+		close(cur_p[P_RIGHT]);
 	update_signals(SIGNAL_HEREDOC);
 	lim = ft_strdup(lim);
 	expand_vars = check_lim_qoutes(&lim);
@@ -48,7 +50,7 @@ static void	heredoc_child(t_mbox *mbox, int *fd, char *lim)
 	}
 }
 
-t_bool	heredoc_parent(t_mbox *mbox, int pid_hd, int *cmd_in_fd, int *fd)
+t_bool	hd_parent(t_mbox *mbox, int pid_hd, int *cmd_in_fd, int *fd)
 {
 	int	exit_status;
 
@@ -83,7 +85,7 @@ t_bool	heredoc_parent(t_mbox *mbox, int pid_hd, int *cmd_in_fd, int *fd)
  * @param cmd_in_fd 
  * @return t_bool 
  */
-t_bool	heredoc(t_mbox *mbox, t_ast *redir_node, int *cmd_in_fd)
+t_bool	heredoc(t_mbox *mbox, t_ast *redir_node, int *cur_p)
 {
 	int		fd[2];
 	int		exit_status;
@@ -96,8 +98,8 @@ t_bool	heredoc(t_mbox *mbox, t_ast *redir_node, int *cmd_in_fd)
 	if (pid_hd < 0)
 		return (err_free_and_close_box(mbox, EXIT_FAILURE));
 	if (pid_hd == 0)
-		heredoc_child(mbox, fd, redir_node->content);
-	return (heredoc_parent(mbox, pid_hd, cmd_in_fd, fd));
+		hd_child(mbox, fd, redir_node->content, cur_p);
+	return (hd_parent(mbox, pid_hd, &mbox->executor.io.cmd_fd[CMD_IN], fd));
 }
 
 	// OLD SHIT!!!	

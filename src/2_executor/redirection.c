@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:47:15 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/01 16:13:01 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/03 11:58:49 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,11 @@ static t_bool	create_open_file_err(t_mbox *mbox, char *fn)
 	return (ft_false);
 }
 
-static t_bool	setup_redir_in(t_mbox *mbox, t_ast *redir_node, int *in_fd)
+static t_bool	setup_redir_in(t_mbox *mbox, t_ast *redir_node, int *cur_p)
 {
+	int *in_fd;
+
+	in_fd = &mbox->executor.io.cmd_fd[CMD_IN];
 	if (redir_node->type == RED_IN)
 	{
 		if (*in_fd != -1)
@@ -43,7 +46,7 @@ static t_bool	setup_redir_in(t_mbox *mbox, t_ast *redir_node, int *in_fd)
 	{
 		if (*in_fd != -1)
 			close (*in_fd);
-		if (!heredoc(mbox, redir_node, in_fd))
+		if (!heredoc(mbox, redir_node, cur_p))
 		{
 			g_signal_status = SIGNAL_HEREDOC;
 			return (ft_false);
@@ -52,8 +55,11 @@ static t_bool	setup_redir_in(t_mbox *mbox, t_ast *redir_node, int *in_fd)
 	return (ft_true);
 }
 
-static t_bool	setup_redir_out(t_mbox *mbox, t_ast *redir_node, int *out)
+static t_bool	setup_redir_out(t_mbox *mbox, t_ast *redir_node)
 {
+	int *out;
+
+	out = &mbox->executor.io.cmd_fd[CMD_OUT];
 	if (redir_node->type == RED_OUT_TR)
 	{
 		if (*out != -1)
@@ -73,7 +79,7 @@ static t_bool	setup_redir_out(t_mbox *mbox, t_ast *redir_node, int *out)
 	return (ft_true);
 }
 
-static t_bool	redir_io(t_mbox *mbox, t_ast *redir_node, int *in, int *out)
+static t_bool	redir_io(t_mbox *mbox, t_ast *redir_node, int *cur_p)
 {
 	t_ast	*tmp;
 
@@ -82,12 +88,12 @@ static t_bool	redir_io(t_mbox *mbox, t_ast *redir_node, int *in, int *out)
 	{
 		if (tmp->type == RED_IN || tmp->type == RED_IN_HD)
 		{
-			if (!setup_redir_in(mbox, tmp, in)) // can I do return(setup_redir_in(mbox, tmp, in))?
+			if (!setup_redir_in(mbox, tmp, cur_p)) // can I do return(setup_redir_in(mbox, tmp, in))?
 				return (ft_false);
 		}
 		else if (tmp->type == RED_OUT_TR || tmp->type == RED_OUT_AP)
 		{
-			if (!setup_redir_out(mbox, tmp, out))
+			if (!setup_redir_out(mbox, tmp))
 				return (ft_false);
 		}
 		tmp = tmp->left;
@@ -105,10 +111,9 @@ static t_bool	redir_io(t_mbox *mbox, t_ast *redir_node, int *in, int *out)
  * @param   redir_node 
  * @return  t_bool 
  */
-t_bool	configure_redir(t_mbox *mbox, t_ast *redir_node)
+t_bool	configure_redir(t_mbox *mbox, t_ast *redir_node, int *cur_p)
 {
-	if (!redir_io(mbox, redir_node, &mbox->executor.io.cmd_fd[CMD_IN],
-			&mbox->executor.io.cmd_fd[CMD_OUT]))
+	if (!redir_io(mbox, redir_node, cur_p))
 	{
 		set_var_value(mbox, "?", EXIT_FAILURE_STR); //FIXME: wrong for heredoc
 		return (ft_false);

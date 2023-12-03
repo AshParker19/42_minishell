@@ -1,0 +1,4 @@
+[36mfrankenshell-->[0m find /path/to/directory -type f -size +100M -printf '%f %sn' | exit
+exit
+find: ‘/path/to/directory’: No such file or directory
+[36mfrankenshell-->[0m exit

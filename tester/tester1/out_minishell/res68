@@ -1,0 +1,2 @@
+[36mfrankenshell-->[0m echo 2 > out1 >> out2
+[36mfrankenshell-->[0m exit

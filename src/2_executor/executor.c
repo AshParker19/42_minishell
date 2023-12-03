@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:19:44 by astein            #+#    #+#             */
-/*   Updated: 2023/12/01 16:05:10 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/03 11:43:26 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,10 @@
 
 static void	exec_child(t_mbox *mbox, t_ast *cmd_node, int cmd_pos, int *cur_p)
 {
+	dprintf(2, "child PID: %d\n", getpid());
 	update_signals(SIGNAL_CHILD);
 	setup_pipes(mbox, cur_p);
-	if (!configure_redir(mbox, cmd_node->left))
+	if (!configure_redir(mbox, cmd_node->left, cur_p))
 	{
 		if (cmd_pos == FIRST_CMD || cmd_pos == MIDDLE_CMD)
 			close(cur_p[P_RIGHT]);
@@ -35,6 +36,7 @@ static void	exec_child(t_mbox *mbox, t_ast *cmd_node, int cmd_pos, int *cur_p)
 
 static void	exec_parent(t_mbox *mbox, int cmd_pos, int *cur_p)
 {
+	dprintf(2, "parent PID: %d\n", getpid());
 	if (cmd_pos == FIRST_CMD || cmd_pos == MIDDLE_CMD)
 		close(cur_p[P_LEFT]);
 	if (cmd_pos != FIRST_CMD && cmd_pos != SINGLE_CMD)

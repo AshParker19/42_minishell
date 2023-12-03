@@ -1,0 +1,3 @@
+[36mfrankenshell-->[0m echo '$USER' echo $USER
+$USER echo astein
+[36mfrankenshell-->[0m exit

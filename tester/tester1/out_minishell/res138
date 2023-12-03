@@ -1,0 +1,4 @@
+[36mfrankenshell-->[0m export var então export var = teste
+[38;5;203mfrankenshell:[0m export: `então': not a valid identifier
+[38;5;203mfrankenshell:[0m export: `=': not a valid identifier
+[36mfrankenshell-->[0m exit
