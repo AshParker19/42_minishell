@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:00:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/04 12:48:36 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/04 12:53:10 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ static void	hd_child(t_mbox *mbox, int *fd, char *lim, int *cur_p)
 	t_bool	expand_vars;
 
 	close(fd[P_RIGHT]);
-	dprintf(2, "it should be null: %p", cur_p);
 	if (cur_p && cur_p[P_RIGHT] != -1)
 		close(cur_p[P_RIGHT]);
 	update_signals(SIGNAL_HEREDOC);

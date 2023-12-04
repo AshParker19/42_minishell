@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:19:44 by astein            #+#    #+#             */
-/*   Updated: 2023/12/04 12:50:21 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/04 13:01:58 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,10 +100,14 @@ static void	wait_for_execution(t_mbox *mbox)
 	int		exit_status;
 
 	i = -1;
+	exit_status = 0;
 	if (mbox->executor.pid_index != 0)
 	{
 		while (++i < cmd_counter(mbox->root))
+		{
+			dprintf(2, "waiting for pid: %d\n", mbox->executor.pid[i]);	
 			waitpid(mbox->executor.pid[i], &exit_status, 0);
+		}
 		if (g_signal_status == 0)
 		{
 			if (WIFEXITED(exit_status))
