@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 19:28:09 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/04 14:46:44 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/04 17:23:56 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,14 @@ void	check_ctrl_d(t_mbox *mbox, int *fd, char *lim, char *line)
  * @param mbox
  * @return t_mbox*
  */
-t_mbox	*get_mbox(t_mbox *mbox)
-{
-	static t_mbox	*mbox_ptr;
+// t_mbox	*get_mbox(t_mbox *mbox)
+// {
+// 	static t_mbox	*mbox_ptr;
 
-	if (mbox)
-		mbox_ptr = mbox;
-	return (mbox_ptr);
-}
+// 	if (mbox)
+// 		mbox_ptr = mbox;
+// 	return (mbox_ptr);
+// }
 
 /**
  * @brief   this function gets a string and should return a copied str of the

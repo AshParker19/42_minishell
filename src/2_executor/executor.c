@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:19:44 by astein            #+#    #+#             */
-/*   Updated: 2023/12/04 15:50:52 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/04 18:18:32 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,8 @@ static void	wait_for_execution(t_mbox *mbox)
 			// TODO: SIGNAL
 			if (WIFEXITED(exit_status))
 				set_var_value_int(mbox, "?", WEXITSTATUS(exit_status));
+			else if (WIFSIGNALED(exit_status))
+				set_var_value_int(mbox, "?", exit_status + 128);
 		}
 	}
 }
@@ -147,20 +149,20 @@ static void	wait_for_execution(t_mbox *mbox)
  * 
  *          	    FIRST       MIDDLE          LAST
  *      	input:  ls -l   | grep "Makefile" | wc -l
- * 			
- * 			then calls 'execute_cmd' with the corresponding flag and waits for
- * 			all the child processes to be finished
- * @param	mbox 
- * @return	t_bool 
- */
-void	execute(t_mbox *mbox) //TODO: do exit for builtins
-{
-	t_ast	*cur;
+	* 			
+	* 			then calls 'execute_cmd' with the corresponding flag and waits for
+	* 			all the child processes to be finished
+	* @param	mbox 
+	* @return	t_bool 
+	*/
+	void	execute(t_mbox *mbox) //TODO: do exit for builtins
+	{
+		t_ast	*cur;
 
-	if (!allocate_pid_array(mbox))
-		return ;
-	cur = mbox->root;
-	if (cur->type == CMD_NODE)
+		if (!allocate_pid_array(mbox))
+			return ;
+		cur = mbox->root;
+		if (cur->type == CMD_NODE)
 	{
 		if (!execute_cmd(mbox, cur, SINGLE_CMD))
 			return ;

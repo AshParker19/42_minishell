@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:43:17 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/04 15:39:06 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/04 18:10:39 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static void	tmp_conclusion(t_mbox *mbox, char *err_msg, int exit_status)
  *          uses format string as an identifier if any of the accepted string
  *          should be allocated
  * 
- *err_msg("ccaca", "HI", "HI", ft_strup(), "HI", random_allocated_char)
+ *err_msg("nnyny", "HI", "HI", ft_strup(), "HI", random_allocated_char)
  *                   n = no =  constant string   -> free needed
  *                   y = yes = allocated         -> need to be freed
  * 
@@ -109,7 +109,7 @@ void	err_msg(t_mbox *mbox, int exit_status, const char *format, ...)
  * @param format 
  * @param ... 
  */
-void	put_info_msg(t_mbox *mbox, const char *format, ...) //this function wasnt freeing properly so I removed it for the time being
+void	put_info_msg(t_mbox *mbox, const char *format, ...)// TODO://this function wasnt freeing properly so I removed it for the time being
 {
 	va_list	args;
 	char	*info_msg;

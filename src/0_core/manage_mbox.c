@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manage_mbox.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:49:13 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/01 15:21:41 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/04 17:25:01 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	initialize_box_v2(t_mbox *mbox, char **env)
 	mbox->count_cycles = 0;
 	mbox->print_info = ft_false;
 	mbox->consecutive_lt = 0;
-	get_mbox(mbox);
+	// get_mbox(mbox);
 	load_vars_v2(mbox, env);
 	initialize_builtins(mbox);
 }

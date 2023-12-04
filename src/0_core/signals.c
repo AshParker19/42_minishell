@@ -6,13 +6,13 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 19:30:56 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/04 15:25:11 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/04 17:26:59 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	sig_handler_print(int signal)
+static void	sh_print(int signal)
 {
 	if (signal == SIGQUIT)
 		ft_putstr_fd("Quit (core dumped)\n", STDERR_FILENO);
@@ -21,18 +21,18 @@ static void	sig_handler_print(int signal)
 }
 
 
-static void	sig_handler_heredoc(int signal)
+static void	sh_hd(int signal)
 {
-	t_mbox	*mbox;
+	// t_mbox	*mbox;
 
 	if (signal == SIGINT)
 	{
 		write(STDOUT_FILENO, "\n", 1);
-		mbox = get_mbox(NULL);
-		set_var_value(mbox, "?", "130");
+		// mbox = get_mbox(NULL);
+		// set_var_value(mbox, "?", "130");
 		close(STDIN_FILENO);
 		g_signal_status = SIGNAL_EXIT_HD;
-		mbox->stop_heredoc = ft_true;
+		// mbox->stop_heredoc = ft_true;
 	}
 }
 
@@ -43,7 +43,7 @@ static void	sig_handler_heredoc(int signal)
  * 
  * @param 	signal 
  */
-static void	signal_handler(int signal)
+static void	sh_main(int signal)
 {
 	if (signal == SIGINT)
 	{
@@ -76,13 +76,13 @@ void	update_signals(int sig_state)
 {
 	if (sig_state == SIG_STATE_MAIN)
 	{
-		signal(SIGINT, signal_handler);
+		signal(SIGINT, sh_main);
 		signal(SIGQUIT, SIG_IGN);
 	}
 	else if (sig_state == SIG_STATE_PARENT)
 	{
-		signal(SIGINT, sig_handler_print);
-		signal(SIGQUIT, sig_handler_print);
+		signal(SIGINT, sh_print);
+		signal(SIGQUIT, sh_print);
 	}
 	else if (sig_state == SIG_STATE_CHILD)
 	{
@@ -91,17 +91,12 @@ void	update_signals(int sig_state)
 	}
 	else if (sig_state == SIG_STATE_HD_CHILD)
 	{
-		signal(SIGINT, sig_handler_heredoc);
+		signal(SIGINT, sh_hd);
 		signal(SIGQUIT, SIG_IGN);
 	}
 	else if (sig_state == SIG_STATE_IGNORE)
 	{
 		signal(SIGINT, SIG_IGN);
-		signal(SIGQUIT, SIG_IGN);
-	}
-	else if (sig_state == SIG_STATE_HD_PARENT)
-	{
-		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_IGN);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 16:07:39 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/04 15:20:31 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/04 17:42:08 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ enum e_signal_state
 	SIG_STATE_PARENT,
 	SIG_STATE_CHILD,
 	SIG_STATE_HD_CHILD,
-	SIG_STATE_HD_PARENT,
 	SIG_STATE_IGNORE
 };
 
