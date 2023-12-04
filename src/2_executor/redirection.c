@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:47:15 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/03 11:58:49 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/04 14:51:50 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static t_bool	setup_redir_in(t_mbox *mbox, t_ast *redir_node, int *cur_p)
 			close (*in_fd);
 		if (!heredoc(mbox, redir_node, cur_p))
 		{
-			g_signal_status = SIGNAL_HEREDOC;
+			// g_signal_status = SIGNAL_EXIT_HD;
 			return (ft_false);
 		}
 	}
@@ -115,7 +115,8 @@ t_bool	configure_redir(t_mbox *mbox, t_ast *redir_node, int *cur_p)
 {
 	if (!redir_io(mbox, redir_node, cur_p))
 	{
-		set_var_value(mbox, "?", EXIT_FAILURE_STR); //FIXME: wrong for heredoc
+		if (g_signal_status != SIGNAL_EXIT_HD)
+			set_var_value_int(mbox, "?", EXIT_FAILURE);
 		return (ft_false);
 	}
 	return (ft_true);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   general_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:43:17 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/01 15:17:05 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/04 15:39:06 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	reset_cycle(t_mbox *mbox)
 	mbox->executor.io.prev_pipe[P_LEFT] = -1;
 	mbox->executor.io.prev_pipe[P_RIGHT] = -1;
 	mbox->executor.pid_index = 0;
-	update_signals(SIGNAL_MAIN);
+	update_signals(SIG_STATE_MAIN);
 	g_signal_status = 0;
 	mbox->consecutive_lt = 0;
 }
@@ -54,7 +54,7 @@ static void	tmp_conclusion(t_mbox *mbox, char *err_msg, int exit_status)
 		free (err_msg);
 	}
 	if (exit_status != NO_EXIT_STATUS)
-		set_var_value_int(mbox, "?", exit_status);
+		set_var_value_int(mbox, "?", exit_status); //FIXME: WEXITSTATUS ???
 }
 
 /**

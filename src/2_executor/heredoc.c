@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:00:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/04 12:53:10 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/04 15:38:42 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,13 @@
 
 static void	tmp_exiter(t_mbox *mbox, int *fd, char *lim, char *cur_line)
 {
-	if (mbox->stop_heredoc == ft_true)
-		exit_heredoc_child(mbox, fd, lim, cur_line);
-	// if (g_signal_status == SIGNAL_HEREDOC)
+	if (g_signal_status == SIGNAL_EXIT_HD)
+	{
+		dprintf(2, "g_signal_status in tmp_exiter: %d\n", g_signal_status);
+		// set_var_value_int(mbox, "?", SIGNAL_EXIT_HD);
+		exit_heredoc_child(mbox, fd, lim, cur_line, 130);
+	}
+	// else if (mbox->stop_heredoc == ft_true)
 	// 	exit_heredoc_child(mbox, fd, lim, cur_line);
 	check_ctrl_d(mbox, fd, lim, cur_line);
 }
@@ -29,7 +33,7 @@ static void	hd_child(t_mbox *mbox, int *fd, char *lim, int *cur_p)
 	close(fd[P_RIGHT]);
 	if (cur_p && cur_p[P_RIGHT] != -1)
 		close(cur_p[P_RIGHT]);
-	update_signals(SIGNAL_HEREDOC);
+	update_signals(SIG_STATE_HD_CHILD);
 	lim = ft_strdup(lim);
 	expand_vars = check_lim_qoutes(&lim);
 	mbox->stop_heredoc = ft_false;
@@ -40,7 +44,7 @@ static void	hd_child(t_mbox *mbox, int *fd, char *lim, int *cur_p)
 		if (cur_line[0] != '\0')
 		{
 			if (str_cmp_strct(cur_line, lim))
-				exit_heredoc_child(mbox, fd, lim, cur_line);
+				exit_heredoc_child(mbox, fd, lim, cur_line, 0);
 			if (expand_vars && cur_line)
 				cur_line = expand_heredoc_input(mbox, cur_line);
 			ft_putendl_fd(cur_line, fd[P_LEFT]);
@@ -56,12 +60,19 @@ t_bool	hd_parent(t_mbox *mbox, int pid_hd, int *cmd_in_fd, int *fd)
 {
 	int	exit_status;
 
+	exit_status = 0;
 	close(fd[P_LEFT]);
+	update_signals(SIG_STATE_IGNORE);
 	waitpid(pid_hd, &exit_status, 0);
-	update_signals(SIGNAL_CHILD);
+	dprintf(2, "signaled\t%d\n", WIFSIGNALED(exit_status));
+	dprintf(2, "exited\t%d\n", WIFEXITED(exit_status));
+	dprintf(2, "exit_status HDCHILD:/t%d\n", exit_status);
+	dprintf(2, "exit_status mask\t%d\n", WEXITSTATUS(exit_status));
+	update_signals(SIG_STATE_CHILD);
 	if (exit_status != EXIT_SUCCESS)
 	{
-		set_var_value_int(mbox, "?", exit_status);
+		g_signal_status = SIGNAL_EXIT_HD;
+		set_var_value_int(mbox, "?", WEXITSTATUS(exit_status));
 		close (fd[P_RIGHT]);
 		return (ft_false);
 	}
@@ -94,7 +105,6 @@ t_bool	heredoc(t_mbox *mbox, t_ast *redir_node, int *cur_p)
 
 	if (pipe(fd) < 0)
 		return (err_free_and_close_box(mbox, EXIT_FAILURE));
-	update_signals(SIGNAL_PARENT);
 	pid_hd = fork();
 	if (pid_hd < 0)
 		return (err_free_and_close_box(mbox, EXIT_FAILURE));

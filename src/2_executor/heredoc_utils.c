@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 19:28:09 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/01 16:07:17 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/04 14:46:44 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,7 @@ void	check_ctrl_d(t_mbox *mbox, int *fd, char *lim, char *line)
 	{
 		err_msg(mbox, NO_EXIT_STATUS, "nnynnn", ERR_P,
 			W_HD, ft_itoa(mbox->count_cycles), DW, lim, "')");
-		set_var_value(mbox, "?", EXIT_SUCCESS_STR);
-		exit_heredoc_child(mbox, fd, lim, line);
+		exit_heredoc_child(mbox, fd, lim, line, EXIT_SUCCESS);
 	}
 }
 
@@ -114,10 +113,11 @@ char	*get_key(char *str, int *i)
  * @param	lim 
  * @param	line 
  */
-void	exit_heredoc_child(t_mbox *mbox, int *fd, char *lim, char *line)
+void	exit_heredoc_child(t_mbox *mbox, int *fd, char *lim, char *line, int exit_status)
 {
 	close(fd[P_LEFT]); // close because it was WRITE END
 	free_whatever("pp", lim, line);
+	set_var_value_int(mbox, "?", exit_status);
 	close_process_fds_v2(mbox);
 	free_and_close_box_v2(mbox);
 }

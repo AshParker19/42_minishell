@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 19:30:56 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/03 21:19:18 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/04 15:25:11 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	sig_handler_heredoc(int signal)
 		mbox = get_mbox(NULL);
 		set_var_value(mbox, "?", "130");
 		close(STDIN_FILENO);
-		g_signal_status = SIGNAL_HEREDOC;
+		g_signal_status = SIGNAL_EXIT_HD;
 		mbox->stop_heredoc = ft_true;
 	}
 }
@@ -60,10 +60,10 @@ static void	signal_handler(int signal)
  *          child and parent. This can be done with this function using the
  *          following codes:
  *  
- *          SIGNAL_MAIN     showing basic promt
- *          SIGNAL_PARENT   ignore all signals
+ *          SIG_STATE_MAIN     showing basic promt
+ *          SIG_STATE_PARENT   ignore all signals
  *          SIGNAl_CHILD    basic setup for child
- *          SIGNAL_HEREDOC  for heredoc
+ *          SIG_STATE_HD_CHILD  for heredoc
  * 
  *          NOTE:
  *              CTRL C  =   SIGINT
@@ -74,24 +74,34 @@ static void	signal_handler(int signal)
  */
 void	update_signals(int sig_state)
 {
-	if (sig_state == SIGNAL_MAIN)
+	if (sig_state == SIG_STATE_MAIN)
 	{
 		signal(SIGINT, signal_handler);
 		signal(SIGQUIT, SIG_IGN);
 	}
-	else if (sig_state == SIGNAL_PARENT)
+	else if (sig_state == SIG_STATE_PARENT)
 	{
 		signal(SIGINT, sig_handler_print);
 		signal(SIGQUIT, sig_handler_print);
 	}
-	else if (sig_state == SIGNAL_CHILD)
+	else if (sig_state == SIG_STATE_CHILD)
 	{
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
 	}
-	else if (sig_state == SIGNAL_HEREDOC)
+	else if (sig_state == SIG_STATE_HD_CHILD)
 	{
 		signal(SIGINT, sig_handler_heredoc);
+		signal(SIGQUIT, SIG_IGN);
+	}
+	else if (sig_state == SIG_STATE_IGNORE)
+	{
+		signal(SIGINT, SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
+	}
+	else if (sig_state == SIG_STATE_HD_PARENT)
+	{
+		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_IGN);
 	}
 }
