@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 19:28:09 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/04 17:23:56 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/04 18:45:06 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,31 +32,6 @@ void	check_ctrl_d(t_mbox *mbox, int *fd, char *lim, char *line)
 		exit_heredoc_child(mbox, fd, lim, line, EXIT_SUCCESS);
 	}
 }
-
-/**
- * @brief	normally we just pass the mbo to all functions.
- * 			in the case of signals in heredoc we cant!
- * 			therefore we have this fucntion
- * 			USAGE:
- * 				In main we call it once like
- * 					get_mbox(mbox);
- * 				this will set the static var to our mbox
- *
- * 				In signal handler we juts call it like
- * 					get_mbox(NULL);
- * 				this will return the pointer to mbox
- *
- * @param mbox
- * @return t_mbox*
- */
-// t_mbox	*get_mbox(t_mbox *mbox)
-// {
-// 	static t_mbox	*mbox_ptr;
-
-// 	if (mbox)
-// 		mbox_ptr = mbox;
-// 	return (mbox_ptr);
-// }
 
 /**
  * @brief   this function gets a string and should return a copied str of the

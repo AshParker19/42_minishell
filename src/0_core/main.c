@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:06:17 by astein            #+#    #+#             */
-/*   Updated: 2023/12/04 18:33:15 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/04 18:47:36 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ int	main(int ac, char **av, char **env)
 	while (FRANKENSHELL_RISES_AMIDTS_DEATH)
 	{
 		reset_cycle(&mbox);
-		dprintf(2, "exit_status MAIN LOOP: %s\n", get_var_value(&mbox, "?"));
 		mbox.count_cycles++;
 		mbox.inp_orig = readline(PROMPT);
 		if (g_signal_status == SIGNAL_NEW_LINE)

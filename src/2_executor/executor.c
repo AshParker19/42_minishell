@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:19:44 by astein            #+#    #+#             */
-/*   Updated: 2023/12/04 18:18:32 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/04 18:48:41 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ static t_bool	exec_parent(t_mbox *mbox, int cmd_pos, int *cur_p, int pid_child, 
 			waitpid(pid_child, &exit_status, 0);
 			update_signals(SIG_STATE_PARENT);
 			set_var_value_int(mbox, "?", WEXITSTATUS(exit_status));
-			dprintf(2, "exit_status CAT: %d\n", exit_status);
 			if (exit_status != EXIT_SUCCESS)
 			{
 				if(cur_p[P_LEFT] != -1)
@@ -65,14 +64,10 @@ static t_bool	exec_parent(t_mbox *mbox, int cmd_pos, int *cur_p, int pid_child, 
 				if(cur_p[P_RIGHT] != -1)
 					close(cur_p[P_RIGHT]);
 				g_signal_status = SIGNAL_EXIT_HD;
-				dprintf(2, "g_signal_status: %d\n", g_signal_status);
 				return (ft_false);
 			}
 			else
-			{
-				dprintf(2, "g_signal_status: %d\n", g_signal_status);
 				return (ft_true);
-			}
 		}
 	}
 	return (ft_true);
@@ -125,14 +120,9 @@ static void	wait_for_execution(t_mbox *mbox)
 	if (mbox->executor.pid_index != 0)
 	{
 		while (++i < cmd_counter(mbox->root))
-		{
-			// dprintf(2, "waiting for pid: %d\n", mbox->executor.pid[i]);	
-			dprintf(2, "exit_status MAIN: %d\n", exit_status);
 			waitpid(mbox->executor.pid[i], &exit_status, 0);
-		}
 		if (g_signal_status == 0)
 		{
-			// TODO: SIGNAL
 			if (WIFEXITED(exit_status))
 				set_var_value_int(mbox, "?", WEXITSTATUS(exit_status));
 			else if (WIFSIGNALED(exit_status))

@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 19:30:56 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/04 17:26:59 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/04 18:43:05 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,11 @@ static void	sh_print(int signal)
 
 static void	sh_hd(int signal)
 {
-	// t_mbox	*mbox;
-
 	if (signal == SIGINT)
 	{
 		write(STDOUT_FILENO, "\n", 1);
-		// mbox = get_mbox(NULL);
-		// set_var_value(mbox, "?", "130");
 		close(STDIN_FILENO);
 		g_signal_status = SIGNAL_EXIT_HD;
-		// mbox->stop_heredoc = ft_true;
 	}
 }
 

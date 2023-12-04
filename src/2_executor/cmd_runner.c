@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:09:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/03 20:46:45 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/04 18:47:50 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,21 +103,6 @@ void	run_cmd_system(t_mbox *mbox, t_ast *cmd_node)
 	free_whatever("mm", cur_env, cur_av);
 	run_cmd_system_error(mbox, cmd_node->content);
 }
-	//OLD STUFF BELOW! 
-	// abs_cmd_path = NULL;
-	// abs_cmd_path = get_cmd_path(mbox, cmd_node->content, -1, ft_true);
-	// if (abs_cmd_path)
-	// {
-	// 	// get_cmd_av(mbox, cmd_node);
-	// 	cur_env = env_to_matrix(mbox, NULL);
-	// 	// execve(abs_cmd_path, mbox->executor.cmd_av, cur_env);
-	// 	set_exit_status(mbox, errno);
-	// 	err_msg(mbox, NO_EXIT_STATUS, "nnnn", ERR_P, cmd_node->content, CS, strerror(errno));
-	// }
-	// else
-	// 	dprintf(2, "abs_cmd_path is NULL\n");
-	// 	// err_msg(mbox, 127, "nnn", cmd_node->content, CS, CMD_N_FND);
-	// free_whatever("mp", cur_env, abs_cmd_path);
 
 /**
  * @brief   traverses through the ll and run builtin cmd via corresponding

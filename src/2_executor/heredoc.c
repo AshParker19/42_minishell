@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:00:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/04 18:02:14 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/04 18:47:15 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,7 @@
 static void	tmp_exiter(t_mbox *mbox, int *fd, char *lim, char *cur_line)
 {
 	if (g_signal_status == SIGNAL_EXIT_HD)
-	{
-		dprintf(2, "g_signal_status in tmp_exiter: %d\n", g_signal_status);
-		// set_var_value_int(mbox, "?", SIGNAL_EXIT_HD);
 		exit_heredoc_child(mbox, fd, lim, cur_line, 130);
-	}
-	// else if (mbox->stop_heredoc == ft_true)
-	// 	exit_heredoc_child(mbox, fd, lim, cur_line);
 	check_ctrl_d(mbox, fd, lim, cur_line);
 }
 
@@ -36,8 +30,6 @@ static void	hd_child(t_mbox *mbox, int *fd, char *lim, int *cur_p)
 	update_signals(SIG_STATE_HD_CHILD);
 	lim = ft_strdup(lim);
 	expand_vars = check_lim_qoutes(&lim);
-	// mbox->stop_heredoc = ft_false;
-	// g_signal_status = 0;
 	while (FRANCENDOC_ECHOES_IN_ETERNITY)
 	{
 		cur_line = readline(HEREDOC_PROMPT);
@@ -65,10 +57,6 @@ t_bool	hd_parent(t_mbox *mbox, int pid_hd, int *cmd_in_fd, int *fd)
 	close(fd[P_LEFT]);
 	update_signals(SIG_STATE_IGNORE);
 	waitpid(pid_hd, &exit_status, 0);
-	dprintf(2, "signaled\t%d\n", WIFSIGNALED(exit_status));
-	dprintf(2, "exited\t%d\n", WIFEXITED(exit_status));
-	dprintf(2, "exit_status HDCHILD:/t%d\n", exit_status);
-	dprintf(2, "exit_status mask\t%d\n", WEXITSTATUS(exit_status));
 	update_signals(SIG_STATE_CHILD);
 	if (exit_status != EXIT_SUCCESS)
 	{
@@ -113,21 +101,3 @@ t_bool	heredoc(t_mbox *mbox, t_ast *redir_node, int *cur_p)
 		hd_child(mbox, fd, redir_node->content, cur_p);
 	return (hd_parent(mbox, pid_hd, &mbox->executor.io.cmd_fd[CMD_IN], fd));
 }
-
-	// OLD SHIT!!!	
-	// if (WIFEXITED(exit_status))
-	// 	exit_status = WEXITSTATUS(exit_status);
-	// else if (WIFSIGNALED(exit_status))
-	// {
-	// 	exit_status = WTERMSIG(exit_status) + 128;
-	// 	dprintf(2, "DDDDDDDDDDDDDDDDDDDDDDDDDDDD\nPID %d\n", getpid());
-	// }
-	// else
-	// 	exit_status = 1;
-			// info was written to the reaad end and will be redirected later using dup2
-	// close(fd[P_RIGHT]);
-	// FIX 10.11. 18:45 uncomment later maybe
-	// exit_status_str = ft_itoa(exit_status);
-	// set_var_value(mbox, "?", exit_status_str);
-	// // dprintf(2, "{%s}{%s}\n", exit_status_str, get_var_value(mbox, "?"));
-	// free(exit_status_str);
