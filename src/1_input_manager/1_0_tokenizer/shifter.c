@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 14:36:59 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/03 16:56:02 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/04 12:04:58 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,7 +200,7 @@ t_bool	shift_context_chars(t_mbox *mbox, int i, int quote_state)
 	}
 	if (quote_state != OUT_Q)
 	{
-		err_msg(mbox, 1, "nn", ERR_P, SE_UQ);
+		err_msg(mbox, 2, "nn", ERR_P, SE_UQ);
 		return (ft_false);
 	}
 	return (ft_true);
