@@ -6,46 +6,62 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:00:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/04 18:47:15 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/04 23:12:38 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	tmp_exiter(t_mbox *mbox, int *fd, char *lim, char *cur_line)
+/**
+ * @brief	this function will be only called by 'heredoc' for each line
+ * 			checks
+ * 			1. if interrupted by CTRL C
+ *			2, if interrupted by CTRL D
+ * 
+ * @param mbox 
+ * @param hd 
+ */
+static void	tmp_exiter(t_mbox *mbox, t_hd *hd)
 {
 	if (g_signal_status == SIGNAL_EXIT_HD)
-		exit_heredoc_child(mbox, fd, lim, cur_line, 130);
-	check_ctrl_d(mbox, fd, lim, cur_line);
+		exit_heredoc_child(mbox, hd, 130);
+	if (!hd->cur_line)
+	{
+		err_msg(mbox, NO_EXIT_STATUS, "nnynnn", ERR_P,
+			W_HD, ft_itoa(mbox->count_cycles), DW, hd->lim, "')");
+		exit_heredoc_child(mbox, hd, EXIT_SUCCESS);
+	}
 }
 
 static void	hd_child(t_mbox *mbox, int *fd, char *lim, int *cur_p)
 {
-	char	*cur_line;
+	t_hd	hd;
 	t_bool	expand_vars;
-
-	close(fd[P_RIGHT]);
+	
+	hd.fd = fd;
+	hd.lim = ft_strdup(lim);
+	hd.cur_line = NULL;
+	close(hd.fd[P_RIGHT]);
 	if (cur_p && cur_p[P_RIGHT] != -1)
 		close(cur_p[P_RIGHT]);
 	update_signals(SIG_STATE_HD_CHILD);
-	lim = ft_strdup(lim);
-	expand_vars = check_lim_qoutes(&lim);
+	expand_vars = check_lim_qoutes(&hd.lim);
 	while (FRANCENDOC_ECHOES_IN_ETERNITY)
 	{
-		cur_line = readline(HEREDOC_PROMPT);
-		tmp_exiter(mbox, fd, lim, cur_line);
-		if (cur_line[0] != '\0')
+		hd.cur_line = readline(HEREDOC_PROMPT);
+		tmp_exiter(mbox, &hd);
+		if (hd.cur_line[0] != '\0')
 		{
-			if (str_cmp_strct(cur_line, lim))
-				exit_heredoc_child(mbox, fd, lim, cur_line, 0);
-			if (expand_vars && cur_line)
-				cur_line = expand_heredoc_input(mbox, cur_line);
-			ft_putendl_fd(cur_line, fd[P_LEFT]);
+			if (str_cmp_strct(hd.cur_line, hd.lim))
+				exit_heredoc_child(mbox, &hd, 0);
+			if (expand_vars && hd.cur_line)
+				hd.cur_line = expand_heredoc_input(mbox, hd.cur_line);
+			ft_putendl_fd(hd.cur_line, hd.fd[P_LEFT]);
 		}
 		else
-			ft_putendl_fd("", fd[P_LEFT]);
-		if (cur_line)
-			free(cur_line);
+			ft_putendl_fd("", hd.fd[P_LEFT]);
+		if (hd.cur_line)
+			free(hd.cur_line);
 	}
 }
 

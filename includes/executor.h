@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 17:55:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/04 18:44:56 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/04 23:07:13 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,12 @@ typedef struct s_exec
 	int             pid_index;
 }   t_exec;
 
+typedef struct s_hd
+{
+	int				*fd;
+	char			*lim;
+	char			*cur_line;
+}   t_hd;
 
 /******************************************************************************/
 /* executor */
@@ -51,8 +57,8 @@ t_bool	configure_redir(t_mbox *mbox, t_ast *redir_node, int *cur_p);
 /* heredoc */
 t_bool	heredoc(t_mbox *mbox, t_ast *redir_node, int *cur_p);
 char    *get_key(char *str, int *i);
-void	exit_heredoc_child(t_mbox *mbox, int *fd, char *lim, char *line, int exit_status);
-void 	check_ctrl_d(t_mbox *mbox, int *fd, char *lim, char *line);
+void	exit_heredoc_child(t_mbox *mbox, t_hd *hd, int exit_status);
+// void 	check_ctrl_d(t_mbox *mbox, int *fd, char *lim, char *line);
 t_bool	check_lim_qoutes(char **str);
 char	*expand_heredoc_input(t_mbox *mbox, char *str);
 

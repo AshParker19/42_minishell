@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 13:07:56 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/04 22:31:09 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/04 23:23:47 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ static	char	*temp_run_cmd_system_error(t_mbox *mbox, char *cmd)
 	{
 		if (ft_strchr(cmd, '/'))
 			err_msg(mbox, 127, "nnnn", ERR_P, cmd, CS, NO_FOD);
+		else if (!*cmd)
+			err_msg(mbox, 127, "nnnn", ERR_P, "''", CS, CMD_N_FND);
 		else
 			err_msg(mbox, 127, "nnn", cmd, CS, CMD_N_FND);
 	}
@@ -104,6 +106,11 @@ char	*get_abs_cmd_path(t_mbox *mbox, char *cmd)
 	int		i;
 
 	path = NULL;
+	if (!*cmd)	
+	{
+		err_msg(mbox, 127, "nnnn", ERR_P, "''", CS, CMD_N_FND);
+		return (NULL);
+	}
 	if (!ft_strchr(cmd, '/'))
 	{
 		
