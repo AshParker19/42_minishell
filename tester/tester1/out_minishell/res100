@@ -1,3 +1,1 @@
-[36mfrankenshell--> [0mecho "" -n | wc -l | grep 1
 1
-[36mfrankenshell--> [0mexit

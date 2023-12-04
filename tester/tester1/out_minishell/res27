@@ -1,4 +1,2 @@
-[36mfrankenshell--> [0mcat lonely $test*
 cat: lonely: No such file or directory
 cat: '*': No such file or directory
-[36mfrankenshell--> [0mexit

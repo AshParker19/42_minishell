@@ -1,3 +1,1 @@
-[36mfrankenshell--> [0mfind . -type f | wc -l
 488
-[36mfrankenshell--> [0mexit

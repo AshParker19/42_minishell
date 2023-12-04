@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:43:17 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/04 18:10:39 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/04 19:26:32 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ void	err_msg(t_mbox *mbox, int exit_status, const char *format, ...)
 	va_list	args;
 	char	*err_msg;
 	char	*str;
-
 	va_start(args, format);
 	err_msg = NULL;
 	while (*format)

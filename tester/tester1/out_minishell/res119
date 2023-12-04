@@ -1,2 +1,2 @@
-[36mfrankenshell--> [0mexit << magic
+> minishell: warning: here-document at line 1 delimited by end-of-file (wanted `magic')
 exit

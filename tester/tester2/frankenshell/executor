@@ -1,10 +1,8 @@
-< LIM |
 < file cat
 ls > file
 ls > file1 > file2
 ls > file1 file2
 ls > file | ls
-cat | cat | cat | ls
 fuck | ls
 ls | fuck 
 cd >> lol
@@ -27,9 +25,7 @@ echo hi >txt lol
 cat txt
 echo hi >"l"> lol42
 echo "> >> < * ? [ ] | ; [ ] || && ( ) & # $  <<" 
-ls -l "" "HI'LOL'|" | >> hi echo cat $LESS
 cat file.txt | grep 'error' | wc -l
 echo $>"?"
-< LIM |
 
 

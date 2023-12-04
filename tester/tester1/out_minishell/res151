@@ -1,4 +1,2 @@
-[36mfrankenshell--> [0m<< magic wc
-[33mfrankendoc> [0m[38;5;203mfrankenshell: [0mwarning: here-document at line 1 delimited by end-of-file (wanted `magic')
+> minishell: warning: here-document at line 1 delimited by end-of-file (wanted `magic')
 0       0       0
-[36mfrankenshell--> [0mexit

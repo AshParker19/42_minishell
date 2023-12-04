@@ -149,7 +149,7 @@ DOT:
 stats:
 	./tester/count_stats.sh
 
-t: t2 t3
+t: t1 t2 t3
 
 t1: CFLAGS += -D BASIC_PROMTS=TRUE
 t1: re

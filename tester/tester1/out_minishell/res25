@@ -1,3 +1,1 @@
-[36mfrankenshell--> [0mcat file.txt | tr -s ' ' 'n' | sort | uniq -c | sort -nr | awk '{print $2 $1}'
 Thisnisnanerrorntestnfile.nline1nline2nerrornline3error1
-[36mfrankenshell--> [0mexit
