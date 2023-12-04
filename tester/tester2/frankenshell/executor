@@ -30,4 +30,6 @@ echo "> >> < * ? [ ] | ; [ ] || && ( ) & # $  <<"
 ls -l "" "HI'LOL'|" | >> hi echo cat $LESS
 cat file.txt | grep 'error' | wc -l
 echo $>"?"
-nocmdddd | nocmdddd
+< LIM |
+
+

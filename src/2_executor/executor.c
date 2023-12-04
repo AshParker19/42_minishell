@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:19:44 by astein            #+#    #+#             */
-/*   Updated: 2023/12/03 20:46:12 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/04 12:50:21 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ static t_bool	execute_cmd(t_mbox *mbox, t_ast *cmd_node, int cmd_pos)
 	int	cur_pipe[2];
 	int child_pid;
 
+	cur_pipe[0] = -1;
+	cur_pipe[1] = -1;
 	initialize_io(mbox);
 	if (cmd_pos == SINGLE_CMD && is_cmd_builtin(mbox, cmd_node->content))
 		return (run_single_builtin(mbox));
@@ -104,7 +106,6 @@ static void	wait_for_execution(t_mbox *mbox)
 			waitpid(mbox->executor.pid[i], &exit_status, 0);
 		if (g_signal_status == 0)
 		{
-			//TODO: wait for signal too
 			if (WIFEXITED(exit_status))
 				set_var_value_int(mbox, "?", WEXITSTATUS(exit_status));
 		}
