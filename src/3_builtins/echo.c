@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:32:13 by astein            #+#    #+#             */
-/*   Updated: 2023/11/18 16:44:50 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/05 00:49:21 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@
  * @param print_nl 
  * @return t_bool 
  */
-static t_bool is_flag(char *arg, t_bool *found_text, t_bool *print_nl)
+static t_bool	is_flag(char *arg, t_bool *found_text, t_bool *print_nl)
 {
-	int 	i;
+	int		i;
 	t_bool	all_char_n;
-	
+
 	if (arg[0] != '-')
 		*found_text = ft_true;
 	else
@@ -36,7 +36,7 @@ static t_bool is_flag(char *arg, t_bool *found_text, t_bool *print_nl)
 		all_char_n = ft_false;
 		while (arg[++i] != '\0')
 		{
-			if(arg[i] == 'n')
+			if (arg[i] == 'n')
 				all_char_n = ft_true;
 			else
 			{
@@ -44,7 +44,7 @@ static t_bool is_flag(char *arg, t_bool *found_text, t_bool *print_nl)
 				break ;
 			}
 		}
-		if(all_char_n)
+		if (all_char_n)
 			*print_nl = ft_false;
 		else
 			*found_text = ft_true;
@@ -68,27 +68,27 @@ static t_bool is_flag(char *arg, t_bool *found_text, t_bool *print_nl)
  * @param   mbox 
  * @param   arg_node 
  */
-void builtin_echo(t_mbox *mbox, t_ast *arg_node)
+void	builtin_echo(t_mbox *mbox, t_ast *arg_node)
 {
-    t_bool	print_nl;
+	t_bool	print_nl;
 	t_bool	found_text;	
 
-    print_nl = ft_true;
+	print_nl = ft_true;
 	found_text = ft_false;
-	while(arg_node)
+	while (arg_node)
 	{
-		if(found_text || !is_flag(arg_node->content, &found_text, &print_nl))
+		if (found_text || !is_flag(arg_node->content, &found_text, &print_nl))
 		{
 			ft_putstr_fd(arg_node->content,
-                mbox->executor.io.cmd_fd[CMD_OUT]);
-            arg_node = arg_node->right;
-            if(arg_node)
-                ft_putchar_fd(' ', mbox->executor.io.cmd_fd[CMD_OUT]);
+				mbox->executor.io.cmd_fd[CMD_OUT]);
+			arg_node = arg_node->right;
+			if (arg_node)
+				ft_putchar_fd(' ', mbox->executor.io.cmd_fd[CMD_OUT]);
 		}
 		else
 			arg_node = arg_node->right;
 	}
 	if (print_nl)
-        ft_putchar_fd('\n', mbox->executor.io.cmd_fd[CMD_OUT]);
+		ft_putchar_fd('\n', mbox->executor.io.cmd_fd[CMD_OUT]);
 	set_var_value_int(mbox, "?", EXIT_SUCCESS);
 }

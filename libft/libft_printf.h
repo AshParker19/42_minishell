@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:11:36 by astein            #+#    #+#             */
-/*   Updated: 2023/11/10 18:12:26 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/05 01:02:31 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,8 @@ size_t				ft_strlen(const char *s);
 size_t				ft_strlcpy(char *dst, const char *src, size_t size);
 size_t				ft_strlcat(char *dst, const char *src, size_t size);
 char				*ft_strcat_multi(int amount_of_strs, ...);
-char 				*append_str(char *cur_str, char *add_str, t_bool free_add_str);
+char				*append_str(char *cur_str, char *add_str,
+						t_bool free_add_str);
 int					ft_strcmp(char *s1, char *s2);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
 t_bool				str_cmp_strct(const char *str_a, const char *str_b);
@@ -137,9 +138,8 @@ char				*ft_strjoin(char const *s1, char const *s2);
 char				*ft_strtrim(char const *s1, char const *set);
 char				*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 char				*ft_chr2str(char c);
-void    			ft_swap_strings(char **a, char **b);
+void				ft_swap_strings(char **a, char **b);
 t_bool				ft_str_is_numeric(char *str);
-
 
 //******************************************************************************
 //			Memory Functions
@@ -185,7 +185,8 @@ char				*gnl(int fd);
 char				*gnl_stoppable(int fd, t_bool *stop);
 void				*gnl_zero_str(char *str);
 void				gnl_len_nl(char *str, size_t *len, t_bool *flg_nl);
-char				*gnl_safe_buffer(char *line, size_t len_line, char *buffer, size_t len_cpy);
+char				*gnl_safe_buffer(char *line, size_t len_line, char *buffer,
+						size_t len_cpy);
 void				gnl_shift_arr_to_front(char *arr, size_t offset);
 
 #endif

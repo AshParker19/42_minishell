@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 11:45:50 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/04 18:34:46 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/05 00:50:14 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	save_history(t_mbox *mbox)
 	new_node = ft_calloc(1, sizeof(t_history));
 	if (!new_node)
 		return ;
-	new_node->inp = ft_strdup(mbox->inp_trim); 
+	new_node->inp = ft_strdup(mbox->inp_trim);
 	new_node->index = ++i;
 	new_node->mbox = mbox;
 	ft_lstadd_back(&(mbox->history_lst), ft_lstnew(new_node));

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 13:39:45 by astein            #+#    #+#             */
-/*   Updated: 2023/10/20 20:14:06 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/05 01:00:53 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ static void	free_matrix(void **matrix)
 			free(matrix[arr_i]);
 			arr_i++;
 		}
-		free(matrix);	
-	}	
+		free(matrix);
+	}
 }
 
 /**

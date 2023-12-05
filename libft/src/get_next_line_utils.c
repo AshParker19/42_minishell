@@ -6,12 +6,11 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 17:20:29 by astein            #+#    #+#             */
-/*   Updated: 2023/11/10 17:21:55 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/05 01:00:09 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft_printf.h"
-
 
 /**
  * @brief	This function loopes trough the string 'str' setting all values to 0

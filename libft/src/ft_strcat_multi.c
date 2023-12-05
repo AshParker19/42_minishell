@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strcat_multi.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 16:32:33 by astein            #+#    #+#             */
-/*   Updated: 2023/10/26 18:53:35 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/05 00:59:43 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,14 +109,14 @@ char	*ft_strcat_multi(int amount_of_strs, ...)
  * @param   free_add_str 
  * @return  char* 
  */
-char *append_str(char *cur_str, char *add_str, t_bool free_add_str)
+char	*append_str(char *cur_str, char *add_str, t_bool free_add_str)
 {
-    char    *temp;
+	char	*temp;
 
-    temp =  ft_strcat_multi(2, cur_str, add_str);
-    if (cur_str)
-        free(cur_str);
-    if (free_add_str)
-        free(add_str);
-    return (temp);
+	temp = ft_strcat_multi(2, cur_str, add_str);
+	if (cur_str)
+		free(cur_str);
+	if (free_add_str)
+		free(add_str);
+	return (temp);
 }
