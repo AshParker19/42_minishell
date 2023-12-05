@@ -115,11 +115,17 @@ fclean: clean
 
 re: fclean all
 
-norm:
-	zsh(norminette)
-
-line:
-	norminette | grep "TOO_MANY_LINES"
+norm : 
+	@echo "$(ORANGE)******************************$(GREEN)"
+	@echo "$(BLUE)      CHECK SOURSE FILES$(RESET)"
+	@echo "$(ORANGE)******************************$(GREEN)"
+	@norminette src
+	@echo "$(BLUE)        CHECK INCLUDES$(RESET)"
+	@echo "$(ORANGE)******************************$(GREEN)"
+	@norminette includes
+	@echo "$(ORANGE)******************************$(BLUE)"
+	@echo "        NO NORM ERRORS$(RESET)"
+	@echo "$(ORANGE)******************************$(DEF)"
 
 readline.supp:
 	wget https://raw.githubusercontent.com/benjaminbrassart/minishell/master/readline.supp
