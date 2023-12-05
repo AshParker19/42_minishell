@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_vars.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 12:58:49 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/22 09:52:27 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/03 20:45:03 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 /**
  * @brief	this function loops trough a string and sets all characters
  * 			which are whitespaces to NO_SPACE
- * 
- * 			the parameter 'str' will be freed!
  * 
  * @param	str		
  * @return	char*	the string with all spaces marked as NO_SPACE
@@ -37,7 +35,6 @@ static char	*mark_ws(char *str)
 		else
 			temp = append_str(temp, ft_chr2str(str[i]), ft_true);
 	}
-	free(str);
 	return (temp);
 }
 
@@ -45,11 +42,12 @@ static char	*mark_ws(char *str)
  * @brief 			
  * 					should search for an key in str
  * 					mbox->inp_shift at postion k.
- * 					at beginnig k points to $ sign!
+ * 					at beginnig k points to '$' char!
  * 
  * 					via 'get_key" a key will be found and the index k shiftet
  * 					if found a key
- * 						append expansion via 'append_str' to 'mbox->inp_expand'
+ * 						whitespaces will be replaced by NO_SPACE
+ * 						append str via 'append_str' to 'mbox->inp_expand'
  * 					else
  * 						reason can be one of those:
  * 
@@ -64,7 +62,7 @@ static char	*mark_ws(char *str)
  * @param k 
  * @param cur_c 
  */
-static void	expand_var(t_mbox *mbox, int quote_s, int *k, char cur_c)
+static void	expand_var(t_mbox *mbox, int quote_s, int *k)
 {
 	char	*key;
 	char	temp;
@@ -73,7 +71,7 @@ static void	expand_var(t_mbox *mbox, int quote_s, int *k, char cur_c)
 	key = get_key(mbox->inp_shift, k);
 	if (key)
 		mbox->inp_expand = append_str(mbox->inp_expand,
-				get_var_value(mbox, key), ft_false);
+				mark_ws(get_var_value(mbox, key)), ft_true);
 	else
 	{
 		(*k)++;
@@ -148,7 +146,7 @@ t_bool	expand_vars_main(t_mbox *mbox, int k, int quote_state)
 		if (!detect_heredoc(mbox, &k, quote_state, cur_c))
 		{
 			if (quote_state != add_offset('\'') && cur_c == '$') 
-				expand_var(mbox, quote_state, &k, cur_c);
+				expand_var(mbox, quote_state, &k);
 			else
 				mbox->inp_expand = append_str(mbox->inp_expand,
 						ft_chr2str(cur_c), ft_true);

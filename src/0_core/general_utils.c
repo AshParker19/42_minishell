@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   general_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:43:17 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/01 15:17:05 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/05 00:20:18 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	reset_cycle(t_mbox *mbox)
 	mbox->executor.io.prev_pipe[P_LEFT] = -1;
 	mbox->executor.io.prev_pipe[P_RIGHT] = -1;
 	mbox->executor.pid_index = 0;
-	update_signals(SIGNAL_MAIN);
+	update_signals(SIG_STATE_MAIN);
 	g_signal_status = 0;
 	mbox->consecutive_lt = 0;
 }
@@ -62,7 +62,7 @@ static void	tmp_conclusion(t_mbox *mbox, char *err_msg, int exit_status)
  *          uses format string as an identifier if any of the accepted string
  *          should be allocated
  * 
- *err_msg("ccaca", "HI", "HI", ft_strup(), "HI", random_allocated_char)
+ *err_msg("nnyny", "HI", "HI", ft_strup(), "HI", random_allocated_char)
  *                   n = no =  constant string   -> free needed
  *                   y = yes = allocated         -> need to be freed
  * 
@@ -74,7 +74,6 @@ void	err_msg(t_mbox *mbox, int exit_status, const char *format, ...)
 	va_list	args;
 	char	*err_msg;
 	char	*str;
-
 	va_start(args, format);
 	err_msg = NULL;
 	while (*format)
@@ -109,7 +108,7 @@ void	err_msg(t_mbox *mbox, int exit_status, const char *format, ...)
  * @param format 
  * @param ... 
  */
-void	put_info_msg(t_mbox *mbox, const char *format, ...) //this function wasnt freeing properly so I removed it for the time being
+void	put_info_msg(t_mbox *mbox, const char *format, ...)// TODO://this function wasnt freeing properly so I removed it for the time being
 {
 	va_list	args;
 	char	*info_msg;

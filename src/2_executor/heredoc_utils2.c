@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_utils2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 19:02:16 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/01 16:08:47 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/03 11:55:03 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ t_bool	check_lim_qoutes(char **str)
  *                  that 3. know if to expand
  *						- removes all contextual qoutes
  *				
- *				2. 'fork' - > 'heredoc_child'
+ *				2. 'fork' - > 'hd_child'
  *					spawns a child process that will run until the LIM is found
  *					after writing all (expanded) lines into the FD we free the
  *					child and return to 'redirection.c'

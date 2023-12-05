@@ -3,61 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 19:28:09 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/01 16:07:17 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/04 23:06:56 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/**
- * @brief	this function will be only called by 'heredoc' for each line
- * 			if the heredoc recieves CRTL+D (EOF) => !line  it will print the 
- * 			responding error message and exit the heredoc child process properly
- * 			with exit status SUCCESS via 'exit_heredoc_child'
- * 
- * @param	mbox 
- * @param	fd 
- * @param	lim 
- * @param	line 
- */
-void	check_ctrl_d(t_mbox *mbox, int *fd, char *lim, char *line)
-{
-	if (!line)
-	{
-		err_msg(mbox, NO_EXIT_STATUS, "nnynnn", ERR_P,
-			W_HD, ft_itoa(mbox->count_cycles), DW, lim, "')");
-		set_var_value(mbox, "?", EXIT_SUCCESS_STR);
-		exit_heredoc_child(mbox, fd, lim, line);
-	}
-}
-
-/**
- * @brief	normally we just pass the mbo to all functions.
- * 			in the case of signals in heredoc we cant!
- * 			therefore we have this fucntion
- * 			USAGE:
- * 				In main we call it once like
- * 					get_mbox(mbox);
- * 				this will set the static var to our mbox
- *
- * 				In signal handler we juts call it like
- * 					get_mbox(NULL);
- * 				this will return the pointer to mbox
- *
- * @param mbox
- * @return t_mbox*
- */
-t_mbox	*get_mbox(t_mbox *mbox)
-{
-	static t_mbox	*mbox_ptr;
-
-	if (mbox)
-		mbox_ptr = mbox;
-	return (mbox_ptr);
-}
+// /**
+//  * @brief	
+//  * 			
+//  * 			
+//  * 			
+//  * 
+//  * @param	mbox 
+//  * @param	fd 
+//  * @param	lim 
+//  * @param	line 
+//  */
+// void	check_ctrl_d(t_mbox *mbox, int *fd, char *lim, char *line)
+// {
+	
+// }
 
 /**
  * @brief   this function gets a string and should return a copied str of the
@@ -114,10 +83,11 @@ char	*get_key(char *str, int *i)
  * @param	lim 
  * @param	line 
  */
-void	exit_heredoc_child(t_mbox *mbox, int *fd, char *lim, char *line)
+void	exit_heredoc_child(t_mbox *mbox, t_hd *hd, int exit_status)
 {
-	close(fd[P_LEFT]); // close because it was WRITE END
-	free_whatever("pp", lim, line);
+	close(hd->fd[P_LEFT]); // close because it was WRITE END
+	free_whatever("pp", hd->lim, hd->cur_line);
+	set_var_value_int(mbox, "?", exit_status);
 	close_process_fds_v2(mbox);
 	free_and_close_box_v2(mbox);
 }

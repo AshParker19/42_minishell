@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_chr2str.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 16:32:33 by astein            #+#    #+#             */
-/*   Updated: 2023/10/23 21:57:25 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/04 23:38:26 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,16 @@ char	*ft_chr2str(char c)
 	if (c == '\0')
 	{
 		buf = ft_calloc(1, sizeof(char));
+		if (!buf)
+			return (NULL);
 		buf[0] = c;
 		return (buf);
 	}
 	else
 	{
 		buf = ft_calloc(2, sizeof(char));
+		if (!buf)
+			return (NULL);
 		buf[0] = c;
 		return (buf);
 	}

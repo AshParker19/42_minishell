@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 18:26:39 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/17 19:50:33 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/05 00:14:03 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,8 @@ void	free_ast_v2(t_ast *root)
 {
 	if (root)
 	{
-		if (root->left)
-			free_ast_v2(root->left);
-		if (root->right)
-			free_ast_v2(root->right);
+		free_ast_v2(root->left);
+		free_ast_v2(root->right);
 		if (root->content)
 		{
 			free(root->content);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   environment.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:16:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/01 15:15:12 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/04 23:57:02 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ void	load_vars_v2(t_mbox *mbox, char **env)
 		key = ft_substr(env[i], 0,
 				ft_strlen(env[i]) - ft_strlen(key));
 		set_var_value(mbox, key, getenv(key));
-		free (key);
+		if (key)
+			free (key);
 		i++;
 	}
 	set_var_value(mbox, "?", EXIT_SUCCESS_STR);

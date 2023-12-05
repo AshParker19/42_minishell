@@ -3,61 +3,81 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:00:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/01 16:10:49 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/04 23:12:38 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	tmp_exiter(t_mbox *mbox, int *fd, char *lim, char *cur_line)
+/**
+ * @brief	this function will be only called by 'heredoc' for each line
+ * 			checks
+ * 			1. if interrupted by CTRL C
+ *			2, if interrupted by CTRL D
+ * 
+ * @param mbox 
+ * @param hd 
+ */
+static void	tmp_exiter(t_mbox *mbox, t_hd *hd)
 {
-	if (mbox->stop_heredoc == ft_true)
-		exit_heredoc_child(mbox, fd, lim, cur_line);
-	check_ctrl_d(mbox, fd, lim, cur_line);
-}
-
-static void	heredoc_child(t_mbox *mbox, int *fd, char *lim)
-{
-	char	*cur_line;
-	t_bool	expand_vars;
-
-	close(fd[P_RIGHT]);
-	update_signals(SIGNAL_HEREDOC);
-	lim = ft_strdup(lim);
-	expand_vars = check_lim_qoutes(&lim);
-	mbox->stop_heredoc = ft_false;
-	while (FRANCENDOC_ECHOES_IN_ETERNITY)
+	if (g_signal_status == SIGNAL_EXIT_HD)
+		exit_heredoc_child(mbox, hd, 130);
+	if (!hd->cur_line)
 	{
-		cur_line = readline(HEREDOC_PROMPT);
-		tmp_exiter(mbox, fd, lim, cur_line);
-		if (cur_line[0] != '\0')
-		{
-			if (str_cmp_strct(cur_line, lim))
-				exit_heredoc_child(mbox, fd, lim, cur_line);
-			if (expand_vars && cur_line)
-				cur_line = expand_heredoc_input(mbox, cur_line);
-			ft_putendl_fd(cur_line, fd[P_LEFT]);
-		}
-		else
-			ft_putendl_fd("", fd[P_LEFT]);
-		if (cur_line)
-			free(cur_line);
+		err_msg(mbox, NO_EXIT_STATUS, "nnynnn", ERR_P,
+			W_HD, ft_itoa(mbox->count_cycles), DW, hd->lim, "')");
+		exit_heredoc_child(mbox, hd, EXIT_SUCCESS);
 	}
 }
 
-t_bool	heredoc_parent(t_mbox *mbox, int pid_hd, int *cmd_in_fd, int *fd)
+static void	hd_child(t_mbox *mbox, int *fd, char *lim, int *cur_p)
+{
+	t_hd	hd;
+	t_bool	expand_vars;
+	
+	hd.fd = fd;
+	hd.lim = ft_strdup(lim);
+	hd.cur_line = NULL;
+	close(hd.fd[P_RIGHT]);
+	if (cur_p && cur_p[P_RIGHT] != -1)
+		close(cur_p[P_RIGHT]);
+	update_signals(SIG_STATE_HD_CHILD);
+	expand_vars = check_lim_qoutes(&hd.lim);
+	while (FRANCENDOC_ECHOES_IN_ETERNITY)
+	{
+		hd.cur_line = readline(HEREDOC_PROMPT);
+		tmp_exiter(mbox, &hd);
+		if (hd.cur_line[0] != '\0')
+		{
+			if (str_cmp_strct(hd.cur_line, hd.lim))
+				exit_heredoc_child(mbox, &hd, 0);
+			if (expand_vars && hd.cur_line)
+				hd.cur_line = expand_heredoc_input(mbox, hd.cur_line);
+			ft_putendl_fd(hd.cur_line, hd.fd[P_LEFT]);
+		}
+		else
+			ft_putendl_fd("", hd.fd[P_LEFT]);
+		if (hd.cur_line)
+			free(hd.cur_line);
+	}
+}
+
+t_bool	hd_parent(t_mbox *mbox, int pid_hd, int *cmd_in_fd, int *fd)
 {
 	int	exit_status;
 
+	exit_status = 0;
 	close(fd[P_LEFT]);
+	update_signals(SIG_STATE_IGNORE);
 	waitpid(pid_hd, &exit_status, 0);
-	update_signals(SIGNAL_CHILD);
+	update_signals(SIG_STATE_CHILD);
 	if (exit_status != EXIT_SUCCESS)
 	{
-		set_var_value_int(mbox, "?", exit_status);
+		g_signal_status = SIGNAL_EXIT_HD;
+		set_var_value_int(mbox, "?", WEXITSTATUS(exit_status));
 		close (fd[P_RIGHT]);
 		return (ft_false);
 	}
@@ -83,37 +103,17 @@ t_bool	heredoc_parent(t_mbox *mbox, int pid_hd, int *cmd_in_fd, int *fd)
  * @param cmd_in_fd 
  * @return t_bool 
  */
-t_bool	heredoc(t_mbox *mbox, t_ast *redir_node, int *cmd_in_fd)
+t_bool	heredoc(t_mbox *mbox, t_ast *redir_node, int *cur_p)
 {
 	int		fd[2];
-	int		exit_status;
 	int		pid_hd;
 
 	if (pipe(fd) < 0)
 		return (err_free_and_close_box(mbox, EXIT_FAILURE));
-	update_signals(SIGNAL_PARENT);
 	pid_hd = fork();
 	if (pid_hd < 0)
 		return (err_free_and_close_box(mbox, EXIT_FAILURE));
 	if (pid_hd == 0)
-		heredoc_child(mbox, fd, redir_node->content);
-	return (heredoc_parent(mbox, pid_hd, cmd_in_fd, fd));
+		hd_child(mbox, fd, redir_node->content, cur_p);
+	return (hd_parent(mbox, pid_hd, &mbox->executor.io.cmd_fd[CMD_IN], fd));
 }
-
-	// OLD SHIT!!!	
-	// if (WIFEXITED(exit_status))
-	// 	exit_status = WEXITSTATUS(exit_status);
-	// else if (WIFSIGNALED(exit_status))
-	// {
-	// 	exit_status = WTERMSIG(exit_status) + 128;
-	// 	dprintf(2, "DDDDDDDDDDDDDDDDDDDDDDDDDDDD\nPID %d\n", getpid());
-	// }
-	// else
-	// 	exit_status = 1;
-			// info was written to the reaad end and will be redirected later using dup2
-	// close(fd[P_RIGHT]);
-	// FIX 10.11. 18:45 uncomment later maybe
-	// exit_status_str = ft_itoa(exit_status);
-	// set_var_value(mbox, "?", exit_status_str);
-	// // dprintf(2, "{%s}{%s}\n", exit_status_str, get_var_value(mbox, "?"));
-	// free(exit_status_str);

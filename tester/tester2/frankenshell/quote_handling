@@ -1,0 +1,19 @@
+echo Hi
+echo Frankenshell
+echo "Anatolii and Alex are rocking minishell!"
+echo "" a
+echo hi"" """" """" "''" 
+echo hi"" "" "" ""there
+""
+echo "a' "
+echo "a' " lol
+echo "(a' )"
+echo "(a' )" lol
+echo "HI ''"
+echo 'HI ""'
+< cmd -a
+export A="this is a beautiful"
+echo hi >">" lol
+echo Hello "" World
+echo a ""'' b
+echo a ""''""''""'' b

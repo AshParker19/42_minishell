@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:33:25 by astein            #+#    #+#             */
-/*   Updated: 2023/11/19 22:03:04 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/05 00:55:25 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,12 @@
  * @param   mbox 
  * @param   arg_node 
  */
-void    builtin_unset(t_mbox *mbox, t_ast *arg_node)
+void	builtin_unset(t_mbox *mbox, t_ast *arg_node)
 {
-    while (arg_node)
-    {
-        delete_var(mbox, arg_node->content);
-        arg_node = arg_node->right;
-    }
+	while (arg_node)
+	{
+		delete_var(mbox, arg_node->content);
+		arg_node = arg_node->right;
+	}
 	set_var_value(mbox, "?", EXIT_SUCCESS_STR);
 }
-

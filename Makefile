@@ -9,7 +9,7 @@ DEBUG = 0
 
 # Compiler options
 CC = cc
-CFLAGS = -D DEBUG=$(DEBUG) -g #-Wall -Werror -Wextra  #-gp -fsanitize=address -fsanitize-address-use-after-scope
+CFLAGS = -D DEBUG=$(DEBUG) -g -Wall -Werror -Wextra  #-gp -fsanitize=address -fsanitize-address-use-after-scope
 CLIBS = -L$(LIB_FOLDER) -lft -lm -lreadline
 CINCLUDES  = -I$(INCLUDE_FOLDER) 
 RM = rm -rf
@@ -84,7 +84,7 @@ OBJS = $(SRCS:$(SRC_FOLDER)%.c=$(OBJ_FOLDER)%.o)
 # TARGETS
 .PHONY: all clean fclean re norm
 
-all:  $(NAME)
+all:  art $(NAME)
 
 $(NAME): $(LIBFT) $(OBJS)
 	@$(CC) $(OBJS) $(CFLAGS) $(CLIBS) $(CINCLUDES) -o $(NAME)
@@ -116,7 +116,7 @@ fclean: clean
 re: fclean all
 
 norm:
-	norminette
+	zsh(norminette)
 
 line:
 	norminette | grep "TOO_MANY_LINES"
@@ -149,14 +149,16 @@ DOT:
 stats:
 	./tester/count_stats.sh
 
-t: t1 t2
+t: t1 t2 t3
 
-t1: all
+t1: CFLAGS += -D BASIC_PROMTS=TRUE
+t1: re
 	$(call print_header, "https://github.com/MariaAguiar/minitester")
 	@cp ./minishell ./tester/minishell
 	@cd ./tester/tester1 && bash ./minitester.sh
 
-t2: all
+t2: CFLAGS += -D BASIC_PROMTS=TRUE
+t2: re
 	$(call print_header, "https://github.com/LucasKuhn/minishell_tester")
 	@cp ./minishell ./tester/minishell
 	$(call print_header, NORMAL)
@@ -165,8 +167,11 @@ t2: all
 	@cd ./tester/tester2 && bash ./tester syntax || echo "TEST COMPLETED"
 	$(call print_header, OS SPECIFIC)
 	@cd ./tester/tester2 && bash ./tester os_specific || echo "TEST COMPLETED"
+
+t3: CFLAGS += -D BASIC_PROMTS=TRUE
+t3: re
 	$(call print_header, FRANKENSHELL TEST)
-	@cd ./tester/tester2 && bash ./tester ./frankenshell/tests || echo "TEST COMPLETED"
+	@cd ./tester/tester2 && bash ./tester frankenshell || echo "TEST COMPLETED"
 
 run: all
 	./minishell
@@ -203,8 +208,8 @@ art:
 	@echo "⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠻⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿"
 	@echo "⣿⣿⡿⠿⠛⠛⠋⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠄⠀⠀⠿⢻⣿⣿⣿⣿⣿⣿⣿"
 	@echo "⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠠⠀⠀⠀⠀⠹⢿⣿⣿⣿⣿⣿"
-	@echo "⢀⣀⣀⣀⡀⠀⠀⠀⡀⠀⠀⠀⠀⠀⠀⢠⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡄⠀⠀⠀⠀⠀⠀⠀⡄⢠⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢛⣿⣿⣿⣿"
-	@echo "⢸⡇⠀⠀⠀⣤⠤⣠⠽⢤⠀⢠⡤⢤⡀⢸⠀⣠⠄⣠⠤⣄⠀⣤⠤⢤⠀⡠⠤⣄⠀⣧⠤⣄⠀⣠⠤⣄⠀⡇⢸⡇⠀⠀⠀⠀⠀⠀⢀⡶⢶⣾⢻⣿⣿⣿"
-	@echo "⢸⡏⠉⠉⠀⡇⠀⣠⠖⢺⡇⢺⠀⠀⡇⢸⠾⡅⠀⡗⠒⠚⠀⡇⠀⢸⠀⠑⠶⢤⠀⡇⠀⢸⠀⡗⠒⠚⠀⡇⢸⡇⠀⠀⡀⠀⠀⠀⠀⠉⣉⠉⣸⣿⣿⣿"
-	@echo "⠘⠃⠀⠀⠀⠃⠀⠙⠶⠚⠃⠚⠀⠀⠃⠘⠀⠙⠂⠙⠲⠚⠀⠃⠀⠘⠀⠓⠶⠚⠀⠃⠀⠘⠀⠙⠲⠚⠀⠃⠘⠃⠀⠕⠈⠀⠀⠀⠁⠂⠳⠘⢿⣿⣿⣿"
+	@echo "⠀⢀⣀⣀⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡄⠀⠀⠀⠀⠀⠀⠀⡄ ⡄⠀  ⠀⠀⠀⠀⠀⢛⣿⣿⣿⣿"
+	@echo "⠀⢸⡇⠀⠀⠀⣤⠤⣠⠤⢤⠀⢠⡤⢤⡀⢸⠀⣠⠄⣠⠤⣄⠀⣤⠤⢤⠀⡠⠤⣄⠀⣧⠤⣄⠀⣠⠤⣄⠀⡇ ⡇⠀  ⠀⠀⢀⡶⢶⣾⢻⣿⣿⣿"
+	@echo "⠀⢸⡏⠉⠉⠀⡇⠀⣠⠖⢺⡇⢺⠀⠀⡇⢸⠾⡅⠀⡗⠒⠚⠀⡇⠀⢸⠀⠑⠶⢤⠀⡇⠀⢸⠀⡗⠒⠚⠀⡇ ⡇⠀  ⠀⠀⠀⠉⣉⠉⣸⣿⣿⣿"
+	@echo "⠀⠘⠃⠀⠀⠀⠃⠀⠙⠶⠚⠃⠚⠀⠀⠃⠘⠀⠙⠂⠙⠲⠚⠀⠃⠀⠘⠀⠓⠶⠚⠀⠃⠀⠘⠀⠙⠲⠚⠀⠃ ⠃⠀  ⠀⠀⠁⠂⠳⠘⢿⣿⣿⣿"
 	@echo "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠠⠀⢠⢺⣿⣿⣿⣿"

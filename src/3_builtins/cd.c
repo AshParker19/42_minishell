@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:32:31 by astein            #+#    #+#             */
-/*   Updated: 2023/11/19 17:57:24 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/05 00:46:45 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,21 +23,57 @@
  * @param   mbox 
  * @param   new_path 
  */
-static void change_pwd(t_mbox *mbox, char *new_path)
-{    
-    if (is_var(mbox, "OLDPWD"))
-        set_var_value(mbox, "OLDPWD", getcwd(NULL, 0));
-    if (chdir(new_path) != 0)
-		err_msg(mbox, EXIT_FAILURE, "nnnn", ERR_P, CD, new_path,	
+static void	change_pwd(t_mbox *mbox, char *new_path)
+{
+	char	*temp_pwd;
+
+	if (is_var(mbox, "OLDPWD"))
+	{
+		temp_pwd = getcwd(NULL, 0);
+		set_var_value(mbox, "OLDPWD", temp_pwd);
+		free(temp_pwd);
+	}
+	if (chdir(new_path) != 0)
+		err_msg(mbox, EXIT_FAILURE, "nnnn", ERR_P, CD, new_path,
 			strerror(errno));
 	else
 	{
-		set_var_value(mbox, "?", EXIT_SUCCESS_STR);
+		set_var_value_int(mbox, "?", EXIT_SUCCESS);
 		if (is_var(mbox, "PWD"))
-        	set_var_value(mbox, "PWD", getcwd(NULL, 0));
+		{
+			temp_pwd = getcwd(NULL, 0);
+			set_var_value(mbox, "PWD", temp_pwd);
+			free(temp_pwd);
+		}
 	}
 }
 
+// Check if it's a valid directory
+static void	check_dir(t_mbox *mbox, t_ast *arg_node)
+{
+	struct stat	path_stat;
+
+	if (stat(arg_node->content, &path_stat) == 0)
+	{
+		if (S_ISDIR(path_stat.st_mode))
+		{
+			if (access(arg_node->content, X_OK) == 0)
+				change_pwd(mbox, arg_node->content);
+			else
+				err_msg(mbox, EXIT_FAILURE, "nnnnn", ERR_P, CD,
+					arg_node->content, CS, NO_PERM);
+		}
+		else if (S_ISREG(path_stat.st_mode))
+			err_msg(mbox, EXIT_FAILURE, "nnnnn", ERR_P, CD,
+				arg_node->content, CS, NO_DIR);
+		else
+			err_msg(mbox, EXIT_FAILURE, "nnnnn", ERR_P, CD,
+				arg_node->content, CS, NO_FOD);
+	}
+	else
+		err_msg(mbox, EXIT_FAILURE, "nnnnn", ERR_P, CD,
+			arg_node->content, CS, NO_FOD);
+}
 
 /**
  * @brief   performs multiple tests if the given 'arg_nodes' are correct
@@ -53,47 +89,20 @@ static void change_pwd(t_mbox *mbox, char *new_path)
  *          HOME NOT SET (e.g. via 'unset HOME')
  *              -> no args      ->	cd: HOME not set
  * 
- *          TODO:
- *          "The return status is zero if the directory is successfully changed, non-zero otherwise."
- * 
  * @param   mbox 
  * @param   arg_node 
  */
 void	builtin_cd(t_mbox *mbox, t_ast *arg_node)
 {
-    struct stat path_stat;
-
-    if (!arg_node)
-    {
-        if (is_var(mbox, "HOME"))
-            change_pwd(mbox, get_var_value(mbox, "HOME"));
-        else
-            err_msg(mbox, EXIT_FAILURE, "nn", ERR_P, CD_H);
-    }
-    else if (arg_node->right)
-        err_msg(mbox, EXIT_FAILURE, "nn", ERR_P, CD_A);
-    else
-    {
-        // Check if it's a valid directory
-        if (stat(arg_node->content, &path_stat) == 0)
-        {
-            if (S_ISDIR(path_stat.st_mode))
-            {
-                if (access(arg_node->content, X_OK) == 0) 
-                    change_pwd(mbox, arg_node->content);
-                else
-                    err_msg(mbox, EXIT_FAILURE, "nnnnn", ERR_P, CD,
-                    arg_node->content, CS, NO_PERM);
-            }
-            else if (S_ISREG(path_stat.st_mode))
-                err_msg(mbox, EXIT_FAILURE,"nnnnn", ERR_P, CD,
-                arg_node->content, CS, NO_DIR);
-            else
-                err_msg(mbox, EXIT_FAILURE,"nnnnn", ERR_P, CD,
-                arg_node->content, CS, NO_FOD);
-        }
-        else
-            err_msg(mbox, EXIT_FAILURE,"nnnnn", ERR_P, CD,
-            arg_node->content, CS, NO_FOD);
-    }     
+	if (!arg_node)
+	{
+		if (is_var(mbox, "HOME"))
+			change_pwd(mbox, get_var_value(mbox, "HOME"));
+		else
+			err_msg(mbox, EXIT_FAILURE, "nn", ERR_P, CD_H);
+	}
+	else if (arg_node->right)
+		err_msg(mbox, EXIT_FAILURE, "nn", ERR_P, CD_A);
+	else
+		check_dir(mbox, arg_node);
 }

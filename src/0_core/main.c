@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:06:17 by astein            #+#    #+#             */
-/*   Updated: 2023/12/01 15:19:33 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/05 00:03:24 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	check_args(t_mbox *mbox, int ac, char **av)
 	}
 	else
 		err_msg(mbox, 1, "nn", ERR_P, WN);
-	set_var_value(mbox, "?", EXIT_FAILURE_STR);
+	set_var_value_int(mbox, "?", EXIT_FAILURE);
 	free_and_close_box_v2(mbox);
 }
 
@@ -63,17 +63,11 @@ int	main(int ac, char **av, char **env)
 		if (g_signal_status == SIGNAL_NEW_LINE)
 		{
 			g_signal_status = 0;
-			set_var_value(&mbox, "?", "130");
+			set_var_value_int(&mbox, "?", 130);
 		}
 		if (!mbox.inp_orig)
 			builtin_exit(&mbox, NULL);
-		else if (mbox.inp_orig[0] == '\0')
-			set_var_value(&mbox, "?", "0");
 		else
-		{
-			if (*mbox.inp_orig)
-				save_history(&mbox, mbox.inp_orig);	
 			input_main(&mbox);
-		}
 	}
 }

@@ -3,7 +3,18 @@
 MINISHELL_PATH="../minishell"
 
 # Run a specific test if the file name was specified
-if [[ $1 ]]; then
+
+if [[ $1 == "frankenshell" ]]; then
+	test_lists=(
+		"./frankenshell/quote_handling"
+		"./frankenshell/var_expansion"
+		"./frankenshell/tokenizer"
+		"./frankenshell/parser"
+		"./frankenshell/executor"
+		"./frankenshell/builtins"
+		
+	)
+elif [[ $1 ]]; then
 	test_lists=(
 		$1
 	)
@@ -16,9 +27,12 @@ else
 	)
 fi
 
-if [[ $1 == "wildcards"  || $1 == "bonus" ]]; then
+if [[ $1 == "wildcards" || $1 == "bonus" ]]; then
 	MINISHELL_PATH="../minishell_bonus"
+# elif [[ $1 == "frankenshell" ]]; then
+# 	MINISHELL_PATH="../frankenshell"
 fi
+
 
 BOLD="\e[1m"
 YELLOW="\033[0;33m"

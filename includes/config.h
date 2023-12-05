@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   config.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 16:07:39 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/21 17:58:48 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/04 17:42:08 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,21 +57,31 @@
 
 enum e_signal_state
 {
-	SIGNAL_MAIN,
-	SIGNAL_PARENT,
-	SIGNAL_CHILD,
-	SIGNAL_HEREDOC
+	SIG_STATE_MAIN,
+	SIG_STATE_PARENT,
+	SIG_STATE_CHILD,
+	SIG_STATE_HD_CHILD,
+	SIG_STATE_IGNORE
 };
 
 /******************************# PROMPT FORMAT #*******************************/
-/* promt strings */
-# define PROMPT      "\x1b[36mfrankenshell-->\033[0m "
-# define ERR_P  "\033[38;5;203mfrankenshell:\033[0m "
-# define HEREDOC_PROMPT "\x1b[33mfrankendoc>\033[0m "
-/* test prompts */
-// # define PROMPT								"minishell:"
-// # define ERR_P          					"minishell: "
-// # define HEREDOC_PROMPT 					"> "
+/*
+	The escape sequence '\001' are used to tell readline that
+		the characters between them are non-printing
+		(which in this case is the color sequence)
+		
+	The escape sequence '\002' are used to tell readline that
+		the characters between them are printing.		
+*/
+#ifdef BASIC_PROMTS
+# define PROMPT								"minishell:"
+# define ERR_P          					"minishell: "
+# define HEREDOC_PROMPT 					"> "
+#else
+# define PROMPT "\001\x1b[36m\002frankenshell--> \001\033[0m\002"
+# define ERR_P  "\001\033[38;5;203m\002frankenshell: \001\033[0m\002"
+# define HEREDOC_PROMPT "\001\x1b[33m\002frankendoc> \001\033[0m\002"
+#endif
 
 /******************************# INFINITE LOOPS #******************************/
 

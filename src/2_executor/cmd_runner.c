@@ -3,60 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_runner.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:09:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/01 15:56:01 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/04 22:24:57 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/**
- * @brief	as soon as we find one '/' in the string we think its a path
- * 			errno	exitcode	is path
- *					 				if directory
- *					 					126	cmd is a directory
- *					 				else if is a file
- *					 					if has permissions
- *											we should have executed the file!
- *					 					else
- *			13		126						cmd has no permissions
- *					 				else
- *					127 				127 No such file or directory
- *					 					
- *					 			else
- *					 				127 cmd not found
- * 
- * @param mbox 
- * @param cmd 
- */
-static	void	run_cmd_system_error(t_mbox *mbox, char *cmd)
-{
-	struct stat	path_stat;
 
-	if (ft_strchr(cmd, '/'))
-	{
-		if (stat(cmd, &path_stat) == 0)
-		{
-			if (S_ISREG(path_stat.st_mode))
-				err_msg(mbox, 126, "nnnn", ERR_P, cmd, CS, NO_PERM);
-			else if (S_ISDIR(path_stat.st_mode))
-				err_msg(mbox, 126, "nnnn", ERR_P, cmd, CS, IS_DIR);
-			else
-				err_msg(mbox, 127, "nnnn", ERR_P, cmd, CS, NO_FOD);
-		}
-		else
-			err_msg(mbox, 127, "nnnn", ERR_P, cmd, CS, NO_FOD);
-	}
-	else
-	{
-		if (!*cmd)
-			err_msg(mbox, 127, "nnn", "''", CS, CMD_N_FND);
-		else
-			err_msg(mbox, 127, "nnn", cmd, CS, CMD_N_FND);
-	}
-}
 
 /*
 	decides if the command to be executed is a builtin cmd or a system cmd
@@ -92,34 +48,24 @@ void	run_cmd_system(t_mbox *mbox, t_ast *cmd_node)
 	char	*abs_cmd_path;
 	char	**cur_env;
 	char	**cur_av;
-	int		cur_err_no;
 
+	abs_cmd_path = NULL;
+	cur_env = NULL;
+	cur_av = NULL;
 	abs_cmd_path = get_abs_cmd_path(mbox, cmd_node->content);
+	// dprintf(2, "abs_cmd_path: %s\n", abs_cmd_path);
+	// if (abs_cmd_path && str_cmp_strct(abs_cmd_path, "is_dir"))
+	if (!abs_cmd_path)
+		return ;
 	cur_env = env_to_matrix(mbox, NULL);
 	cur_av = args_to_matrix(mbox, abs_cmd_path, cmd_node->right);
 	if (cur_av)
 		execve(abs_cmd_path, cur_av, cur_env);
-	cur_err_no = errno;
 	if (abs_cmd_path)
 		free (abs_cmd_path);
 	free_whatever("mm", cur_env, cur_av);
-	run_cmd_system_error(mbox, cmd_node->content);
+	// temp_run_cmd_system_error(mbox, cmd_node->content);
 }
-	//OLD STUFF BELOW! 
-	// abs_cmd_path = NULL;
-	// abs_cmd_path = get_cmd_path(mbox, cmd_node->content, -1, ft_true);
-	// if (abs_cmd_path)
-	// {
-	// 	// get_cmd_av(mbox, cmd_node);
-	// 	cur_env = env_to_matrix(mbox, NULL);
-	// 	// execve(abs_cmd_path, mbox->executor.cmd_av, cur_env);
-	// 	set_exit_status(mbox, errno);
-	// 	err_msg(mbox, NO_EXIT_STATUS, "nnnn", ERR_P, cmd_node->content, CS, strerror(errno));
-	// }
-	// else
-	// 	dprintf(2, "abs_cmd_path is NULL\n");
-	// 	// err_msg(mbox, 127, "nnn", cmd_node->content, CS, CMD_N_FND);
-	// free_whatever("mp", cur_env, abs_cmd_path);
 
 /**
  * @brief   traverses through the ll and run builtin cmd via corresponding
@@ -148,7 +94,7 @@ void	run_cmd_builtin(t_mbox *mbox, t_ast *cmd_node, t_bool parent)
 
 t_bool	run_single_builtin(t_mbox *mbox)
 {
-	if (!configure_redir(mbox, mbox->root->left))
+	if (!configure_redir(mbox, mbox->root->left, NULL))
 	{
 		if (mbox->executor.io.cmd_fd[CMD_IN] != -1)
 			close (mbox->executor.io.cmd_fd[CMD_IN]);
