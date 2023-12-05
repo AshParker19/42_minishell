@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 14:36:59 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/05 15:50:39 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/05 15:56:19 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ static t_bool	is_make_empty(t_mbox *mbox, int i, int qs, t_bool check_prev)
 		return (ft_false);
 	if (mbox->inp_trim[i + 1] != qs)
 		return (ft_false);
-	
 	if (mbox->inp_trim[i + 1] && mbox->inp_trim[i + 2]
 		&& !ft_isspace(mbox->inp_trim[i + 2]))
 	{

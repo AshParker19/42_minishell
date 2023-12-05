@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 17:55:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/05 15:51:48 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/05 16:06:17 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 /* data for input/output manipulations */
 typedef struct s_io
 {
-	t_booluse_pipe[2];
+	t_bool	use_pipe[2];
 	int		cmd_fd[2];
 	int		dup_fd[2];
 	int		prev_pipe[2];
@@ -72,7 +72,7 @@ int		cmd_counter(t_ast *ast_node);
 char	**args_to_matrix(t_mbox *mbox, char *cmd, t_ast *arg_node);
 void	close_process_fds_v2(t_mbox *mbox);
 t_bool	allocate_pid_array(t_mbox *mbox);
-t_bool    hd_parent_wait(t_mbox *mbox, int *cur_p, t_ast *node_cpy,
+t_bool	hd_parent_wait(t_mbox *mbox, int *cur_p, t_ast *node_cpy,
 			int kid_pid);
 
 char	*get_abs_cmd_path(t_mbox *mbox, char *cmd);

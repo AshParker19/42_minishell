@@ -6,27 +6,11 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 19:28:09 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/05 15:51:10 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/05 15:58:43 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// /**
-//  * @brief	
-//  * 			
-//  * 			
-//  * 			
-//  * 
-//  * @param	mbox 
-//  * @param	fd 
-//  * @param	lim 
-//  * @param	line 
-//  */
-// void	check_ctrl_d(t_mbox *mbox, int *fd, char *lim, char *line)
-// {
-	
-// }
 
 /**
  * @brief   this function gets a string and should return a copied str of the

@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:19:44 by astein            #+#    #+#             */
-/*   Updated: 2023/12/05 15:49:35 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/05 15:58:04 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@ static void	exec_child(t_mbox *mbox, t_ast *cmd_node, int *cur_p)
 	free_and_close_box_v2(mbox);
 }
 
-static t_bool	exec_parent(t_mbox *mbox, int *cur_p, t_ast *node, int child_pid)
+static t_bool	exec_parent(t_mbox *mbox, int *cur_p, t_ast *node, int kid_pid)
 {
 	t_ast	*cmd_node_cpy;
-	
+
 	if (node->cmd_pos == FIRST_CMD || node->cmd_pos == MIDDLE_CMD)
 		close(cur_p[P_LEFT]);
 	if (node->cmd_pos != FIRST_CMD && node->cmd_pos != SINGLE_CMD)
@@ -48,7 +48,7 @@ static t_bool	exec_parent(t_mbox *mbox, int *cur_p, t_ast *node, int child_pid)
 	mbox->executor.io.prev_pipe[P_LEFT] = cur_p[P_LEFT];
 	close_process_fds_v2(mbox);
 	cmd_node_cpy = node;
-	return (hd_parent_wait(mbox, cur_p, cmd_node_cpy, child_pid));
+	return (hd_parent_wait(mbox, cur_p, cmd_node_cpy, kid_pid));
 }
 
 /**
@@ -62,7 +62,7 @@ static t_bool	exec_parent(t_mbox *mbox, int *cur_p, t_ast *node, int child_pid)
 static t_bool	execute_cmd(t_mbox *mbox, t_ast *cmd_node, int cmd_pos)
 {
 	int	cur_pipe[2];
-	int child_pid;
+	int	child_pid;
 
 	cur_pipe[0] = -1;
 	cur_pipe[1] = -1;

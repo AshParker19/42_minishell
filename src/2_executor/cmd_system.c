@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 13:07:56 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/05 15:49:51 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/05 15:58:20 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ char	*seperate_cmd_from_path(char *path, t_bool free_path)
 		free(path);
 	return (cmd);
 }
-
 
 char	**tmp_freer(char *args_str, char *lim_null)
 {

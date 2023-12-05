@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_utils2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 17:19:11 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/05 00:07:29 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/05 15:55:58 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void	free_tokens_v2(t_mbox *mbox)
 		cur = mbox->tokens;
 		mbox->tokens = mbox->tokens->next;
 		if (cur->value)
-			free(cur->value);	
+			free(cur->value);
 		free(cur);
 	}
 	mbox->tokens = NULL;

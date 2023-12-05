@@ -6,12 +6,11 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 13:48:08 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/05 14:30:07 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/05 16:01:13 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 /**
  * @brief	as soon as we find one '/' in the string we think its a path
@@ -37,9 +36,9 @@
 static	char	*temp_run_cmd_system_error(t_mbox *mbox, char *cmd)
 {
 	struct stat	path_stat;
-	
+
 	stat(cmd, &path_stat);
-	if (ft_strchr(cmd, '/')  && S_ISDIR(path_stat.st_mode))
+	if (ft_strchr(cmd, '/') && S_ISDIR(path_stat.st_mode))
 		err_msg(mbox, 126, "nnnn", ERR_P, cmd, CS, IS_DIR);
 	else if (ft_strchr(cmd, '/') && S_ISREG(path_stat.st_mode))
 	{
@@ -60,31 +59,31 @@ static	char	*temp_run_cmd_system_error(t_mbox *mbox, char *cmd)
 	return (NULL);
 }
 
-static char *get_abs_cmd_path_from_var(t_mbox *mbox, char *cmd)
+static char	*get_abs_cmd_path_from_var(t_mbox *mbox, char *cmd)
 {
 	char	**path_dirs;
 	int		i;
-    char    *path;
+	char	*path;
 
 	path = NULL;
-    path_dirs = ft_split(get_var_value(mbox, "PATH"), ':');
-    if (path_dirs) // NO PATH VARIALE so no change to find an absolute path (CASE: unset PATH)
-    {
-        i = -1;
-            while (path_dirs[++i])
-        {
-            path = ft_strcat_multi(3, path_dirs[i], "/", cmd);
-            if (!access(path, F_OK))
-                break ;
-            else
-            {
-                free (path);   
-                path = NULL;
-            }
-        }
-        free_whatever("m", path_dirs);
-    }
-    return (path);
+	path_dirs = ft_split(get_var_value(mbox, "PATH"), ':');
+	if (path_dirs)
+	{
+		i = -1;
+		while (path_dirs[++i])
+		{
+			path = ft_strcat_multi(3, path_dirs[i], "/", cmd);
+			if (!access(path, F_OK))
+				break ;
+			else
+			{
+				free (path);
+				path = NULL;
+			}
+		}
+		free_whatever("m", path_dirs);
+	}
+	return (path);
 }
 
 /**
@@ -107,7 +106,7 @@ char	*get_abs_cmd_path(t_mbox *mbox, char *cmd)
 	char	*path;
 
 	path = NULL;
-	if (!*cmd)	
+	if (!*cmd)
 	{
 		err_msg(mbox, 127, "nnnn", ERR_P, "''", CS, CMD_N_FND);
 		return (NULL);
@@ -124,12 +123,12 @@ char	*get_abs_cmd_path(t_mbox *mbox, char *cmd)
  *          if the cmd has a hd it makes the parent wait for the child to finish
  * 
  */
-t_bool    hd_parent_wait(t_mbox *mbox, int *cur_p, t_ast *node_cpy, int kid_pid)
+t_bool	hd_parent_wait(t_mbox *mbox, int *cur_p, t_ast *node_cpy, int kid_pid)
 {
-    int exit_status;
+	int	exit_status;
 
-    exit_status = 0;
-    while (node_cpy->left)
+	exit_status = 0;
+	while (node_cpy->left)
 	{
 		node_cpy = node_cpy->left;
 		if (node_cpy->type == RED_IN_HD)
@@ -140,15 +139,15 @@ t_bool    hd_parent_wait(t_mbox *mbox, int *cur_p, t_ast *node_cpy, int kid_pid)
 			set_var_value_int(mbox, "?", WEXITSTATUS(exit_status));
 			if (exit_status != EXIT_SUCCESS)
 			{
-				if(cur_p[P_LEFT] != -1)
+				if (cur_p[P_LEFT] != -1)
 					close(cur_p[P_LEFT]);
-				if(cur_p[P_RIGHT] != -1)
+				if (cur_p[P_RIGHT] != -1)
 					close(cur_p[P_RIGHT]);
 				g_signal_status = SIGNAL_EXIT_HD;
 				return (ft_false);
 			}
-            return (ft_true);
+			return (ft_true);
 		}
 	}
-    return (ft_true);
+	return (ft_true);
 }

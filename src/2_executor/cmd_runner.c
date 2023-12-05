@@ -3,22 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_runner.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:09:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/04 22:24:57 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/05 16:03:04 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-
-
-/*
-	decides if the command to be executed is a builtin cmd or a system cmd
-
-	ALWAYS PERFORED IN CHILD
-*/
 
 /**
  * @brief	checks if the command node exists and has a value
@@ -53,8 +45,6 @@ void	run_cmd_system(t_mbox *mbox, t_ast *cmd_node)
 	cur_env = NULL;
 	cur_av = NULL;
 	abs_cmd_path = get_abs_cmd_path(mbox, cmd_node->content);
-	// dprintf(2, "abs_cmd_path: %s\n", abs_cmd_path);
-	// if (abs_cmd_path && str_cmp_strct(abs_cmd_path, "is_dir"))
 	if (!abs_cmd_path)
 		return ;
 	cur_env = env_to_matrix(mbox, NULL);
@@ -64,7 +54,6 @@ void	run_cmd_system(t_mbox *mbox, t_ast *cmd_node)
 	if (abs_cmd_path)
 		free (abs_cmd_path);
 	free_whatever("mm", cur_env, cur_av);
-	// temp_run_cmd_system_error(mbox, cmd_node->content);
 }
 
 /**

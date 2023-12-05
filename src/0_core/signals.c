@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 19:30:56 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/04 18:43:05 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/05 16:03:47 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ static void	sh_print(int signal)
 	else if (signal == SIGINT)
 		ft_putstr_fd("\n", STDERR_FILENO);
 }
-
 
 static void	sh_hd(int signal)
 {

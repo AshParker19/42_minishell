@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:47:15 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/04 18:46:03 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/05 16:01:44 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static t_bool	create_open_file_err(t_mbox *mbox, char *fn)
 
 static t_bool	setup_redir_in(t_mbox *mbox, t_ast *redir_node, int *cur_p)
 {
-	int *in_fd;
+	int	*in_fd;
 
 	in_fd = &mbox->executor.io.cmd_fd[CMD_IN];
 	if (redir_node->type == RED_IN)
@@ -54,7 +54,7 @@ static t_bool	setup_redir_in(t_mbox *mbox, t_ast *redir_node, int *cur_p)
 
 static t_bool	setup_redir_out(t_mbox *mbox, t_ast *redir_node)
 {
-	int *out;
+	int	*out;
 
 	out = &mbox->executor.io.cmd_fd[CMD_OUT];
 	if (redir_node->type == RED_OUT_TR)
@@ -85,7 +85,7 @@ static t_bool	redir_io(t_mbox *mbox, t_ast *redir_node, int *cur_p)
 	{
 		if (tmp->type == RED_IN || tmp->type == RED_IN_HD)
 		{
-			if (!setup_redir_in(mbox, tmp, cur_p)) // can I do return(setup_redir_in(mbox, tmp, in))?
+			if (!setup_redir_in(mbox, tmp, cur_p))
 				return (ft_false);
 		}
 		else if (tmp->type == RED_OUT_TR || tmp->type == RED_OUT_AP)

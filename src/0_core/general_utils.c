@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:43:17 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/05 15:44:22 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/05 16:05:00 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void	err_msg(t_mbox *mbox, int exit_status, const char *format, ...)
 	va_list	args;
 	char	*err_msg;
 	char	*str;
+
 	va_start(args, format);
 	err_msg = NULL;
 	while (*format)
@@ -95,4 +96,3 @@ void	err_msg(t_mbox *mbox, int exit_status, const char *format, ...)
 	va_end(args);
 	tmp_conclusion(mbox, err_msg, exit_status);
 }
-
