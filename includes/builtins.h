@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 11:32:13 by astein            #+#    #+#             */
-/*   Updated: 2023/12/05 10:20:01 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/05 15:08:00 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,9 @@ t_bool	is_cmd_builtin(t_mbox *mbox, char *cmd);
 void	run_cmd_builtin(t_mbox *mbox, t_ast *cmd_node, t_bool parent);
 void	save_history(t_mbox *mbox);
 void	del_history_node(void *content);
+void    case_equal_sign(t_mbox *mbox, t_ast *arg_node, t_bool *fnd_err, char *equal_sign);
+void    case_no_equal_sign(t_mbox *mbox, t_ast *arg_node, t_bool *fnd_err);
+
+
 
 #endif

@@ -3,41 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:33:09 by astein            #+#    #+#             */
-/*   Updated: 2023/12/05 00:54:41 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/05 15:08:57 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// check if first char is alpha or _
-// check if all other chars are alphanum including _
-/**
- * @brief   checks if the 'key' is valid
- *          - can't be NULL
- *          - the first char has to be alpha or '_'
- *          - the rest has to alphanum or '_'
- * 
- * @param   key 
- * @return  t_bool 
- */
-static t_bool	validate_key(char *key)
-{
-	if (!key)
-		return (ft_false);
-	if (key[0] != '_' && !ft_isalpha(key[0]))
-		return (ft_false);
-	key++;
-	while (*key)
-	{
-		if (*key != '_' && !ft_isalnum(*key))
-			return (ft_false);
-		key++;
-	}
-	return (ft_true);
-}
 
 /**
  * @brief   recursively traverses through the ll and return
@@ -117,59 +90,42 @@ static void	sort_and_print_var(const t_mbox *mbox)
  *                  sorts & prints the 't_env' ll via 'sort_and_print_var'
  *              else
  *                for each 'arg_node'
- *                  CASE: correct (PATH=hello)
- *                          ->add/changes value in ll
- *                  CASE: no equal sign & correct key (PATH)
- *                          ->ignores the arg / dont do nothing
- *                  CASE: equal sign & wrong key (@=lol)
- *                          -> export: `@=LL': not a valid identifier
- *                  CASE: no equal sign & wrong key (@)
- *                          -> export: `@': not a valid identifier
- * @param   mbox 
+ * 	
+ * 					CASE: NO EQUAL SIGN
+ *						CASE: no equal sign & correct key (PATH)
+ *							->ignores the arg / dont do nothing
+ *						CASE: no equal sign & wrong key (@)
+ *							-> export: `@': not a valid identifier
+ * 
+ * 					CASE: EQUAL SIGN
+ *						CASE: correct (PATH=hello)
+ *							->add/changes value in ll
+ *						CASE: equal sign & wrong key (@=lol)
+ *							-> export: `@=LL': not a valid identifier
+ * 
  * @param   arg_node 
+ * @param   mbox 
  */
 void	builtin_export(t_mbox *mbox, t_ast *arg_node)
 {
 	char	*equal_sign;
-	char	*key;
-	char	*value;
-	t_bool	all_args_correct;
+	t_bool	fnd_err;
 
-	all_args_correct = ft_true;
+	fnd_err = ft_true;
 	if (!arg_node)
 		sort_and_print_var(mbox);
 	while (arg_node)
 	{
 		equal_sign = NULL;
 		equal_sign = ft_strchr(arg_node->content, '=');
-		if (!equal_sign)
-		{
-			if (!validate_key(arg_node->content))
-			{
-				err_msg(mbox, NO_EXIT_STATUS, "nnnnnn", ERR_P, "export: `",
-					arg_node->content, SQ, CS, NO_VI);
-				all_args_correct = ft_false;
-			}
-		}
+		if (equal_sign)
+			case_equal_sign(mbox, arg_node, &fnd_err, equal_sign);
 		else
-		{
-			key = ft_substr(arg_node->content, 0,
-					ft_strlen(arg_node->content) - ft_strlen(equal_sign));
-			value = ft_substr(equal_sign, 1, ft_strlen(equal_sign) - 1);
-			if (validate_key(key))
-				set_var_value(mbox, key, value);
-			else
-			{
-				err_msg(mbox, NO_EXIT_STATUS, "nnnnnn", ERR_P, "export: `",
-					arg_node->content, SQ, CS, NO_VI);
-				all_args_correct = ft_false;
-			}
-			free_whatever("pp", key, value);
-		}
+			case_no_equal_sign(mbox, arg_node, &fnd_err);
 		arg_node = arg_node->right;
 	}
-	if (all_args_correct)
-		set_var_value(mbox, "?", EXIT_SUCCESS_STR);
+	if (fnd_err)
+		set_var_value_int(mbox, "?", EXIT_SUCCESS);
 	else
-		set_var_value(mbox, "?", EXIT_FAILURE_STR);
+		set_var_value_int(mbox, "?", EXIT_FAILURE);
 }

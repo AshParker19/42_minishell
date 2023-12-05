@@ -70,6 +70,7 @@ SRCS = $(addprefix $(SRC_FOLDER), 						\
 	3_builtins/echo.c									\
 	3_builtins/pwd.c									\
 	3_builtins/export.c									\
+	3_builtins/export_utils.c							\
 	3_builtins/unset.c									\
 	3_builtins/env.c									\
 	3_builtins/exit.c									\
