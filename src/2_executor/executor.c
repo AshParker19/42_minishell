@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:19:44 by astein            #+#    #+#             */
-/*   Updated: 2023/12/05 15:58:04 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/05 16:56:39 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,10 @@
 
 static void	exec_child(t_mbox *mbox, t_ast *cmd_node, int *cur_p)
 {
-	update_signals(SIG_STATE_CHILD);
+	if (is_cmd_builtin(mbox, cmd_node->content))
+		update_signals(SIG_STATE_CHILD_BUILTIN);
+	else
+		update_signals(SIG_STATE_CHILD);
 	setup_pipes(mbox, cur_p);
 	if (!configure_redir(mbox, cmd_node->left, cur_p))
 	{

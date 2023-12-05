@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 19:30:56 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/05 16:03:47 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/05 16:59:36 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,26 @@ static void	sh_main(int signal)
 	}
 }
 
+static void	update_signals_child(int sig_state)
+{
+	if (sig_state == SIG_STATE_CHILD)
+	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
+	}
+	else if (sig_state == SIG_STATE_CHILD_BUILTIN)
+	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
+		signal(SIGPIPE, SIG_IGN);	
+	}
+	else if (sig_state == SIG_STATE_HD_CHILD)
+	{
+		signal(SIGINT, sh_hd);
+		signal(SIGQUIT, SIG_IGN);
+	}
+}
+
 /**
  * @brief   Whenever we fork we need to adjust the signal handling in the 
  *          child and parent. This can be done with this function using the
@@ -78,19 +98,14 @@ void	update_signals(int sig_state)
 		signal(SIGINT, sh_print);
 		signal(SIGQUIT, sh_print);
 	}
-	else if (sig_state == SIG_STATE_CHILD)
-	{
-		signal(SIGINT, SIG_DFL);
-		signal(SIGQUIT, SIG_DFL);
-	}
-	else if (sig_state == SIG_STATE_HD_CHILD)
-	{
-		signal(SIGINT, sh_hd);
-		signal(SIGQUIT, SIG_IGN);
-	}
 	else if (sig_state == SIG_STATE_IGNORE)
 	{
 		signal(SIGINT, SIG_IGN);
 		signal(SIGQUIT, SIG_IGN);
 	}
+	else
+		update_signals_child(sig_state);
+
+		
+
 }

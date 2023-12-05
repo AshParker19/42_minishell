@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 16:07:39 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/05 15:42:50 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/05 16:57:00 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ enum e_signal_state
 	SIG_STATE_MAIN,
 	SIG_STATE_PARENT,
 	SIG_STATE_CHILD,
+	SIG_STATE_CHILD_BUILTIN,
 	SIG_STATE_HD_CHILD,
 	SIG_STATE_IGNORE
 };
