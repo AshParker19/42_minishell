@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:19:44 by astein            #+#    #+#             */
-/*   Updated: 2023/12/05 15:34:24 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/05 15:49:35 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	exec_child(t_mbox *mbox, t_ast *cmd_node, int *cur_p)
 			close(mbox->executor.io.prev_pipe[P_RIGHT]);
 		free_and_close_box_v2(mbox);
 	}
-	setup_process_std(mbox);
+	setup_process_std_tmp(mbox);
 	if (cmd_node->cmd_pos == FIRST_CMD || cmd_node->cmd_pos == MIDDLE_CMD)
 		close(cur_p[P_RIGHT]);
 	if (cmd_node->cmd_pos != FIRST_CMD
@@ -123,7 +123,7 @@ static void	wait_for_execution(t_mbox *mbox)
  * @param	mbox 
  * @return	t_bool 
  */
-void	execute(t_mbox *mbox) //TODO: do exit for builtins
+void	execute(t_mbox *mbox)
 {
 	t_ast	*cur;
 

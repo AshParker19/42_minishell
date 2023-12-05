@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   general_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:43:17 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/05 00:20:18 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/05 15:44:22 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,40 +96,3 @@ void	err_msg(t_mbox *mbox, int exit_status, const char *format, ...)
 	tmp_conclusion(mbox, err_msg, exit_status);
 }
 
-/**
- * @brief 		NOTE:
- * 				This function can be uses similar like
- * 				dprintf(2, ...);
- * 
- * 				But it only will be printed if minishell is run with --info
- * 
- * @param mbox 
- * @param color 
- * @param format 
- * @param ... 
- */
-void	put_info_msg(t_mbox *mbox, const char *format, ...)// TODO://this function wasnt freeing properly so I removed it for the time being
-{
-	va_list	args;
-	char	*info_msg;
-	char	*str;
-
-	if (!mbox->print_info)
-		return ;
-	va_start(args, format);
-	info_msg = ft_strdup(RED" >>>INFO MSG>>> \n"RESET);
-	while (*format)
-	{
-		str = va_arg(args, char *);
-		if (str)
-		{
-			info_msg = append_str(info_msg, str, ft_false);
-			info_msg = append_str(info_msg, " ", ft_false);
-			if (*format == 'y')
-				free (str);
-		}
-		format++;
-	}
-	va_end(args);
-	tmp_conclusion(mbox, info_msg, NO_EXIT_STATUS);
-}

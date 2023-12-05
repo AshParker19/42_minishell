@@ -6,14 +6,14 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 13:07:56 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/05 13:55:50 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/05 15:49:51 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * @brief 		NOTE: MALLOCS!
+ * @brief 		
  * 
  * 				TODO: maybe move to general utils maybe make static?
  * 

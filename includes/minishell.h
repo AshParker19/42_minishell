@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2023/12/05 11:12:20 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/05 15:44:32 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,6 @@ void	print_executor_output(t_mbox *mbox, t_bool top_part);
 void	reset_cycle(t_mbox *mbox);
 t_bool	err_free_and_close_box(t_mbox *mbox, int exit_status);
 void	err_msg(t_mbox *mbox, int exit_status, const char *format, ...);
-void	put_info_msg(t_mbox *mbox, const char *format, ...);
 void	*create_syntax_err(t_mbox *mbox, t_token *err_token);
 
 #endif

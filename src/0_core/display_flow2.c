@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   display_flow2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 09:32:49 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/03 20:43:36 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/05 15:43:26 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ void	print_executor_output(t_mbox *mbox, t_bool top_part)
 	{
 		temp = ft_itoa(cmd_counter(mbox->root));
 		if (!temp)
-			return ; // TODO: malloc error
+			return ;
 		put_headline("EXECUTOR", ft_strcat_multi(3, "(cmd count: ", temp, ")"),
 			GREEN);
 		free(temp);

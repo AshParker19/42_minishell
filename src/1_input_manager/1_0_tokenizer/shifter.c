@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 14:36:59 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/05 10:45:11 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/05 15:50:39 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,6 @@ static void	empty_quotes(t_mbox *mbox, int i, t_bool check_prev, int qs)
 					mbox->inp_shift[i] = NO_SPACE;
 				mbox->inp_shift[i + 1] = NO_SPACE;
 				i++;
-				// mbox->inp_trim[i] = mbox->inp_trim[i];
 				update_quote_state(&qs, mbox->inp_trim[i], ft_false);
 			}
 		}

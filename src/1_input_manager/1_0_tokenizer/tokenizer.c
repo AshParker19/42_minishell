@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 12:11:14 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/04 23:42:32 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/05 15:46:05 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,6 +166,8 @@ t_bool	tokenize(t_mbox *mbox, int i)
 	char	**no_space;
 
 	no_space = ft_split(mbox->inp_expand, NO_SPACE);
+	if (!no_space)
+		return (ft_false);
 	while (no_space[i])
 	{
 		if (!check_space_between_redir(mbox, no_space[i], no_space[i + 1]))
@@ -183,6 +185,6 @@ t_bool	tokenize(t_mbox *mbox, int i)
 	free_whatever("m", no_space);
 	print_tokenizer_output(mbox);
 	if (!mbox->tokens)
-		return (ft_false); //TODO: check return values of all the funcs and check if the list didnt fail in the middle
+		return (ft_false);
 	return (ft_true);
 }

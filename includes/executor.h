@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 17:55:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/05 15:29:30 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/05 15:51:48 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 /* data for input/output manipulations */
 typedef struct s_io
 {
-	t_bool	use_pipe[2];
+	t_booluse_pipe[2];
 	int		cmd_fd[2];
 	int		dup_fd[2];
 	int		prev_pipe[2];
@@ -54,7 +54,7 @@ t_bool	run_single_builtin(t_mbox *mbox);
 /* pipes */
 void	setup_use_pipe(t_mbox *mbox, int status);
 void	setup_pipes(t_mbox *mbox, int *cur_pipe);
-void	setup_process_std(t_mbox *mbox);
+void	setup_process_std_tmp(t_mbox *mbox);
 
 /* redirections */
 t_bool	configure_redir(t_mbox *mbox, t_ast *redir_node, int *cur_p);

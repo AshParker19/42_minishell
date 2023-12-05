@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 19:28:09 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/04 23:06:56 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/05 15:51:10 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,9 @@ char	*get_key(char *str, int *i)
 /**
  * @brief	will be called to properly end the heredoc child process
  * 
+ * 
+ * 	close(hd->fd[P_LEFT]); // close because it was WRITE END
+ * 
  * @param	mbox 
  * @param	fd 
  * @param	lim 
@@ -85,7 +88,7 @@ char	*get_key(char *str, int *i)
  */
 void	exit_heredoc_child(t_mbox *mbox, t_hd *hd, int exit_status)
 {
-	close(hd->fd[P_LEFT]); // close because it was WRITE END
+	close(hd->fd[P_LEFT]);
 	free_whatever("pp", hd->lim, hd->cur_line);
 	set_var_value_int(mbox, "?", exit_status);
 	close_process_fds_v2(mbox);

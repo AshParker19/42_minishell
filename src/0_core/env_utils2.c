@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 22:47:09 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/05 00:16:01 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/05 15:44:44 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	tmp_add_back(t_mbox *mbox, t_env *new_var) //TODO: create universal function for adding the node at the end ot use something from libft
+static void	tmp_add_back(t_mbox *mbox, t_env *new_var)
 {
 	t_env	*cur;
 
