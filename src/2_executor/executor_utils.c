@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:23:39 by astein            #+#    #+#             */
-/*   Updated: 2023/12/01 16:00:28 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/05 15:31:26 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,14 @@ int	cmd_counter(t_ast *ast_node)
  * 
  * @param	mbox 
  */
-void	initialize_io(t_mbox *mbox)
+void	initialize_io(t_mbox *mbox, t_ast *cur, int cmd_pos)
 {
 	mbox->executor.io.cmd_fd[CMD_IN] = -1;
 	mbox->executor.io.cmd_fd[CMD_OUT] = -1;
 	mbox->executor.io.dup_fd[CMD_IN] = -1;
 	mbox->executor.io.dup_fd[CMD_OUT] = -1;
+	if (cur)
+		cur->cmd_pos = cmd_pos;
 }
 
 /**

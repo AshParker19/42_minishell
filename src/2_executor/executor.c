@@ -6,40 +6,42 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:19:44 by astein            #+#    #+#             */
-/*   Updated: 2023/12/05 14:29:03 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/05 15:34:24 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	exec_child(t_mbox *mbox, t_ast *cmd_node, int cmd_pos, int *cur_p)
+static void	exec_child(t_mbox *mbox, t_ast *cmd_node, int *cur_p)
 {
 	update_signals(SIG_STATE_CHILD);
 	setup_pipes(mbox, cur_p);
 	if (!configure_redir(mbox, cmd_node->left, cur_p))
 	{
-		if (cmd_pos == FIRST_CMD || cmd_pos == MIDDLE_CMD)
+		if (cmd_node->cmd_pos == FIRST_CMD || cmd_node->cmd_pos == MIDDLE_CMD)
 			close(cur_p[P_RIGHT]);
-		if (cmd_pos != FIRST_CMD && mbox->executor.io.prev_pipe[P_RIGHT] != -1)
+		if (cmd_node->cmd_pos != FIRST_CMD
+			&& mbox->executor.io.prev_pipe[P_RIGHT] != -1)
 			close(mbox->executor.io.prev_pipe[P_RIGHT]);
 		free_and_close_box_v2(mbox);
 	}
 	setup_process_std(mbox);
-	if (cmd_pos == FIRST_CMD || cmd_pos == MIDDLE_CMD)
+	if (cmd_node->cmd_pos == FIRST_CMD || cmd_node->cmd_pos == MIDDLE_CMD)
 		close(cur_p[P_RIGHT]);
-	if (cmd_pos != FIRST_CMD && mbox->executor.io.prev_pipe[P_RIGHT] != -1)
+	if (cmd_node->cmd_pos != FIRST_CMD
+		&& mbox->executor.io.prev_pipe[P_RIGHT] != -1)
 		close(mbox->executor.io.prev_pipe[P_RIGHT]);
 	run_cmd_main(mbox, cmd_node);
 	free_and_close_box_v2(mbox);
 }
 
-static t_bool	exec_parent(t_mbox *mbox, int cmd_pos, int *cur_p, t_ast *node, int child_pid)
+static t_bool	exec_parent(t_mbox *mbox, int *cur_p, t_ast *node, int child_pid)
 {
 	t_ast	*cmd_node_cpy;
 	
-	if (cmd_pos == FIRST_CMD || cmd_pos == MIDDLE_CMD)
+	if (node->cmd_pos == FIRST_CMD || node->cmd_pos == MIDDLE_CMD)
 		close(cur_p[P_LEFT]);
-	if (cmd_pos != FIRST_CMD && cmd_pos != SINGLE_CMD)
+	if (node->cmd_pos != FIRST_CMD && node->cmd_pos != SINGLE_CMD)
 		close(mbox->executor.io.prev_pipe[P_RIGHT]);
 	mbox->executor.pid_index++;
 	mbox->executor.io.prev_pipe[P_RIGHT] = cur_p[P_RIGHT];
@@ -64,7 +66,7 @@ static t_bool	execute_cmd(t_mbox *mbox, t_ast *cmd_node, int cmd_pos)
 
 	cur_pipe[0] = -1;
 	cur_pipe[1] = -1;
-	initialize_io(mbox);
+	initialize_io(mbox, cmd_node, cmd_pos);
 	if (cmd_pos == SINGLE_CMD && is_cmd_builtin(mbox, cmd_node->content))
 		return (run_single_builtin(mbox));
 	else
@@ -79,9 +81,9 @@ static t_bool	execute_cmd(t_mbox *mbox, t_ast *cmd_node, int cmd_pos)
 			return (err_free_and_close_box(mbox, EXIT_FAILURE));
 		update_signals(SIG_STATE_PARENT);
 		if (child_pid == 0)
-			exec_child(mbox, cmd_node, cmd_pos, cur_pipe);
+			exec_child(mbox, cmd_node, cur_pipe);
 		else
-			return (exec_parent(mbox, cmd_pos, cur_pipe, cmd_node, child_pid));
+			return (exec_parent(mbox, cur_pipe, cmd_node, child_pid));
 	}
 	return (ft_true);
 }

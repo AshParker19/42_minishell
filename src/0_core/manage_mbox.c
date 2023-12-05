@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manage_mbox.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:49:13 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/04 18:45:32 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/05 15:31:50 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	initialize_box_v2(t_mbox *mbox, char **env)
 	mbox->tmp_token = NULL;
 	mbox->root = NULL;
 	mbox->tmp_node = NULL;
-	initialize_io(mbox);
+	initialize_io(mbox, NULL, 0);
 	mbox->executor.pid = NULL;
 	mbox->count_cycles = 0;
 	mbox->print_info = ft_false;

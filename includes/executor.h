@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 17:55:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/05 14:28:55 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/05 15:29:30 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ t_bool	check_lim_qoutes(char **str);
 char	*expand_heredoc_input(t_mbox *mbox, char *str);
 
 /* executor_utils */
-void	initialize_io(t_mbox *mbox);
+void	initialize_io(t_mbox *mbox, t_ast *cur, int cmd_pos);
 int		cmd_counter(t_ast *ast_node);
 char	**args_to_matrix(t_mbox *mbox, char *cmd, t_ast *arg_node);
 void	close_process_fds_v2(t_mbox *mbox);

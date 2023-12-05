@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 15:35:02 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/05 11:59:54 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/05 15:19:42 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct s_token
 typedef struct s_ast
 {
 	int				type;
+	int				cmd_pos;
 	char			*content;
 	struct s_ast	*left;
 	struct s_ast	*right;
