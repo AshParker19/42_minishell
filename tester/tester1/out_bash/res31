@@ -1,1 +1,2 @@
-cat: Makefile: No such file or directory
+cat: Makefileminishell: cd: file_not_exit: No such file or directory
+: No such file or directory

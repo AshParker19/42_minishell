@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 19:30:56 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/05 16:59:36 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/05 17:03:35 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static void	update_signals_child(int sig_state)
 	{
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
-		signal(SIGPIPE, SIG_IGN);	
+		signal(SIGPIPE, SIG_IGN);
 	}
 	else if (sig_state == SIG_STATE_HD_CHILD)
 	{
@@ -105,7 +105,4 @@ void	update_signals(int sig_state)
 	}
 	else
 		update_signals_child(sig_state);
-
-		
-
 }
