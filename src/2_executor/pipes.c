@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:23:27 by astein            #+#    #+#             */
-/*   Updated: 2023/12/01 16:11:21 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/05 15:48:31 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	setup_pipes(t_mbox *mbox, int *cur_pipe)
 		mbox->executor.io.cmd_fd[CMD_OUT] = cur_pipe[P_LEFT];
 }
 
-void	setup_process_std(t_mbox *mbox) //TODO: rename it 
+void	setup_process_std_tmp(t_mbox *mbox)
 {
 	if (mbox->executor.io.cmd_fd[CMD_IN] != -1)
 	{
@@ -74,6 +74,6 @@ void	setup_process_std(t_mbox *mbox) //TODO: rename it
 		mbox->executor.io.dup_fd[CMD_OUT]
 			= dup2(mbox->executor.io.cmd_fd[CMD_OUT], STDOUT_FILENO);
 		if (mbox->executor.io.dup_fd[CMD_OUT] < 0)
-			err_free_and_close_box(mbox, EXIT_FAILURE); // TODO: we should exit from the whole program not only child process
+			err_free_and_close_box(mbox, EXIT_FAILURE);
 	}
 }

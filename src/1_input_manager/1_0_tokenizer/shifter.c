@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shifter.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 14:36:59 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/04 12:04:58 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/05 15:56:19 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ static t_bool	is_make_empty(t_mbox *mbox, int i, int qs, t_bool check_prev)
 		return (ft_false);
 	if (mbox->inp_trim[i + 1] != qs)
 		return (ft_false);
-	
 	if (mbox->inp_trim[i + 1] && mbox->inp_trim[i + 2]
 		&& !ft_isspace(mbox->inp_trim[i + 2]))
 	{
@@ -149,7 +148,6 @@ static void	empty_quotes(t_mbox *mbox, int i, t_bool check_prev, int qs)
 					mbox->inp_shift[i] = NO_SPACE;
 				mbox->inp_shift[i + 1] = NO_SPACE;
 				i++;
-				// mbox->inp_trim[i] = mbox->inp_trim[i];
 				update_quote_state(&qs, mbox->inp_trim[i], ft_false);
 			}
 		}
@@ -180,7 +178,6 @@ t_bool	shift_context_chars(t_mbox *mbox, int i, int quote_state)
 {
 	mbox->inp_shift = ft_strdup(mbox->inp_trim);
 	empty_quotes(mbox, 0, ft_true, OUT_Q);
-	display_info_str(mbox, "input empty qs", mbox->inp_shift);
 	while (mbox->inp_shift[++i])
 	{
 		if (quote_state == OUT_Q && ft_isqoute(mbox->inp_shift[i]))

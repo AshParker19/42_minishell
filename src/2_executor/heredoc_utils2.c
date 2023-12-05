@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_utils2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 19:02:16 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/03 11:55:03 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/05 15:49:22 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ t_bool	check_lim_qoutes(char **str)
  *					after each read line the var expansion will take place
  *					via 'expand_heredoc_input' and 'get_key'
  *
- *              4.  SIGNALS TODO:
+ *              4.  SIGNALS (not sure redo the comment!)
  */
 
 /* gets the value of expended vars inside of heredoc */

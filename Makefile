@@ -58,6 +58,7 @@ SRCS = $(addprefix $(SRC_FOLDER), 						\
 	2_executor/executor.c								\
 	2_executor/cmd_runner.c								\
 	2_executor/executor_utils.c							\
+	2_executor/executor_utils2.c						\
 	2_executor/cmd_system.c								\
 	2_executor/cmd_builtin.c							\
 	2_executor/pipes.c									\
@@ -69,6 +70,7 @@ SRCS = $(addprefix $(SRC_FOLDER), 						\
 	3_builtins/echo.c									\
 	3_builtins/pwd.c									\
 	3_builtins/export.c									\
+	3_builtins/export_utils.c							\
 	3_builtins/unset.c									\
 	3_builtins/env.c									\
 	3_builtins/exit.c									\
@@ -115,11 +117,17 @@ fclean: clean
 
 re: fclean all
 
-norm:
-	zsh(norminette)
-
-line:
-	norminette | grep "TOO_MANY_LINES"
+norm : 
+	@echo "$(ORANGE)******************************$(GREEN)"
+	@echo "$(BLUE)      CHECK SOURSE FILES$(RESET)"
+	@echo "$(ORANGE)******************************$(GREEN)"
+	@norminette src
+	@echo "$(BLUE)        CHECK INCLUDES$(RESET)"
+	@echo "$(ORANGE)******************************$(GREEN)"
+	@norminette includes
+	@echo "$(ORANGE)******************************$(BLUE)"
+	@echo "        NO NORM ERRORS$(RESET)"
+	@echo "$(ORANGE)******************************$(DEF)"
 
 readline.supp:
 	wget https://raw.githubusercontent.com/benjaminbrassart/minishell/master/readline.supp

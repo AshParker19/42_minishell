@@ -3,74 +3,55 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:19:44 by astein            #+#    #+#             */
-/*   Updated: 2023/12/04 23:47:38 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/05 16:56:39 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	exec_child(t_mbox *mbox, t_ast *cmd_node, int cmd_pos, int *cur_p)
+static void	exec_child(t_mbox *mbox, t_ast *cmd_node, int *cur_p)
 {
-	update_signals(SIG_STATE_CHILD);
+	if (is_cmd_builtin(mbox, cmd_node->content))
+		update_signals(SIG_STATE_CHILD_BUILTIN);
+	else
+		update_signals(SIG_STATE_CHILD);
 	setup_pipes(mbox, cur_p);
 	if (!configure_redir(mbox, cmd_node->left, cur_p))
 	{
-		if (cmd_pos == FIRST_CMD || cmd_pos == MIDDLE_CMD)
+		if (cmd_node->cmd_pos == FIRST_CMD || cmd_node->cmd_pos == MIDDLE_CMD)
 			close(cur_p[P_RIGHT]);
-		if (cmd_pos != FIRST_CMD && mbox->executor.io.prev_pipe[P_RIGHT] != -1)
+		if (cmd_node->cmd_pos != FIRST_CMD
+			&& mbox->executor.io.prev_pipe[P_RIGHT] != -1)
 			close(mbox->executor.io.prev_pipe[P_RIGHT]);
 		free_and_close_box_v2(mbox);
 	}
-	setup_process_std(mbox);
-	if (cmd_pos == FIRST_CMD || cmd_pos == MIDDLE_CMD)
+	setup_process_std_tmp(mbox);
+	if (cmd_node->cmd_pos == FIRST_CMD || cmd_node->cmd_pos == MIDDLE_CMD)
 		close(cur_p[P_RIGHT]);
-	if (cmd_pos != FIRST_CMD && mbox->executor.io.prev_pipe[P_RIGHT] != -1)
+	if (cmd_node->cmd_pos != FIRST_CMD
+		&& mbox->executor.io.prev_pipe[P_RIGHT] != -1)
 		close(mbox->executor.io.prev_pipe[P_RIGHT]);
 	run_cmd_main(mbox, cmd_node);
 	free_and_close_box_v2(mbox);
 }
 
-static t_bool	exec_parent(t_mbox *mbox, int cmd_pos, int *cur_p, int pid_child, t_ast *cmd_node)
+static t_bool	exec_parent(t_mbox *mbox, int *cur_p, t_ast *node, int kid_pid)
 {
 	t_ast	*cmd_node_cpy;
-	int 	exit_status;
-	
-	exit_status = 0;
-	if (cmd_pos == FIRST_CMD || cmd_pos == MIDDLE_CMD)
+
+	if (node->cmd_pos == FIRST_CMD || node->cmd_pos == MIDDLE_CMD)
 		close(cur_p[P_LEFT]);
-	if (cmd_pos != FIRST_CMD && cmd_pos != SINGLE_CMD)
+	if (node->cmd_pos != FIRST_CMD && node->cmd_pos != SINGLE_CMD)
 		close(mbox->executor.io.prev_pipe[P_RIGHT]);
 	mbox->executor.pid_index++;
 	mbox->executor.io.prev_pipe[P_RIGHT] = cur_p[P_RIGHT];
 	mbox->executor.io.prev_pipe[P_LEFT] = cur_p[P_LEFT];
 	close_process_fds_v2(mbox);
-	cmd_node_cpy = cmd_node;
-	while (cmd_node_cpy->left)
-	{
-		cmd_node_cpy = cmd_node_cpy->left;
-		if (cmd_node_cpy->type == RED_IN_HD)
-		{
-			update_signals(SIG_STATE_IGNORE);
-			waitpid(pid_child, &exit_status, 0);
-			update_signals(SIG_STATE_PARENT);
-			set_var_value_int(mbox, "?", WEXITSTATUS(exit_status));
-			if (exit_status != EXIT_SUCCESS)
-			{
-				if(cur_p[P_LEFT] != -1)
-					close(cur_p[P_LEFT]);
-				if(cur_p[P_RIGHT] != -1)
-					close(cur_p[P_RIGHT]);
-				g_signal_status = SIGNAL_EXIT_HD;
-				return (ft_false);
-			}
-			else
-				return (ft_true);
-		}
-	}
-	return (ft_true);
+	cmd_node_cpy = node;
+	return (hd_parent_wait(mbox, cur_p, cmd_node_cpy, kid_pid));
 }
 
 /**
@@ -84,11 +65,11 @@ static t_bool	exec_parent(t_mbox *mbox, int cmd_pos, int *cur_p, int pid_child, 
 static t_bool	execute_cmd(t_mbox *mbox, t_ast *cmd_node, int cmd_pos)
 {
 	int	cur_pipe[2];
-	int child_pid;
+	int	child_pid;
 
 	cur_pipe[0] = -1;
 	cur_pipe[1] = -1;
-	initialize_io(mbox);
+	initialize_io(mbox, cmd_node, cmd_pos);
 	if (cmd_pos == SINGLE_CMD && is_cmd_builtin(mbox, cmd_node->content))
 		return (run_single_builtin(mbox));
 	else
@@ -103,9 +84,9 @@ static t_bool	execute_cmd(t_mbox *mbox, t_ast *cmd_node, int cmd_pos)
 			return (err_free_and_close_box(mbox, EXIT_FAILURE));
 		update_signals(SIG_STATE_PARENT);
 		if (child_pid == 0)
-			exec_child(mbox, cmd_node, cmd_pos, cur_pipe);
+			exec_child(mbox, cmd_node, cur_pipe);
 		else
-			return (exec_parent(mbox, cmd_pos, cur_pipe, child_pid, cmd_node));
+			return (exec_parent(mbox, cur_pipe, cmd_node, child_pid));
 	}
 	return (ft_true);
 }
@@ -145,7 +126,7 @@ static void	wait_for_execution(t_mbox *mbox)
  * @param	mbox 
  * @return	t_bool 
  */
-void	execute(t_mbox *mbox) //TODO: do exit for builtins
+void	execute(t_mbox *mbox)
 {
 	t_ast	*cur;
 

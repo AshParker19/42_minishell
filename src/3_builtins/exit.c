@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:33:57 by astein            #+#    #+#             */
-/*   Updated: 2023/12/04 18:07:00 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/05 15:47:05 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,7 @@ static t_bool	parse_str_to_long_long(char *str, long long *result)
  * 		TODO: fix this funtion for big numbers
  * @param str 
  * @return int 
- */
-
-/**
+ * 
  * @brief		
  * 		FIXME: THIS COMMEND IS OLD! NEED TO UPDATE IT!!!
  * 				- Checks if the string is a valid long long
