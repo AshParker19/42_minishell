@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:38:32 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/05 10:07:59 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/05 10:12:43 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	input_main(t_mbox *mbox)
 {
 	if (mbox->inp_orig[0] == '\0')
 		return ;
-	add_history(mbox->inp_orig); //TODO: CHECK on School
+	add_history(mbox->inp_orig);
 	save_history(mbox);
 	mbox->error_status = ft_false;
 	display_info_str(mbox, "input original", mbox->inp_orig);
