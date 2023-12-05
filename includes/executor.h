@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 17:55:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/05 11:23:46 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/05 14:28:55 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ int		cmd_counter(t_ast *ast_node);
 char	**args_to_matrix(t_mbox *mbox, char *cmd, t_ast *arg_node);
 void	close_process_fds_v2(t_mbox *mbox);
 t_bool	allocate_pid_array(t_mbox *mbox);
+t_bool    hd_parent_wait(t_mbox *mbox, int *cur_p, t_ast *node_cpy,
+			int kid_pid);
 
 char	*get_abs_cmd_path(t_mbox *mbox, char *cmd);
 void	free_process_v2(t_mbox *mbox);

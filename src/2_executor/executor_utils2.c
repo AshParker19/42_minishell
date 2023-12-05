@@ -6,7 +6,7 @@
 /*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 13:48:08 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/05 13:55:57 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/05 14:30:07 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,4 +117,38 @@ char	*get_abs_cmd_path(t_mbox *mbox, char *cmd)
 	if (path)
 		return (path);
 	return (temp_run_cmd_system_error(mbox, cmd));
+}
+
+/**
+ * @brief this function will be called by 'exec_parent'
+ *          if the cmd has a hd it makes the parent wait for the child to finish
+ * 
+ */
+t_bool    hd_parent_wait(t_mbox *mbox, int *cur_p, t_ast *node_cpy, int kid_pid)
+{
+    int exit_status;
+
+    exit_status = 0;
+    while (node_cpy->left)
+	{
+		node_cpy = node_cpy->left;
+		if (node_cpy->type == RED_IN_HD)
+		{
+			update_signals(SIG_STATE_IGNORE);
+			waitpid(kid_pid, &exit_status, 0);
+			update_signals(SIG_STATE_PARENT);
+			set_var_value_int(mbox, "?", WEXITSTATUS(exit_status));
+			if (exit_status != EXIT_SUCCESS)
+			{
+				if(cur_p[P_LEFT] != -1)
+					close(cur_p[P_LEFT]);
+				if(cur_p[P_RIGHT] != -1)
+					close(cur_p[P_RIGHT]);
+				g_signal_status = SIGNAL_EXIT_HD;
+				return (ft_false);
+			}
+            return (ft_true);
+		}
+	}
+    return (ft_true);
 }
