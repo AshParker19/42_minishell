@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:00:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/04 23:12:38 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/05 13:41:12 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,10 @@ static void	tmp_exiter(t_mbox *mbox, t_hd *hd)
 	}
 }
 
-static void	hd_child(t_mbox *mbox, int *fd, char *lim, int *cur_p)
+static void	hd_child(t_mbox *mbox, t_hd hd, int *cur_p)
 {
-	t_hd	hd;
 	t_bool	expand_vars;
 	
-	hd.fd = fd;
-	hd.lim = ft_strdup(lim);
-	hd.cur_line = NULL;
 	close(hd.fd[P_RIGHT]);
 	if (cur_p && cur_p[P_RIGHT] != -1)
 		close(cur_p[P_RIGHT]);
@@ -114,6 +110,6 @@ t_bool	heredoc(t_mbox *mbox, t_ast *redir_node, int *cur_p)
 	if (pid_hd < 0)
 		return (err_free_and_close_box(mbox, EXIT_FAILURE));
 	if (pid_hd == 0)
-		hd_child(mbox, fd, redir_node->content, cur_p);
+		hd_child(mbox,(t_hd){fd, ft_strdup(redir_node->content), NULL} ,cur_p);
 	return (hd_parent(mbox, pid_hd, &mbox->executor.io.cmd_fd[CMD_IN], fd));
 }
