@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:06:17 by astein            #+#    #+#             */
-/*   Updated: 2023/12/04 18:47:36 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/05 00:03:24 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	check_args(t_mbox *mbox, int ac, char **av)
 	}
 	else
 		err_msg(mbox, 1, "nn", ERR_P, WN);
-	set_var_value(mbox, "?", EXIT_FAILURE_STR);
+	set_var_value_int(mbox, "?", EXIT_FAILURE);
 	free_and_close_box_v2(mbox);
 }
 

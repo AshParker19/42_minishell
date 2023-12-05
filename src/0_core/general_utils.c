@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:43:17 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/04 19:26:32 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/05 00:20:18 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static void	tmp_conclusion(t_mbox *mbox, char *err_msg, int exit_status)
 		free (err_msg);
 	}
 	if (exit_status != NO_EXIT_STATUS)
-		set_var_value_int(mbox, "?", exit_status); //FIXME: WEXITSTATUS ???
+		set_var_value_int(mbox, "?", exit_status);
 }
 
 /**

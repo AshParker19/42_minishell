@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 22:47:09 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/01 15:13:10 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/05 00:16:01 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	set_var_value(t_mbox *mbox, const char *key, const char *value)
 	}
 	new_var = ft_calloc(1, sizeof(t_env));
 	if (!new_var)
-		return ;//TODO: deal with malloc failure
+		return ;
 	new_var->key = ft_strdup(key); 
 	new_var->value = ft_strdup(value);
 	tmp_add_back(mbox, new_var); //TEMP:
@@ -79,5 +79,6 @@ void	set_var_value_int(t_mbox *mbox, const char *key, int int_value)
 
 	char_value = ft_itoa(int_value);
 	set_var_value(mbox, key, char_value);
-	free (char_value);
+	if (char_value)
+		free (char_value);
 }

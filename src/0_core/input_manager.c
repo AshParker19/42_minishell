@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:38:32 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/04 18:39:11 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/05 00:22:41 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	input_main(t_mbox *mbox)
 	if (mbox->inp_orig[0] == '\0')
 		return ;
 	add_history(mbox->inp_orig); //TODO: CHECK on School
-	mbox->error_status = ft_false; //TODO: understand this shit again
+	mbox->error_status = ft_false;
 	display_info_str(mbox, "input original", mbox->inp_orig);
 	mbox->inp_trim = ft_strtrim(mbox->inp_orig, " \n\t\v\a\b\f\r");
 	if (!mbox->inp_trim || mbox->inp_trim[0] == 0)
