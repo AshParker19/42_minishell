@@ -2,10 +2,14 @@
 
 **FRANKENSHELL** is a version of the 42 School project (**minishell**) that recreates in C a simplified version of the bash shell.
 ## Authors
-- [Anatolii @AshParker19](https://github.com/AshParker19)
-- [Alex @0815-alex](https://github.com/0815-alex)
-### Thx to all those guys for helping us getting this done! (alphabetical order) TODO:
-[@manuel-aguiar](https://github.com/manuel-aguiar), [@mm1212](https://github.com/mm1212), [@MariaAguiar](https://github.com/MariaAguiar), GABRIEL...
+[ @Anatolii](https://github.com/AshParker19)\
+[@Alex](https://github.com/0815-alex)
+
+Thx to all those guys and gals for hints, tipps and feedback!\
+[@Gabriel](https://github.com/portugueseTorch)
+[@Martim](https://github.com/mm1212),
+[@Margarida](https://github.com/MariaAguiar),
+[@Manuel](https://github.com/manuel-aguiar)
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -28,28 +32,69 @@
 
 ## Introduction
 
-[Here, you'll provide an overview of the FRANKENSHELL project, its purpose, and its significance.]
+As ChatGPT said in 2023:
+> Minishell is a [42 school](https://42.fr/en/homepage/) project designed to create a simplified Unix shell. The idea behind Minishell is to develop a basic command-line interface (CLI) that can execute simple commands and handle input/output redirection. It's meant to serve as a learning exercise for students to gain a fundamental understanding of how shells work by implementing core features like parsing user input, managing processes, handling signals, creating builtins and executing system commands.
 
 ## Installation
 
-To install and run FRANKENSHELL, follow these simple steps:
+To install and run frankenshell, follow these simple steps:
 
-- Clone the repository: https://github.com/AshParker19/42_minishell`
-- Compile the program using `make`:
-- Start the program using: `./minishell [optional flag]`
-- Optional flags include: `---info` or `-i`: prints details about the program flow.
-- To exit the minishell, simply type: `exit`
+1. Clone the repository: 
+```
+git clone https://github.com/AshParker19/42_minishell
+```
+2. Compile the program using:
+```
+make
+```
+3. Start the program using: (optional flag: `--info` or `-i` => prints details about the program flow)
+```
+./frankenshell [optional flag]
+```
+
+4. To exit, simply type:
+```
+exit
+```
 
 ## Usage
 
-FRANKENSHELL is designed to mimic the behavior of the traditional bash shell. Below are the key features and functionalities included:
-
-### Variable Expansions
-- Variables from the environment (`env`) can be expanded, allowing dynamic command executions based on the current environment settings.
+**frankenshell** is designed to mimic the behavior of the traditional **bash** shell. So feel free to use it like bash.\
+Below are the key features and functionalities included:
 
 ### Treating Contextual Quotes
 - **Single Quotes**: Enclosing text in single quotes (`'`) prevents the shell from interpreting any metacharacters within the quoted sequence.
 - **Double Quotes**: Using double quotes (`"`) also prevents interpretation of metacharacters, except for the dollar sign (`$`), which is used for variable expansion.
+
+> ℹ️ &nbsp; Unclosed quotes (e.g. ```echo "Hello World```) will result in an error\
+> ⚠️ &nbsp; <span style="color:red;">frankenshell:</span> syntax error: unclosed quotes
+
+
+
+### Variable Management
+On programm start the enviromental variables will be loaded into frankenshell.\
+Variables can be modified via hte following [builtin](#builtins) commands:
+- **shown** using [env](#env)
+- **sorted and shown**  using [export](#export) without arguments
+- **created** using [export](#export)
+- **changed** using [export](#export)
+- **deleted** using [unset](#unset)
+
+> ℹ️ &nbsp; Keep in mind that some builtins (e.g. [cd](#cd)) change some variables during runtime!
+
+The **Variable Expansion** works simmilar like in bash:
+
+#### DO EXPAND:
+| Command            | Output               |
+| -------------------| --------------------- |
+| `echo $USER`       | `current_user_value` |
+| `echo "$USER"`     | `current_user_value` |
+
+#### DON'T EXPAND:
+| Command            | Output                        |
+| -------------------| ------------------------------ |
+| `echo '$USER'`     | `$USER`   |
+| `<< $USER cat`     | Won't expand, so the `EOF` of the heredoc will be `$USER` |
 
 ### Redirections
 The table below describes the redirection features available in FRANKENSHELL:
@@ -137,7 +182,7 @@ Displays a line of text.
 | Errors                | [Errors info]                |
 
 #### Table: Examples
-| Cmd                | STDOUT        | STDERR     | Exit Status | Explanation           |
+| Cmd                | STDOUT        | STDERR     | Exit Status | Explanation           |CHANGE ENV VARS
 |--------------------|---------------|------------|-------------|-----------------------|
 | `echo "Hello"`     | Hello         |            | 0           | Standard output       |
 | `echo -n "World"`  | World         |            | 0           | No newline at the end |
