@@ -48,9 +48,7 @@ git clone https://github.com/AshParker19/42_minishell
 make
 ```
 3. Start the program using: (optional flag: `--info` or `-i` => prints details about the program flow)
-```
-./frankenshell [optional flag]
-```
+>./frankenshell [flag]
 
 4. To exit, simply type:
 ```
@@ -62,39 +60,32 @@ exit
 **frankenshell** is designed to mimic the behavior of the traditional **bash** shell. So feel free to use it like bash.\
 Below are the key features and functionalities included:
 
-### Treating Contextual Quotes
+### Contextual Quotes
 - **Single Quotes**: Enclosing text in single quotes (`'`) prevents the shell from interpreting any metacharacters within the quoted sequence.
 - **Double Quotes**: Using double quotes (`"`) also prevents interpretation of metacharacters, except for the dollar sign (`$`), which is used for variable expansion.
 
-> ℹ️ &nbsp; Unclosed quotes (e.g. ```echo "Hello World```) will result in an error\
-> ⚠️ &nbsp; <span style="color:red;">frankenshell:</span> syntax error: unclosed quotes
-
-
+> ℹ️ &nbsp; Unclosed quotes (e.g. ```echo "Hello World```) will result in an error:\
+> ⚠️ &nbsp; frankenshell: syntax error: unclosed quotes
 
 ### Variable Management
 On programm start the enviromental variables will be loaded into frankenshell.\
-Variables can be modified via hte following [builtin](#builtins) commands:
+With the following [builtin](#builtins) commands variables can be...
 - **shown** using [env](#env)
 - **sorted and shown**  using [export](#export) without arguments
 - **created** using [export](#export)
 - **changed** using [export](#export)
 - **deleted** using [unset](#unset)
 
-> ℹ️ &nbsp; Keep in mind that some builtins (e.g. [cd](#cd)) change some variables during runtime!
+> ℹ️ &nbsp; Keep in mind that some [builtins](#builtins) (e.g. [cd](#cd)) change some variables during runtime!
 
-The **Variable Expansion** works simmilar like in bash:
+#### The **Variable Expansion** works simmilar like in bash:
+| Command            | Expand       | Output                        |
+| ----------------- | :----------: | ----------------------------- |
+| `echo $USER`       |      ✅        |      `current_user_value`      |
+| `echo "$USER"`     |      ✅        |      `current_user_value`      |
+| `echo '$USER'`     |      ❌        |      `$USER`                   |
+| `<< $USER cat`     |      ❌        |  Won't expand, so the `EOF` of the heredoc will be `$USER` |
 
-#### DO EXPAND:
-| Command            | Output               |
-| -------------------| --------------------- |
-| `echo $USER`       | `current_user_value` |
-| `echo "$USER"`     | `current_user_value` |
-
-#### DON'T EXPAND:
-| Command            | Output                        |
-| -------------------| ------------------------------ |
-| `echo '$USER'`     | `$USER`   |
-| `<< $USER cat`     | Won't expand, so the `EOF` of the heredoc will be `$USER` |
 
 ### Redirections
 The table below describes the redirection features available in FRANKENSHELL:
