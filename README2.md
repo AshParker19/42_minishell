@@ -1,10 +1,11 @@
 # FRANKENSHELL
 
-FRANKENSHELL is a 42 School project that recreates a simplified version of the bash shell written in C.
+FRANKENSHELL is a version of the 42 School project (**minishell**) that recreates in C a simplified version of the bash shell.
 ## Authors
-- [Anatolii](https://github.com/AshParker19)
-- [Alex](https://github.com/0815-alex)
-
+- [Anatolii @AshParker19](https://github.com/AshParker19)
+- [Alex @0815-alex](https://github.com/0815-alex)
+### Thx to all those guys for helping us getting this done! (alphabetical order) TODO:
+[@manuel-aguiar](https://github.com/manuel-aguiar), [@mm1212](https://github.com/mm1212), [@MariaAguiar](https://github.com/MariaAguiar), GABRIEL...
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -79,7 +80,7 @@ Pipes (`|`) allow the output of one command to be used as input for another, ena
 
 Use these features as you would in a typical bash environment ;)
 
-## Order of Execution (aka how the f*uck does it work)
+## Order of Execution (aka how ~~the f*uck~~ does it work)
 
 ### Prepare Input
 
