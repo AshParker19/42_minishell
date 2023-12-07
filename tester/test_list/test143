@@ -1,1 +1,0 @@
-find /path/to/directory -type f -size +100M -printf '%f %sn' | exit

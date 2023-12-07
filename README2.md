@@ -1,6 +1,6 @@
 # FRANKENSHELL
 
-FRANKENSHELL is a version of the 42 School project (**minishell**) that recreates in C a simplified version of the bash shell.
+**FRANKENSHELL** is a version of the 42 School project (**minishell**) that recreates in C a simplified version of the bash shell.
 ## Authors
 - [Anatolii @AshParker19](https://github.com/AshParker19)
 - [Alex @0815-alex](https://github.com/0815-alex)
@@ -34,7 +34,7 @@ FRANKENSHELL is a version of the 42 School project (**minishell**) that recreate
 
 To install and run FRANKENSHELL, follow these simple steps:
 
-- Clone the repository: https://github.com/AshParker19/42_minishell
+- Clone the repository: https://github.com/AshParker19/42_minishell`
 - Compile the program using `make`:
 - Start the program using: `./minishell [optional flag]`
 - Optional flags include: `---info` or `-i`: prints details about the program flow.
@@ -124,8 +124,27 @@ Use these features as you would in a typical bash environment ;)
 
 ## Builtins
 
-[Information about the built-in commands in FRANKENSHELL.]
+Each built-in command in FRANKENSHELL is detailed below with specific information and examples.
 
-## Builtins Known Bugs
+### `echo`
+Displays a line of text.
+
+#### Table: Infos
+|-----------------------|------------------------------|
+| Number of Arguments   | [Number of arguments info]   |
+| Flags                 | [Flags info]                 |
+| Exit Status           | [Exit status info]           |
+| Errors                | [Errors info]                |
+
+#### Table: Examples
+| Cmd                | STDOUT        | STDERR     | Exit Status | Explanation           |
+|--------------------|---------------|------------|-------------|-----------------------|
+| `echo "Hello"`     | Hello         |            | 0           | Standard output       |
+| `echo -n "World"`  | World         |            | 0           | No newline at the end |
+| `[Third Example]`  | [STDOUT]      | [STDERR]   | [Status]    | [Explanation]         |
+| `[Fourth Example]` | [STDOUT]      | [STDERR]   | [Status]    | [Explanation]         |
+
+
+## Known Bugs
 	- export vs env
 	- single cmds with redirs

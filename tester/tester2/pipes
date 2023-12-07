@@ -1,6 +1,0 @@
-echo HI | wrongCMD HI
-echo HI | echo HI
-env | sort | grep -v SHLVL | grep -v ^_
-cat ./test_files/infile_big | grep oi
-cat minishell.h | grep ");"$
-export GHOST=123 | env | grep GHOST
