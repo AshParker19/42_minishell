@@ -97,7 +97,10 @@ $ exit
 
 :warning: &nbsp; For more examples, please refer to the [Documentation](./docs/documentation.md)
 
-![Example](./images/example.gif)(./docs/documentation.md)
+[![LinkedIn][linkedin-shield]][linkedin-url]
+
+[![Example]["/images/example.gif"]]["./docs/documentation.md"]
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
