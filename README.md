@@ -69,7 +69,7 @@ As ChatGPT said in 2023:
 
 **frankenshell** is designed to mimic the behavior of the traditional **bash** shell. So feel free to use it like bash.
 
-:warning: &nbsp; For more examples, please refer to the [Documentation][link-docs]
+> For more examples, please refer to the [Documentation][link-docs]
 
 [![Example][example-gif]][link-docs]
 
