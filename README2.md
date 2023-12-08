@@ -35,31 +35,43 @@ Thx to all those guys and gals for hints, tipps and feedback!\
 As ChatGPT said in 2023:
 > Minishell is a [42 school](https://42.fr/en/homepage/) project designed to create a simplified Unix shell. The idea behind Minishell is to develop a basic command-line interface (CLI) that can execute simple commands and handle input/output redirection. It's meant to serve as a learning exercise for students to gain a fundamental understanding of how shells work by implementing core features like parsing user input, managing processes, handling signals, creating builtins and executing system commands.
 
-## Installation
+## How To Use
+To clone and run frankenshell, you'll need Git and TODO
+```
+# Clone this repository
+$ git clone https://github.com/AshParker19/42_minishell
 
-To install and run frankenshell, follow these simple steps:
+# Go into the repository
+$ cd 42_minishell
 
-1. Clone the repository: 
-```
-git clone https://github.com/AshParker19/42_minishell
-```
-2. Compile the program using:
-```
-make
-```
-3. Start the program using: (optional flag: `--info` or `-i` => prints details about the program flow)
->./frankenshell [flag]
+# Compile the program
+$ make
 
-4. To exit, simply type:
-```
-exit
+# Run the program
+$ ./frankenshell [OPTIONS]
+
+# OPTIONS:
+# 	--info, -i	prints details about the program flow during runtime
+
+# Use the program
+frankenshell--> echo "Let's goooooo!"
+
+# Exit the program
+$ exit
 ```
 
 ## Usage
 
+
+```
+Usage:
+	./frankenshell [OPTIONS]
+
+Options:
+	--info, -i	prints details about the program flow during runtime
+```
 **frankenshell** is designed to mimic the behavior of the traditional **bash** shell. So feel free to use it like bash.\
 Below are the key features and functionalities included:
-
 ### Contextual Quotes
 - **Single Quotes**: Enclosing text in single quotes (`'`) prevents the shell from interpreting any metacharacters within the quoted sequence.
 - **Double Quotes**: Using double quotes (`"`) also prevents interpretation of metacharacters, except for the dollar sign (`$`), which is used for variable expansion.
