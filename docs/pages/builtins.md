@@ -1,1 +1,1 @@
-[@Alex](../manual.md)
+[@Alex](../documentation.md)

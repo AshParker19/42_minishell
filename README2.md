@@ -5,6 +5,8 @@
 [ @Anatolii](https://github.com/AshParker19)\
 [@Alex](https://github.com/0815-alex)
 
+[Documentation &](./docs/documentation.md)
+
 Thx to all those guys and gals for hints, tipps and feedback!\
 [@Gabriel](https://github.com/portugueseTorch)
 [@Martim](https://github.com/mm1212),
