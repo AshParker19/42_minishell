@@ -81,7 +81,7 @@ Thx to all those guys and gals for hints, tipps and feedback!
 [@Margarida](https://github.com/MariaAguiar)\
 [@Manuel](https://github.com/manuel-aguiar)
 
-:arrow_up:   <a href="#readme-top">(back to top)</a>   :arrow_up:
+:arrow_up:   <a href="#readme-top">back to top</a>   :arrow_up:
 
 <!-- MARKDOWN LINKS & IMAGES -->
 [example-gif]: /images/example.gif
