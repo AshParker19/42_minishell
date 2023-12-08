@@ -33,7 +33,7 @@
 <br>
 
 <!-- ABOUT THE PROJECT -->
-# About The Project<a href="#readme-top" style="font-size: 14px; float: right;">(back to top)</a>
+# About The Project
 
 As ChatGPT said in 2023:
 
@@ -41,7 +41,7 @@ As ChatGPT said in 2023:
 
 
 <!-- INSTALLATION -->
-## Installation<a href="#readme-top" style="font-size: 14px; float: right;">(back to top)</a>
+## Installation
 ```
 	# Clone this repository
 	$ git clone https://github.com/AshParker19/42_minishell
@@ -66,7 +66,7 @@ As ChatGPT said in 2023:
 ```
 
 <!-- USAGE EXAMPLES -->
-## Usage <a href="#readme-top" style="font-size: 14px; float: right;">(back to top)</a>
+## Usage
 
 **frankenshell** is designed to mimic the behavior of the traditional **bash** shell. So feel free to use it like bash.
 
@@ -80,7 +80,7 @@ As ChatGPT said in 2023:
 
 
 <!-- ACKNOWLEDGMENTS -->
-## Acknowledgments<a href="#readme-top" style="font-size: 14px; float: right;">(back to top)</a>
+## Acknowledgments
 Thx to all those guys and gals for hints, tipps and feedback!
 
 [@Gabriel](https://github.com/portugueseTorch)\
@@ -88,7 +88,7 @@ Thx to all those guys and gals for hints, tipps and feedback!
 [@Margarida](https://github.com/MariaAguiar)\
 [@Manuel](https://github.com/manuel-aguiar)
 
-
+<a href="#readme-top" style="font-size: 14px; float: right;">(back to top)</a>
 
 <!-- MARKDOWN LINKS & IMAGES -->
 [example-gif]: /images/example.gif
