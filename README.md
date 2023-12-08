@@ -69,14 +69,8 @@ As ChatGPT said in 2023:
 
 **frankenshell** is designed to mimic the behavior of the traditional **bash** shell. So feel free to use it like bash.
 
-> For more examples, please refer to the [Documentation][link-docs]
-
 [![Example][example-gif]][link-docs]
-
-
-
-
-
+> For more examples, please refer to the [Documentation][link-docs]
 
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
@@ -87,7 +81,7 @@ Thx to all those guys and gals for hints, tipps and feedback!
 [@Margarida](https://github.com/MariaAguiar)\
 [@Manuel](https://github.com/manuel-aguiar)
 
-<a href="#readme-top" style="font-size: 14px; float: right;">(back to top)</a>
+:arrow_up:<a href="#readme-top">(back to top)</a>:arrow_up:
 
 <!-- MARKDOWN LINKS & IMAGES -->
 [example-gif]: /images/example.gif
