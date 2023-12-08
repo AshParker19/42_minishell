@@ -90,7 +90,6 @@ Pipes (`|`) allow the output of one command to be used as input for another, ena
 | `history` | Displays the command history.                         |
 | `exit`    | Exits the shell.                                      |
 
-Use these features as you would in a typical bash environment ;)
 
 ## Order of Execution (aka how ~~the f*uck~~ does it work)
 
@@ -133,28 +132,6 @@ Use these features as you would in a typical bash environment ;)
 ## Variable Storage
 
 [Details on how variables are stored in frankenshell.]
-
-## Builtins
-
-Each built-in command in frankenshell is detailed below with specific information and examples.
-
-### `echo`
-Displays a line of text.
-
-#### Table: Infos
-|-----------------------|------------------------------|
-| Number of Arguments   | [Number of arguments info]   |
-| Flags                 | [Flags info]                 |
-| Exit Status           | [Exit status info]           |
-| Errors                | [Errors info]                |
-
-#### Table: Examples
-| Cmd                | STDOUT        | STDERR     | Exit Status | Explanation           |CHANGE ENV VARS
-|--------------------|---------------|------------|-------------|-----------------------|
-| `echo "Hello"`     | Hello         |            | 0           | Standard output       |
-| `echo -n "World"`  | World         |            | 0           | No newline at the end |
-| `[Third Example]`  | [STDOUT]      | [STDERR]   | [Status]    | [Explanation]         |
-| `[Fourth Example]` | [STDOUT]      | [STDERR]   | [Status]    | [Explanation]         |
 
 
 ## Known Bugs
