@@ -184,3 +184,7 @@ Displays a line of text.
 ## Known Bugs
 	- export vs env
 	- single cmds with redirs
+
+
+https://htmlpreview.github.io/?https://github.com/AshParker19/42_minishell/blob/cleanItDone/test.html
+
