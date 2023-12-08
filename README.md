@@ -17,29 +17,31 @@
     <br />
   </p>
 </div>
+<br>
 
 <!-- TABLE OF CONTENTS -->
-<h3
-  <summary>Table of Contents</summary>
+# Table of Contents
+<b>
   <ol>
     <li><a href="#about-the-project">About The Project</a></li>
     <li><a href="#installation">Installation</a></li>
     <li><a href="#usage">Usage</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
-</h3>
+</b>
+<br>
+<br>
 
 <!-- ABOUT THE PROJECT -->
-# About The Project
+# About The Project<a href="#readme-top" style="font-size: 14px; float: right;">(back to top)</a>
 
 As ChatGPT said in 2023:
 
 > Minishell is a [42 school](https://42.fr/en/homepage/) project designed to create a simplified Unix shell. The idea behind Minishell is to develop a basic command-line interface (CLI) that can execute simple commands and handle input/output redirection. It's meant to serve as a learning exercise for students to gain a fundamental understanding of how shells work by implementing core features like parsing user input, managing processes, handling signals, creating builtins and executing system commands.
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- INSTALLATION -->
-## Installation
+## Installation<a href="#readme-top" style="font-size: 14px; float: right;">(back to top)</a>
 ```
 	# Clone this repository
 	$ git clone https://github.com/AshParker19/42_minishell
@@ -63,10 +65,8 @@ As ChatGPT said in 2023:
 	$ exit
 ```
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 <!-- USAGE EXAMPLES -->
-## Usage
+## Usage <a href="#readme-top" style="font-size: 14px; float: right;">(back to top)</a>
 
 **frankenshell** is designed to mimic the behavior of the traditional **bash** shell. So feel free to use it like bash.
 
@@ -75,12 +75,12 @@ As ChatGPT said in 2023:
 [![Example][example-gif]][link-docs]
 
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 
 
 
 <!-- ACKNOWLEDGMENTS -->
-## Acknowledgments
+## Acknowledgments<a href="#readme-top" style="font-size: 14px; float: right;">(back to top)</a>
 Thx to all those guys and gals for hints, tipps and feedback!
 
 [@Gabriel](https://github.com/portugueseTorch)\
@@ -88,7 +88,6 @@ Thx to all those guys and gals for hints, tipps and feedback!
 [@Margarida](https://github.com/MariaAguiar)\
 [@Manuel](https://github.com/manuel-aguiar)
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
