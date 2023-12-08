@@ -94,7 +94,7 @@ $ exit
 ## Usage
 
 **frankenshell** is designed to mimic the behavior of the traditional **bash** shell. So feel free to use it like bash.
-> :white_check_mark: &nbsp; For more examples, please refer to the [Documentation](./docs/documentation.md)
+> :warning: &nbsp; For more examples, please refer to the [Documentation](./docs/documentation.md)
 
 ![Example](./images/example.gif)
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
