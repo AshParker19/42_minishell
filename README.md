@@ -20,7 +20,7 @@
 <br>
 
 <!-- TABLE OF CONTENTS -->
-# Table of Contents
+## Table of Contents
 <b>
   <ol>
     <li><a href="#about-the-project">About The Project</a></li>
@@ -33,7 +33,7 @@
 <br>
 
 <!-- ABOUT THE PROJECT -->
-# About The Project
+## About The Project
 
 As ChatGPT said in 2023:
 
@@ -64,7 +64,6 @@ As ChatGPT said in 2023:
 	# Exit the program
 	$ exit
 ```
-
 <!-- USAGE EXAMPLES -->
 ## Usage
 
