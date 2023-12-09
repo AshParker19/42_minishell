@@ -1,60 +1,88 @@
+<a name="readme-top"></a>
+
 # Documentation of frankenshell
 **frankenshell** is a version of the 42 School project (**minishell**) that recreates in C a simplified version of the bash shell.
-## Authors
-[@Anatolii](https://github.com/AshParker19)\
-[@Alex](https://github.com/0815-alex)
 
-## Table of Contents
+# Table of Contents
 1. [Introduction](#introduction)
+   1. [What is Bash?](#what-is-bash)
+   2. [What is a shell?](#what-is-a-shell)
 2. [Installation](#installation)
-3. [Usage](#usage)
-4. [Order of Execution (aka how the f*uck does it work)](#order-of-execution)
-   - [Prepare Input](#prepare-input)
-	 - [Trim](#trim)
-	 - [Mark Context Chars](#mark-context-chars)
-	 - [Expand Variables](#expand-variables)
-	 - [Tokenize](#tokenize)
-	 - [Parse](#parse)
-   - [Execution](#execution)
-	 - [Check for 'exit'](#check-for-exit)
-	 - [Execute Single Command](#execute-single-command)
-	 - [Execute Piped Commands](#execute-piped-commands)
-5. [Variable Storage](#variable-storage)
-6. [Builtins](#builtins)
-8. [Known Bugs](#bugs)
+2. [Usage](#usage)
 
+2. [Definitions](#definitions)
+3. [Basic Shell Features](#basic-shell-features)
+   1. [Shell Syntax](#shell-syntax)
+      1. [Shell Operation PROGRAM FLOW](#shell-operation-program-flow)
+      2. [Quoting](#quoting)
+         1. [Single Quotes](#single-quotes)
+         2. [Double Quotes](#double-quotes)
+   2. [Shell Commands](#shell-commands)
+      1. [Simple Commands](#simple-commands)
+      2. [Pipelines](#pipelines)
+   3. [Special Parameters (the fuckin $?)](#special-parameters-the-fuckin)
+   4. [Shell Expansions](#shell-expansions)
+      1. [Shell Parameter Expansion (DOLLAR EXPANSION I GUESS)](#shell-parameter-expansion-dollar-expansion-i-guess)
+      2. [Quote Removal](#quote-removal)
+   5. [Redirections](#redirections)
+      1. [Redirecting Input](#redirecting-input)
+      2. [Redirecting Output](#redirecting-output)
+      3. [Appending Redirected Output](#appending-redirected-output)
+      4. [Here Documents](#here-documents)
+   6. [Executing Commands](#executing-commands)
+      1. [Simple Command Expansion](#simple-command-expansion)
+      2. [Command Search and Execution](#command-search-and-execution)
+      3. [Command Execution Environment](#command-execution-environment)
+      4. [Environment (VARIABLEN LINKED LIST AND STUFF) gibts unten nochmal, warum 2 kapitel?](#environment-variablen-linked-list-and-stuff-gibts-unten-nochmal-warum-2-kapitel)
+      5. [Exit Status](#exit-status)
+   7. [Signals](#signals)
+4. [Builtin Commands](#builtin-commands)
+   1. [echo](#echo)
+   2. [cd](#cd)
+   3. [pwd](#pwd)
+   4. [export](#export)
+   5. [unset](#unset)
+   6. [env](#env)
+   7. [42](#42)
+   8. [history](#history)
+   9. [exit](#exit)
+5. [Shell Variables](#shell-variables)
+6. [Using History Interactively](#using-history-interactively)
+   1. [Bash History Facilities](#bash-history-facilities)
+   2. [Bash History Builtins](#bash-history-builtins)
+   3. [History Expansion](#history-expansion)
+      1. [Event Designators](#event-designators)
+      2. [Word Designators](#word-designators)
+      3. [Modifiers](#modifiers)
+6. [Known Bugs](#known-bugs)
+6. [Acknowledgments](#acknowledgments)
 
-
-
-
-## How To Use
-To clone and run frankenshell, you'll need Git and TODO
-
-
+## Introduction
+### What is Bash?
+### What is a shell?
+## Installation
 ## Usage
+## Definitions
 
-
-
-Below are the key features and functionalities included:
-### Contextual Quotes
+## Basic Shell Features
+### Shell Syntax
+#### Shell Operation PROGRAM FLOW
+#### Quoting
 - **Single Quotes**: Enclosing text in single quotes (`'`) prevents the shell from interpreting any metacharacters within the quoted sequence.
 - **Double Quotes**: Using double quotes (`"`) also prevents interpretation of metacharacters, except for the dollar sign (`$`), which is used for variable expansion.
 
 > ℹ️ &nbsp; Unclosed quotes (e.g. ```echo "Hello World```) will result in an error:\
 > ⚠️ &nbsp; frankenshell: syntax error: unclosed quotes
 
-### Variable Management
-On programm start the enviromental variables will be loaded into frankenshell.\
-With the following [builtin](#builtins) commands variables can be...
-- **shown** using [env](#env)
-- **sorted and shown**  using [export](#export) without arguments
-- **created** using [export](#export)
-- **changed** using [export](#export)
-- **deleted** using [unset](#unset)
-
-> ℹ️ &nbsp; Keep in mind that some [builtins](#builtins) (e.g. [cd](#cd)) change some variables during runtime!
-
-#### The **Variable Expansion** works simmilar like in bash:
+##### Single Quotes
+##### Double Quotes
+### Shell Commands
+#### Simple Commands
+#### Pipelines
+Pipes (`|`) allow the output of one command to be used as input for another, enabling command chaining.
+### Special Parameters (the fuckin $?)
+### Shell Expansions
+The **Variable Expansion** works simmilar like in bash:
 | Command            | Expand       | Output                        |
 | ----------------- | :----------: | ----------------------------- |
 | `echo $USER`       |      ✅        |      `current_user_value`      |
@@ -62,8 +90,10 @@ With the following [builtin](#builtins) commands variables can be...
 | `echo '$USER'`     |      ❌        |      `$USER`                   |
 | `<< $USER cat`     |      ❌        |  Won't expand, so the `EOF` of the heredoc will be `$USER` |
 
-
+#### Shell Parameter Expansion (DOLLAR EXPANSION I GUESS)
+#### Quote Removal
 ### Redirections
+
 The table below describes the redirection features available in frankenshell:
 | Feature| Mode            | Description                                                                                | Example                           |
 |------|-------------|--------------------------------------------------------------------------------------------------|-----------------------------------|
@@ -74,10 +104,19 @@ The table below describes the redirection features available in frankenshell:
 
 These redirections allow for flexible manipulation of command input and output, similar to standard bash functionality.
 
-### Pipes
-Pipes (`|`) allow the output of one command to be used as input for another, enabling command chaining.
+#### Redirecting Input
+#### Redirecting Output
+#### Appending Redirected Output
+#### Here Documents
+### Executing Commands
+#### Simple Command Expansion
+#### Command Search and Execution
+#### Command Execution Environment
+#### Environment (VARIABLEN LINKED LIST AND STUFF) gibts unten nochmal, warum 2 kapitel?
+#### Exit Status
+### Signals
 
-### Built-in Commands
+## Builtin Commands
 | Command   | Description                                           |
 |-----------|-------------------------------------------------------|
 | `echo`    | Displays a line of text.                              |
@@ -90,53 +129,97 @@ Pipes (`|`) allow the output of one command to be used as input for another, ena
 | `history` | Displays the command history.                         |
 | `exit`    | Exits the shell.                                      |
 
+#### echo
+#### cd
+#### pwd
+#### export
+#### unset
+#### env
+#### 42
+#### history
+#### exit
 
-## Order of Execution (aka how ~~the f*uck~~ does it work)
+## Shell Variables
+On programm start the enviromental variables will be loaded into frankenshell.\
+With the following [builtin](#builtins) commands variables can be...
+- **shown** using [env](#env)
+- **sorted and shown**  using [export](#export) without arguments
+- **created** using [export](#export)
+- **changed** using [export](#export)
+- **deleted** using [unset](#unset)
 
-### Prepare Input
+> ℹ️ &nbsp; Keep in mind that some [builtins](#builtins) (e.g. [cd](#cd)) change some variables during runtime!
 
-#### Trim
-
-[Explanation of the Trim process.]
-
-#### Mark Context Chars
-
-[Details about how context characters are marked.]
-
-#### Expand Variables
-
-[Description of the variable expansion process.]
-
-#### Tokenize
-
-[Explanation of the tokenization process.]
-
-#### Parse
-
-[Details on how the input is parsed.]
-
-### Execution
-
-#### Check for 'exit'
-
-[Explanation of how the 'exit' command is handled.]
-
-#### Execute Single Command
-
-[Details on executing a single command like `ls -l >out.txt`.]
-
-#### Execute Piped Commands
-
-[How to execute piped commands like `ls -l | grep Makefile.md`.]
-
-## Variable Storage
-
-[Details on how variables are stored in frankenshell.]
-
+## Using History Interactively
+### Bash History Facilities
+### Bash History Builtins
+### History Expansion
+#### Event Designators
+#### Word Designators
+#### Modifiers
 
 ## Known Bugs
 	- export vs env
 	- single cmds with redirs
 
+## Acknowledgments
+Thx to all those guys and gals for hints, tipps and feedback!
 
-https://htmlpreview.github.io/?https://github.com/AshParker19/42_minishell/blob/cleanItDone/test.html
+[@Gabriel](https://github.com/portugueseTorch)\
+[@Martim](https://github.com/mm1212)\
+[@Margarida](https://github.com/MariaAguiar)\
+[@Manuel](https://github.com/manuel-aguiar)
+
+:arrow_up:   <a href="#readme-top">back to top</a>   :arrow_up:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
