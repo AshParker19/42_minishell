@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:06:17 by astein            #+#    #+#             */
-/*   Updated: 2023/12/14 18:10:25 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/14 18:13:53 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ static void	check_args(t_mbox *mbox, int ac, char **av)
  * @brief    Here we go! The main function of the frankenshell.
  * 			
  * 			 For more details, see [documentation.md](../docs/documentation.md)
+ * 				link:../docs/documentation.md
+ * * 				link:"../docs/documentation.md"
  * 
  * @param    ac        
  * @param    av        
