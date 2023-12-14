@@ -61,8 +61,45 @@
 ### What is Bash?
 ### What is a shell?
 ## Installation
+```
+	# Clone this repository
+	$ git clone https://github.com/AshParker19/42_minishell
+
+	# Go into the repository
+	$ cd 42_minishell
+
+	# Compile the program
+	$ make
+
+	# Run the program
+	$ ./frankenshell [OPTIONS]
+
+	# OPTIONS:
+	# 	--info, -i	prints details about the program flow during runtime
+
+	# Use the program
+	frankenshell--> echo "Let's goooooo!"
+
+	# Exit the program
+	$ exit
+```
 ## Usage
+**frankenshell** is designed to mimic the behavior of the traditional **bash** shell. So feel free to use it like bash.
+
+![Example][example-gif]
 ## Definitions
+These definitions are used throughout this manual as follows.
+
+#### builtin
+	A command that is implemented internally by the shell itself, rather than by an executable program somewhere in the file system.
+#### exit status
+	The value returned by a command to its caller. The value is restricted to eight bits, so the maximum value is 255.
+#### signal
+	A mechanism by which a process may be notified by the kernel of an event occurring in the system.
+#### token
+	A sequence of characters considered a single unit by the shell. It is either a word or an operator.
+#### POSIX
+	A family of open system standards based on Unix. Bash is primarily concerned with the Shell and Utilities portion of the POSIX 1003.1 standard.
 
 ## Basic Shell Features
 ### Shell Syntax
@@ -117,17 +154,18 @@ These redirections allow for flexible manipulation of command input and output, 
 ### Signals
 
 ## Builtin Commands
-| Command   | Description                                           |
-|-----------|-------------------------------------------------------|
-| `echo`    | Displays a line of text.                              |
-| `cd`      | Changes the current directory.                        |
-| `pwd`     | Prints the working directory.                         |
-| `export`  | Sets or exports environment variables.                |
-| `unset`   | Unsets environment variables.                         |
-| `env`     | Displays the environment variables.                   |
-| `42`      | 42 it is ;)											|
-| `history` | Displays the command history.                         |
-| `exit`    | Exits the shell.                                      |
+| Command                 | Description                                           |
+|-------------------------|-------------------------------------------------------|
+| [`echo`](#echo)         | Displays a line of text.                              |
+| [`cd`](#cd)             | Changes the current directory.                        |
+| [`pwd`](#pwd)           | Prints the working directory.                         |
+| [`export`](#export)     | Sets or exports environment variables.                |
+| [`unset`](#unset)       | Unsets environment variables.                         |
+| [`env`](#env)           | Displays the environment variables.                   |
+| [`42`](#42)             | 42 it is ;)                                           |
+| [`history`](#history)   | Displays the command history.                         |
+| [`exit`](#exit)         | Exits the shell.                                      |
+
 
 #### echo
 #### cd
@@ -223,3 +261,5 @@ Thx to all those guys and gals for hints, tipps and feedback!
 
 
 
+<!-- MARKDOWN LINKS & IMAGES -->
+[example-gif]: /images/example.gif
