@@ -70,6 +70,9 @@ As ChatGPT said in 2023:
 **frankenshell** is designed to mimic the behavior of the traditional **bash** shell. So feel free to use it like bash.
 
 [![Example][example-gif]][link-docs]
+
+`make stats` provides you with some information about the files and the number of functions.
+
 > For more examples, please refer to the [Documentation][link-docs]
 
 <!-- ACKNOWLEDGMENTS -->
