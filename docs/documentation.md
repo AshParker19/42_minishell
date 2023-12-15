@@ -164,17 +164,21 @@ These redirections allow for flexible manipulation of command input and output, 
 
 ## Builtin Commands
 Each built-in command in frankenshell is detailed below with specific information and examples.
-| Command                 |	File		| Description                                           |
-|-------------------------|-----------------------------|-------------------------------------------------------|
-| [`42`](#42) | [../src/3_builtins/42.c](../src/3_builtins/42.c) | 42 it is ;) |
-| [`cd`](#cd)             |	../src/3_builtins/	| Changes the current directory.                        |
-| [`echo`](#echo)         |	../src/3_builtins/	| Displays a line of text.                              |
-| [`env`](#env)           |	../src/3_builtins/	| Displays the environment variables.                   |
-| [`exit`](#exit)         |	../src/3_builtins/	| Exits the shell.                                      |
-| [`export`](#export)     |	../src/3_builtins/	| Sets or exports environment variables.                |
-| [`history`](#history)   |	../src/3_builtins/	| Displays the command history.                         |
-| [`pwd`](#pwd)           |	../src/3_builtins/	| Prints the working directory.                         |
-| [`unset`](#unset)       |	../src/3_builtins/	| Unsets environment variables.                         |
+
+| Command                 | File(s)                                           												| Description									|
+|-------------------------|-------------------------------------------------------------------------------------------------|-----------------------------------------------|
+| [`42`](#42)             | [42.c](../src/3_builtins/42.c)                    												| 42 it is ;)                                 	|
+| [`cd`](#cd)             | [cd.c](../src/3_builtins/cd.c)                    												| Changes the current directory.              	|
+| [`echo`](#echo)         | [echo.c](../src/3_builtins/echo.c)                												| Displays a line of text.                    	|
+| [`env`](#env)           | [env.c](../src/3_builtins/env.c)                  												| Displays the environment variables.         	|
+| [`exit`](#exit)         | [exit.c](../src/3_builtins/exit.c)                												| Exits the shell.                            	|
+| [`export`](#export)     | [export.c](../src/3_builtins/export.c)<br>[export_utils.c](../src/3_builtins/export_utils.c)	| Sets or exports environment variables.      	|
+| [`history`](#history)   | [history.c](../src/3_builtins/history.c)          												| Displays the command history.               	|
+| [`pwd`](#pwd)           | [pwd.c](../src/3_builtins/pwd.c)                  												| Prints the working directory.               	|
+| [`unset`](#unset)       | [unset.c](../src/3_builtins/unset.c)              												| Unsets environment variables.               	|
+
+
+
 ---
 
 #### 42
@@ -195,11 +199,15 @@ Each built-in command in frankenshell is detailed below with specific informatio
 |Examples				|								|				|					|							|							|
 |-----------------------|-------------------------------|---------------|-------------------|---------------------------|---------------------------|
 | **Cmd**            	| **STDOUT**    				| **STDERR** 	| **Exit Status** 	| **Explanation**       	| **Affected variables**	|
-| '42'					| [the 42 logo as shown below] 	| 0				|					|							| -							|
-| '42 foo bar'			| [the 42 logo as shown below] 	| 0				|					| all args will be ignored	| -							|
+| '42'					| [the 42 logo as shown below] 	| 				| 0					|							| -							|
+| '42 foo bar'			| [the 42 logo as shown below] 	| 				| 0					| all args will be ignored	| -							|
 
 ---
+
 #### cd
+
+---
+
 #### echo
 Displays a line of text.
 
@@ -219,11 +227,28 @@ Displays a line of text.
 | `[Third Example]`  	| [STDOUT]      | [STDERR]   	| [Status]			| [Explanation]         |-							|
 | `[Fourth Example]` 	| [STDOUT]      | [STDERR]   	| [Status]			| [Explanation]         |-							|
 
+---
+
 #### env
+
+---
+
 #### exit
+
+---
+
 #### export
+
+---
+
 #### history
+
+---
+
 #### pwd
+
+---
+
 #### unset
 
 ## Shell Variables
