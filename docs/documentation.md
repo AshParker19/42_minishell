@@ -154,6 +154,7 @@ These redirections allow for flexible manipulation of command input and output, 
 ### Signals
 
 ## Builtin Commands
+Each built-in command in frankenshell is detailed below with specific information and examples.
 | Command                 | Description                                           |
 |-------------------------|-------------------------------------------------------|
 | [`echo`](#echo)         | Displays a line of text.                              |
@@ -168,6 +169,23 @@ These redirections allow for flexible manipulation of command input and output, 
 
 
 #### echo
+Displays a line of text.
+
+| Information			|								|
+|-----------------------|-------------------------------|
+| Number of Arguments   | [Number of arguments info]   	|
+| Flags                 | [Flags info]                 	|
+| Exit Status           | [Exit status info]           	|
+| Errors                | [Errors info]                	|
+
+|Examples|||||
+|--------------------|---------------|------------|-------------|-----------------------|
+| **Cmd**                | **STDOUT**        | **STDERR**     | **Exit Status** | **Explanation**           |CHANGE ENV VARS
+| `echo "Hello"`     | Hello         |            | 0           | Standard output       |
+| `echo -n "World"`  | World         |            | 0           | No newline at the end |
+| `[Third Example]`  | [STDOUT]      | [STDERR]   | [Status]    | [Explanation]         |
+| `[Fourth Example]` | [STDOUT]      | [STDERR]   | [Status]    | [Explanation]         |
+
 #### cd
 #### pwd
 #### export

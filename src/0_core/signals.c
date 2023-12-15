@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 19:30:56 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/07 11:13:53 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/15 13:54:12 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,26 +49,6 @@ static void	sh_main(int signal)
 	}
 }
 
-static void	update_signals_child(int sig_state)
-{
-	if (sig_state == SIG_STATE_CHILD)
-	{
-		signal(SIGINT, SIG_DFL);
-		signal(SIGQUIT, SIG_DFL);
-	}
-	else if (sig_state == SIG_STATE_CHILD_BUILTIN)
-	{
-		signal(SIGINT, SIG_DFL);
-		signal(SIGQUIT, SIG_DFL);
-		signal(SIGPIPE, SIG_IGN);
-	}
-	else if (sig_state == SIG_STATE_HD_CHILD)
-	{
-		signal(SIGINT, sh_hd);
-		signal(SIGQUIT, SIG_IGN);
-	}
-}
-
 /**
  * @brief   Whenever we fork we need to adjust the signal handling in the 
  *          child and parent. This can be done with this function using the
@@ -103,6 +83,20 @@ void	update_signals(int sig_state)
 		signal(SIGINT, SIG_IGN);
 		signal(SIGQUIT, SIG_IGN);
 	}
-	else
-		update_signals_child(sig_state);
+	else if (sig_state == SIG_STATE_CHILD)
+	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
+	}
+	else if (sig_state == SIG_STATE_CHILD_BUILTIN)
+	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
+		signal(SIGPIPE, SIG_IGN);
+	}
+	else if (sig_state == SIG_STATE_HD_CHILD)
+	{
+		signal(SIGINT, sh_hd);
+		signal(SIGQUIT, SIG_IGN);
+	}
 }
