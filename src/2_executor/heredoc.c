@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:00:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/15 01:41:17 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/15 14:10:44 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void	hd_child(t_mbox *mbox, t_hd hd, int *cur_p)
 		close(cur_p[P_RIGHT]);
 	update_signals(SIG_STATE_HD_CHILD);
 	expand_vars = check_lim_qoutes(&hd.lim);
-	while (FRANCENDOC_ECHOES_IN_ETERNITY)
+	while (ft_true)
 	{
 		hd.cur_line = readline(HEREDOC_PROMPT);
 		tmp_exiter(mbox, &hd);

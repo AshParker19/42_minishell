@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 18:00:32 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/21 14:34:21 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/15 14:08:12 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,5 @@ void	builtin_header(t_mbox *mbox, t_ast *arg_node)
 	B_WHITE":::::"YELLOW"2\n"CYAN"        4"B_WHITE"::::::::"CYAN"4"YELLOW"2" \
 	B_WHITE"::::::::::::::::::"YELLOW"2\n"CYAN"        4444444444" \
 	YELLOW"22222222222222222222\n"RESET, mbox->executor.io.cmd_fd[CMD_OUT]);
-	set_var_value(mbox, "?", EXIT_SUCCESS_STR);
+	set_var_value_int(mbox, "?", EXIT_SUCCESS);
 }

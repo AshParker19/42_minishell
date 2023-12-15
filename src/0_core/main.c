@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:06:17 by astein            #+#    #+#             */
-/*   Updated: 2023/12/15 13:54:44 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/15 14:10:19 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	main(int ac, char **av, char **env)
 	initialize_mbox(&mbox, env);
 	check_args(&mbox, ac, av);
 	increment_shlvl(&mbox);
-	while (FRANKENSHELL_RISES_AMIDTS_DEATH)
+	while (ft_true)
 	{
 		reset_cycle(&mbox);
 		mbox.count_cycles++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   config.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astein <astein@student.42.fr>              +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 16:07:39 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/07 17:04:12 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/15 14:10:54 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,16 +78,6 @@ enum e_signal_state
 # define PROMPT 		"\001\x1b[36m\002frankenshell--> \001\033[0m\002"
 # define ERR_P  		"\001\033[38;5;203m\002frankenshell: \001\033[0m\002"
 # define HEREDOC_PROMPT	"\001\x1b[33m\002frankendoc> \001\033[0m\002"
-
-/******************************# INFINITE LOOPS #******************************/
-
-# define FRANKENSHELL_RISES_AMIDTS_DEATH	1
-# define FRANCENDOC_ECHOES_IN_ETERNITY		1
-
-/****************************# EXIT STATUS STRING #****************************/
-
-# define EXIT_SUCCESS_STR 					"0"
-# define EXIT_FAILURE_STR 					"1"
 
 /********************************# TOKENIZER #*********************************/
 

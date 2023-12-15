@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   history.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 11:45:50 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/05 10:09:08 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/15 14:08:00 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,5 +83,5 @@ void	builtin_history(t_mbox *mbox, t_ast *arg_node)
 {
 	(void)arg_node;
 	ft_lstiter(mbox->history_lst, print_history_node);
-	set_var_value(mbox, "?", EXIT_SUCCESS_STR);
+	set_var_value_int(mbox, "?", EXIT_SUCCESS);
 }

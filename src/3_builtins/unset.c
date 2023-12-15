@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:33:25 by astein            #+#    #+#             */
-/*   Updated: 2023/12/05 00:55:25 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/15 14:07:50 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,5 @@ void	builtin_unset(t_mbox *mbox, t_ast *arg_node)
 		delete_var(mbox, arg_node->content);
 		arg_node = arg_node->right;
 	}
-	set_var_value(mbox, "?", EXIT_SUCCESS_STR);
+	set_var_value_int(mbox, "?", EXIT_SUCCESS);
 }
