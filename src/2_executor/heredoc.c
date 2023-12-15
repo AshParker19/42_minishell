@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:00:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/05 16:02:21 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/15 01:41:17 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,10 +105,10 @@ t_bool	heredoc(t_mbox *mbox, t_ast *redir_node, int *cur_p)
 	int		pid_hd;
 
 	if (pipe(fd) < 0)
-		return (err_free_and_close_box(mbox, EXIT_FAILURE));
+		return (destroy_mbox_with_exit(mbox, EXIT_FAILURE));
 	pid_hd = fork();
 	if (pid_hd < 0)
-		return (err_free_and_close_box(mbox, EXIT_FAILURE));
+		return (destroy_mbox_with_exit(mbox, EXIT_FAILURE));
 	if (pid_hd == 0)
 		hd_child(mbox, (t_hd){fd, ft_strdup(redir_node->content), NULL}, cur_p);
 	return (hd_parent(mbox, pid_hd, &mbox->executor.io.cmd_fd[CMD_IN], fd));

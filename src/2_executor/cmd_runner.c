@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_runner.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:09:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/05 16:03:04 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/15 01:52:06 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,5 @@ t_bool	run_single_builtin(t_mbox *mbox)
 	mbox->executor.io.cmd_fd[CMD_IN] = -1;
 	mbox->executor.io.cmd_fd[CMD_OUT] = -1;
 	close_process_fds_v2(mbox);
-	free_cycle_v2(mbox);
 	return (ft_true);
 }

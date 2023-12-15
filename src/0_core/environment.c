@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:16:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/04 23:57:02 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/15 01:39:22 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ void	delete_var(t_mbox *mbox, const char *key)
  *              - content via 'free_var_v2'
  *              - node itself
  *          
- *          NOTE: function should only be called by 'free_and_close_box_v2'
+ *          NOTE: function should only be called by 'destroy_mbox'
  * 
  * @param	mbox mbox is a struct that stores all runtime related infos
  */

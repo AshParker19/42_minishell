@@ -3,12 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   manage_mbox.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:49:13 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/05 15:31:50 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/15 01:49:45 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+/**
+ * @brief   All frankenshell aka minishell related variables are stored in the
+ * 			mbox struct. This file contains all functions related to the
+ * 			initialization, freeing and closing of the mbox struct.
+ * 			It cointains the following functions:
+ * 
+ */
 
 #include "minishell.h"
 
@@ -20,7 +28,7 @@
  * @param mbox 
  * @param env 
  */
-void	initialize_box_v2(t_mbox *mbox, char **env)
+void	initialize_mbox(t_mbox *mbox, char **env)
 {
 	g_signal_status = 0;
 	mbox->env = NULL;
@@ -44,52 +52,34 @@ void	initialize_box_v2(t_mbox *mbox, char **env)
 }
 
 /**
- * @brief	This is the main freeing function which we call after each cycle
- * 			of treating an input promt.
- * 			It frees all allocated memory and closes all fds related to
- * 			one cycle:
- * 				- free_input_strings_v2
- * 				- free_tokens_v2
- * 				- free_ast_v2
- * 				- close_process_fds_v2
- * 
- * @param	mbox 
- */
-void	free_cycle_v2(t_mbox *mbox)
-{
-	if (!mbox)
-		return ;
-	free_input_strings_v2(mbox);
-	free_tokens_v2(mbox);
-	free_ast_v2(mbox->root);
-	mbox->root = NULL;
-	close_process_fds_v2(mbox);
-	free_process_v2(mbox);
-}
-
-/**
  * @brief	check all members of the mbox struct at the end of the program 
  * 			and frees them if they are inizialised.
  * 			then exits with the proper exit status
  * 
  * @param	mbox 
  */
-void	free_and_close_box_v2(t_mbox *mbox)
+
+/**
+ * @brief   
+ * 
+ * @param   mbox        
+ */
+void	destroy_mbox(t_mbox *mbox)
 {
 	int	exit_status;
 
 	if (!mbox)
 		return ;
 	exit_status = ft_atoi(get_var_value(mbox, "?"));
-	free_cycle_v2(mbox);
+	reset_cycle(mbox);
 	ft_lstclear(&(mbox->history_lst), del_history_node);
 	free_vars_v2(mbox);
 	exit(exit_status);
 }
 
-t_bool	err_free_and_close_box(t_mbox *mbox, int exit_status)
+t_bool	destroy_mbox_with_exit(t_mbox *mbox, int exit_status)
 {
 	set_var_value_int(mbox, "?", exit_status);
-	free_and_close_box_v2(mbox);
+	destroy_mbox(mbox);
 	return (ft_false);
 }

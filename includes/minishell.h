@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2023/12/05 15:44:32 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/15 01:48:46 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,11 +110,10 @@ void	set_var_value_int(t_mbox *mbox, const char *key, int int_value);
 void	update_signals(int sig_state);
 
 /* manage_mbox.c */
-void	initialize_box_v2(t_mbox *mbox, char **env);
-void	free_cycle_v2(t_mbox *mbox);
+void	initialize_mbox(t_mbox *mbox, char **env);
 void	free_input_strings_v2(t_mbox *mbox);
 void	free_tokens_v2(t_mbox *mbox);
-void	free_and_close_box_v2(t_mbox *mbox);
+void	destroy_mbox(t_mbox *mbox);
 
 /* display_flow.c */
 void	put_headline(char *caption, char *data, char *clr);
@@ -128,7 +127,7 @@ void	print_executor_output(t_mbox *mbox, t_bool top_part);
 
 /* general_utils.c */
 void	reset_cycle(t_mbox *mbox);
-t_bool	err_free_and_close_box(t_mbox *mbox, int exit_status);
+t_bool	destroy_mbox_with_exit(t_mbox *mbox, int exit_status);
 void	err_msg(t_mbox *mbox, int exit_status, const char *format, ...);
 void	*create_syntax_err(t_mbox *mbox, t_token *err_token);
 

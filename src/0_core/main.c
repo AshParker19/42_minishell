@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:06:17 by astein            #+#    #+#             */
-/*   Updated: 2023/12/15 01:26:54 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/15 01:39:22 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void	check_args(t_mbox *mbox, int ac, char **av)
 	else
 		err_msg(mbox, 1, "nn", ERR_P, WN);
 	set_var_value_int(mbox, "?", EXIT_FAILURE);
-	free_and_close_box_v2(mbox);
+	destroy_mbox(mbox);
 }
 
 /**
@@ -74,7 +74,7 @@ int	main(int ac, char **av, char **env)
 {
 	t_mbox	mbox;
 
-	initialize_box_v2(&mbox, env);
+	initialize_mbox(&mbox, env);
 	check_args(&mbox, ac, av);
 	increment_shlvl(&mbox);
 	while (FRANKENSHELL_RISES_AMIDTS_DEATH)

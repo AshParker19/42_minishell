@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 19:28:09 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/05 15:58:43 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/15 01:39:22 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,5 +76,5 @@ void	exit_heredoc_child(t_mbox *mbox, t_hd *hd, int exit_status)
 	free_whatever("pp", hd->lim, hd->cur_line);
 	set_var_value_int(mbox, "?", exit_status);
 	close_process_fds_v2(mbox);
-	free_and_close_box_v2(mbox);
+	destroy_mbox(mbox);
 }
