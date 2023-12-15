@@ -6,11 +6,11 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:33:57 by astein            #+#    #+#             */
-/*   Updated: 2023/12/15 01:39:22 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/15 14:16:57 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "frankenshell.h"
 
 static void	err_exit_exit(t_mbox *mbox, char *str)
 {

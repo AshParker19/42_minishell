@@ -6,11 +6,11 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:33:25 by astein            #+#    #+#             */
-/*   Updated: 2023/12/15 14:07:50 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/15 14:16:57 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "frankenshell.h"
 
 /**
  * @brief   traverses through the arguments of arg_node and deletes

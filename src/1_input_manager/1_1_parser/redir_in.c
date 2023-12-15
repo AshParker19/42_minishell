@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   redir_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 20:24:57 by anshovah          #+#    #+#             */
-/*   Updated: 2023/11/21 18:41:17 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/15 14:16:57 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "frankenshell.h"
 
 static t_ast	*redir_in_case1(t_mbox *mbox);
 static t_ast	*redir_in_case2(t_mbox *mbox);

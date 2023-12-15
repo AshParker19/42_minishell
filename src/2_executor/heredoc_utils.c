@@ -6,11 +6,11 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 19:28:09 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/15 01:39:22 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/15 14:16:57 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "frankenshell.h"
 
 /**
  * @brief   this function gets a string and should return a copied str of the

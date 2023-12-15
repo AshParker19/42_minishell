@@ -6,11 +6,11 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:43:17 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/15 01:49:36 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/15 14:16:57 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "frankenshell.h"
 
 /**
  * @brief	This is the main freeing function which we call after each cycle

@@ -6,11 +6,11 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 12:11:14 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/15 01:50:40 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/15 14:16:57 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"     
+#include "frankenshell.h"     
 
 /**
  * @brief	accepts a string which could contain shifted values and cheks if:
