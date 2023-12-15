@@ -6,11 +6,11 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:32:55 by astein            #+#    #+#             */
-/*   Updated: 2023/12/05 00:47:59 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/15 14:16:57 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "frankenshell.h"
 
 /**
  * @brief	acceses the value PWD from the ll and writs to the correct FD
@@ -21,7 +21,13 @@
  */
 void	builtin_pwd(t_mbox *mbox, t_ast *arg_node)
 {
+	char	*temp;
+
 	(void)arg_node;
-	ft_putendl_fd(getcwd(NULL, 0), mbox->executor.io.cmd_fd[CMD_OUT]);
-	set_var_value(mbox, "?", EXIT_SUCCESS_STR);
+	temp = NULL;
+	temp = getcwd(NULL, 0);
+	ft_putendl_fd(temp, mbox->executor.io.cmd_fd[CMD_OUT]);
+	set_var_value_int(mbox, "?", EXIT_SUCCESS);
+	if (temp)
+		free(temp);
 }

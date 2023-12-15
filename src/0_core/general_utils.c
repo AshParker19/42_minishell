@@ -3,30 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   general_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:43:17 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/05 16:05:00 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/15 19:08:03 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "frankenshell.h"
 
 /**
+ * @brief	This is the main freeing function which we call after each cycle
+ * 			of treating an input promt.
+ * 			It frees all allocated memory and closes all fds related to
+ * 			one cycle:
+ * 				- free_input_strings_v2
+ * 				- free_tokens_v2
+ * 				- free_ast_v2
+ * 				- close_process_fds_v2
  * @brief   this function frees and resets everthting thats needed to process
  *          one cycle
  * 
- *          NOTE:   only be called from 'main' before reading a new line
  * 
- * @param mbox 
+ * @param	mbox 
  */
 void	reset_cycle(t_mbox *mbox)
 {
-	free_cycle_v2 (mbox);
+	if (!mbox)
+		return ;
+	free_input_strings_v2(mbox);
+	free_tokens_v2(mbox);
+	free_ast_v2(mbox->root);
+	mbox->root = NULL;
+	close_process_fds_v2(mbox);
+	free_process_v2(mbox);
 	mbox->executor.io.prev_pipe[P_LEFT] = -1;
 	mbox->executor.io.prev_pipe[P_RIGHT] = -1;
 	mbox->executor.pid_index = 0;
-	update_signals(SIG_STATE_MAIN);
+	conf_sig_handler(SIG_STATE_MAIN);
 	g_signal_status = 0;
 	mbox->consecutive_lt = 0;
 }

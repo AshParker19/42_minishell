@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:19:44 by astein            #+#    #+#             */
-/*   Updated: 2023/12/05 16:56:39 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/15 19:08:03 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "frankenshell.h"
 
 static void	exec_child(t_mbox *mbox, t_ast *cmd_node, int *cur_p)
 {
 	if (is_cmd_builtin(mbox, cmd_node->content))
-		update_signals(SIG_STATE_CHILD_BUILTIN);
+		conf_sig_handler(SIG_STATE_CHILD_BUILTIN);
 	else
-		update_signals(SIG_STATE_CHILD);
+		conf_sig_handler(SIG_STATE_CHILD);
 	setup_pipes(mbox, cur_p);
 	if (!configure_redir(mbox, cmd_node->left, cur_p))
 	{
@@ -26,7 +26,7 @@ static void	exec_child(t_mbox *mbox, t_ast *cmd_node, int *cur_p)
 		if (cmd_node->cmd_pos != FIRST_CMD
 			&& mbox->executor.io.prev_pipe[P_RIGHT] != -1)
 			close(mbox->executor.io.prev_pipe[P_RIGHT]);
-		free_and_close_box_v2(mbox);
+		destroy_mbox(mbox);
 	}
 	setup_process_std_tmp(mbox);
 	if (cmd_node->cmd_pos == FIRST_CMD || cmd_node->cmd_pos == MIDDLE_CMD)
@@ -35,7 +35,7 @@ static void	exec_child(t_mbox *mbox, t_ast *cmd_node, int *cur_p)
 		&& mbox->executor.io.prev_pipe[P_RIGHT] != -1)
 		close(mbox->executor.io.prev_pipe[P_RIGHT]);
 	run_cmd_main(mbox, cmd_node);
-	free_and_close_box_v2(mbox);
+	destroy_mbox(mbox);
 }
 
 static t_bool	exec_parent(t_mbox *mbox, int *cur_p, t_ast *node, int kid_pid)
@@ -77,12 +77,12 @@ static t_bool	execute_cmd(t_mbox *mbox, t_ast *cmd_node, int cmd_pos)
 		setup_use_pipe(mbox, cmd_pos);
 		if (cmd_pos == FIRST_CMD || cmd_pos == MIDDLE_CMD)
 			if (pipe(cur_pipe) < 0)
-				return (err_free_and_close_box(mbox, EXIT_FAILURE));
+				return (destroy_mbox_with_exit(mbox, EXIT_FAILURE));
 		mbox->executor.pid[mbox->executor.pid_index] = fork();
 		child_pid = mbox->executor.pid[mbox->executor.pid_index];
 		if (child_pid < 0)
-			return (err_free_and_close_box(mbox, EXIT_FAILURE));
-		update_signals(SIG_STATE_PARENT);
+			return (destroy_mbox_with_exit(mbox, EXIT_FAILURE));
+		conf_sig_handler(SIG_STATE_PARENT);
 		if (child_pid == 0)
 			exec_child(mbox, cmd_node, cur_pipe);
 		else

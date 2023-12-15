@@ -1,20 +1,16 @@
-# Makefile for minishell
-# .SILENT:
+# Makefile for frankenshell
 
 # Variables
-NAME=minishell
-
-# Prints DEBUG Messages
-DEBUG = 0
+NAME=frankenshell
 
 # Compiler options
 CC = cc
-CFLAGS = -D DEBUG=$(DEBUG) -g -Wall -Werror -Wextra  #-gp -fsanitize=address -fsanitize-address-use-after-scope
+CFLAGS = -g -Wall -Werror -Wextra
 CLIBS = -L$(LIB_FOLDER) -lft -lm -lreadline
 CINCLUDES  = -I$(INCLUDE_FOLDER) 
 RM = rm -rf
 
-# ->Colors
+# Colors
 RED    = 	\033[0;31m
 GREEN  = 	\033[0;32m
 ORANGE = 	\033[0;33m
@@ -22,13 +18,13 @@ BLUE   = 	\033[34m
 PURPLE = 	\033[35m
 RESET  = 	\033[0m
 
-# ->Folders
+# Folders
 INCLUDE_FOLDER = ./includes/
 SRC_FOLDER     = ./src/
 OBJ_FOLDER     = ./obj/
 LIB_FOLDER     = ./libft/
 
-# ->Files
+# Files
 LIBFT = $(LIB_FOLDER)libft.a
 SRCS = $(addprefix $(SRC_FOLDER), 						\
 	0_core/main.c										\
@@ -83,16 +79,16 @@ OBJS = $(SRCS:$(SRC_FOLDER)%.c=$(OBJ_FOLDER)%.o)
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
 
-# TARGETS
-.PHONY: all clean fclean re norm
+# Targets
+.PHONY: all clean fclean re valgrind stats art
 
 all:  art $(NAME)
 
 $(NAME): $(LIBFT) $(OBJS)
 	@$(CC) $(OBJS) $(CFLAGS) $(CLIBS) $(CINCLUDES) -o $(NAME)
-	@echo "\n$(ORANGE)╔═══════════════════════╗"
-	@echo "$(ORANGE)║  $(GREEN)$(NAME):  created$(ORANGE)  ║" #revived
-	@echo "$(ORANGE)╚═══════════════════════╝$(RESET)"
+	@echo "\n$(ORANGE)╔══════════════════════════╗"
+	@echo "$(ORANGE)║  $(GREEN)$(NAME):  created$(ORANGE)  ║"
+	@echo "$(ORANGE)╚══════════════════════════╝$(RESET)"
 
 $(OBJ_FOLDER)%.o: $(SRC_FOLDER)%.c 
 	@mkdir -p $(@D)
@@ -117,107 +113,14 @@ fclean: clean
 
 re: fclean all
 
-norm : 
-	@echo "$(ORANGE)******************************$(GREEN)"
-	@echo "$(BLUE)      CHECK SOURSE FILES$(RESET)"
-	@echo "$(ORANGE)******************************$(GREEN)"
-	@norminette src
-	@echo "$(BLUE)        CHECK INCLUDES$(RESET)"
-	@echo "$(ORANGE)******************************$(GREEN)"
-	@norminette includes
-	@echo "$(ORANGE)******************************$(BLUE)"
-	@echo "        NO NORM ERRORS$(RESET)"
-	@echo "$(ORANGE)******************************$(DEF)"
-
 readline.supp:
 	wget https://raw.githubusercontent.com/benjaminbrassart/minishell/master/readline.supp
-
-valmem:$(NAME) readline.supp
-	valgrind --leak-check=full --show-leak-kinds=all --suppressions=readline.supp ./$(NAME)
-
-valfd:$(NAME) readline.supp
-	valgrind --track-fds=yes --suppressions=readline.supp ./$(NAME)
-
-valchild:$(NAME) readline.supp
-	valgrind --trace-children=yes --suppressions=readline.supp ./$(NAME)
 
 valgrind:$(NAME) readline.supp
 	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=readline.supp ./$(NAME)
 
-HEADER_PRINT:
-	@echo "$(ORANGE)┌───────────────────────┐"
-	@echo "│ $(BLUE)Compiling:  $(NAME)$(ORANGE) │"
-	@echo "$(ORANGE)└───────────────────────┘$(RESET)"
-
-DOT:
-	gprof minishell
-	gprof ./minishell | /nfs/homes/astein/Downloads/gprof2dot/gprof2dot.py | xclip -selection clipboard
-	echo "DONE - NOW IS IN CLIPBOARD"
-
 stats:
-	./tester/count_stats.sh
-
-t: t1 t2 t3
-
-t1: CFLAGS += -D BASIC_PROMTS=TRUE
-t1: re
-	$(call print_header, "https://github.com/MariaAguiar/minitester")
-	@cp ./minishell ./tester/minishell
-	@cd ./tester/tester1 && bash ./minitester.sh
-
-t2: CFLAGS += -D BASIC_PROMTS=TRUE
-t2: re
-	$(call print_header, "https://github.com/LucasKuhn/minishell_tester")
-	@cp ./minishell ./tester/minishell
-	$(call print_header, NORMAL)
-	@cd ./tester/tester2 && bash ./tester || echo "TEST COMPLETED"
-	$(call print_header, SYNTAX)
-	@cd ./tester/tester2 && bash ./tester syntax || echo "TEST COMPLETED"
-	$(call print_header, OS SPECIFIC)
-	@cd ./tester/tester2 && bash ./tester os_specific || echo "TEST COMPLETED"
-
-t3: CFLAGS += -D BASIC_PROMTS=TRUE
-t3: re
-	$(call print_header, FRANKENSHELL TEST)
-	@cd ./tester/tester2 && bash ./tester frankenshell || echo "TEST COMPLETED"
-
-run: all
-	./minishell
+	@./count_stats.sh
 
 art:
-	@echo "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿"
-	@echo "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⣿⣿⣿⡛⠿⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿"
-	@echo "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⣿⣯⣴⣾⣿⣿⣿⣿⣿⣿⣿⣿⣯⣤⣀⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿"
-	@echo "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢟⣡⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣟⠛⠛⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿"
-	@echo "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠋⢰⣿⡿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⣆⠀⠈⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿"
-	@echo "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠁⠀⠀⣄⢳⡿⢿⣯⣷⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡅⠑⣿⣦⠀⠘⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿"
-	@echo "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠁⠀⠀⠀⠀⠀⢀⣬⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣄⠀⠹⡇⠀⢹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿"
-	@echo "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⣠⣾⣿⣿⣽⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⡀⠀⠀⠘⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿"
-	@echo "⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⢀⡀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿"
-	@echo "⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⢠⢟⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢉⡀⠀⠀⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿"
-	@echo "⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⢠⣿⣿⣿⠿⠛⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠙⠿⣿⡆⠃⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿"
-	@echo "⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠱⣾⠟⠁⠀⢀⣠⣤⡤⠀⠀⠀⠀⣲⣶⠀⠀⠀⢀⣠⣤⣄⠀⠀⠈⠻⠈⠀⠀⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿"
-	@echo "⣿⣿⣿⣿⣿⣿⣿⣿⣿⡆⠀⠀⠀⠀⠏⠀⠀⣠⠿⠛⠉⠀⠀⠘⠆⣼⣿⣿⣷⠠⠂⠈⠉⠛⠛⠃⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿"
-	@echo "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⠀⠀⠀⠀⠀⣤⣾⣄⠀⠀⡀⠀⢀⡀⣸⣿⣿⣿⣿⣇⠀⢶⣤⠀⠀⠀⠀⠀⠀⢸⡇⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿"
-	@echo "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⣸⠀⢿⣿⣥⣤⣤⣤⣴⣿⣷⠿⠿⠿⠿⠛⠻⢤⣷⣤⣁⣀⣀⣽⣿⡆⢸⡁⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿"
-	@echo "⣿⣿⣿⣿⣿⣿⣿⣿⡟⠁⠁⠀⠀⡿⠀⠈⢿⡿⣿⣿⢩⣿⣿⠋⠀⠀⠀⠀⠀⠀⠈⢿⣿⣿⣿⣿⣿⠿⠁⠀⠃⠘⠉⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿"
-	@echo "⣿⣿⣿⣿⣿⣿⣿⣿⡇⠄⢠⠀⠀⠀⠀⠀⠀⠁⠀⠁⣸⣿⣿⣀⣤⣷⣶⣦⣤⣤⣤⣼⣿⣿⢿⡿⠓⠀⠀⠀⠀⠀⡀⣰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿"
-	@echo "⣿⣿⣿⣿⣿⣿⣿⣿⣇⠀⢸⡇⠀⠀⠀⠀⠀⠀⠀⠀⠏⣽⣿⣿⣿⣿⣿⣿⣿⣿⣧⣿⣿⣿⠀⠀⢡⣷⠀⠀⠀⠀⡀⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿"
-	@echo "⣿⣿⣿⣿⣿⣿⣿⣿⣿⡆⢸⣷⠀⠀⠀⠀⠄⠀⠀⠀⠀⠿⠿⣿⠿⠟⠛⠛⠛⠋⠛⠋⠛⣿⠁⢠⣿⣿⠀⠀⠀⢸⡧⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿"
-	@echo "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⠀⠉⢀⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣤⣤⣤⣤⣤⣀⣀⡀⣸⣿⣿⡿⣿⡀⠀⠀⠋⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿"
-	@echo "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⣀⣋⣥⡄⠀⠀⣸⡆⣀⣤⣤⡀⣹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⢿⠀⢠⣈⣡⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿"
-	@echo "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⠀⠀⣿⣿⣿⣿⣿⣫⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣟⠧⠀⠀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿"
-	@echo "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠘⡿⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠇⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿"
-	@echo "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠛⠿⣿⣿⡿⢿⣿⣿⡿⠿⠟⠻⠿⠏⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿"
-	@echo "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠉⠃⠀⠀⠈⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⢫⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿"
-	@echo "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⣿⣿⡷⠀⠁⢆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠺⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿"
-	@echo "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⣴⣶⠆⠀⠀⠘⠑⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿"
-	@echo "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⠁⠀⠀⠀⠀⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿"
-	@echo "⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠻⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿"
-	@echo "⣿⣿⡿⠿⠛⠛⠋⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠄⠀⠀⠿⢻⣿⣿⣿⣿⣿⣿⣿"
-	@echo "⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠠⠀⠀⠀⠀⠹⢿⣿⣿⣿⣿⣿"
-	@echo "⠀⢀⣀⣀⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡄⠀⠀⠀⠀⠀⠀⠀⡄ ⡄⠀  ⠀⠀⠀⠀⠀⢛⣿⣿⣿⣿"
-	@echo "⠀⢸⡇⠀⠀⠀⣤⠤⣠⠤⢤⠀⢠⡤⢤⡀⢸⠀⣠⠄⣠⠤⣄⠀⣤⠤⢤⠀⡠⠤⣄⠀⣧⠤⣄⠀⣠⠤⣄⠀⡇ ⡇⠀  ⠀⠀⢀⡶⢶⣾⢻⣿⣿⣿"
-	@echo "⠀⢸⡏⠉⠉⠀⡇⠀⣠⠖⢺⡇⢺⠀⠀⡇⢸⠾⡅⠀⡗⠒⠚⠀⡇⠀⢸⠀⠑⠶⢤⠀⡇⠀⢸⠀⡗⠒⠚⠀⡇ ⡇⠀  ⠀⠀⠀⠉⣉⠉⣸⣿⣿⣿"
-	@echo "⠀⠘⠃⠀⠀⠀⠃⠀⠙⠶⠚⠃⠚⠀⠀⠃⠘⠀⠙⠂⠙⠲⠚⠀⠃⠀⠘⠀⠓⠶⠚⠀⠃⠀⠘⠀⠙⠲⠚⠀⠃ ⠃⠀  ⠀⠀⠁⠂⠳⠘⢿⣿⣿⣿"
-	@echo "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠠⠀⢠⢺⣿⣿⣿⣿"
+	@./art.sh
