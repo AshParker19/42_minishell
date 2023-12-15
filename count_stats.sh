@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 # Find all .c files in the current directory and its subdirectories excluding libft/src
 c_files=$(find . -type f -name "*.c" ! -path "./libft/src/*")
 
