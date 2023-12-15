@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:00:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/15 14:16:57 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/15 19:08:03 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	hd_child(t_mbox *mbox, t_hd hd, int *cur_p)
 	close(hd.fd[P_RIGHT]);
 	if (cur_p && cur_p[P_RIGHT] != -1)
 		close(cur_p[P_RIGHT]);
-	update_signals(SIG_STATE_HD_CHILD);
+	conf_sig_handler(SIG_STATE_HD_CHILD);
 	expand_vars = check_lim_qoutes(&hd.lim);
 	while (ft_true)
 	{
@@ -67,9 +67,9 @@ t_bool	hd_parent(t_mbox *mbox, int pid_hd, int *cmd_in_fd, int *fd)
 
 	exit_status = 0;
 	close(fd[P_LEFT]);
-	update_signals(SIG_STATE_IGNORE);
+	conf_sig_handler(SIG_STATE_IGNORE);
 	waitpid(pid_hd, &exit_status, 0);
-	update_signals(SIG_STATE_CHILD);
+	conf_sig_handler(SIG_STATE_CHILD);
 	if (exit_status != EXIT_SUCCESS)
 	{
 		g_signal_status = SIGNAL_EXIT_HD;

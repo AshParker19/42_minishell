@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 13:48:08 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/15 14:16:57 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/15 19:08:03 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,9 +133,9 @@ t_bool	hd_parent_wait(t_mbox *mbox, int *cur_p, t_ast *node_cpy, int kid_pid)
 		node_cpy = node_cpy->left;
 		if (node_cpy->type == RED_IN_HD)
 		{
-			update_signals(SIG_STATE_IGNORE);
+			conf_sig_handler(SIG_STATE_IGNORE);
 			waitpid(kid_pid, &exit_status, 0);
-			update_signals(SIG_STATE_PARENT);
+			conf_sig_handler(SIG_STATE_PARENT);
 			set_var_value_int(mbox, "?", WEXITSTATUS(exit_status));
 			if (exit_status != EXIT_SUCCESS)
 			{

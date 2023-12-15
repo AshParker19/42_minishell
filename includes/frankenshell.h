@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2023/12/15 14:15:52 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/15 19:08:03 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void	set_var_value(t_mbox *mbox, const char *key, const char *value);
 void	set_var_value_int(t_mbox *mbox, const char *key, int int_value);
 
 /* signals.c */
-void	update_signals(int sig_state);
+void	conf_sig_handler(int sig_state);
 
 /* manage_mbox.c */
 void	initialize_mbox(t_mbox *mbox, char **env);

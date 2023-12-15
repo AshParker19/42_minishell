@@ -153,6 +153,14 @@ These redirections allow for flexible manipulation of command input and output, 
 #### Exit Status
 ### Signals
 
+	SIG_STATE_MAIN,
+	SIG_STATE_PARENT,
+	SIG_STATE_CHILD,
+	SIG_STATE_CHILD_BUILTIN,
+	SIG_STATE_HD_CHILD,
+	SIG_STATE_IGNORE
+ 
+
 ## Builtin Commands
 Each built-in command in frankenshell is detailed below with specific information and examples.
 | Command                 | Description                                           |

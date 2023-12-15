@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:19:44 by astein            #+#    #+#             */
-/*   Updated: 2023/12/15 14:16:57 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/15 19:08:03 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 static void	exec_child(t_mbox *mbox, t_ast *cmd_node, int *cur_p)
 {
 	if (is_cmd_builtin(mbox, cmd_node->content))
-		update_signals(SIG_STATE_CHILD_BUILTIN);
+		conf_sig_handler(SIG_STATE_CHILD_BUILTIN);
 	else
-		update_signals(SIG_STATE_CHILD);
+		conf_sig_handler(SIG_STATE_CHILD);
 	setup_pipes(mbox, cur_p);
 	if (!configure_redir(mbox, cmd_node->left, cur_p))
 	{
@@ -82,7 +82,7 @@ static t_bool	execute_cmd(t_mbox *mbox, t_ast *cmd_node, int cmd_pos)
 		child_pid = mbox->executor.pid[mbox->executor.pid_index];
 		if (child_pid < 0)
 			return (destroy_mbox_with_exit(mbox, EXIT_FAILURE));
-		update_signals(SIG_STATE_PARENT);
+		conf_sig_handler(SIG_STATE_PARENT);
 		if (child_pid == 0)
 			exec_child(mbox, cmd_node, cur_pipe);
 		else
