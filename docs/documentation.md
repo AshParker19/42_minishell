@@ -164,45 +164,67 @@ These redirections allow for flexible manipulation of command input and output, 
 
 ## Builtin Commands
 Each built-in command in frankenshell is detailed below with specific information and examples.
-| Command                 | Description                                           |
-|-------------------------|-------------------------------------------------------|
-| [`echo`](#echo)         | Displays a line of text.                              |
-| [`cd`](#cd)             | Changes the current directory.                        |
-| [`pwd`](#pwd)           | Prints the working directory.                         |
-| [`export`](#export)     | Sets or exports environment variables.                |
-| [`unset`](#unset)       | Unsets environment variables.                         |
-| [`env`](#env)           | Displays the environment variables.                   |
-| [`42`](#42)             | 42 it is ;)                                           |
-| [`history`](#history)   | Displays the command history.                         |
-| [`exit`](#exit)         | Exits the shell.                                      |
+| Command                 |	File		| Description                                           |
+|-------------------------|-----------------------------|-------------------------------------------------------|
+| [`42`](#42) | [../src/3_builtins/42.c](../src/3_builtins/42.c) | 42 it is ;) |
+| [`cd`](#cd)             |	../src/3_builtins/	| Changes the current directory.                        |
+| [`echo`](#echo)         |	../src/3_builtins/	| Displays a line of text.                              |
+| [`env`](#env)           |	../src/3_builtins/	| Displays the environment variables.                   |
+| [`exit`](#exit)         |	../src/3_builtins/	| Exits the shell.                                      |
+| [`export`](#export)     |	../src/3_builtins/	| Sets or exports environment variables.                |
+| [`history`](#history)   |	../src/3_builtins/	| Displays the command history.                         |
+| [`pwd`](#pwd)           |	../src/3_builtins/	| Prints the working directory.                         |
+| [`unset`](#unset)       |	../src/3_builtins/	| Unsets environment variables.                         |
+---
+
+#### 42
+<details>
+  <summary>Displays a pretty 42 logo to STDOUT (or its redirection)</summary>
+
+  ![42][builtin_42]  
+</details>
 
 
+| Information			|								|
+|-----------------------|-------------------------------|
+| Number of Arguments   | [all args will be ignored]   	|
+| Flags                 | [N/A]	                 		|
+| Exit Status           | 0					           	|
+| Errors                | [No Error Handling]		 	|
+
+|Examples				|								|				|					|							|							|
+|-----------------------|-------------------------------|---------------|-------------------|---------------------------|---------------------------|
+| **Cmd**            	| **STDOUT**    				| **STDERR** 	| **Exit Status** 	| **Explanation**       	| **Affected variables**	|
+| '42'					| [the 42 logo as shown below] 	| 0				|					|							| -							|
+| '42 foo bar'			| [the 42 logo as shown below] 	| 0				|					| all args will be ignored	| -							|
+
+---
+#### cd
 #### echo
 Displays a line of text.
 
 | Information			|								|
 |-----------------------|-------------------------------|
-| Number of Arguments   | [Number of arguments info]   	|
-| Flags                 | [Flags info]                 	|
+| Number of Arguments   | 0 to n					   	|
+| Argument Format	   	| all ASCII chars allowed	   	|
+| Flags                 | -n		                 	|
 | Exit Status           | [Exit status info]           	|
 | Errors                | [Errors info]                	|
 
-|Examples|||||
-|--------------------|---------------|------------|-------------|-----------------------|
-| **Cmd**                | **STDOUT**        | **STDERR**     | **Exit Status** | **Explanation**           |CHANGE ENV VARS
-| `echo "Hello"`     | Hello         |            | 0           | Standard output       |
-| `echo -n "World"`  | World         |            | 0           | No newline at the end |
-| `[Third Example]`  | [STDOUT]      | [STDERR]   | [Status]    | [Explanation]         |
-| `[Fourth Example]` | [STDOUT]      | [STDERR]   | [Status]    | [Explanation]         |
+|Examples				|				|				|					|						|							|
+|-----------------------|---------------|---------------|-------------------|-----------------------|---------------------------|
+| **Cmd**            	| **STDOUT**    | **STDERR** 	| **Exit Status** 	| **Explanation**       | **Affected variables**	|
+| `echo "Hello"`     	| Hello         |            	| 0       			| Standard output       |-							|
+| `echo -n "World"`  	| World         |            	| 0       			| No newline at the end |-							|
+| `[Third Example]`  	| [STDOUT]      | [STDERR]   	| [Status]			| [Explanation]         |-							|
+| `[Fourth Example]` 	| [STDOUT]      | [STDERR]   	| [Status]			| [Explanation]         |-							|
 
-#### cd
-#### pwd
-#### export
-#### unset
 #### env
-#### 42
-#### history
 #### exit
+#### export
+#### history
+#### pwd
+#### unset
 
 ## Shell Variables
 On programm start the enviromental variables will be loaded into frankenshell.\
@@ -290,3 +312,4 @@ Thx to all those guys and gals for hints, tipps and feedback!
 
 <!-- MARKDOWN LINKS & IMAGES -->
 [example-gif]: /images/example.gif
+[builtin_42]: /images/builtin_42.png

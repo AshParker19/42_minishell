@@ -1,22 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   header.c                                           :+:      :+:    :+:   */
+/*   42.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 18:00:32 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/15 14:16:57 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/15 20:29:36 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "frankenshell.h"
 
 /**
- * @brief	just prints a pretty 42 logo
+ * @brief   displays a pretty 42 logo to STDOUT (or its redirection)
  * 
- * @param	mbox 
- * @param	arg_node 
+ * 			EXIT STATUS: always EXIT_SUCCESS
+ * 
+ * @param   mbox        
+ * @param   arg_node    
  */
 void	builtin_header(t_mbox *mbox, t_ast *arg_node)
 {
