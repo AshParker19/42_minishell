@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:33:57 by astein            #+#    #+#             */
-/*   Updated: 2023/12/05 15:47:05 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/15 14:16:57 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "frankenshell.h"
 
 static void	err_exit_exit(t_mbox *mbox, char *str)
 {
 	err_msg(mbox, 2, "nnnnn", ERR_P, "exit: ", str, CS, NAR);
-	free_and_close_box_v2(mbox);
+	destroy_mbox(mbox);
 }
 
 static t_bool	parse_str_to_long_long(char *str, long long *result)
@@ -117,7 +117,7 @@ void	builtin_exit(t_mbox *mbox, t_ast *arg_node)
 
 	ft_putstr_fd("exit\n", STDOUT_FILENO);
 	if (!arg_node)
-		free_and_close_box_v2(mbox);
+		destroy_mbox(mbox);
 	else
 	{
 		if (is_long_long(arg_node->content, &exit_status))
@@ -131,7 +131,7 @@ void	builtin_exit(t_mbox *mbox, t_ast *arg_node)
 			else
 			{
 				set_var_value_int(mbox, "?", exit_status);
-				free_and_close_box_v2(mbox);
+				destroy_mbox(mbox);
 			}
 		}
 		else

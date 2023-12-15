@@ -1,138 +1,94 @@
--> https://docs.google.com/spreadsheets/d/17linwSWODYO4O9Db0FohJYr_8shMTGvyo0MjToPrcAI/edit#gid=0
+<!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
+<a name="readme-top"></a>
 
-# FRANKENSHELL
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+  <a href="https://github.com/0815-alex/42_minishell">
+    <img src="images/logo.png" alt="Logo" width="224" height="300">
+  </a>
+<h1 align="center">
+    frankenshell
+    <br/>
+    <span style="font-size: 75%;">(aka minishell)</span>
+</h1>
+  <p align="center">
+    frankenshell is a version of the 42 School project minishell that recreates a simplified version of the bash shell written in C
+    <br />
+    <a href="./docs/documentation.md"><strong>Explore the docs »</strong></a>
+    <br />
+    <br />
+  </p>
+</div>
+<br>
 
-some little bash copy....
+<!-- TABLE OF CONTENTS -->
+## Table of Contents
+<b>
+  <ol>
+    <li><a href="#about-the-project">About The Project</a></li>
+    <li><a href="#installation">Installation</a></li>
+    <li><a href="#usage">Usage</a></li>
+    <li><a href="#acknowledgments">Acknowledgments</a></li>
+  </ol>
+</b>
+<br>
+<br>
 
-## Setup
+<!-- ABOUT THE PROJECT -->
+## About The Project
 
-### mbox
-blabla
+As ChatGPT said in 2023:
 
-### Store the Enviorment Variables
-linkes list bla bla
-
-## One Cycle
-### Tokenizer
-#### Trim String
-input: some string from readline (not NULL)
-output: no whitespaces at front or end
-
-#### mark Seperators
-input: trimmed string
-marks all context qoutes through replacing them with random ascii values
-output: qouted input
-
-#### expand variables
-replacing all ```$ABC``` with corresponing values (they can bee null)
-only outside of single qouted block!
-
->>>>>>>>>>
-
-PROJEKT: FIX THE VAR EXPANSION, HEREDOCS AND TOKENIZER IN ONE GO!
-
-1. TRIM
-2. MARK QUOTES AND SPACES
-3.1 VAR EXPANSION
-	- leave all as it is (care about qoute state for expansion...etc.)
-	- add a function that detects somehow the presense of "<<"    keep in mind that it CANT be like "<        <" atm out tokenizer accepts this case
-		if we find << we switsh to anotger var expension mode -> 3.2 extract_limiter
-		
-3.2 extract_limiter (var expansion for << case)
-	- same as 3.1 with some small changes!
-	- this function automaticlly switches back to 3.1 if the end of the limiter of << was found! (IT SHOULD RETURN HOW MANY CHARS BELONG TO THE LIM SO THAT 3.1 KNOWS WHERE TO CONTINUE)
-		- its over if we are
-			- outside of qoute state
-			- find a non printable char
-			- or input is over (e.g. << lol)
-	- this function first doesnt do anything else but creating a new string with everything that belomgs to the Limiter (so no Var expansion, no qoute removing)
-	- instead its just copying the read chars to a new string we could call "limiter"
-		- important! here we need to remove_offest of all quotes!    ? -> "
-	- when we found the end of the LIMITTER we need to somehow check all the qoutes
-		- IMPORTANT: A delimiter does never expand its variables in bash: so $LESS as a limiter stays  fucking $LESS
-			- only execption is if the $ is infront of an contextual qoute (like << $'USER' or << $"USER") then
-				- remove dollar and continue
-		- to deal with the qoutes inside the limiter those rules apply
-			- remeove contextual qoutes
-			- leave none contextual qoutes
-			- if found any qoute at all! MARK IT and pass it over to the heredoc so the heredoc know to ignore var expension
-				- IDEA: the contextual qoutes by now are real qoutes (no garbage)
-					- maybe we can just leave them in the string and the tokenizer will not delete it
-						-> so it might end up in the value of the redir node?
-						-> herdoc can trimm them off and then doest do expansion
-						
-4. TOKENIZE
-	- works atm okayish but
-	- after the expansion maybe we need to merge nodes together (like A=s and l$A should return ls)
-	- we need to check if there are spaces between cmd and arg (like ls"-l" -> should be (ls-l: command not found)
-	- MARTIM SAYS:
-		ONLY VALID TOKEN SEPERATORS ARE (they always need to be outside of quotes)
-			- whitspaces
-			- pipes 
-			- redirs
-5. PARSE
-6. EXECUTION
->>>>>>>>>>
-
-#### Tokenize
-seting up a linked list. seperators are
-- pipes (```|```)
-- redirs (```>```, ```>>```, ```<```, ```<<```)
-- spaces (outside of context qoute blocks)
-- context qoutes
-
-### Parser
-- building a tree
-- examples
-
-### Executor
-
-#### Main Procedure
-
-#### Setup Pipes
-
-#### Setup Redirections
-##### Heredoc
-Here the official readme
-->https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html#Here-Documents
-
-In the heredoc var expansion also works!
-The heredoc doenst consider qoutes at all, so there are no contextual quotes
-So in generall all variables no matter the qoute state will expand!
-
-Anyhow, if the LIM is put in either single or double qoutes like ```<< "LIM" cat```
-var expansion is somehow suppressed. This is atm a huge problem since our code removes
-all contextual qoutes so the heredoc function doesnt receive any information about
-qoutes! Not sure how to fix!
-Because we can not leave contextual qoutes in a all cases inside the args node because
-in all other cases they need to be removed before execution!
-
-Functions of \ $ ` 
-\   is a flag that the next one will be ignored if its $ or `
-        e.g. "Hi \$LESS" -> "HI $LESS"
-    if its something else we print both
-        e.g. "Hello W\orld" -> "Hello W\orld"
-
-$   is just doint normal var expansion (if the LIM isnt in qoutes)
-
-`   the strange qouted string will be executed! (if the LIM isnt in qoutes)
-        e.g. "Hi `ls` World" -> "Hi libft Makefile minishell World"
-        e.g. "Hi `cmdnotexist` World" -> "cmdnotexist: command not found \n Hi  World"
-
-maybe the remove conte
-
-#### Executing System Commands
-
-#### Executing Builtin Commands
+> Minishell is a [42 school](https://42.fr/en/homepage/) project designed to create a simplified Unix shell. The idea behind Minishell is to develop a basic command-line interface (CLI) that can execute simple commands and handle input/output redirection. It's meant to serve as a learning exercise for students to gain a fundamental understanding of how shells work by implementing core features like parsing user input, managing processes, handling signals, creating builtins and executing system commands.
 
 
+<!-- INSTALLATION -->
+## Installation
+```
+	# Clone this repository
+	$ git clone https://github.com/AshParker19/42_minishell
 
-HEREDOC EXIT AND SIGNALS
+	# Go into the repository
+	$ cd 42_minishell
 
-FUNCTION	CASE			RETURN VALUE	FD	EXIT STATUS	ERROR MSG
-open		NORMAL FILE		42		42	-		NO
-open		NO PERMISSION TO FILE	-1		-1	-		YES
+	# Compile the program
+	$ make
 
-heredoc		ended with LIM		0		PIPE	0		NO
-heredoc		ended with CTRL C	130		PIPE	130		NO
-heredoc		ended with CTRL D	0		PIPE	0		> bash: warning: here-document at line 21 delimited by end-of-file (wanted `lol')
+	# Run the program
+	$ ./frankenshell [OPTIONS]
+
+	# OPTIONS:
+	# 	--info, -i	prints details about the program flow during runtime
+
+	# Use the program
+	frankenshell--> echo "Let's goooooo!"
+
+	# Exit the program
+	$ exit
+```
+<!-- USAGE EXAMPLES -->
+## Usage
+
+**frankenshell** is designed to mimic the behavior of the traditional **bash** shell. So feel free to use it like bash.
+
+[![Example][example-gif]][link-docs]
+
+`make stats` provides you with some information about the files and the number of functions.
+
+> For more examples, please refer to the [Documentation][link-docs]
+
+<!-- ACKNOWLEDGMENTS -->
+## Acknowledgments
+Thx to all those guys and gals for hints, tipps and feedback!
+
+[@Gabriel](https://github.com/portugueseTorch)\
+[@Martim](https://github.com/mm1212)\
+[@Margarida](https://github.com/MariaAguiar)\
+[@Manuel](https://github.com/manuel-aguiar)
+
+:arrow_up:   <a href="#readme-top">back to top</a>   :arrow_up:
+
+<!-- MARKDOWN LINKS & IMAGES -->
+[example-gif]: /images/example.gif
+[link-docs]: ./docs/documentation.md

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:33:46 by astein            #+#    #+#             */
-/*   Updated: 2023/12/05 16:47:48 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/15 14:16:57 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "frankenshell.h"
 
 /**
  * @brief	prints all key-value pairs of the t_env ll
@@ -46,6 +46,6 @@ void	builtin_env(t_mbox *mbox, t_ast *arg_node)
 			}
 			cur = cur->next;
 		}
-		set_var_value(mbox, "?", EXIT_SUCCESS_STR);
+		set_var_value_int(mbox, "?", EXIT_SUCCESS);
 	}
 }

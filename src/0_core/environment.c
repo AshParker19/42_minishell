@@ -6,11 +6,11 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:16:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/04 23:57:02 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/15 14:16:57 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "frankenshell.h"
 
 /**
  * @brief   THS FILE DEALS WITH ALL ENVIROMENT VARIABLE RELATED TOPICS
@@ -66,7 +66,7 @@ void	load_vars_v2(t_mbox *mbox, char **env)
 			free (key);
 		i++;
 	}
-	set_var_value(mbox, "?", EXIT_SUCCESS_STR);
+	set_var_value_int(mbox, "?", EXIT_SUCCESS);
 }
 
 /**
@@ -137,7 +137,7 @@ void	delete_var(t_mbox *mbox, const char *key)
  *              - content via 'free_var_v2'
  *              - node itself
  *          
- *          NOTE: function should only be called by 'free_and_close_box_v2'
+ *          NOTE: function should only be called by 'destroy_mbox'
  * 
  * @param	mbox mbox is a struct that stores all runtime related infos
  */

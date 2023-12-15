@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   frankenshell.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2023/12/05 15:44:32 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/15 19:39:30 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef FRANKENSHELL_H
+# define FRANKENSHELL_H
 
 /******************************# SYSTEM INCLUDES #*****************************/
 /* system includes */
@@ -28,17 +28,17 @@
 
 /*****************************# PROJECT INCLUDES #*****************************/
 # include "../libft/libft_printf.h"
-# include "input_manager.h"
-# include "builtins.h"
-# include "executor.h"
 # include "config.h"
+# include "input_manager.h"
+# include "executor.h"
+# include "builtins.h"
 
 /**********************************# INFO #************************************/
 
 /* global variable for signal handling */
 extern int						g_signal_status;
 
-/* typedefs from the other header file with all the info for mbox */
+/* typedefs from the other header files with all the info for mbox */
 typedef struct s_env			t_env;
 typedef struct s_history		t_history;
 typedef struct s_builtin_cmd	t_builtin_cmd;
@@ -47,8 +47,10 @@ typedef struct s_exec			t_exec;
 /*****************************# DATA STRUCTURES #******************************/
 
 /* 
-	the main structure of the program: it is being passed as an argument to all
-	the fucntions so all the data can be accesed where it needed
+	the main structure of the program: it is being passed as an argument to most
+	of the functions and contains all the info needed for the program to work.
+	The file 'manage_mbox.c' contains the functions for initializing and
+	destroying the mbox instance.
  */
 typedef struct s_mbox
 {
@@ -69,7 +71,7 @@ typedef struct s_mbox
 	t_bool						print_info;
 }	t_mbox;
 
-/* list of environment variables (definition) */
+/* struct to store all variables as key-value pairs in a linked list */
 typedef struct s_env
 {
 	char						*key;
@@ -77,7 +79,7 @@ typedef struct s_env
 	struct s_env				*next;
 }	t_env;
 
-/* list element which stores all the input in a t_list*/
+/* struct to store all the user input in a linked list */
 typedef struct s_history
 {
 	int							index;
@@ -86,6 +88,38 @@ typedef struct s_history
 }	t_history;
 
 /*********************************# FUNCTIONS #********************************/
+
+/*========================================*/
+/*>>>>>>>>>> 0 CORE                       */
+/*========================================*/
+/*>>> MAIN.C           */
+/*---------------------*/
+int		main(int ac, char **av, char **env);
+
+/*>>> MANAGE_MBOX.C    */
+/*---------------------*/
+void	initialize_mbox(t_mbox *mbox, char **env);
+void	destroy_mbox(t_mbox *mbox);
+t_bool	destroy_mbox_with_exit(t_mbox *mbox, int exit_status);
+
+/*
+/*========================================*/
+/*>>>>>>>>>> 1 INPUT MANAGER */
+/*========================================*/
+
+/*========================================*/
+/*>>>>>>>>>> 2 EXECUTOR */
+/*========================================*/
+
+/*========================================*/
+/*>>>>>>>>>> 3 BUILTINS */
+/*========================================*/
+
+/*========================================*/
+/*>>>>>>>>>> 4 DEBUG */
+/*========================================*/
+
+
 
 /* input_manager.c */
 void	input_main(t_mbox *mbox);
@@ -107,14 +141,11 @@ void	set_var_value(t_mbox *mbox, const char *key, const char *value);
 void	set_var_value_int(t_mbox *mbox, const char *key, int int_value);
 
 /* signals.c */
-void	update_signals(int sig_state);
+void	conf_sig_handler(int sig_state);
 
 /* manage_mbox.c */
-void	initialize_box_v2(t_mbox *mbox, char **env);
-void	free_cycle_v2(t_mbox *mbox);
 void	free_input_strings_v2(t_mbox *mbox);
 void	free_tokens_v2(t_mbox *mbox);
-void	free_and_close_box_v2(t_mbox *mbox);
 
 /* display_flow.c */
 void	put_headline(char *caption, char *data, char *clr);
@@ -128,7 +159,6 @@ void	print_executor_output(t_mbox *mbox, t_bool top_part);
 
 /* general_utils.c */
 void	reset_cycle(t_mbox *mbox);
-t_bool	err_free_and_close_box(t_mbox *mbox, int exit_status);
 void	err_msg(t_mbox *mbox, int exit_status, const char *format, ...);
 void	*create_syntax_err(t_mbox *mbox, t_token *err_token);
 
