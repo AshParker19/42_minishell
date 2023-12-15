@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2023/12/15 19:39:30 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/15 20:23:41 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@
 # include "../libft/libft_printf.h"
 # include "config.h"
 # include "input_manager.h"
-# include "executor.h"
 # include "builtins.h"
+# include "executor.h"
 
 /**********************************# INFO #************************************/
 
@@ -47,10 +47,10 @@ typedef struct s_exec			t_exec;
 /*****************************# DATA STRUCTURES #******************************/
 
 /* 
-	the main structure of the program: it is being passed as an argument to most
-	of the functions and contains all the info needed for the program to work.
-	The file 'manage_mbox.c' contains the functions for initializing and
-	destroying the mbox instance.
+ *	the main structure of the program: it is being passed as an argument to most
+ *	of the functions and contains all the info needed for the program to work.
+ *	The file 'manage_mbox.c' contains the functions for initializing and
+ *	destroying the mbox instance.
  */
 typedef struct s_mbox
 {
@@ -102,7 +102,6 @@ void	initialize_mbox(t_mbox *mbox, char **env);
 void	destroy_mbox(t_mbox *mbox);
 t_bool	destroy_mbox_with_exit(t_mbox *mbox, int exit_status);
 
-/*
 /*========================================*/
 /*>>>>>>>>>> 1 INPUT MANAGER */
 /*========================================*/

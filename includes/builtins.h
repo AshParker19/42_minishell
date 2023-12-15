@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 11:32:13 by astein            #+#    #+#             */
-/*   Updated: 2023/12/05 15:53:49 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/15 20:22:09 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 /* bultins function pointer typedef */
 typedef void	(*t_builtin_function)(t_mbox *mbox, t_ast *arg_node);
 
-/* struct for each builtit */
+/* struct for each builtin */
 typedef struct s_builtin_cmd
 {
 	char				*cmd_name;
