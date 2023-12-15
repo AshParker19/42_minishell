@@ -7,8 +7,11 @@
   <a href="https://github.com/0815-alex/42_minishell">
     <img src="images/logo.png" alt="Logo" width="224" height="300">
   </a>
-
-<h1 align="center">frankenshell</h1>
+<h1 align="center">
+    frankenshell
+    <br/>
+    <span style="font-size: 75%;">(aka minishell)</span>
+</h1>
   <p align="center">
     frankenshell is a version of the 42 School project minishell that recreates a simplified version of the bash shell written in C
     <br />
