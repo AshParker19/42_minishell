@@ -6,9 +6,16 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:06:17 by astein            #+#    #+#             */
-/*   Updated: 2023/12/15 01:39:22 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/15 02:07:36 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+/**
+ * @brief   Here we go: The main function of frankenshell!
+ * 
+ * 			For more details check the documentation on my GitHub:
+ *          https://github.com/0815-alex
+ */
 
 #include "minishell.h"
 
