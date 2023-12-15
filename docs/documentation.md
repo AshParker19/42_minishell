@@ -228,8 +228,8 @@ Cd performs multiple tests if the given argument is correct. If so it changes th
 | `cd noPermDir`		| | `frankenshell: cd: noPermDir: Permission denied`		| `1` 	|												|									 							|
 | `cd file`				| | `frankenshell: cd: file: Not a directory`				| `1` 	|												|									 							|
 
-> ℹ️ &nbsp; If the external function `chdir` fails, an error message is printed and the exit status is set to `1`.\
-> ℹ️ &nbsp; If `PWD` and/or `OLDPWD` are absent, the function operates normally and skips setting these variables.
+> :red_circle: 			&nbsp; If the external function `chdir` fails, an error message is printed and the exit status is set to `1`.\
+> :large_blue_circle: 	&nbsp; If `PWD` and/or `OLDPWD` are absent, the function operates normally and skips setting these variables.
 
 
 
