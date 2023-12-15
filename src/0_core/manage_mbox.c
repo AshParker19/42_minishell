@@ -6,62 +6,58 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:49:13 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/15 01:49:45 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/15 02:04:18 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /**
  * @brief   All frankenshell aka minishell related variables are stored in the
  * 			mbox struct. This file contains all functions related to the
- * 			initialization, freeing and closing of the mbox struct.
- * 			It cointains the following functions:
- * 
+ * 			initialization, freeing, and closing of the mbox struct.
+ * 			It contains the following functions:
+ * 				- initialize_mbox
+ * 				- destroy_mbox
+ * 				- destroy_mbox_with_exit
  */
 
 #include "minishell.h"
 
 /**
- * @brief	sets all variables in mbox to ini values
- * 
- * 			NOTE: only called once by 'main' on startup
- * 
- * @param mbox 
- * @param env 
+ * @brief   Initializes the mbox struct with the default values.
+ *			
+ 			NOTE: only called once by 'main' on startup 
+			
+ * @param   mbox        
+ * @param   env         
  */
 void	initialize_mbox(t_mbox *mbox, char **env)
 {
 	g_signal_status = 0;
+	mbox->print_info = ft_false;
+	mbox->error_status = ft_false;
+	mbox->count_cycles = 0;
+	mbox->history_lst = NULL;
 	mbox->env = NULL;
 	mbox->inp_orig = NULL;
 	mbox->inp_trim = NULL;
 	mbox->inp_shift = NULL;
 	mbox->inp_expand = NULL;
-	mbox->error_status = ft_false;
-	mbox->history_lst = NULL;
+	mbox->consecutive_lt = 0;
 	mbox->tokens = NULL;
 	mbox->tmp_token = NULL;
 	mbox->root = NULL;
 	mbox->tmp_node = NULL;
-	initialize_io(mbox, NULL, 0);
 	mbox->executor.pid = NULL;
-	mbox->count_cycles = 0;
-	mbox->print_info = ft_false;
-	mbox->consecutive_lt = 0;
+	initialize_io(mbox, NULL, 0);
 	load_vars_v2(mbox, env);
 	initialize_builtins(mbox);
 }
 
 /**
- * @brief	check all members of the mbox struct at the end of the program 
- * 			and frees them if they are inizialised.
- * 			then exits with the proper exit status
- * 
- * @param	mbox 
- */
-
-/**
- * @brief   
- * 
+ * @brief   Whenever a frankenshell process is created, before terminating it,
+ * 			we have to free all the allocated memory and close all the open fds.
+ * 			After cleaning up, we exit with the proper exit status.
+ *			
  * @param   mbox        
  */
 void	destroy_mbox(t_mbox *mbox)
