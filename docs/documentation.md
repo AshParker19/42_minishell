@@ -215,18 +215,20 @@ Cd performs multiple tests if the given argument is correct. If so it changes th
 | Exit Status           | `0` `1`			           	|
 | Affected Variables    | `HOME` `OLDPWD` `PWD`        	|
 
-|Examples				|				|							|				  |														|																|
-|-----------------------|---------------|---------------------------|:---------------:|-----------------------------------------------------|---------------------------------------------------------------|
-| **Cmd**            	| **STDOUT**    | **STDERR** 				| **Exit Status** | **Explanation**       								| **Affected Variables**<br>(bold variables will be updated)	|
-| `cd`					| 				| <br>`cd: HOME not set`	| `0`<br>`1`	  | if `HOME` set, wd updates to `HOME`<br>if `HOME` NOT set, wd doesn't update | `HOME` **`OLDPWD`** **`PWD`**<br>‎ |
-| `cd ""`				| 				| 							| `0`			  | empty argument, wd doesn't update					| 																|
-| `cd valid_path`		| 				| 							| `0` 			  | wd updates to `./valid_path`	 					| **`OLDPWD`** **`PWD`**										|
-| `cd .`				| 				| 							| `0` 			  | wd doesn't update; `OLDPWD` updated!				| **`OLDPWD`**													|
-| `cd ..`				| 				| 							| `0` 			  | wd updates to parent folder							| **`OLDPWD`** **`PWD`**										|
-| `cd foo bar`			| | `cd: too many arguments`								| `1`	|												|									 							|
-| `cd noExist`			| | `frankenshell: cd: noExist: No such file or directory`	| `1` 	|												|									 							|
-| `cd noPermDir`		| | `frankenshell: cd: noPermDir: Permission denied`		| `1` 	|												|									 							|
-| `cd file`				| | `frankenshell: cd: file: Not a directory`				| `1` 	|												|									 							|
+
+**Examples**
+|Examples				|						|				|														  |														|						
+|-----------------------|---------------------------|:---------------:|-----------------------------------------------------|---------------------------------------------------------------|
+| **Cmd**            	| **STDERR** 				| **Exit Status** | **Explanation**       								| **Affected Variables**<br>(bold variables will be updated)	|
+| `cd`					| <br>`cd: HOME not set`	| `0`<br>`1`	  | if `HOME` set, wd updates to `HOME`<br>if `HOME` NOT set, wd doesn't update | `HOME` **`OLDPWD`** **`PWD`**<br>‎ |
+| `cd ""`				| 							| `0`			  | empty argument, wd doesn't update					| 																|
+| `cd valid_path`		| 							| `0` 			  | wd updates to `./valid_path`	 					| **`OLDPWD`** **`PWD`**										|
+| `cd .`				| 							| `0` 			  | wd doesn't update; `OLDPWD` updated!				| **`OLDPWD`**													|
+| `cd ..`				| 							| `0` 			  | wd updates to parent folder							| **`OLDPWD`** **`PWD`**										|
+| `cd foo bar`			| `cd: too many arguments`								| `1`	|												|									 							|
+| `cd noExist`			| `frankenshell: cd: noExist: No such file or directory`	| `1` 	|												|									 							|
+| `cd noPermDir`		| `frankenshell: cd: noPermDir: Permission denied`		| `1` 	|												|									 							|
+| `cd file`				| `frankenshell: cd: file: Not a directory`				| `1` 	|												|									 							|
 
 > :red_circle: 			&nbsp; If the external function `chdir` fails, an error message is printed and the exit status is set to `1`.\
 > :large_blue_circle: 	&nbsp; If `PWD` and/or `OLDPWD` are absent, the function operates normally and skips setting these variables.
