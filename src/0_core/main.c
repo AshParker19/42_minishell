@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:06:17 by astein            #+#    #+#             */
-/*   Updated: 2023/12/14 18:16:15 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/15 01:26:54 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,17 @@
 
 int	g_signal_status;
 
+/**
+ * @brief   The 42 project doesn't allow arguments, but I added some for
+ * 			debugging purposes. The only allowed arguments are '--info' and '-i'
+ * 			which will activate the info mode. In this mode, the program will
+ * 			additionally print information about the input processing including
+ * 			the input string after each step, the AST, and the execution result.
+ * 
+ * @param   mbox        
+ * @param   ac          
+ * @param   av          
+ */
 static void	check_args(t_mbox *mbox, int ac, char **av)
 {
 	if (ac == 1)
@@ -37,28 +48,27 @@ static void	check_args(t_mbox *mbox, int ac, char **av)
 }
 
 /**
- * @brief	Here we go! The main function of the frankenshell.
- * 
- * 			SPECIAL INPUTS:
- * 				Just Return		-> readline will read \0	-> exit status 127
- * 				CTRL D			-> readline will read EOF	-> exit minishell (status 0)
- * 
- * @param ac 
- * @param av 
- * @param env 
- * @return int 
- */
-
-/**
- * @brief    Here we go! The main function of the frankenshell.
- * 			
- * 			 For more details, see the documentation on
- * 				https://github.com/0815-alex/42_minishell/blob/cleanItDone/docs/documentation.md
- * 				
- * @param    ac        
- * @param    av        
- * @param    env       
- * @return   int       
+ * @brief   Here we go: The main function of frankenshell!
+ *
+ *          After checking the arguments and initializing all the variables
+ * 			the program starts the main loop. Each input prompt is one cycle.
+ * 			The loop will be repeated until the user exits the program.
+ * 			One cycle consists of the following steps:
+ * 				1. Reset all cycle-related variables via 'reset_cycle'
+ * 				2. Read the user input via 'readline'
+ * 				3. If the user input is NULL, the user pressed CTRL+D and the
+ * 					program will exit with the last exit status
+ * 				4. If the Signal CTRL+C was received, the program will print a
+ * 					newline and update the exit status to 130
+ * 				5. In all other cases the program will continue with the input
+ * 					processing via 'input_main'
+ *
+ *          For more details check the documentation on my GitHub:
+ *          https://github.com/0815-alex
+ * @param   ac          
+ * @param   av          
+ * @param   env         
+ * @return  int         
  */
 int	main(int ac, char **av, char **env)
 {
