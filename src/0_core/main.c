@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:06:17 by astein            #+#    #+#             */
-/*   Updated: 2023/12/15 19:14:37 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/15 20:13:46 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
  * @brief   Here we go: The main function of frankenshell!
  * 
  * 			For more details check the documentation on my GitHub:
- *          https://github.com/0815-alex
+ *          https://github.com/ahokcool/frankenshell/
  */
 
 #include "frankenshell.h"
@@ -71,7 +71,7 @@ static void	check_args(t_mbox *mbox, int ac, char **av)
  * 					processing via 'input_main'
  *
  *          For more details check the documentation on my GitHub:
- * 			https://github.com/ahokcool/frankenshell/docs/documentation.md
+ * 			https://github.com/ahokcool/frankenshell/
  * @param   ac          
  * @param   av          
  * @param   env         
