@@ -6,15 +6,15 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:06:17 by astein            #+#    #+#             */
-/*   Updated: 2023/12/15 20:13:46 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/15 21:37:58 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /**
- * @brief   Here we go: The main function of frankenshell!
+ * @brief   Here we go frankenshell!
  * 
- * 			For more details check the documentation on my GitHub:
- *          https://github.com/ahokcool/frankenshell/
+ * 			DOCUMENTATION:
+ * 			https://github.com/ahokcool/frankenshell/blob/main/docs/documentation.md
  */
 
 #include "frankenshell.h"

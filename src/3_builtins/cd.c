@@ -6,22 +6,37 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:32:31 by astein            #+#    #+#             */
-/*   Updated: 2023/12/15 14:16:57 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/15 23:32:42 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+/**
+ * @brief   This file contains the builtin 'cd' function, which changes the
+ * 			current working directory.
+ *  		This includes:
+ * 				- argument(s) checking (no args, too many args, empty arg)
+ * 				- argument string checking (directory, file, permission)
+ * 				- directory changing (via 'chdir')
+ * 				- environment variable checking (HOME, OLDPWD, PWD)
+ * 				- enviroment variable updating (OLDPWD, PWD)
+ * 				- exit status updating
+ * 
+ * 			DOCUMENTATION:
+ * 			https://github.com/ahokcool/frankenshell/blob/main/docs/documentation.md#cd 			
+ */
 
 #include "frankenshell.h"
 
 /**
- * @brief   changes the PWD like
- *          - updates OLDPWD to current PWD
- *          - updates PWD to param 'new_path'
- *          - changes directory via 'chdir'
+ * @brief   This function finally:
+ * 				- changes the current working directory via 'chdir'
+ * 				- updates the variables 'OLDPWD' and 'PWD' if they exist
+ * 				- sets the exit status to 0
  * 
- * 			update the exit status to 0
+ * 			If 'chdir' fails, an error message will be printed (exit status = 1)
  * 
- * @param   mbox 
- * @param   new_path 
+ * @param   mbox        
+ * @param   new_path    
  */
 static void	change_pwd(t_mbox *mbox, char *new_path)
 {
@@ -38,59 +53,69 @@ static void	change_pwd(t_mbox *mbox, char *new_path)
 			strerror(errno));
 	else
 	{
-		set_var_value_int(mbox, "?", EXIT_SUCCESS);
 		if (is_var(mbox, "PWD"))
 		{
 			temp_pwd = getcwd(NULL, 0);
 			set_var_value(mbox, "PWD", temp_pwd);
 			free(temp_pwd);
 		}
+		set_var_value_int(mbox, "?", EXIT_SUCCESS);
 	}
-}
-
-// Check if it's a valid directory
-static void	check_dir(t_mbox *mbox, t_ast *arg_node)
-{
-	struct stat	path_stat;
-
-	if (stat(arg_node->content, &path_stat) == 0)
-	{
-		if (S_ISDIR(path_stat.st_mode))
-		{
-			if (access(arg_node->content, X_OK) == 0)
-				change_pwd(mbox, arg_node->content);
-			else
-				err_msg(mbox, EXIT_FAILURE, "nnnnn", ERR_P, CD,
-					arg_node->content, CS, NO_PERM);
-		}
-		else if (S_ISREG(path_stat.st_mode))
-			err_msg(mbox, EXIT_FAILURE, "nnnnn", ERR_P, CD,
-				arg_node->content, CS, NO_DIR);
-		else
-			err_msg(mbox, EXIT_FAILURE, "nnnnn", ERR_P, CD,
-				arg_node->content, CS, NO_FOD);
-	}
-	else
-		err_msg(mbox, EXIT_FAILURE, "nnnnn", ERR_P, CD,
-			arg_node->content, CS, NO_FOD);
 }
 
 /**
- * @brief   performs multiple tests if the given 'arg_nodes' are correct
+ * @brief   This function checks if the given 'new_path' is
+ *	
+ * 	-> a directory	-> with permission		-> change directory via 'change_pwd'
+ * 					-> without permission	-> error: 'cd: Permission denied'
+ * 	-> a file		-> error: 'cd: Not a directory'
+ * 
+ * 			DOCUMENTATION:
+ * 			https://github.com/ahokcool/frankenshell/blob/main/docs/documentation.md#cd
+ * 			
+ * @param   mbox        
+ * @param   new_path    
+ */
+static void	check_dir(t_mbox *mbox, char *new_path)
+{
+	struct stat	path_stat;
+
+	if (stat(new_path, &path_stat) == 0)
+	{
+		if (S_ISDIR(path_stat.st_mode))
+		{
+			if (access(new_path, X_OK) == 0)
+				change_pwd(mbox, new_path);
+			else
+				err_msg(mbox, EXIT_FAILURE, "nnnnn", ERR_P, CD,
+					new_path, CS, NO_PERM);
+		}
+		else if (S_ISREG(path_stat.st_mode))
+			err_msg(mbox, EXIT_FAILURE, "nnnnn", ERR_P, CD,
+				new_path, CS, NO_DIR);
+		else
+			err_msg(mbox, EXIT_FAILURE, "nnnnn", ERR_P, CD,
+				new_path, CS, NO_FOD);
+	}
+	else
+		err_msg(mbox, EXIT_FAILURE, "nnnnn", ERR_P, CD,
+			new_path, CS, NO_FOD);
+}
+
+/**
+ * @brief   This Builtin changes the current working directory.
+ * 			It performs multiple tests if the given 'arg_node' is correct
  *          if correct the current directory will be changed via 'change_pwd'
  * 
  *          EXAMPLES:
- *        	no args				->	cd to home
- *        	empty args			->	do nothing
- *          arg 				->	cd to arg
- *       	args            	->	too many arguments  
+ *        	no args			-> if HOME is set		-> cd to home
+ * 							-> else					-> error: 'cd: HOME not set'
+ *       	multiple args   -> error 'cd: too many arguments'
+ *        	empty args		-> do nothing (exit status = 0)
+ *          arg 			-> cd to arg via 'check_dir'
  *        	
- *          CASE:
- *          HOME NOT SET (e.g. via 'unset HOME')
- *              -> no args      ->	cd: HOME not set
- * 
- * @param   mbox 
- * @param   arg_node 
+ * 			DOCUMENTATION:
+ * 			https://github.com/ahokcool/frankenshell/blob/main/docs/documentation.md#cd 			
  */
 void	builtin_cd(t_mbox *mbox, t_ast *arg_node)
 {
@@ -103,6 +128,8 @@ void	builtin_cd(t_mbox *mbox, t_ast *arg_node)
 	}
 	else if (arg_node->right)
 		err_msg(mbox, EXIT_FAILURE, "nn", ERR_P, CD_A);
+	else if (arg_node->content && arg_node->content[0] == '\0')
+		set_var_value_int(mbox, "?", EXIT_SUCCESS);
 	else
-		check_dir(mbox, arg_node);
+		check_dir(mbox, arg_node->content);
 }

@@ -165,17 +165,17 @@ These redirections allow for flexible manipulation of command input and output, 
 ## Builtin Commands
 Each built-in command in frankenshell is detailed below with specific information and examples.
 
-| Command                 | File(s)                                           												| Description									|
-|-------------------------|-------------------------------------------------------------------------------------------------|-----------------------------------------------|
-| [`42`](#42)             | [42.c](../src/3_builtins/42.c)                    												| 42 it is ;)                                 	|
-| [`cd`](#cd)             | [cd.c](../src/3_builtins/cd.c)                    												| Changes the current directory.              	|
-| [`echo`](#echo)         | [echo.c](../src/3_builtins/echo.c)                												| Displays a line of text.                    	|
-| [`env`](#env)           | [env.c](../src/3_builtins/env.c)                  												| Displays the environment variables.         	|
-| [`exit`](#exit)         | [exit.c](../src/3_builtins/exit.c)                												| Exits the shell.                            	|
-| [`export`](#export)     | [export.c](../src/3_builtins/export.c)<br>[export_utils.c](../src/3_builtins/export_utils.c)	| Sets or exports environment variables.      	|
-| [`history`](#history)   | [history.c](../src/3_builtins/history.c)          												| Displays the command history.               	|
-| [`pwd`](#pwd)           | [pwd.c](../src/3_builtins/pwd.c)                  												| Prints the working directory.               	|
-| [`unset`](#unset)       | [unset.c](../src/3_builtins/unset.c)              												| Unsets environment variables.               	|
+| Command                 | File(s)     	                                      												| Description									|
+|-------------------------|-----------------------------------------------------------------------------------------------------|-----------------------------------------------|
+| [`42`](#42)             | [`42.c`](../src/3_builtins/42.c)                    												| 42 it is ;)                                 	|
+| [`cd`](#cd)             | [`cd.c`](../src/3_builtins/cd.c)                    												| Changes the current directory.              	|
+| [`echo`](#echo)         | [`echo.c`](../src/3_builtins/echo.c)                												| Displays a line of text.                    	|
+| [`env`](#env)           | [`env.c`](../src/3_builtins/env.c)                  												| Displays the environment variables.         	|
+| [`exit`](#exit)         | [`exit.c`](../src/3_builtins/exit.c)                												| Exits the shell.                            	|
+| [`export`](#export)     | [`export.c`](../src/3_builtins/export.c)<br>[`export_utils.c`](../src/3_builtins/export_utils.c)	| Sets or exports environment variables.      	|
+| [`history`](#history)   | [`history.c`](../src/3_builtins/history.c)          												| Displays the command history.               	|
+| [`pwd`](#pwd)           | [`pwd.c`](../src/3_builtins/pwd.c)                  												| Prints the working directory.               	|
+| [`unset`](#unset)       | [`unset.c`](../src/3_builtins/unset.c)              												| Unsets environment variables.               	|
 
 
 
@@ -189,22 +189,50 @@ Each built-in command in frankenshell is detailed below with specific informatio
 </details>
 
 
-| Information			|								|
-|-----------------------|-------------------------------|
-| Number of Arguments   | [all args will be ignored]   	|
-| Flags                 | [N/A]	                 		|
-| Exit Status           | 0					           	|
-| Errors                | [No Error Handling]		 	|
+| Information			|											|
+|-----------------------|-------------------------------------------|
+| Flags                 | `N/A`	                 					|
+| Number of Arguments   | `0 to n` (all args will be ignored)   	|
+| Exit Status           | `0`				           				|
+| Affected Variables    | `[NONE]`			           				|
 
-|Examples				|								|				|					|							|							|
-|-----------------------|-------------------------------|---------------|-------------------|---------------------------|---------------------------|
-| **Cmd**            	| **STDOUT**    				| **STDERR** 	| **Exit Status** 	| **Explanation**       	| **Affected variables**	|
-| '42'					| [the 42 logo as shown below] 	| 				| 0					|							| -							|
-| '42 foo bar'			| [the 42 logo as shown below] 	| 				| 0					| all args will be ignored	| -							|
+|Examples				|								|				  |								|							|
+|-----------------------|-------------------------------|:---------------:|-----------------------------|---------------------------|
+| **Cmd**            	| **STDOUT**    				| **Exit Status** | **Explanation**       		| **Affected Variables**	|
+| `42`					| [the 42 logo] 				| `0`			  |								| 							|
+| `42 foo bar`			| [the 42 logo] 				| `0`			  | all args will be ignored	| 							|
 
 ---
 
-#### cd
+#### `cd`
+Cd performs multiple tests if the given argument is correct. If so it changes the current working directory via `chdir` to the given path.
+ 
+| Information			|								|
+|-----------------------|-------------------------------|
+| Flags                 | `N/A`	                 		|
+| Number of Arguments   | `0` - `1`				   		|
+| Argument Format	   	| absolute or relative path	   	|
+| Exit Status           | `0` `1`			           	|
+| Affected Variables    | `HOME` `OLDPWD` `PWD`        	|
+
+|Examples				|				|							|				  |														|																|
+|-----------------------|---------------|---------------------------|:---------------:|-----------------------------------------------------|---------------------------------------------------------------|
+| **Cmd**            	| **STDOUT**    | **STDERR** 				| **Exit Status** | **Explanation**       								| **Affected Variables**<br>(bold variables will be updated)	|
+| `cd`					| 				| <br>`cd: HOME not set`	| `0`<br>`1`	  | if `HOME` set, wd updates to `HOME`<br>if `HOME` NOT set, wd doesn't update | `HOME` **`OLDPWD`** **`PWD`**<br>‎ |
+| `cd ""`				| 				| 							| `0`			  | empty argument, wd doesn't update					| 																|
+| `cd valid_path`		| 				| 							| `0` 			  | wd updates to `./valid_path`	 					| **`OLDPWD`** **`PWD`**										|
+| `cd .`				| 				| 							| `0` 			  | wd doesn't update; `OLDPWD` updated!				| **`OLDPWD`**													|
+| `cd ..`				| 				| 							| `0` 			  | wd updates to parent folder							| **`OLDPWD`** **`PWD`**										|
+| `cd foo bar`			| | `cd: too many arguments`								| `1`	|												|									 							|
+| `cd noExist`			| | `frankenshell: cd: noExist: No such file or directory`	| `1` 	|												|									 							|
+| `cd noPermDir`		| | `frankenshell: cd: noPermDir: Permission denied`		| `1` 	|												|									 							|
+| `cd file`				| | `frankenshell: cd: file: Not a directory`				| `1` 	|												|									 							|
+
+> ℹ️ &nbsp; If the external function `chdir` fails, an error message is printed and the exit status is set to `1`.\
+> ℹ️ &nbsp; If `PWD` and/or `OLDPWD` are absent, the function operates normally and skips setting these variables.
+
+
+
 
 ---
 
@@ -213,19 +241,19 @@ Displays a line of text.
 
 | Information			|								|
 |-----------------------|-------------------------------|
-| Number of Arguments   | 0 to n					   	|
-| Argument Format	   	| all ASCII chars allowed	   	|
-| Flags                 | -n		                 	|
+| Flags                 | `-n`		                 	|
+| Number of Arguments   | `0` - `n`					  	|
+| Argument Format	   	| all ASCII chars allowed		|
 | Exit Status           | [Exit status info]           	|
-| Errors                | [Errors info]                	|
+| Affected Variables    | `[NONE]`			           				|
 
-|Examples				|				|				|					|						|							|
-|-----------------------|---------------|---------------|-------------------|-----------------------|---------------------------|
-| **Cmd**            	| **STDOUT**    | **STDERR** 	| **Exit Status** 	| **Explanation**       | **Affected variables**	|
-| `echo "Hello"`     	| Hello         |            	| 0       			| Standard output       |-							|
-| `echo -n "World"`  	| World         |            	| 0       			| No newline at the end |-							|
-| `[Third Example]`  	| [STDOUT]      | [STDERR]   	| [Status]			| [Explanation]         |-							|
-| `[Fourth Example]` 	| [STDOUT]      | [STDERR]   	| [Status]			| [Explanation]         |-							|
+|Examples				|				|				|				  |						|							|
+|-----------------------|---------------|---------------|:---------------:|-----------------------|---------------------------|
+| **Cmd**            	| **STDOUT**    | **STDERR** 	| **Exit Status** | **Explanation**       | **Affected Variables**	|
+| `echo "Hello"`     	| `Hello`       |            	| `0`      		  | Standard output       |							|
+| `echo -n "World"`  	| `World`       |            	| `0`     		  | No newline at the end |							|
+| `[Third Example]`  	| [STDOUT]      | [STDERR]   	| [Status]		  | [Explanation]         |							|
+| `[Fourth Example]` 	| [STDOUT]      | [STDERR]   	| [Status]		  | [Explanation]         |							|
 
 ---
 
