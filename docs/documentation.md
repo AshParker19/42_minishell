@@ -1,6 +1,7 @@
 <a name="readme-top"></a>
-
 # Documentation of frankenshell
+❗ README AND THE DOCUMENTATION IS CURRENTLY UNDER CONSTRUCTION ❗ 
+
 **frankenshell** is a version of the 42 School project (**minishell**) that recreates in C a simplified version of the bash shell.
 
 # Table of Contents
