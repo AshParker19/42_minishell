@@ -4,7 +4,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="./art.sh">
+  <a href="./">
     <img src="images/logo.png" alt="Logo" width="224" height="300">
   </a>
   <h1 align="center">frankenshell</h1>
@@ -15,7 +15,7 @@
     <br />
 	❗ README AND THE DOCUMENTATION IS CURRENTLY UNDER CONSTRUCTION ❗ 
     <br />
-  </p>
+</p>
 </div>
 <br>
 

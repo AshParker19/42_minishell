@@ -1,13 +1,15 @@
 <a name="docu-top"></a>
-# Documentation of frankenshell
-❗ README AND THE DOCUMENTATION IS CURRENTLY UNDER CONSTRUCTION ❗ 
-
-**frankenshell** is a version of the 42 School project (**minishell**) that recreates in C a simplified version of the bash shell.
+<br />
+<div align="center">
+	<a href="./art.sh">
+    	<img src="../images/logo.png" alt="Logo" width="224" height="300">
+  	</a>
+  	<h1 align="center">Documentation of frankenshell</h1>
+</div>
+<br>
 
 # Table of Contents
 1. [Introduction](#introduction)
-   1. [What is Bash?](#what-is-bash)
-   2. [What is a shell?](#what-is-a-shell)
 2. [Installation](#installation)
 2. [Usage](#usage)
 
@@ -38,19 +40,15 @@
    7. [Signals](#signals)
 4. [Builtin Commands](#builtin-commands)
 5. [Environment Variables](#environment-variables)
-6. [Using History Interactively](#using-history-interactively)
-   1. [Bash History Facilities](#bash-history-facilities)
-   2. [Bash History Builtins](#bash-history-builtins)
-   3. [History Expansion](#history-expansion)
-      1. [Event Designators](#event-designators)
-      2. [Word Designators](#word-designators)
-      3. [Modifiers](#modifiers)
 6. [Known Bugs](#known-bugs)
-6. [Acknowledgments](#acknowledgments)
+7. [Acknowledgments](#acknowledgments)
 
 ## Introduction
-### What is Bash?
-### What is a shell?
+
+As ChatGPT said in 2023:
+
+> Minishell is a [42 school](https://42.fr/en/homepage/) project designed to create a simplified Unix shell. The idea behind Minishell is to develop a basic command-line interface (CLI) that can execute simple commands and handle input/output redirection. It's meant to serve as a learning exercise for students to gain a fundamental understanding of how shells work by implementing core features like parsing user input, managing processes, handling signals, creating builtins and executing system commands.
+
 ## Installation
 ```
 	# Clone this repository
@@ -88,9 +86,13 @@ These definitions are used throughout this manual as follows.
 #### signal
 	A mechanism by which a process may be notified by the kernel of an event occurring in the system.
 #### token
-	A sequence of characters considered a single unit by the shell. It is either a word or an operator.
-#### POSIX
-	A family of open system standards based on Unix. Bash is primarily concerned with the Shell and Utilities portion of the POSIX 1003.1 standard.
+	A sequence of characters considered a single unit by frankenshell.
+#### cycle
+	The input is processed after the user hits the `return` key, which involves a series of steps: cleaning the input string, expanding variables, tokenizing, constructing an ast, setting up pipes, forking processes, and updating the exit status.
+#### tree
+	see ast
+#### ast
+	The parser in Frankenshell constructs an abstract syntax tree (AST). For more in-depth information on this subject, refer to the [Parser](#parser) chapter.
 
 ## Basic Shell Features
 ### Shell Syntax
@@ -490,6 +492,8 @@ The builtin `unset` deletes the corresponding variables.
 
 :scroll: 		&nbsp; Refer to the section [Environment Variables](#environment-variables) for more details about the variables.
 
+---
+
 ## Environment Variables
 On programm start the enviromental variables will be loaded into frankenshell.\
 With the following [builtin](#builtins) commands variables can be...
@@ -500,14 +504,6 @@ With the following [builtin](#builtins) commands variables can be...
 - **deleted** using [unset](#unset)
 
 > ℹ️ &nbsp; Keep in mind that some [builtins](#builtins) (e.g. [cd](#cd)) change some variables during runtime!
-
-## Using History Interactively
-### Bash History Facilities
-### Bash History Builtins
-### History Expansion
-#### Event Designators
-#### Word Designators
-#### Modifiers
 
 ## Known Bugs
 
