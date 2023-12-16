@@ -277,7 +277,7 @@ The `cd` command runs a few checks to ensure the provided path is valid. Once it
   <summary>Examples</summary>
 
 | **CMD**            	| **STDOUT**    | **LINEBREAK** 	|
-|-----------------------|---------------|-------------------|
+|-----------------------|---------------|:-----------------:|
 | `echo foo`	     	| `foo`			| :white_check_mark:|
 | `echo "" '' foo`	    | `  foo`		| :white_check_mark:|
 | `echo --n foo`  		| `--n foo`    	| :white_check_mark:|
