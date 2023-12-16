@@ -182,10 +182,9 @@ Each built-in command in frankenshell is detailed below with specific informatio
 ---
 
 #### 42
-Displays a 42 logo to STDOUT (or its redirection)
 
 <details>
-  <summary>Information</summary>
+  <summary>Attributes</summary>
 
 | Attribute				| Details									|
 |-----------------------|-------------------------------------------|
@@ -211,17 +210,15 @@ Displays a 42 logo to STDOUT (or its redirection)
 
   ![42][builtin_42]  
 </details>
+<br>
+Displays a 42 logo to STDOUT (or its redirection)
 
 ---
 
 #### cd
-The `cd` command runs a few checks to ensure the provided path is valid. Once it's all good, it uses the external function `chdir` to change the current working directory (wd) to this new path. At the same time, it updates the `PWD` variable to the new directory and `OLDPWD` to the previous one.
-
-:warning:	 			&nbsp; If the external function `chdir` fails, an error message is printed and the exit status is set to `1`.\
-:white_check_mark: 	&nbsp; If `PWD` and/or `OLDPWD` are absent, the function operates normally and skips setting these variables.
 
 <details>
-  <summary>Information</summary>
+  <summary>Attributes</summary>
 
 | Attribute				| Details						|
 |-----------------------|-------------------------------|
@@ -248,8 +245,27 @@ The `cd` command runs a few checks to ensure the provided path is valid. Once it
 | `cd noPermDir`			| `frankenshell: cd: noPermDir: Permission denied`		| `1` 	|												|									 							|
 | `cd file`					| `frankenshell: cd: file: Not a directory`				| `1` 	|												|									 							|
 
-</details>
+| **Cmd**            		| **STDERR** 				|**Exit Status**| **Explanation**       								| **Affected Variables**<sup>1</sup>	|
+|---------------------------|---------------------------|:-------------:|-----------------------------------------------------|---------------------------------------------------------------|
+| `cd`						| <br>`cd: HOME not set`	| `0`<br>`1`	  | if `HOME` is set<br>if `HOME` is not set| `HOME` **`OLDPWD`** **`PWD`**<br>‎ |
+| `cd ""`					| 							| `0`			  | empty argument, wd doesn't update					| 																|
+| `cd valid_path`			| 							| `0` 			  | wd updates to `./valid_path`	 					| **`OLDPWD`** **`PWD`**										|
+| `cd .`					| 							| `0` 			  | wd doesn't update; `OLDPWD` updated!				| **`OLDPWD`**													|
+| `cd ..`					| 							| `0` 			  | wd updates to parent folder							| **`OLDPWD`** **`PWD`**										|
+| `cd foo bar`				| `cd: too many arguments`								| `1`	|												|									 							|
+| `cd noExist`				| `frankenshell: cd: noExist: No such file or directory`	| `1` 	|												|									 							|
+| `cd noPermDir`			| `frankenshell: cd: noPermDir: Permission denied`		| `1` 	|												|									 							|
+| `cd file`					| `frankenshell: cd: file: Not a directory`				| `1` 	|												|									 							|
 
+<sup>1</sup> Bold variables will be updated.
+
+</details>
+<br>
+
+The `cd` command runs a few checks to ensure the provided path is valid. Once it's all good, it uses the external function `chdir` to change the current working directory (wd) to this new path. At the same time, it updates the `PWD` variable to the new directory and `OLDPWD` to the previous one.
+
+:warning:	 			&nbsp; If the external function `chdir` fails, an error message is printed and the exit status is set to `1`.\
+:white_check_mark: 	&nbsp; If `PWD` and/or `OLDPWD` are absent, the function operates normally and skips setting these variables.
 
 
 
