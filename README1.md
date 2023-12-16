@@ -1,19 +1,4 @@
--> https://docs.google.com/spreadsheets/d/17linwSWODYO4O9Db0FohJYr_8shMTGvyo0MjToPrcAI/edit#gid=0
 
-# FRANKENSHELL
-
-some little bash copy....
-
-## Setup
-
-### mbox
-blabla
-
-### Store the Enviorment Variables
-linkes list bla bla
-
-## One Cycle
-### Tokenizer
 #### Trim String
 input: some string from readline (not NULL)
 output: no whitespaces at front or end

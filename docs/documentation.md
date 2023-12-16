@@ -12,9 +12,9 @@
 1. [Introduction](#introduction)
 2. [Installation](#installation)
 2. [Usage](#usage)
-
 2. [Definitions](#definitions)
-3. [Basic Shell Features](#basic-shell-features)
+2. [Structs](#structs)
+3. [Basic Frankenshell Features](#basic-shell-features)
    1. [Shell Syntax](#shell-syntax)
       1. [Shell Operation PROGRAM FLOW](#shell-operation-program-flow)
       2. [Quoting](#quoting)
@@ -93,6 +93,206 @@ These definitions are used throughout this manual as follows.
 	see ast
 #### ast
 	The parser in Frankenshell constructs an abstract syntax tree (AST). For more in-depth information on this subject, refer to the [Parser](#parser) chapter.
+
+## Structs
+### t_mbox
+The struct `mbox` is the main structure of the program: it is being passed as an argument to most of the functions and contains all the info needed for the program to work. The file ['manage_mbox.c'](../src/0_core/manage_mbox.c) contains the functions for initializing and
+destroying the mbox instance.
+
+<details>
+  <summary>Code Snippet</summary>
+
+    typedef struct s_mbox
+    {
+        char                        *inp_orig;
+        char                        *inp_trim;
+        char                        *inp_shift;
+        char                        *inp_expand;
+        int                         consecutive_lt;
+        bool                        error_status;
+        t_env                       *env;
+        t_list                      *history_lst;
+        t_token                     *tokens;
+        t_token                     *tmp_token;
+        t_ast                       *root;
+        t_ast                       *tmp_node;
+        t_exec                      executor;
+        int                         count_cycles;
+        t_bool                      print_info;
+    }   t_mbox;
+
+</details>
+
+---
+
+### t_env
+
+<details>
+  <summary>Code Snippet</summary>
+
+	typedef struct s_env
+	{
+		char						*key;
+		char						*value;
+		struct s_env				*next;
+	}	t_env;
+  
+</details>
+
+---
+
+### t_history
+
+<details>
+  <summary>Code Snippet</summary>
+
+	typedef struct s_history
+	{
+		int							index;
+		char						*inp;
+		t_mbox						*mbox;
+	}	t_history;
+  
+</details>
+
+---
+
+### t_token
+
+<details>
+  <summary>Code Snippet</summary>
+
+	typedef struct s_token
+	{
+		int				type;
+		char			*value;
+		struct s_token	*next;
+	}	t_token;
+  
+</details>
+
+---
+
+### t_ast
+
+<details>
+  <summary>Code Snippet</summary>
+
+	typedef struct s_ast
+	{
+		int				type;
+		int				cmd_pos;
+		char			*content;
+		struct s_ast	*left;
+		struct s_ast	*right;
+	}	t_ast;
+
+</details>
+
+---
+
+### t_list
+
+<details>
+  <summary>Code Snippet</summary>
+
+	typedef struct s_list
+	{
+		void			*content;
+		struct s_list	*next;
+	}					t_list;
+
+</details>
+
+---
+
+### t_mbox
+
+<details>
+  <summary>Code Snippet</summary>
+
+  
+</details>
+
+---
+
+### t_mbox
+
+<details>
+  <summary>Code Snippet</summary>
+
+  
+</details>
+
+---
+
+
+### t_exec
+
+<details>
+  <summary>Code Snippet</summary>
+
+	typedef struct s_exec
+	{
+		t_builtin_cmd	builtins[10];
+		t_io			io;
+		int				*pid;
+		int				pid_index;
+	}	t_exec;
+  
+</details>
+
+---
+
+### t_io
+
+<details>
+  <summary>Code Snippet</summary>
+
+	typedef struct s_io
+	{
+		t_bool	use_pipe[2];
+		int		cmd_fd[2];
+		int		dup_fd[2];
+		int		prev_pipe[2];
+	}	t_io;
+
+</details>
+
+---
+
+### t_hd
+
+<details>
+  <summary>Code Snippet</summary>
+
+	typedef struct s_hd
+	{
+		int				*fd;
+		char			*lim;
+		char			*cur_line;
+	}	t_hd;
+
+</details>
+
+---
+
+
+
+### t_builtin_cmd
+
+<details>
+  <summary>Code Snippet</summary>
+
+	typedef struct s_builtin_cmd
+	{
+		char				*cmd_name;
+		t_builtin_function	func_name;
+	}						t_builtin_cmd;
+
+</details>
+
+---
 
 ## Basic Shell Features
 ### Shell Syntax
