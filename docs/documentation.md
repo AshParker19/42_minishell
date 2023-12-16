@@ -34,7 +34,6 @@
       1. [Simple Command Expansion](#simple-command-expansion)
       2. [Command Search and Execution](#command-search-and-execution)
       3. [Command Execution Environment](#command-execution-environment)
-      4. [Environment (VARIABLEN LINKED LIST AND STUFF) gibts unten nochmal, warum 2 kapitel?](#environment-variablen-linked-list-and-stuff-gibts-unten-nochmal-warum-2-kapitel)
       5. [Exit Status](#exit-status)
    7. [Signals](#signals)
 4. [Builtin Commands](#builtin-commands)
@@ -141,7 +140,6 @@ These redirections allow for flexible manipulation of command input and output, 
 #### Simple Command Expansion
 #### Command Search and Execution
 #### Command Execution Environment
-#### Environment (VARIABLEN LINKED LIST AND STUFF) gibts unten nochmal, warum 2 kapitel?
 #### Exit Status
 ### Signals
 
@@ -239,7 +237,7 @@ The builtin `cd` runs a few checks to ensure the provided path is valid. Once it
 | `cd noPermDir`	| `frankenshell: cd: noPermDir: Permission denied`			| `1` 			|											|			 							|
 | `cd file`			| `frankenshell: cd: file: Not a directory`					| `1` 			|											|			 							|
 
-<sup>1</sup> Bold variables will be changed.
+<sup>1</sup> Bold variables will be updated.
 
 </details>
 
@@ -356,6 +354,42 @@ The builtin `exit` terminates the calling process, outputs `exit` to `STDERR` an
 
 #### export
 
+The builtin `export` updates (or creates) the enviromental variables inputed as key value pairs like `key1=value1 key2=value2`. If no argument is given, it will instead output all variables in alphabetical order.
+
+<details>
+  <summary>Attributes</summary>
+
+| Attribute				| Details						|
+|-----------------------|-------------------------------|
+| Flags                 | `N/A`		                 	|
+| Number of Arguments   | `0` - `n`					  	|
+| Argument Format	   	| `key=value`					|
+| Exit Status           | `0` `1`			           	|
+| Affected Variables    | `[key]`			       		|
+
+</details>
+
+<details>
+  <summary>Examples</summary>
+
+| **CMD**            		|**Equal Sign**		 |**Valid Key**<sup>1</sup>| **STDOUT**|**STDERR**|**Exit Status**    | **Affected Variables**<sup>2</sup>	|
+|---------------------------|:------------------:|:-----------------------:|-----------|----------|:-----------------:|---------------------------------------|
+| `export`		     		|			   		 |			 		  	   | `...` <br> `declare -x LANG="en_US.UTF-8"` <br> `declare -x LANGUAGE="en"` <br> `...` <sup>3</sup>|| `0` ||
+| `export @`				| :x:		   		 | :x:				  	   |		   | ```frankenshell: export: `@': not a valid identifier``` 	| `1` ||
+| `export @=foo`			| :white_check_mark: | :x:		 		  	   |		   | ```frankenshell: export: `@=foo': not a valid identifier```| `1` ||
+| `export foo`				| :x:		   		 | :white_check_mark: 	   |		   |		  | `0` 			  |										|
+| `export foo=bar`			| :white_check_mark: | :white_check_mark: 	   |		   |		  | `0` 			  |	**`foo`** 							|
+| `export foo=bar school=42`| :white_check_mark: | :white_check_mark: 	   |		   |		  | `0` 			  |	**`foo`** **`school`**				|
+
+<sup>1</sup> Refer to the section [Environment Variables](#environment-variables) for more details about the key syntax.\
+<sup>2</sup> Bold variables will be updated.\
+<sup>3</sup> In alphabetical order.
+
+</details>
+
+
+:warning: 		&nbsp; A [known bug](#known-bugs) exists with `env` and `export`.
+
 ---
 
 #### history
@@ -412,8 +446,16 @@ With the following [builtin](#builtins) commands variables can be...
 #### Modifiers
 
 ## Known Bugs
-	- export vs env
-	- single cmds with redirs
+
+**export vs env**
+
+If the built-in export is called with a valid key but no equal sign (like `export foo`) `foo` should be listed in the output of the `export`, but not in the output of the `env` function call. In frankenshell, `foo` is not added to the linked list of variables and therefore is not printed in either case. A simple boolean in the `s_env` structure could solve the problem.
+
+---
+
+**single cmds with redirs**
+
+---
 
 ## Acknowledgments
 Thx to all those guys and gals for hints, tipps and feedback!

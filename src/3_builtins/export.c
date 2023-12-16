@@ -6,18 +6,18 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:33:09 by astein            #+#    #+#             */
-/*   Updated: 2023/12/15 14:16:57 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/16 14:37:19 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "frankenshell.h"
 
 /**
- * @brief   recursively traverses through the ll and return
- *          the amount of nodes in it
+ * @brief   recursively traverses through the ll and
+ * 			returns the amount of nodes in it
  * 
- * @param   env_var 
- * @return  int     amount of nodes
+ * @param   env_var     
+ * @return  int         
  */
 static int	env_counter(t_env *env_var)
 {
@@ -30,9 +30,9 @@ static int	env_counter(t_env *env_var)
 /**
  * @brief   uses simple bubble sort method to sort 'env_copy' alphabetically
  * 
- * @param   env_copy 
- * @param   env_count 
- * @return  char** 
+ * @param   mbox        
+ * @param   env_matrix  
+ * @return  char**      
  */
 static char	**bubble_sort(const t_mbox *mbox, char **env_matrix)
 {
@@ -61,10 +61,10 @@ static char	**bubble_sort(const t_mbox *mbox, char **env_matrix)
 
 /**
  * @brief   uses 'env_counter' to determine the size of the 't_env' ll;
- *          creates a matrix of the ll via 'env_to_matrix' and passes those
- *          informations to 'bubble_sort' to sort the array.
+ * 			creates a matrix of the ll via 'env_to_matrix' and passes those
+ * 			informations to 'bubble_sort' to sort the array.
  * 
- * @param   mbox 
+ * @param   mbox        
  */
 static void	sort_and_print_var(const t_mbox *mbox)
 {
@@ -103,6 +103,8 @@ static void	sort_and_print_var(const t_mbox *mbox)
  *						CASE: equal sign & wrong key (@=lol)
  *							-> export: `@=LL': not a valid identifier
  * 
+ * DOUCMENTATION:
+ * https://github.com/ahokcool/frankenshell/blob/main/docs/documentation.md#export
  * @param   arg_node 
  * @param   mbox 
  */

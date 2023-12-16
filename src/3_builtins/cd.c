@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:32:31 by astein            #+#    #+#             */
-/*   Updated: 2023/12/16 13:06:16 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/16 14:37:13 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ static void	check_dir(t_mbox *mbox, char *new_path)
  *          arg 			-> cd to arg via 'check_dir'
  *        	
  * DOCUMENTATION:
- * https://github.com/ahokcool/frankenshell/blob/main/docs/documentation.md#cd 			
+ * https://github.com/ahokcool/frankenshell/blob/main/docs/documentation.md#cd
  */
 void	builtin_cd(t_mbox *mbox, t_ast *arg_node)
 {
