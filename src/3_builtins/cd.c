@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:32:31 by astein            #+#    #+#             */
-/*   Updated: 2023/12/15 23:32:42 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/16 01:45:33 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 #include "frankenshell.h"
 
 /**
- * @brief   This function finally:
+ * @brief   This function then finally:
  * 				- changes the current working directory via 'chdir'
  * 				- updates the variables 'OLDPWD' and 'PWD' if they exist
  * 				- sets the exit status to 0
