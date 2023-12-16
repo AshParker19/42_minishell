@@ -6,18 +6,18 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:33:25 by astein            #+#    #+#             */
-/*   Updated: 2023/12/15 14:16:57 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/16 15:15:11 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "frankenshell.h"
 
 /**
- * @brief   traverses through the arguments of arg_node and deletes
- *          the corresponding nodes from the t_env ll 
+ * @brief   The builtin 'unset' deletes the corresponding nodes from the `t_env`
+ * 			ll via the 'delete_var' function.
  * 
- * @param   mbox 
- * @param   arg_node 
+ * @param   mbox        
+ * @param   arg_node    
  */
 void	builtin_unset(t_mbox *mbox, t_ast *arg_node)
 {

@@ -6,19 +6,13 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 11:45:50 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/15 14:16:57 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/16 15:01:21 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "frankenshell.h"
 
-/**
- * @brief only used via 'ft_lstiter' in 'builtin_history'
- * 		  prints the info from each node to the output, the same way bash does
- * 
- * @param content 
- */
-void	print_history_node(void *content)
+static void	print_history_node(void *content)
 {
 	t_history	*node;
 
@@ -74,10 +68,13 @@ void	save_history(t_mbox *mbox)
 }
 
 /**
- * @brief	iterates through the history and prints all the info
+ * @brief   The builtin `history` outputs all previous user input
+ * 			in a numbered list.
  * 
- * @param	mbox 
- * @param	arg_node 
+ * DOCUMENTATION:
+ * https://github.com/ahokcool/frankenshell/blob/main/docs/documentation.md#history
+ * @param   mbox        
+ * @param   arg_node    
  */
 void	builtin_history(t_mbox *mbox, t_ast *arg_node)
 {

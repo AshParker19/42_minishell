@@ -183,6 +183,7 @@ The builtin `42` displays a 42 logo to STDOUT (or its redirection)
 | Number of Arguments   | `0 to n` (all args will be ignored)   	|
 | Exit Status           | `0`				           				|
 | Affected Variables    | `[NONE]`			           				|
+| File				    | [`42.c`](../src/3_builtins/42.c)			|
 
 </details>
 
@@ -218,6 +219,8 @@ The builtin `cd` runs a few checks to ensure the provided path is valid. Once it
 | Argument Format	   	| absolute or relative path	   	|
 | Exit Status           | `0` `1`			           	|
 | Affected Variables    | `HOME` `OLDPWD` `PWD`        	|
+| File				    | [`cd.c`](../src/3_builtins/cd.c)|
+
 
 </details>
 
@@ -260,6 +263,8 @@ The builtin `echo` outputs the strings it is given as arguments, seperated by on
 | Argument Format	   	| all ASCII chars allowed		|
 | Exit Status           | `0`				           	|
 | Affected Variables    | `[NONE]`			       		|
+| File				    | [`echo.c`](../src/3_builtins/echo.c)	|
+
 
 </details>
 
@@ -293,6 +298,7 @@ The builtin `env` outputs all variable key-value pairs of the linked list like `
 | Number of Arguments   | `0`						  	|
 | Exit Status           | `0` `127`			           	|
 | Affected Variables    | `[all]`			       		|
+| File				    | [`env.c`](../src/3_builtins/env.c) |
 
 </details>
 
@@ -326,6 +332,8 @@ The builtin `exit` terminates the calling process, outputs `exit` to `STDERR` an
 | Argument Format	   	| numeric [max long long]	   	|
 | Exit Status           | `0` - `255`		           	|
 | Affected Variables    | `[NONE]`			           	|
+| File				    | [`exit.c`](../src/3_builtins/exit.c) |
+
 
 </details>
 
@@ -366,6 +374,8 @@ The builtin `export` updates (or creates) the enviromental variables inputed as 
 | Argument Format	   	| `key=value`					|
 | Exit Status           | `0` `1`			           	|
 | Affected Variables    | `[key]`			       		|
+| Files				    | [`export.c`](../src/3_builtins/export.c) <br> [`export_utils.c`](../src/3_builtins/export_utils.c) |
+
 
 </details>
 
@@ -387,12 +397,36 @@ The builtin `export` updates (or creates) the enviromental variables inputed as 
 
 </details>
 
-
+:scroll: 		&nbsp; Refer to the section [Environment Variables](#environment-variables) for more details about the variables.
 :warning: 		&nbsp; A [known bug](#known-bugs) exists with `env` and `export`.
 
 ---
 
 #### history
+
+The builtin `history` outputs all previous user input in a numbered list.
+
+<details>
+  <summary>Attributes</summary>
+
+| Attribute				| Details						|
+|-----------------------|-------------------------------|
+| Flags                 | `N/A`		                 	|
+| Number of Arguments   | `0 to n` (all args will be ignored) |
+| Exit Status           | `0`			           		|
+| File				    | [`history.c`](../src/3_builtins/history.c) |
+
+</details>
+
+<details>
+  <summary>Examples</summary>
+
+| **CMD**            		| **STDOUT**					  |
+|---------------------------|---------------------------------|
+| `history`		     		| `  1  echo hi` <br> `  2  ls` <br> `...` <br> `  n  history`|
+| `history foo bar`			| `  1  echo hi` <br> `  2  ls` <br> `...` <br> `  n  history`|
+
+</details>
 
 ---
 
@@ -409,6 +443,8 @@ The builtin `pwd` outputs the current wd using the external function 'getcwd'. L
 | Number of Arguments   | `0 to n` (all args will be ignored)   	|
 | Exit Status           | `0`				           				|
 | Affected Variables    | `[NONE]`			           				|
+| File				    | [`pwd.c`](../src/3_builtins/pwd.c)		|
+
 
 </details>
 
@@ -425,6 +461,34 @@ The builtin `pwd` outputs the current wd using the external function 'getcwd'. L
 ---
 
 #### unset
+
+The builtin `unset` deletes the corresponding variables.
+
+<details>
+  <summary>Attributes</summary>
+
+| Attribute				| Details									|
+|-----------------------|-------------------------------------------|
+| Flags                 | `N/A`	                 					|
+| Number of Arguments   | `0 to n`									|
+| Argument Format	   	| `key`										|
+| Exit Status           | `0`				           				|
+| Affected Variables    | `[key]`			           				|
+| File				    | [`unset.c`](../src/3_builtins/unset.c)	|
+
+</details>
+
+<details>
+  <summary>Examples</summary>
+
+| **CMD**            	| **Explanation**       						|**Exit Status**|  **Affected Variables**	|
+|-----------------------|-----------------------------------------------|---------------|---------------------------|
+| `unset`				| nothing happens								| `0`			|							|
+| `unset foo bar`		|the variables `foo` and `bar` will be deleted	| `0`			| `foo` `bar`				|
+
+</details>
+
+:scroll: 		&nbsp; Refer to the section [Environment Variables](#environment-variables) for more details about the variables.
 
 ## Environment Variables
 On programm start the enviromental variables will be loaded into frankenshell.\
