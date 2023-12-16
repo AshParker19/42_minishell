@@ -183,7 +183,7 @@ Each built-in command in frankenshell is detailed below with specific informatio
 
 #### 42
 
-The `42` command displays a 42 logo to STDOUT (or its redirection)
+The builtin `42` displays a 42 logo to STDOUT (or its redirection)
 
 <details>
   <summary>Attributes</summary>
@@ -217,7 +217,7 @@ The `42` command displays a 42 logo to STDOUT (or its redirection)
 
 #### cd
 
-The `cd` command runs a few checks to ensure the provided path is valid. Once it's all good, it uses the external function `chdir` to change the current working directory (wd) to this new path. At the same time, it updates the `PWD` variable to the new directory and `OLDPWD` to the previous one.
+The builtin `cd` runs a few checks to ensure the provided path is valid. Once it's all good, it uses the external function `chdir` to change the current working directory (wd) to this new path. At the same time, it updates the `PWD` variable to the new directory and `OLDPWD` to the previous one.
 
 <details>
   <summary>Attributes</summary>
@@ -314,7 +314,7 @@ The builtin `env` outputs all variable key-value pairs of the linked list like `
 |-----------------------|---------------|-----------------------------------------------------------------------|:-----------------:|
 | `env`			     	| `...` <br> `USER=astein` <br> `HOME=/home/astein` <br> `LANGUAGE=en` <br> `...`	   || `0`	 			|
 | `env foo`		     	| 				| `env: ‘foo’: No such file or directory`								| `127`				|
-
+| `env foo bar`	     	| 				| `env: ‘foo’: No such file or directory`								| `127`				|
 
 </details>
 
