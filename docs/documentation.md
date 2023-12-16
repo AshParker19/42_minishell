@@ -226,9 +226,9 @@ Cd performs multiple tests if the given argument is correct. If so it changes th
 | `cd .`				| 							| `0` 			  | wd doesn't update; `OLDPWD` updated!				| **`OLDPWD`**													|
 | `cd ..`				| 							| `0` 			  | wd updates to parent folder							| **`OLDPWD`** **`PWD`**										|
 | `cd foo bar`			| `cd: too many arguments`								| `1`	|												|									 							|
-| `cd noExist`			| `frankenshell: cd: noExist: No such file or directory`	| `1` 	|												|									 							|
-| `cd noPermDir`		| `frankenshell: cd: noPermDir: Permission denied`		| `1` 	|												|									 							|
-| `cd file`				| `frankenshell: cd: file: Not a directory`				| `1` 	|												|									 							|
+| `cd noExist`			| ```frankenshell: cd: noExist: No such file or directory```	| `1` 	|												|									 							|
+| `cd noPermDir`		| ```frankenshell: cd: noPermDir: Permission denied```		| `1` 	|												|									 							|
+| `cd file`				| ```frankenshell: cd: file: Not a directory```				| `1` 	|												|									 							|
 
 > :warning:	 			&nbsp; If the external function `chdir` fails, an error message is printed and the exit status is set to `1`.\
 > :white_check_mark: 	&nbsp; If `PWD` and/or `OLDPWD` are absent, the function operates normally and skips setting these variables.
