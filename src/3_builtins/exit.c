@@ -6,17 +6,11 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:33:57 by astein            #+#    #+#             */
-/*   Updated: 2023/12/15 14:16:57 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/16 13:13:51 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "frankenshell.h"
-
-static void	err_exit_exit(t_mbox *mbox, char *str)
-{
-	err_msg(mbox, 2, "nnnnn", ERR_P, "exit: ", str, CS, NAR);
-	destroy_mbox(mbox);
-}
 
 static t_bool	parse_str_to_long_long(char *str, long long *result)
 {
@@ -36,33 +30,13 @@ static t_bool	parse_str_to_long_long(char *str, long long *result)
 }
 
 /**
- * @brief	
- * 
- * 		FIXME: THIS COMMEND IS OLD! NEED TO UPDATE IT!!!
- * 
- *		YES:						|	NO:
- *		(exit code % 128)			|	err_msg (exits code 2)
- *		--------------------------------------------------------
- *		EXAMPLES:		RETURN:		|	EXAMPLES:
- *		exit 42			42			|	exit a
- *		exit -42		214			|	exit a a
- *		exit 424242		50			|	exit a 1
- *		exit 0 a		0			|
- *		exit 1 1		1			|
- *		exit 255
- * 		TODO: fix this funtion for big numbers
- * @param str 
- * @return int 
- * 
- * @brief		
- * 		FIXME: THIS COMMEND IS OLD! NEED TO UPDATE IT!!!
- * 				- Checks if the string is a valid long long
- * 				- If it is, it returns true and stores the result in nr
+ * @brief   Checks if the string is a valid long long
+ * 				- If it is, it returns ft_true and stores it (mod 256) in `nr`
  * 				- If it isn't, it returns false and doesn't change nr
  * 
- * @param	str
- * @param	nr
- * @return	t_bool 
+ * @param   str_nr      
+ * @param   nr          
+ * @return  t_bool      
  */
 static t_bool	is_long_long(char *str_nr, int *nr)
 {
@@ -93,29 +67,29 @@ static t_bool	is_long_long(char *str_nr, int *nr)
 }
 
 /**
- * @brief 
- *	 		FIXME: THIS COMMEND IS OLD! NEED TO UPDATE IT!!!
- * 			- Always prints exit to STDERR_FILENO
- * 			- exits the current process via 'free_and_close_box'
- * 			- or prints a err message
- * 			- (or both) :D
+ * @brief   The builtin `exit` terminates the current process, outputs `exit` to
+ * 			`STDERR` and if provided with a numeric argument, it sets the exit
+ * 			status to that argument's value.
  * 
- *	CASE:		EXAMPLES:					EXITCODE:			PRINT:	EXITS:
- *	no arg 		'exit'						last exit status	exit	yes
- *	not num		see: 'is_exit_code_num'		2					exit	yes
- *	num	1 arg	'exit 42'					42					exit	yes
- *	num	2+ args	'exit 42 42','exit 42 a'	if last != 0		exit	no
- * 												old one
- * 											else
- * 												1
- * @param   mbox 		
- * @param   arg_node 
+ * CASE:		EXAMPLES:	 EXITCODE:			PRINT:			EXITS:
+ *	no arg 		'exit'		 last exit status	exit			yes
+ *	not num		`exit a`	 2					exit & error	yes
+ *	num	1 arg	'exit 42'	 42					exit			yes
+ *	num	2+ args	'exit 42 42' if last != 0		exit			no
+ *							 	previous exit status
+ * 							 else
+ * 								1
+ * DOCUMENTATION:
+ * https://github.com/ahokcool/frankenshell/blob/main/docs/documentation.md#exit
+ * 
+ * @param   mbox        
+ * @param   arg_node    
  */
 void	builtin_exit(t_mbox *mbox, t_ast *arg_node)
 {
 	int	exit_status;
 
-	ft_putstr_fd("exit\n", STDOUT_FILENO);
+	ft_putstr_fd("exit\n", STDERR_FILENO);
 	if (!arg_node)
 		destroy_mbox(mbox);
 	else
@@ -135,6 +109,9 @@ void	builtin_exit(t_mbox *mbox, t_ast *arg_node)
 			}
 		}
 		else
-			err_exit_exit(mbox, arg_node->content);
+		{
+			err_msg(mbox, 2, "nnnnn", ERR_P, "exit: ", arg_node->content, CS, NAR);
+			destroy_mbox(mbox);
+		}
 	}
 }

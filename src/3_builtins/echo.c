@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:32:13 by astein            #+#    #+#             */
-/*   Updated: 2023/12/16 02:18:58 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/16 13:06:23 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,8 @@ static t_bool	is_flag(char *arg, t_bool *found_text, t_bool *print_nl)
  *	 			echo -n hello -n
  * 				echo -n -n hello
  * 
- * 			DOCUMENTATION:
- * 			https://github.com/ahokcool/frankenshell/blob/main/docs/documentation.md#echo
+ * DOCUMENTATION:
+ * https://github.com/ahokcool/frankenshell/blob/main/docs/documentation.md#echo
  * 
  * @param   mbox        
  * @param   arg_node    

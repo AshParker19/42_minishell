@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 18:00:32 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/15 21:39:40 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/16 13:05:57 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 /**
  * @brief   displays a pretty 42 logo to STDOUT (or its redirection)
  * 
- * 			DOCUMENTATION:
- * 			https://github.com/ahokcool/frankenshell/blob/main/docs/documentation.md#42
+ * DOCUMENTATION:
+ * https://github.com/ahokcool/frankenshell/blob/main/docs/documentation.md#42
  * 
  * @param   mbox        
  * @param   arg_node    

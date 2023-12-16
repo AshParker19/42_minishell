@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:32:31 by astein            #+#    #+#             */
-/*   Updated: 2023/12/16 01:45:33 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/16 13:06:16 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
  * 				- enviroment variable updating (OLDPWD, PWD)
  * 				- exit status updating
  * 
- * 			DOCUMENTATION:
- * 			https://github.com/ahokcool/frankenshell/blob/main/docs/documentation.md#cd 			
+ * DOCUMENTATION:
+ * https://github.com/ahokcool/frankenshell/blob/main/docs/documentation.md#cd 			
  */
 
 #include "frankenshell.h"
@@ -70,8 +70,8 @@ static void	change_pwd(t_mbox *mbox, char *new_path)
  * 					-> without permission	-> error: 'cd: Permission denied'
  * 	-> a file		-> error: 'cd: Not a directory'
  * 
- * 			DOCUMENTATION:
- * 			https://github.com/ahokcool/frankenshell/blob/main/docs/documentation.md#cd
+ * DOCUMENTATION:
+ * https://github.com/ahokcool/frankenshell/blob/main/docs/documentation.md#cd
  * 			
  * @param   mbox        
  * @param   new_path    
@@ -114,8 +114,8 @@ static void	check_dir(t_mbox *mbox, char *new_path)
  *        	empty args		-> do nothing (exit status = 0)
  *          arg 			-> cd to arg via 'check_dir'
  *        	
- * 			DOCUMENTATION:
- * 			https://github.com/ahokcool/frankenshell/blob/main/docs/documentation.md#cd 			
+ * DOCUMENTATION:
+ * https://github.com/ahokcool/frankenshell/blob/main/docs/documentation.md#cd 			
  */
 void	builtin_cd(t_mbox *mbox, t_ast *arg_node)
 {

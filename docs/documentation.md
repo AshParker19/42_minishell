@@ -289,8 +289,6 @@ The builtin `echo` outputs the strings it is given as arguments, seperated by on
 
 </details>
 
-[🔝](#docu-top)
-
 ---
 
 #### env
@@ -327,6 +325,41 @@ The builtin `env` outputs all variable key-value pairs of the linked list like `
 ---
 
 #### exit
+
+The builtin `exit` terminates the current process, outputs `exit` to `STDERR` and if provided with a numeric argument, it sets the exit status to that argument's value.
+
+> :speech_balloon: &nbsp; If the argument exceeds 255, it will be subjected to modulo 256.
+
+<details>
+  <summary>Attributes</summary>
+
+| Attribute				| Details						|
+|-----------------------|-------------------------------|
+| Flags                 | `N/A`	                 		|
+| Number of Arguments   | `0` - `1`				   		|
+| Argument Format	   	| numeric [max long long]	   	|
+| Exit Status           | `0` - `255`		           	|
+
+</details>
+
+<details>
+  <summary>Examples</summary>
+
+| **CMD**          	| **STDERR** 														|**Exit Status**    | **Terminates**		|
+|-------------------|-------------------------------------------------------------------|:-----------------:|:---------------------:|
+| `exit`			| `exit`															| `[doesn't update]`| :white_check_mark: 	|
+| `exit 42`			| `exit`															| `42`				| :white_check_mark: 	|
+| `exit -42`		| `exit`															| `214`			 	| :white_check_mark: 	|
+| `exit 424242`		| `exit`															| `50`				| :white_check_mark: 	|
+| `exit foo`		| `exit` <br> `frankenshell: exit: foo: numeric argument required`	| `2`				| :white_check_mark: 	|
+| `exit foo 42`		| `exit` <br> `frankenshell: exit: foo: numeric argument required`	| `2`				| :white_check_mark: 	|
+| `exit foo bar`	| `exit` <br> `frankenshell: exit: foo: numeric argument required`	| `2`				| :white_check_mark: 	|
+| `exit 42 42`		| `exit` <br> `frankenshell: exit: too many arguments`				| `1`<sup>1</sup>	| :x:				 	|
+| `exit 42 foo`		| `exit` <br> `frankenshell: exit: too many arguments`				| `1`<sup>1</sup>	| :x:				 	|
+
+<sup>1</sup> The exit status will only be updated to `1` if the last exit status was `0`.
+
+</details>
 
 ---
 
