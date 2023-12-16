@@ -294,7 +294,7 @@ The builtin `echo` outputs the strings it is given as arguments, seperated by on
 #### env
 
 The builtin `env` outputs all variable key-value pairs of the linked list like `key=value\n`\
-:scroll: 	&nbsp; Refer to the section [Environment Variables](#environment-variables) for more details about the variables.
+:scroll: 	&nbsp; Refer to the section [Environment Variables](#environment-variables) for more details about the variables.\
 :warning: 	&nbsp; A [known bug](#known-bugs) exists with `env` and `export`.
 
 
