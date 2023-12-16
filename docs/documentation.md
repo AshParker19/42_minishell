@@ -47,7 +47,7 @@
    7. [42](#42)
    8. [history](#history)
    9. [exit](#exit)
-5. [Shell Variables](#shell-variables)
+5. [Environment Variables](#environment-variables)
 6. [Using History Interactively](#using-history-interactively)
    1. [Bash History Facilities](#bash-history-facilities)
    2. [Bash History Builtins](#bash-history-builtins)
@@ -293,7 +293,11 @@ The builtin `echo` outputs the strings it is given as arguments, seperated by on
 
 #### env
 
-The builtin `env` outputs all variable key-value pairs of the linked list like `key=value\n`
+The builtin `env` outputs all variable key-value pairs of the linked list like `key=value\n`\
+:scroll: 	&nbsp; Refer to the section [Environment Variables](#environment-variables) for more details about the variables.
+:warning: 	&nbsp; A [known bug](#known-bugs) exists with `env` and `export`.
+
+
 
 <details>
   <summary>Attributes</summary>
@@ -338,7 +342,7 @@ The builtin `env` outputs all variable key-value pairs of the linked list like `
 
 #### unset
 
-## Shell Variables
+## Environment Variables
 On programm start the enviromental variables will be loaded into frankenshell.\
 With the following [builtin](#builtins) commands variables can be...
 - **shown** using [env](#env)
