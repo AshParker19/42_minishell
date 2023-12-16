@@ -38,15 +38,15 @@
       5. [Exit Status](#exit-status)
    7. [Signals](#signals)
 4. [Builtin Commands](#builtin-commands)
-   1. [echo](#echo)
-   2. [cd](#cd)
-   3. [pwd](#pwd)
-   4. [export](#export)
-   5. [unset](#unset)
-   6. [env](#env)
-   7. [42](#42)
-   8. [history](#history)
-   9. [exit](#exit)
+	  1. [42](#42)
+	  2. [cd](#cd)
+	  3. [echo](#echo)
+	  4. [env](#env)
+	  5. [exit](#exit)
+	  6. [export](#export)
+	  7. [history](#history)
+	  8. [pwd](#pwd)
+	  9. [unset](#unset)
 5. [Environment Variables](#environment-variables)
 6. [Using History Interactively](#using-history-interactively)
    1. [Bash History Facilities](#bash-history-facilities)
@@ -257,7 +257,7 @@ The builtin `cd` runs a few checks to ensure the provided path is valid. Once it
 
 ---
 
-#### echo
+#### echo <a href="#docu-top">🔝</a>
 
 The builtin `echo` outputs the strings it is given as arguments, seperated by one space each, to the standard output (or its redirection).
 
