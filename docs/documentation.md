@@ -287,7 +287,6 @@ The `cd` command runs a few checks to ensure the provided path is valid. Once it
 | `echo -n foo -n`  	| `foo -n`      | :x:   			|
 
 </details>
-<br>
 The `echo` command outputs the strings it is given as arguments, seperated by one space each, to the standard output (or its redirection).
 
 ---
