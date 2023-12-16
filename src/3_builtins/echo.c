@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:32:13 by astein            #+#    #+#             */
-/*   Updated: 2023/12/15 14:16:57 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/16 02:04:06 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,13 @@ static t_bool	is_flag(char *arg, t_bool *found_text, t_bool *print_nl)
 }
 
 /**
- * @brief   - concatenates all the arg nodes values with single space in between
- *          - if flag -n is not present (at least once) as a FIRST ARG NODE!
+ * @brief   The builtin echo command outputs the strings it is given as
+ * 			arguments, seperated by one space each, to the standard output
+ * 			(or its redirection).
+ * 
+ * 			FLAG:
+ * 			if flag -n is not present (at least once) as FIRST ARG NODE:
  *              - adds a '\n'
- *          - writes to the proper FD
  * 
  * 			NOTE:
  * 			'found_text' tells if an printable arg was found before then ignore
@@ -65,8 +68,11 @@ static t_bool	is_flag(char *arg, t_bool *found_text, t_bool *print_nl)
  *	 			echo -n hello -n
  * 				echo -n -n hello
  * 
- * @param   mbox 
- * @param   arg_node 
+ * 			DOCUMENTATION:
+ * 			https://github.com/ahokcool/frankenshell/blob/main/docs/documentation.md#echo
+ * 
+ * @param   mbox        
+ * @param   arg_node    
  */
 void	builtin_echo(t_mbox *mbox, t_ast *arg_node)
 {

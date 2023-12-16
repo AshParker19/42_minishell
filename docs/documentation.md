@@ -198,10 +198,10 @@ Each built-in command in frankenshell is detailed below with specific informatio
 <details>
   <summary>Examples</summary>
 
-| **Cmd**            	| **STDOUT**    				| **Exit Status** | **Explanation**       		| **Affected Variables**	|
-|-----------------------|-------------------------------|:---------------:|-----------------------------|---------------------------|
-| `42`					| [the 42 logo] 				| `0`			  |								| 							|
-| `42 foo bar`			| [the 42 logo] 				| `0`			  | all args will be ignored	| 							|
+| **CMD**            	| **STDOUT**    				| **Explanation**       	|
+|-----------------------|-------------------------------|---------------------------|
+| `42`					| [the 42 logo] 				|							|
+| `42 foo bar`			| [the 42 logo] 				| all args will be ignored	|
 
 </details>
 
@@ -211,7 +211,7 @@ Each built-in command in frankenshell is detailed below with specific informatio
   ![42][builtin_42]  
 </details>
 <br>
-Displays a 42 logo to STDOUT (or its redirection)
+The `42` command displays a 42 logo to STDOUT (or its redirection)
 
 ---
 
@@ -233,7 +233,7 @@ Displays a 42 logo to STDOUT (or its redirection)
 <details>
   <summary>Examples</summary>
 
-| **Cmd**          	| **STDERR** 												|**Exit Status**| **Explanation**       			 		| **Affected Variables**<sup>1</sup>	|
+| **CMD**          	| **STDERR** 												|**Exit Status**| **Explanation**       			 		| **Affected Variables**<sup>1</sup>	|
 |-------------------|-----------------------------------------------------------|:-------------:|-------------------------------------------|---------------------------------------|
 | `cd`				| 															| `0`		 	| if `HOME` **is** set 						| `HOME` **`OLDPWD`** **`PWD`**			|
 | `cd`				| `cd: HOME not set`										| `1`		 	| if `HOME` **is not** set					| 										|
@@ -259,23 +259,37 @@ The `cd` command runs a few checks to ensure the provided path is valid. Once it
 ---
 
 #### echo
-Displays a line of text.
 
-| Information			|								|
+<details>
+  <summary>Attributes</summary>
+
+| Attribute				| Details						|
 |-----------------------|-------------------------------|
 | Flags                 | `-n`		                 	|
 | Number of Arguments   | `0` - `n`					  	|
 | Argument Format	   	| all ASCII chars allowed		|
-| Exit Status           | [Exit status info]           	|
-| Affected Variables    | `[NONE]`			           				|
+| Exit Status           | `0`				           	|
+| Affected Variables    | `[NONE]`			       		|
 
-|Examples				|				|				|				  |						|							|
-|-----------------------|---------------|---------------|:---------------:|-----------------------|---------------------------|
-| **Cmd**            	| **STDOUT**    | **STDERR** 	| **Exit Status** | **Explanation**       | **Affected Variables**	|
-| `echo "Hello"`     	| `Hello`       |            	| `0`      		  | Standard output       |							|
-| `echo -n "World"`  	| `World`       |            	| `0`     		  | No newline at the end |							|
-| `[Third Example]`  	| [STDOUT]      | [STDERR]   	| [Status]		  | [Explanation]         |							|
-| `[Fourth Example]` 	| [STDOUT]      | [STDERR]   	| [Status]		  | [Explanation]         |							|
+</details>
+
+<details>
+  <summary>Examples</summary>
+
+| **CMD**            	| **STDOUT**    | **LINEBREAK** 	|
+|-----------------------|---------------|-------------------|
+| `echo foo`	     	| `foo`			| :white_check_mark:|
+| `echo -n foo`  		| `foo`       	| :x:       	  	|
+| `echo -n -nn -nnn foo`| `foo`       	| :x:       	  	|
+| `echo -n -nbar foo`  	| `-nbar foo`   | :x: 	    	 	|
+| `echo -n foo -n`  	| `foo -n`      | :x:   			|
+| `echo "" '' foo`	    | `  foo`		| :white_check_mark:|
+
+
+
+</details>
+<br>
+The `echo` command outputs the strings it is given as arguments, seperated by one space each, to the standard output (or its redirection).
 
 ---
 
