@@ -257,7 +257,7 @@ The builtin `cd` runs a few checks to ensure the provided path is valid. Once it
 
 ---
 
-#### echo <a href="#docu-top">🔝</a>
+#### echo
 
 The builtin `echo` outputs the strings it is given as arguments, seperated by one space each, to the standard output (or its redirection).
 
@@ -288,6 +288,8 @@ The builtin `echo` outputs the strings it is given as arguments, seperated by on
 | `echo -n foo -n`  	| `foo -n`      | :x:   			|
 
 </details>
+
+[🔝](#docu-top)
 
 ---
 
