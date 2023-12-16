@@ -215,10 +215,10 @@ Displays a 42 logo to STDOUT (or its redirection)
 ---
 
 #### cd
-The `cd` command runs a few checks to ensure the provided path is valid. Once it's all good, it uses the external function `chdir` to change the current working directory to this new path. At the same time, it updates the `PWD` variable to the new directory and `OLDPWD` to the previous one.
+The `cd` command runs a few checks to ensure the provided path is valid. Once it's all good, it uses the external function `chdir` to change the current working directory (wd) to this new path. At the same time, it updates the `PWD` variable to the new directory and `OLDPWD` to the previous one.
 
-> :warning:	 			&nbsp; If the external function `chdir` fails, an error message is printed and the exit status is set to `1`.\
-> :white_check_mark: 	&nbsp; If `PWD` and/or `OLDPWD` are absent, the function operates normally and skips setting these variables.
+:warning:	 			&nbsp; If the external function `chdir` fails, an error message is printed and the exit status is set to `1`.\
+:white_check_mark: 	&nbsp; If `PWD` and/or `OLDPWD` are absent, the function operates normally and skips setting these variables.
 
 <details>
   <summary>Information</summary>
