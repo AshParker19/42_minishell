@@ -1,7 +1,7 @@
 <a name="docu-top"></a>
 <br />
 <div align="center">
-	<a href="./art.sh">
+	<a href="../art.sh">
     	<img src="../images/logo.png" alt="Logo" width="224" height="300">
   	</a>
   	<h1 align="center">Documentation of frankenshell</h1>
