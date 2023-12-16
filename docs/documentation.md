@@ -218,8 +218,8 @@ Cd performs multiple tests if the given argument is correct. If so it changes th
 
 **Examples**
 |Examples				|						|				|														  |														|						
-|-----------------------|---------------------------|:---------------:|-----------------------------------------------------|---------------------------------------------------------------|
-| **Cmd**            	| **STDERR** 				| **Exit Status** | **Explanation**       								| **Affected Variables**<br>(bold variables will be updated)	|
+|-----------------------|---------------------------|:-------------:|-----------------------------------------------------|---------------------------------------------------------------|
+| **Cmd**            	| **STDERR** 				|**Exit Status**| **Explanation**       								| **Affected Variables**<br>(bold variables will be updated)	|
 | `cd`					| <br>`cd: HOME not set`	| `0`<br>`1`	  | if `HOME` set, wd updates to `HOME`<br>if `HOME` NOT set, wd doesn't update | `HOME` **`OLDPWD`** **`PWD`**<br>‎ |
 | `cd ""`				| 							| `0`			  | empty argument, wd doesn't update					| 																|
 | `cd valid_path`		| 							| `0` 			  | wd updates to `./valid_path`	 					| **`OLDPWD`** **`PWD`**										|
