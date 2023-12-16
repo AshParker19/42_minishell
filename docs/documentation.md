@@ -182,33 +182,48 @@ Each built-in command in frankenshell is detailed below with specific informatio
 ---
 
 #### 42
+Displays a 42 logo to STDOUT (or its redirection)
+
 <details>
-  <summary>Displays a pretty 42 logo to STDOUT (or its redirection)</summary>
+  <summary>Information</summary>
 
-  ![42][builtin_42]  
-</details>
-
-
-| Information			|											|
+| Attribute				| Details									|
 |-----------------------|-------------------------------------------|
 | Flags                 | `N/A`	                 					|
 | Number of Arguments   | `0 to n` (all args will be ignored)   	|
 | Exit Status           | `0`				           				|
 | Affected Variables    | `[NONE]`			           				|
 
-|Examples				|								|				  |								|							|
-|-----------------------|-------------------------------|:---------------:|-----------------------------|---------------------------|
+</details>
+
+<details>
+  <summary>Examples</summary>
+
 | **Cmd**            	| **STDOUT**    				| **Exit Status** | **Explanation**       		| **Affected Variables**	|
+|-----------------------|-------------------------------|:---------------:|-----------------------------|---------------------------|
 | `42`					| [the 42 logo] 				| `0`			  |								| 							|
 | `42 foo bar`			| [the 42 logo] 				| `0`			  | all args will be ignored	| 							|
+
+</details>
+
+<details>
+  <summary>Screenshot</summary>
+
+  ![42][builtin_42]  
+</details>
 
 ---
 
 #### `cd`
-Cd performs multiple tests if the given argument is correct. If so it changes the current working directory via `chdir` to the given path.
+The `cd` command runs a few checks to ensure the provided path is valid. Once it's all good, it uses the external function `chdir` to change the current working directory to this new path. At the same time, it updates the `PWD` variable to the new directory and `OLDPWD` to the previous one.
 
-**Information** 
-| Information			|								|
+> :warning:	 			&nbsp; If the external function `chdir` fails, an error message is printed and the exit status is set to `1`.\
+> :white_check_mark: 	&nbsp; If `PWD` and/or `OLDPWD` are absent, the function operates normally and skips setting these variables.
+
+<details>
+  <summary>Information</summary>
+
+| Attribute				| Details						|
 |-----------------------|-------------------------------|
 | Flags                 | `N/A`	                 		|
 | Number of Arguments   | `0` - `1`				   		|
@@ -216,8 +231,11 @@ Cd performs multiple tests if the given argument is correct. If so it changes th
 | Exit Status           | `0` `1`			           	|
 | Affected Variables    | `HOME` `OLDPWD` `PWD`        	|
 
+</details>
 
-**Examples**
+<details>
+  <summary>Examples</summary>
+
 | **Cmd**            		| **STDERR** 				|**Exit Status**| **Explanation**       								| **Affected Variables**<br>(bold variables will be updated)	|
 |---------------------------|---------------------------|:-------------:|-----------------------------------------------------|---------------------------------------------------------------|
 | `cd`						| <br>`cd: HOME not set`	| `0`<br>`1`	  | if `HOME` set, wd updates to `HOME`<br>if `HOME` NOT set, wd doesn't update | `HOME` **`OLDPWD`** **`PWD`**<br>‎ |
@@ -230,8 +248,8 @@ Cd performs multiple tests if the given argument is correct. If so it changes th
 | `cd noPermDir`			| `frankenshell: cd: noPermDir: Permission denied`		| `1` 	|												|									 							|
 | `cd file`					| `frankenshell: cd: file: Not a directory`				| `1` 	|												|									 							|
 
-> :warning:	 			&nbsp; If the external function `chdir` fails, an error message is printed and the exit status is set to `1`.\
-> :white_check_mark: 	&nbsp; If `PWD` and/or `OLDPWD` are absent, the function operates normally and skips setting these variables.
+</details>
+
 
 
 
