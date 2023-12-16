@@ -183,6 +183,8 @@ Each built-in command in frankenshell is detailed below with specific informatio
 
 #### 42
 
+The `42` command displays a 42 logo to STDOUT (or its redirection)
+
 <details>
   <summary>Attributes</summary>
 
@@ -211,11 +213,11 @@ Each built-in command in frankenshell is detailed below with specific informatio
   ![42][builtin_42]  
 </details>
 
-The `42` command displays a 42 logo to STDOUT (or its redirection)
-
 ---
 
 #### cd
+
+The `cd` command runs a few checks to ensure the provided path is valid. Once it's all good, it uses the external function `chdir` to change the current working directory (wd) to this new path. At the same time, it updates the `PWD` variable to the new directory and `OLDPWD` to the previous one.
 
 <details>
   <summary>Attributes</summary>
@@ -250,14 +252,14 @@ The `42` command displays a 42 logo to STDOUT (or its redirection)
 
 </details>
 
-The `cd` command runs a few checks to ensure the provided path is valid. Once it's all good, it uses the external function `chdir` to change the current working directory (wd) to this new path. At the same time, it updates the `PWD` variable to the new directory and `OLDPWD` to the previous one.
-
 :warning:	 		&nbsp; If the external function `chdir` fails, an error message is printed and the exit status is set to `1`.\
 :white_check_mark: 	&nbsp; If `PWD` and/or `OLDPWD` are absent, the function operates normally and skips setting these variables.
 
 ---
 
 #### echo
+
+The builtin `echo` outputs the strings it is given as arguments, seperated by one space each, to the standard output (or its redirection).
 
 <details>
   <summary>Attributes</summary>
@@ -287,11 +289,34 @@ The `cd` command runs a few checks to ensure the provided path is valid. Once it
 
 </details>
 
-The `echo` command outputs the strings it is given as arguments, seperated by one space each, to the standard output (or its redirection).
-
 ---
 
 #### env
+
+The builtin `env` outputs all variable key-value pairs of the linked list like `key=value\n`
+
+<details>
+  <summary>Attributes</summary>
+
+| Attribute				| Details						|
+|-----------------------|-------------------------------|
+| Flags                 | `N/A`		                 	|
+| Number of Arguments   | `0`						  	|
+| Exit Status           | `0` `127`			           	|
+| Affected Variables    | `[all]`			       		|
+
+</details>
+
+<details>
+  <summary>Examples</summary>
+
+| **CMD**            	| **STDOUT** 	| **STDERR** 															| **Exit Status**	|
+|-----------------------|---------------|-----------------------------------------------------------------------|:-----------------:|
+| `env`			     	| `...` <br> `USER=astein` <br> `HOME=/home/astein` <br> `LANGUAGE=en` <br> `...`	   || `0`	 			|
+| `env foo`		     	| 				| `env: ‘foo’: No such file or directory`								| `127`				|
+
+
+</details>
 
 ---
 
