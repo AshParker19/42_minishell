@@ -6,22 +6,22 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:32:13 by astein            #+#    #+#             */
-/*   Updated: 2023/12/16 02:04:06 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/16 02:18:58 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "frankenshell.h"
 
 /**
- * @brief	checks if the argument is a flag:
- * 			the only valid flags is '-n' that tells echo not to print a newline
+ * @brief   checks if the argument is a flag:
+ * 			the only valid flag is '-n' that tells echo not to print a newline
  * 			the amount of '-n' flags is irrelevant	e.g. 'echo -n -n -n hello'
  * 			the amount of 'n' is irrelevant			e.g. 'echno -nn -nnn hello'
  * 
- * @param arg 
- * @param found_text 
- * @param print_nl 
- * @return t_bool 
+ * @param   arg         
+ * @param   found_text  
+ * @param   print_nl    
+ * @return  t_bool      
  */
 static t_bool	is_flag(char *arg, t_bool *found_text, t_bool *print_nl)
 {

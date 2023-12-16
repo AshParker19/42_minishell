@@ -253,7 +253,7 @@ The `42` command displays a 42 logo to STDOUT (or its redirection)
 
 The `cd` command runs a few checks to ensure the provided path is valid. Once it's all good, it uses the external function `chdir` to change the current working directory (wd) to this new path. At the same time, it updates the `PWD` variable to the new directory and `OLDPWD` to the previous one.
 
-:warning:	 			&nbsp; If the external function `chdir` fails, an error message is printed and the exit status is set to `1`.\
+:warning:	 		&nbsp; If the external function `chdir` fails, an error message is printed and the exit status is set to `1`.\
 :white_check_mark: 	&nbsp; If `PWD` and/or `OLDPWD` are absent, the function operates normally and skips setting these variables.
 
 ---
@@ -279,13 +279,12 @@ The `cd` command runs a few checks to ensure the provided path is valid. Once it
 | **CMD**            	| **STDOUT**    | **LINEBREAK** 	|
 |-----------------------|---------------|-------------------|
 | `echo foo`	     	| `foo`			| :white_check_mark:|
+| `echo "" '' foo`	    | `  foo`		| :white_check_mark:|
+| `echo --n foo`  		| `--n foo`    	| :white_check_mark:|
 | `echo -n foo`  		| `foo`       	| :x:       	  	|
 | `echo -n -nn -nnn foo`| `foo`       	| :x:       	  	|
 | `echo -n -nbar foo`  	| `-nbar foo`   | :x: 	    	 	|
 | `echo -n foo -n`  	| `foo -n`      | :x:   			|
-| `echo "" '' foo`	    | `  foo`		| :white_check_mark:|
-
-
 
 </details>
 <br>
