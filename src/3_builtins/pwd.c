@@ -6,18 +6,20 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:32:55 by astein            #+#    #+#             */
-/*   Updated: 2023/12/15 14:16:57 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/16 13:29:33 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "frankenshell.h"
 
 /**
- * @brief	acceses the value PWD from the ll and writs to the correct FD
- * 			like in shell all arguments will be ignored
+ * @brief   outputs the current wd using the external function 'getcwd'
+ * 			like in bash all arguments will be ignored
  * 
- * @param	mbox 
- * @param	arg_node 
+ * DOCUMENTATION:
+ * https://github.com/ahokcool/frankenshell/blob/main/docs/documentation.md#pwd
+ * @param   mbox        
+ * @param   arg_node    
  */
 void	builtin_pwd(t_mbox *mbox, t_ast *arg_node)
 {

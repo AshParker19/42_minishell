@@ -38,15 +38,6 @@
       5. [Exit Status](#exit-status)
    7. [Signals](#signals)
 4. [Builtin Commands](#builtin-commands)
-	  1. [42](#42)
-	  2. [cd](#cd)
-	  3. [echo](#echo)
-	  4. [env](#env)
-	  5. [exit](#exit)
-	  6. [export](#export)
-	  7. [history](#history)
-	  8. [pwd](#pwd)
-	  9. [unset](#unset)
 5. [Environment Variables](#environment-variables)
 6. [Using History Interactively](#using-history-interactively)
    1. [Bash History Facilities](#bash-history-facilities)
@@ -318,17 +309,14 @@ The builtin `env` outputs all variable key-value pairs of the linked list like `
 
 </details>
 
-> :scroll: 		&nbsp; Refer to the section [Environment Variables](#environment-variables) for more details about the variables.
-
-> :warning: 	&nbsp; A [known bug](#known-bugs) exists with `env` and `export`.
+:scroll: 		&nbsp; Refer to the section [Environment Variables](#environment-variables) for more details about the variables.
+:warning: 		&nbsp; A [known bug](#known-bugs) exists with `env` and `export`.
 
 ---
 
 #### exit
 
-The builtin `exit` terminates the current process, outputs `exit` to `STDERR` and if provided with a numeric argument, it sets the exit status to that argument's value.
-
-> :speech_balloon: &nbsp; If the argument exceeds 255, it will be subjected to modulo 256.
+The builtin `exit` terminates the calling process, outputs `exit` to `STDERR` and if provided with a numeric argument, it sets the exit status to that argument's value.
 
 <details>
   <summary>Attributes</summary>
@@ -339,6 +327,7 @@ The builtin `exit` terminates the current process, outputs `exit` to `STDERR` an
 | Number of Arguments   | `0` - `1`				   		|
 | Argument Format	   	| numeric [max long long]	   	|
 | Exit Status           | `0` - `255`		           	|
+| Affected Variables    | `[NONE]`			           	|
 
 </details>
 
@@ -361,6 +350,8 @@ The builtin `exit` terminates the current process, outputs `exit` to `STDERR` an
 
 </details>
 
+:speech_balloon: &nbsp; If the argument exceeds 255, it will be subjected to modulo 256.
+
 ---
 
 #### export
@@ -372,6 +363,30 @@ The builtin `exit` terminates the current process, outputs `exit` to `STDERR` an
 ---
 
 #### pwd
+
+The builtin `pwd` outputs the current wd using the external function 'getcwd'. Like in bash all arguments will be ignored.
+
+<details>
+  <summary>Attributes</summary>
+
+| Attribute				| Details									|
+|-----------------------|-------------------------------------------|
+| Flags                 | `N/A`	                 					|
+| Number of Arguments   | `0 to n` (all args will be ignored)   	|
+| Exit Status           | `0`				           				|
+| Affected Variables    | `[NONE]`			           				|
+
+</details>
+
+<details>
+  <summary>Examples</summary>
+
+| **CMD**            	| **STDOUT**    				| **Explanation**       	|
+|-----------------------|-------------------------------|---------------------------|
+| `pwd`					| `/mnt/daten/GIT/frankenshell` |							|
+| `pwd foo bar`			| `/mnt/daten/GIT/frankenshell` | all args will be ignored	|
+
+</details>
 
 ---
 
