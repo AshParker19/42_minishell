@@ -126,7 +126,9 @@ destroying the mbox instance.
 ---
 
 ### t_env
-
+The struct `t_env` is used to build a liked list, storing all (enviromental) variables.
+:floppy_disk:       The linked list is stored in the [`t_mbox`](#t_mbox) struct.
+:scroll:            For further details see the section [Environment Variables](#environment-variables).
 <details>
   <summary>Code Snippet</summary>
 
@@ -142,6 +144,7 @@ destroying the mbox instance.
 ---
 
 ### t_history
+The struct `t_history` is used to build a liked list, storing all previous user input. Therefore it uses the generic linked list structure [`t_list`](#t_list). The linked list is stored in the [`t_mbox`](#t_mbox) struct. For further details about the history see the section [History](#history).
 
 <details>
   <summary>Code Snippet</summary>
@@ -158,6 +161,7 @@ destroying the mbox instance.
 ---
 
 ### t_token
+The struct `t_token` is used to build a liked list, storing all tokens. The linked list is stored in the [`t_mbox`](#t_mbox) struct. For further details see the section [Tokenize](#tokenize).
 
 <details>
   <summary>Code Snippet</summary>
@@ -174,6 +178,7 @@ destroying the mbox instance.
 ---
 
 ### t_ast
+The struct `t_ast` is used to build a tree, storing all nodes. The root of the ast is stored in the [`t_mbox`](#t_mbox) struct. For further details see the section [Parser](#parser).
 
 <details>
   <summary>Code Snippet</summary>
@@ -192,6 +197,7 @@ destroying the mbox instance.
 ---
 
 ### t_list
+The struct `t_list` is a generic linked list structure used for various purposes.
 
 <details>
   <summary>Code Snippet</summary>
@@ -207,6 +213,7 @@ destroying the mbox instance.
 ---
 
 ### t_exec
+The struct `t_exec` is used to store all the information needed for the execution of a command. An instance of this struct is stored in the [`t_mbox`](#t_mbox) struct.
 
 <details>
   <summary>Code Snippet</summary>
@@ -224,6 +231,7 @@ destroying the mbox instance.
 ---
 
 ### t_io
+The struct `t_io` is used to store all the information needed for the redirection of a command. An instance of this struct is stored in the [`t_exec`](#t_exec) struct. For further details see the section [Redirections](#redirections).
 
 <details>
   <summary>Code Snippet</summary>
@@ -241,6 +249,7 @@ destroying the mbox instance.
 ---
 
 ### t_hd
+The struct `t_hd` is used to store all the information needed for the heredoc redirection of a command. For further details see the section [Here Documents](#here-documents).
 
 <details>
   <summary>Code Snippet</summary>
@@ -257,6 +266,7 @@ destroying the mbox instance.
 ---
 
 ### t_builtin_cmd
+The struct `t_builtin_cmd` is used to create a conection between a builtin command name and its corresponding function. It is part of the [`t_exec`](#t_exec) struct.
 
 <details>
   <summary>Code Snippet</summary>
