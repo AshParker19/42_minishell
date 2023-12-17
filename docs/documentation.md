@@ -138,7 +138,7 @@ typedef struct s_env
 
 ### t_history
 The struct `t_history` is used to build a liked list, storing all previous user input. Therefore it uses the generic linked list structure [`t_list`](#t_list). 
-> :floppy_disk: &nbsp;  The linked list is stored in the [`t_mbox`](#t_mbox) struct. 
+> :floppy_disk: &nbsp;  The linked list is stored in the [`t_mbox`](#t_mbox) struct.\
 > :scroll:      &nbsp;  For further details about the history see the section [History](#history).
 ```
 typedef struct s_history
@@ -153,7 +153,7 @@ typedef struct s_history
 
 ### t_token
 The struct `t_token` is used to build a liked list, storing all tokens.
-> :floppy_disk: &nbsp;  The linked list is stored in the [`t_mbox`](#t_mbox) struct.
+> :floppy_disk: &nbsp;  The linked list is stored in the [`t_mbox`](#t_mbox) struct.\
 > :scroll:      &nbsp;  For further details see the section [Tokenize](#tokenize).
 ```
 typedef struct s_token
@@ -168,7 +168,7 @@ typedef struct s_token
 
 ### t_ast
 The struct `t_ast` is used to build a tree, storing all nodes.
-> :floppy_disk: &nbsp;  The root of the ast is stored in the [`t_mbox`](#t_mbox) struct.
+> :floppy_disk: &nbsp;  The root of the ast is stored in the [`t_mbox`](#t_mbox) struct.\
 > :scroll:      &nbsp;  For further details see the section [Parser](#parser).
 ```
 typedef struct s_ast
@@ -212,7 +212,7 @@ typedef struct s_exec
 
 ### t_io
 The struct `t_io` is used to store all the information needed for the redirection of a command.
-> :floppy_disk: &nbsp;  An instance of this struct is stored in the [`t_exec`](#t_exec) struct.
+> :floppy_disk: &nbsp;  An instance of this struct is stored in the [`t_exec`](#t_exec) struct.\
 > :scroll:      &nbsp;  For further details see the section [Redirections](#redirections).
 
 ```
