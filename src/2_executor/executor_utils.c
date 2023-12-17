@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:23:39 by astein            #+#    #+#             */
-/*   Updated: 2023/12/17 16:58:17 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/17 17:55:05 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ void	free_process_v2(t_mbox *mbox)
 
 t_bool	allocate_pid_array(t_mbox *mbox)
 {
-	print_executor_output(mbox, ft_true);
 	mbox->exec.pid = ft_calloc(cmd_counter(mbox->ast), sizeof(int));
 	if (!mbox->exec.pid)
 		return (ft_false);

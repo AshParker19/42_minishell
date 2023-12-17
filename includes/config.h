@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 16:07:39 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/15 14:14:03 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/17 17:15:13 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # define B_WHITE		"\x1b[97m"
 # define RESET 			"\033[0m"
 
-/******************************# PROMPT FORMAT #*******************************/
+/**********************************# PROMPT FORMAT #***************************/
 /**
  *	The escape sequence '\001' are used to tell readline that
  *		the characters between them are non-printing
@@ -36,7 +36,10 @@
 # define ERR_P  		"\001\033[38;5;203m\002frankenshell: \001\033[0m\002"
 # define HEREDOC_PROMPT	"\001\x1b[33m\002frankendoc> \001\033[0m\002"
 
-/*********************************# SIGNALS #**********************************/
+/**********************************# INFO MODE #*******************************/
+# define BANNER_WIDTH 	80
+
+/**********************************# SIGNALS #*********************************/
 # define SIGNAL_NEW_LINE 1
 # define SIGNAL_EXIT_HD 2
 # define NO_EXIT_STATUS -99999
@@ -51,7 +54,7 @@ enum e_signal_state
 	SIG_STATE_IGNORE
 };
 
-/********************************# TOKENIZER #*********************************/
+/**********************************# TOKENIZER #*******************************/
 /* token types for the t_token list */
 enum e_token_type
 {
@@ -80,7 +83,7 @@ enum e_three_branch
 	LEFT
 };
 
-/*********************************# EXECUTOR #*********************************/
+/**********************************# EXECUTOR #********************************/
 /* command state  */
 enum e_cmd_type
 {
@@ -104,7 +107,7 @@ enum e_pipe_side
 	P_LEFT
 };
 
-/******************************# ERROR MESSAGES #******************************/
+/**********************************# ERROR MESSAGES #**************************/
 # define CS             ": "
 # define SQ          	"'"
 # define CMD_N_FND      "command not found"

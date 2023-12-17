@@ -6,15 +6,15 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:06:17 by astein            #+#    #+#             */
-/*   Updated: 2023/12/17 16:59:06 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/17 18:11:38 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /**
  * @brief   Here we go frankenshell!
  * 
- * 			DOCUMENTATION:
- * 			https://github.com/ahokcool/frankenshell/blob/main/docs/documentation.md
+ * DOCUMENTATION:
+ * https://github.com/ahokcool/frankenshell/blob/main/docs/documentation.md
  */
 
 #include "frankenshell.h"
@@ -42,7 +42,7 @@ static void	check_args(t_mbox *mbox, int ac, char **av)
 				|| str_cmp_strct(av[1], "-i")))
 		{
 			mbox->info_mode = ft_true;
-			put_headline("INFO MODE ACTIVATED!", NULL, PURPLE);
+			info_put_banner(mbox, "INFO MODE ACTIVATED!", NULL, PURPLE);
 			return ;
 		}
 		else
@@ -68,7 +68,7 @@ static void	check_args(t_mbox *mbox, int ac, char **av)
  * 				4. If the Signal CTRL+C was received, the program will print a
  * 					newline and update the exit status to 130
  * 				5. In all other cases the program will continue with the input
- * 					processing via 'input_main'
+ * 					processing via 'cycle_main'
  *
  *          For more details check the documentation on my GitHub:
  * 			https://github.com/ahokcool/frankenshell/
@@ -97,6 +97,6 @@ int	main(int ac, char **av, char **env)
 		if (!mbox.inp_orig)
 			builtin_exit(&mbox, NULL);
 		else
-			input_main(&mbox);
+			cycle_main(&mbox);
 	}
 }

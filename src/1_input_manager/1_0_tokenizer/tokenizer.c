@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 12:11:14 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/15 14:16:57 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/17 18:40:05 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,6 +165,7 @@ t_bool	tokenize(t_mbox *mbox, int i)
 {
 	char	**no_space;
 
+	info_put_banner(mbox, "TOKENIZER", NULL, YELLOW);
 	no_space = ft_split(mbox->inp_expand, NO_SPACE);
 	if (!no_space)
 		return (ft_false);
@@ -182,7 +183,7 @@ t_bool	tokenize(t_mbox *mbox, int i)
 		i++;
 	}
 	free_whatever("m", no_space);
-	print_tokenizer_output(mbox);
+	info_print_tokenizer(mbox, YELLOW);
 	if (!mbox->tokens)
 		return (ft_false);
 	return (ft_true);

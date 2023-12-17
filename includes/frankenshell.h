@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2023/12/17 16:59:06 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/17 18:42:01 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,11 +117,14 @@ t_bool	destroy_mbox_with_exit(t_mbox *mbox, int exit_status);
 /*========================================*/
 /*>>>>>>>>>> 4 DEBUG */
 /*========================================*/
-
-
+void	info_put_banner(t_mbox *mbox, char *caption, char *data, char *clr);
+void	info_print_input_string(t_mbox *mbox, char *state, char *str, char *clr);
+void	info_print_tokenizer(t_mbox *mbox, char *clr);
+void	info_print_parser(t_mbox *mbox, char *clr);
+void	info_print_executor_banner(t_mbox *mbox, t_bool top_part, char *clr);
 
 /* input_manager.c */
-void	input_main(t_mbox *mbox);
+void	cycle_main(t_mbox *mbox);
 
 /* env.c */
 void	initialize_vars(t_mbox *mbox, char **env);
@@ -146,15 +149,7 @@ void	conf_sig_handler(int sig_state);
 void	free_input_strings_v2(t_mbox *mbox);
 void	free_tokens_v2(t_mbox *mbox);
 
-/* display_flow.c */
-void	put_headline(char *caption, char *data, char *clr);
-void	display_info_str(t_mbox *mbox, char *state, char *str);
-void	print_tokenizer_output(t_mbox *mbox);
 
-/* display_flow2.c */
-void	print_line(char symbol, char *clr, t_bool app_new_line);
-void	print_parser_output(t_mbox *mbox, t_bool top_part);
-void	print_executor_output(t_mbox *mbox, t_bool top_part);
 
 /* general_utils.c */
 void	reset_cycle(t_mbox *mbox);

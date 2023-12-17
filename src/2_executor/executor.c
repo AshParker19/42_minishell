@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:19:44 by astein            #+#    #+#             */
-/*   Updated: 2023/12/17 16:58:17 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/17 18:41:52 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,7 @@ void	execute(t_mbox *mbox)
 {
 	t_ast	*cur;
 
+	info_print_executor_banner(mbox, ft_true, GREEN);
 	if (!allocate_pid_array(mbox))
 		return ;
 	cur = mbox->ast;
@@ -152,5 +153,5 @@ void	execute(t_mbox *mbox)
 			return ;
 	}
 	wait_for_execution(mbox);
-	print_executor_output(mbox, ft_false); 
+	info_print_executor_banner(mbox, ft_false, GREEN); 
 }
