@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:09:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/17 16:58:17 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/17 19:20:38 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	run_cmd_builtin(t_mbox *mbox, t_ast *cmd_node, t_bool parent)
 
 t_bool	run_single_builtin(t_mbox *mbox)
 {
-	if (!configure_redir(mbox, mbox->ast->left, NULL))
+	if (!setup_redirs(mbox, mbox->ast->left, NULL))
 	{
 		if (mbox->exec.io.cmd_fd[CMD_IN] != -1)
 			close (mbox->exec.io.cmd_fd[CMD_IN]);

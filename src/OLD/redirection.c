@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:47:15 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/17 16:56:25 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/17 19:20:38 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ static t_bool	redir_io(t_mbox *mbox, t_ast *redir_node, int *cur_p)
  * @param   redir_node 
  * @return  t_bool 
  */
-t_bool	configure_redir(t_mbox *mbox, t_ast *redir_node, int *cur_p)
+t_bool	setup_redirs(t_mbox *mbox, t_ast *redir_node, int *cur_p)
 {
 	if (!redir_io(mbox, redir_node, cur_p))
 	{

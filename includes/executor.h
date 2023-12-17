@@ -44,7 +44,7 @@ typedef struct s_hd
 /*********************************# FUNCTIONS #********************************/
 
 /* exec */
-void	execute(t_mbox *mbox);
+void	execute_ast(t_mbox *mbox);
 void	run_cmd_system(t_mbox *mbox, t_ast *cmd_node);
 
 /* cmd runner */
@@ -57,7 +57,7 @@ void	setup_pipes(t_mbox *mbox, int *cur_pipe);
 void	setup_process_std_tmp(t_mbox *mbox);
 
 /* redirections */
-t_bool	configure_redir(t_mbox *mbox, t_ast *redir_node, int *cur_p);
+t_bool	setup_redirs(t_mbox *mbox, t_ast *redir_node, int *cur_p);
 
 /* heredoc */
 t_bool	heredoc(t_mbox *mbox, t_ast *redir_node, int *cur_p);

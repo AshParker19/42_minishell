@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:19:44 by astein            #+#    #+#             */
-/*   Updated: 2023/12/17 18:41:52 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/17 19:21:35 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	exec_child(t_mbox *mbox, t_ast *cmd_node, int *cur_p)
 	else
 		conf_sig_handler(SIG_STATE_CHILD);
 	setup_pipes(mbox, cur_p);
-	if (!configure_redir(mbox, cmd_node->left, cur_p))
+	if (!setup_redirs(mbox, cmd_node->left, cur_p))
 	{
 		if (cmd_node->cmd_pos == FIRST_CMD || cmd_node->cmd_pos == MIDDLE_CMD)
 			close(cur_p[P_RIGHT]);
@@ -126,7 +126,7 @@ static void	wait_for_execution(t_mbox *mbox)
  * @param	mbox 
  * @return	t_bool 
  */
-void	execute(t_mbox *mbox)
+void	execute_ast(t_mbox *mbox)
 {
 	t_ast	*cur;
 

@@ -30,7 +30,7 @@
    2. [Processing a Single Cycle](#processing-a-single-cycle)
        1. [Input Management](#input-management)
            1. [Trim Input](#trim-input)
-           2. [Mark Separators](#mark-separators)
+           2. [Shift Separators](#shift-separators)
                1. [Quoting](#quoting)
            3. [Variable Expansion](#variable-expansion)
                1. [Variable Expansion](#variable-expansion-1)
@@ -366,7 +366,7 @@ If frankenshell is started with the flag `--info` or `-i`, it will print the fol
 - Token list containing all tokens and their type
 - AST containing all nodes and their type
 
-To get a 'readable' Version of the input strings, their [shifted values](#mark-separators) will be displayed like:
+To get a 'readable' Version of the input strings, their [shifted values](#shift-separators) will be displayed like:
 - `S` for `'` (contextual single quote)
 - `D` for `"` (contextual double quote)
 - `P` for `|` (seperating pipe)
@@ -378,6 +378,7 @@ To get a 'readable' Version of the input strings, their [shifted values](#mark-s
 > :jigsaw: &nbsp;  The linked list is stored in the [`t_mbox`](#t_mbox) struct.\
 > :jigsaw: &nbsp;  The linked list is stored in the [`t_mbox`](#t_mbox) struct.\
 
+TODO: UPDATE THE EXAMPLES SINCE I CHANGED THE DEBUG INFO LAYOUT
 <details>
   <summary>Example <code>ls -l -a</code></summary>
 
@@ -651,7 +652,7 @@ All the following steps are executed for each cycle.
 First step is to trim the input. This means that all leading and trailing whitespaces are removed.
 > :bulb:  &nbsp; Start frankenshell with the flag `--info` to see the trimmed input string during runtime.\
 
-#### Mark Separators
+#### Shift Separators
 This step is used to mark all seperators in the input string. This is needed for the [tokenization](#tokenizing) and [parsing](#parsing).
 ##### Quotes
 - **Single Quotes**: Enclosing text in single quotes (`'`) prevents the shell from interpreting any metacharacters within the quoted sequence.

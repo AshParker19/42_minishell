@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 18:59:37 by astein            #+#    #+#             */
-/*   Updated: 2023/12/17 18:42:38 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/17 18:52:05 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,25 @@
  *			information druing runtime. It is used for debugging purposes.
  *			
  *			To enable info mode run the program with the -i flag.
+ *			
+ *			FUNCTIONS:
+ *			  STATIC:
+ *				- info_print_line
+ *				- info_put_text_center
+ *				- info_shift_readable
+ *				- get_node_type
+ *				- display_ast
+ *
+ *			  EXPORTED:
+ *				- info_put_banner
+ *				- info_print_input_string
+ *				- info_print_tokenizer
+ *				- info_print_parser
+ *				- info_print_executor_banner
  *
  * DOCUMENTATION:
  * https://github.com/ahokcool/frankenshell/blob/main/docs/documentation.md#info-mode
  */
-
 # include "frankenshell.h"
 
 /**

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   input_manager.c                                    :+:      :+:    :+:   */
+/*   b_cycle.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:38:32 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/17 18:36:01 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/17 19:21:35 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,5 @@ void	cycle_main(t_mbox *mbox)
 	if (!parse(mbox))
 		return ;
 	if (mbox->error_status == ft_false)
-		execute(mbox);
+		execute_ast(mbox);
 }
