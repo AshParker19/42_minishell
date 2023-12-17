@@ -103,19 +103,19 @@ The following emoji are used in this file:
 These definitions are used throughout this manual as follows.
 
 #### builtin
-	A command that is implemented internally by the shell itself, rather than by an executable program somewhere in the file system.
+A command that is implemented internally by the shell itself, rather than by an executable program somewhere in the file system.
 #### exit status
-	The value returned by a command to its caller. The value is restricted to eight bits, so the maximum value is 255.
+The value returned by a command to its caller. The value is restricted to eight bits, so the maximum value is 255.
 #### signal
-	A mechanism by which a process may be notified by the kernel of an event occurring in the system.
+A mechanism by which a process may be notified by the kernel of an event occurring in the system.
 #### token
-	A sequence of characters considered a single unit by frankenshell.
+A sequence of characters considered a single unit by frankenshell.
 #### cycle
-	The input is processed after the user hits the `return` key, which involves a series of steps: cleaning the input string, expanding variables, tokenizing, constructing an ast, setting up pipes, forking processes, and updating the exit status.
+The input is processed after the user hits the `return` key, which involves a series of steps: cleaning the input string, expanding variables, tokenizing, constructing an ast, setting up pipes, forking processes, and updating the exit status.
 #### tree
-	see ast
+see [ast](#ast)
 #### ast
-	The parser in Frankenshell constructs an abstract syntax tree (AST). For more in-depth information on this subject, refer to the [Parser](#parser) chapter.
+The parser in Frankenshell constructs an abstract syntax tree (AST). For more in-depth information on this subject, refer to the [Parser](#parser) chapter.
 
 ## Structs
 ### t_mbox
