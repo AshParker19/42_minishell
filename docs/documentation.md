@@ -295,6 +295,76 @@ It will print the following information:
 - Token List containing all tokens and their type
 - AST Tree containing all nodes and their type
 
+<details>
+  <summary>Example `echo the home dir of $USER is storred in '$HOME'`</summary>
+
+  <pre><font color="#2AA1B3">frankenshell--&gt; </font>echo the home dir of $USER is storred in &apos;$HOME&apos;
+
+ <font color="#FF5F5F">----------------------------------------</font>
+<font color="#FF5F5F">|              INPUT STATES              |</font>
+<font color="#FF5F5F"> ----------------------------------------</font>
+input original:			(echo the home dir of $USER is storred in &apos;$HOME&apos;)
+
+input trimmed:			(echo the home dir of $USER is storred in &apos;$HOME&apos;)
+
+input shifted:	shifted:	(echo�the�home�dir�of�$USER�is�storred�in��$HOME�)
+		readable:	(echo_the_home_dir_of_$USER_is_storred_in_`$HOME`)
+input expanded:	shifted:	(echo�the�home�dir�of�astein�is�storred�in��$HOME�)
+		readable:	(echo_the_home_dir_of_astein_is_storred_in_`$HOME`)
+ <font color="#FF5F5F">========================================</font>
+
+ <font color="#A2734C">----------------------------------------</font>
+<font color="#A2734C">|               TOKENIZER                |</font>
+<font color="#A2734C"> ----------------------------------------</font>
+type:(0) 	 token:(echo)
+type:(0) 	 token:(the)
+type:(0) 	 token:(home)
+type:(0) 	 token:(dir)
+type:(0) 	 token:(of)
+type:(0) 	 token:(astein)
+type:(0) 	 token:(is)
+type:(0) 	 token:(storred)
+type:(0) 	 token:(in)
+type:(0) 	 token:($HOME)
+ <font color="#A2734C">========================================</font>
+
+ <font color="#2AA1B3">----------------------------------------</font>
+<font color="#2AA1B3">|                 PARSER                 |</font>
+<font color="#2AA1B3"> ----------------------------------------</font>
+
+                                                               [arg] ($HOME)
+
+                                                        [arg] (in)
+
+                                                 [arg] (storred)
+
+                                          [arg] (is)
+
+                                   [arg] (astein)
+
+                            [arg] (of)
+
+                     [arg] (dir)
+
+              [arg] (home)
+
+       [arg] (the)
+
+[cmd] (echo)
+ <font color="#2AA1B3">========================================</font>
+
+ <font color="#26A269">----------------------------------------</font>
+<font color="#26A269">|                EXECUTOR                |</font>
+<font color="#26A269">|             (cmd count: 1)             |</font>
+ <font color="#26A269">----------------------------------------</font>
+the home dir of astein is storred in $HOME
+ <font color="#26A269">========================================</font>
+
+<font color="#2AA1B3">frankenshell--&gt; </font>
+</pre>
+
+</details>
+
 The ast tree is printed in a tree-like structure (left to right).The following example shows the ast tree of the input:\
 `<< lol cat | wc -l | grep a > out | echo -n Hello World`
 ![Example][mindmap-ast-png]
