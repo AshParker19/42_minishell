@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2023/12/15 20:23:41 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/17 16:59:06 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,11 @@ typedef struct s_mbox
 	t_list						*history_lst;
 	t_token						*tokens;
 	t_token						*tmp_token;
-	t_ast						*root;
+	t_ast						*ast;
 	t_ast						*tmp_node;
-	t_exec						executor;
+	t_exec						exec;
 	int							count_cycles;
-	t_bool						print_info;
+	t_bool						info_mode;
 }	t_mbox;
 
 /* struct to store all variables as key-value pairs in a linked list */
@@ -124,7 +124,7 @@ t_bool	destroy_mbox_with_exit(t_mbox *mbox, int exit_status);
 void	input_main(t_mbox *mbox);
 
 /* env.c */
-void	load_vars_v2(t_mbox *mbox, char **env);
+void	initialize_vars(t_mbox *mbox, char **env);
 char	*get_var_value(const t_mbox *mbox, const char *key);
 void	delete_var(t_mbox *mbox, const char *key);
 void	free_vars_v2(t_mbox *mbox);

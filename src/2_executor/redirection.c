@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:47:15 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/15 14:16:57 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/17 16:56:25 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static t_bool	setup_redir_in(t_mbox *mbox, t_ast *redir_node, int *cur_p)
 {
 	int	*in_fd;
 
-	in_fd = &mbox->executor.io.cmd_fd[CMD_IN];
+	in_fd = &mbox->exec.io.cmd_fd[CMD_IN];
 	if (redir_node->type == RED_IN)
 	{
 		if (*in_fd != -1)
@@ -56,7 +56,7 @@ static t_bool	setup_redir_out(t_mbox *mbox, t_ast *redir_node)
 {
 	int	*out;
 
-	out = &mbox->executor.io.cmd_fd[CMD_OUT];
+	out = &mbox->exec.io.cmd_fd[CMD_OUT];
 	if (redir_node->type == RED_OUT_TR)
 	{
 		if (*out != -1)

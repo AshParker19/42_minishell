@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:33:46 by astein            #+#    #+#             */
-/*   Updated: 2023/12/16 13:06:31 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/17 16:56:25 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,11 @@ void	builtin_env(t_mbox *mbox, t_ast *arg_node)
 		{
 			if (!str_cmp_strct(cur->key, "?"))
 			{
-				ft_putstr_fd(cur->key, mbox->executor.io.cmd_fd[CMD_OUT]);
-				ft_putchar_fd('=', mbox->executor.io.cmd_fd[CMD_OUT]);
+				ft_putstr_fd(cur->key, mbox->exec.io.cmd_fd[CMD_OUT]);
+				ft_putchar_fd('=', mbox->exec.io.cmd_fd[CMD_OUT]);
 				if (cur->value)
-					ft_putstr_fd(cur->value, mbox->executor.io.cmd_fd[CMD_OUT]);
-				ft_putchar_fd('\n', mbox->executor.io.cmd_fd[CMD_OUT]);
+					ft_putstr_fd(cur->value, mbox->exec.io.cmd_fd[CMD_OUT]);
+				ft_putchar_fd('\n', mbox->exec.io.cmd_fd[CMD_OUT]);
 			}
 			cur = cur->next;
 		}

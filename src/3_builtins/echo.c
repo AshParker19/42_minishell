@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:32:13 by astein            #+#    #+#             */
-/*   Updated: 2023/12/16 13:06:23 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/17 16:56:25 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,15 +86,15 @@ void	builtin_echo(t_mbox *mbox, t_ast *arg_node)
 		if (found_text || !is_flag(arg_node->content, &found_text, &print_nl))
 		{
 			ft_putstr_fd(arg_node->content,
-				mbox->executor.io.cmd_fd[CMD_OUT]);
+				mbox->exec.io.cmd_fd[CMD_OUT]);
 			arg_node = arg_node->right;
 			if (arg_node)
-				ft_putchar_fd(' ', mbox->executor.io.cmd_fd[CMD_OUT]);
+				ft_putchar_fd(' ', mbox->exec.io.cmd_fd[CMD_OUT]);
 		}
 		else
 			arg_node = arg_node->right;
 	}
 	if (print_nl)
-		ft_putchar_fd('\n', mbox->executor.io.cmd_fd[CMD_OUT]);
+		ft_putchar_fd('\n', mbox->exec.io.cmd_fd[CMD_OUT]);
 	set_var_value_int(mbox, "?", EXIT_SUCCESS);
 }

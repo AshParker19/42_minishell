@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 09:32:49 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/15 14:16:57 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/17 16:59:06 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,21 +58,21 @@ static char	*get_node_type(int type)
  * 			puts a corresponding amount of spaces to make visible indentation
  * 			puts the node type according to the return value of 'get_node_type'
  *
- * @param	root
+ * @param	ast
  * @param	indent_level
  */
-static void	display_ast(t_ast *root, int indent_level)
+static void	display_ast(t_ast *ast, int indent_level)
 {
 	char	*type;
 	int		distance;
 	int		i;
 
-	if (root == NULL)
+	if (ast == NULL)
 		return ;
 	distance = 7;
 	indent_level += distance;
-	display_ast(root->right, indent_level);
-	type = get_node_type(root->type);
+	display_ast(ast->right, indent_level);
+	type = get_node_type(ast->type);
 	printf("\n");
 	i = distance;
 	while (i < indent_level)
@@ -80,32 +80,32 @@ static void	display_ast(t_ast *root, int indent_level)
 		printf(" ");
 		i++;
 	}
-	printf("[%s] (%s)\n", type, root->content);
+	printf("[%s] (%s)\n", type, ast->content);
 	if (type)
 		free(type);
-	display_ast(root->left, indent_level);
+	display_ast(ast->left, indent_level);
 }
 
 /**
- * @brief	if 'print_info' is true puts a header and dispays the contend
+ * @brief	if 'info_mode' is true puts a header and dispays the contend
  * 			of each of the 'ast' nodes
  *
  */
 void	print_parser_output(t_mbox *mbox, t_bool top_part)
 {
-	if (!mbox->print_info)
+	if (!mbox->info_mode)
 		return ;
 	if (top_part)
 		put_headline("PARSER", NULL, CYAN);
 	else
 	{
-		display_ast(mbox->root, 0);
+		display_ast(mbox->ast, 0);
 		print_line('=', CYAN, ft_true);
 	}
 }
 
 /**
- * @brief	if 'print_info' is true puts a header
+ * @brief	if 'info_mode' is true puts a header
  *
  * @param	mbox
  * @param	top_part
@@ -114,11 +114,11 @@ void	print_executor_output(t_mbox *mbox, t_bool top_part)
 {
 	char	*temp;
 
-	if (!mbox->print_info)
+	if (!mbox->info_mode)
 		return ;
 	if (top_part)
 	{
-		temp = ft_itoa(cmd_counter(mbox->root));
+		temp = ft_itoa(cmd_counter(mbox->ast));
 		if (!temp)
 			return ;
 		put_headline("EXECUTOR", ft_strcat_multi(3, "(cmd count: ", temp, ")"),

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_manager.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 15:35:02 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/05 15:19:42 by anshovah         ###   ########.fr       */
+/*   Updated: 2023/12/17 16:58:17 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@ void	free_tokens_v2(t_mbox *mbox);
 /* PARSER */
 t_bool	parse(t_mbox *mbox);
 t_ast	*ast_create_node(int node_type);
-void	free_ast_v2(t_ast *root);
-void	connect_subtree(t_ast **root, t_ast *node_to_add, int on_right);
+void	free_ast_v2(t_ast *ast);
+void	connect_subtree(t_ast **ast, t_ast *node_to_add, int on_right);
 t_bool	validate_token(t_token *token, int next_amount, int token_type);
 
 /****************# FUNCTIONS FOR BNF NOTATION TO BUILD AN AST# ****************/

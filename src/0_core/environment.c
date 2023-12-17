@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:16:31 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/15 14:16:57 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/17 16:55:53 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
  *	 key and value are both ALLOCATED MEMMORY and need to be freed on exit
  * 
  *  MANAGEMENT
- *  'load_vars_v2'			creates the ll on startup
+ *  'initialize_vars'			creates the ll on startup
  * 	'free_vars_v2'			iterates the ll (mbox->env) and frees all nodes
  * 	'free_var_v2'			called by 'free_vars_v2' to free one node of the ll
  * 
@@ -50,7 +50,7 @@
  * 
  * @param	mbox	mbox is a struct that stores all runtime related infos
  */
-void	load_vars_v2(t_mbox *mbox, char **env)
+void	initialize_vars(t_mbox *mbox, char **env)
 {
 	int		i;
 	char	*key;

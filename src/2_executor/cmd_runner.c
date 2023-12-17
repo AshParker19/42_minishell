@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:09:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/15 14:16:57 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/17 16:58:17 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ void	run_cmd_main(t_mbox *mbox, t_ast *cmd_node)
 {
 	if (!cmd_node || !cmd_node->content)
 		return ;
-	if (mbox->executor.io.cmd_fd[CMD_IN] != -1)
-		close(mbox->executor.io.cmd_fd[CMD_IN]);
-	if (mbox->executor.io.cmd_fd[CMD_OUT] != -1)
-		close(mbox->executor.io.cmd_fd[CMD_OUT]);
+	if (mbox->exec.io.cmd_fd[CMD_IN] != -1)
+		close(mbox->exec.io.cmd_fd[CMD_IN]);
+	if (mbox->exec.io.cmd_fd[CMD_OUT] != -1)
+		close(mbox->exec.io.cmd_fd[CMD_OUT]);
 	if (is_cmd_builtin(mbox, cmd_node->content))
 		run_cmd_builtin(mbox, cmd_node, ft_false);
 	else
@@ -70,40 +70,40 @@ void	run_cmd_builtin(t_mbox *mbox, t_ast *cmd_node, t_bool parent)
 	i = -1;
 	if (!parent)
 	{
-		mbox->executor.io.cmd_fd[CMD_IN] = STDIN_FILENO;
-		mbox->executor.io.cmd_fd[CMD_OUT] = STDOUT_FILENO; 
+		mbox->exec.io.cmd_fd[CMD_IN] = STDIN_FILENO;
+		mbox->exec.io.cmd_fd[CMD_OUT] = STDOUT_FILENO; 
 	}
-	while (mbox->executor.builtins[++i].cmd_name)
+	while (mbox->exec.builtins[++i].cmd_name)
 	{
-		if (str_cmp_strct(mbox->executor.builtins[i].cmd_name,
+		if (str_cmp_strct(mbox->exec.builtins[i].cmd_name,
 				cmd_node->content))
-			mbox->executor.builtins[i].func_name(mbox, cmd_node->right);
+			mbox->exec.builtins[i].func_name(mbox, cmd_node->right);
 	}
 }
 
 t_bool	run_single_builtin(t_mbox *mbox)
 {
-	if (!configure_redir(mbox, mbox->root->left, NULL))
+	if (!configure_redir(mbox, mbox->ast->left, NULL))
 	{
-		if (mbox->executor.io.cmd_fd[CMD_IN] != -1)
-			close (mbox->executor.io.cmd_fd[CMD_IN]);
-		if (mbox->executor.io.cmd_fd[CMD_OUT] != -1)
-			close (mbox->executor.io.cmd_fd[CMD_OUT]);
-		mbox->executor.io.cmd_fd[CMD_IN] = -1;
-		mbox->executor.io.cmd_fd[CMD_OUT] = -1;
+		if (mbox->exec.io.cmd_fd[CMD_IN] != -1)
+			close (mbox->exec.io.cmd_fd[CMD_IN]);
+		if (mbox->exec.io.cmd_fd[CMD_OUT] != -1)
+			close (mbox->exec.io.cmd_fd[CMD_OUT]);
+		mbox->exec.io.cmd_fd[CMD_IN] = -1;
+		mbox->exec.io.cmd_fd[CMD_OUT] = -1;
 		return (ft_false);
 	}
-	if (mbox->executor.io.cmd_fd[CMD_IN] == -1)
-		mbox->executor.io.cmd_fd[CMD_IN] = STDIN_FILENO;
-	if (mbox->executor.io.cmd_fd[CMD_OUT] == -1)
-		mbox->executor.io.cmd_fd[CMD_OUT] = STDOUT_FILENO; 
-	run_cmd_builtin(mbox, mbox->root, ft_true);
-	if (mbox->executor.io.cmd_fd[CMD_IN] != STDIN_FILENO)
-		close (mbox->executor.io.cmd_fd[CMD_IN]);
-	if (mbox->executor.io.cmd_fd[CMD_OUT] != STDOUT_FILENO)
-		close (mbox->executor.io.cmd_fd[CMD_OUT]);
-	mbox->executor.io.cmd_fd[CMD_IN] = -1;
-	mbox->executor.io.cmd_fd[CMD_OUT] = -1;
+	if (mbox->exec.io.cmd_fd[CMD_IN] == -1)
+		mbox->exec.io.cmd_fd[CMD_IN] = STDIN_FILENO;
+	if (mbox->exec.io.cmd_fd[CMD_OUT] == -1)
+		mbox->exec.io.cmd_fd[CMD_OUT] = STDOUT_FILENO; 
+	run_cmd_builtin(mbox, mbox->ast, ft_true);
+	if (mbox->exec.io.cmd_fd[CMD_IN] != STDIN_FILENO)
+		close (mbox->exec.io.cmd_fd[CMD_IN]);
+	if (mbox->exec.io.cmd_fd[CMD_OUT] != STDOUT_FILENO)
+		close (mbox->exec.io.cmd_fd[CMD_OUT]);
+	mbox->exec.io.cmd_fd[CMD_IN] = -1;
+	mbox->exec.io.cmd_fd[CMD_OUT] = -1;
 	close_process_fds_v2(mbox);
 	return (ft_true);
 }

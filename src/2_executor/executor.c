@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:19:44 by astein            #+#    #+#             */
-/*   Updated: 2023/12/15 19:08:03 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/17 16:58:17 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,16 @@ static void	exec_child(t_mbox *mbox, t_ast *cmd_node, int *cur_p)
 		if (cmd_node->cmd_pos == FIRST_CMD || cmd_node->cmd_pos == MIDDLE_CMD)
 			close(cur_p[P_RIGHT]);
 		if (cmd_node->cmd_pos != FIRST_CMD
-			&& mbox->executor.io.prev_pipe[P_RIGHT] != -1)
-			close(mbox->executor.io.prev_pipe[P_RIGHT]);
+			&& mbox->exec.io.prev_pipe[P_RIGHT] != -1)
+			close(mbox->exec.io.prev_pipe[P_RIGHT]);
 		destroy_mbox(mbox);
 	}
 	setup_process_std_tmp(mbox);
 	if (cmd_node->cmd_pos == FIRST_CMD || cmd_node->cmd_pos == MIDDLE_CMD)
 		close(cur_p[P_RIGHT]);
 	if (cmd_node->cmd_pos != FIRST_CMD
-		&& mbox->executor.io.prev_pipe[P_RIGHT] != -1)
-		close(mbox->executor.io.prev_pipe[P_RIGHT]);
+		&& mbox->exec.io.prev_pipe[P_RIGHT] != -1)
+		close(mbox->exec.io.prev_pipe[P_RIGHT]);
 	run_cmd_main(mbox, cmd_node);
 	destroy_mbox(mbox);
 }
@@ -45,10 +45,10 @@ static t_bool	exec_parent(t_mbox *mbox, int *cur_p, t_ast *node, int kid_pid)
 	if (node->cmd_pos == FIRST_CMD || node->cmd_pos == MIDDLE_CMD)
 		close(cur_p[P_LEFT]);
 	if (node->cmd_pos != FIRST_CMD && node->cmd_pos != SINGLE_CMD)
-		close(mbox->executor.io.prev_pipe[P_RIGHT]);
-	mbox->executor.pid_index++;
-	mbox->executor.io.prev_pipe[P_RIGHT] = cur_p[P_RIGHT];
-	mbox->executor.io.prev_pipe[P_LEFT] = cur_p[P_LEFT];
+		close(mbox->exec.io.prev_pipe[P_RIGHT]);
+	mbox->exec.pid_index++;
+	mbox->exec.io.prev_pipe[P_RIGHT] = cur_p[P_RIGHT];
+	mbox->exec.io.prev_pipe[P_LEFT] = cur_p[P_LEFT];
 	close_process_fds_v2(mbox);
 	cmd_node_cpy = node;
 	return (hd_parent_wait(mbox, cur_p, cmd_node_cpy, kid_pid));
@@ -78,8 +78,8 @@ static t_bool	execute_cmd(t_mbox *mbox, t_ast *cmd_node, int cmd_pos)
 		if (cmd_pos == FIRST_CMD || cmd_pos == MIDDLE_CMD)
 			if (pipe(cur_pipe) < 0)
 				return (destroy_mbox_with_exit(mbox, EXIT_FAILURE));
-		mbox->executor.pid[mbox->executor.pid_index] = fork();
-		child_pid = mbox->executor.pid[mbox->executor.pid_index];
+		mbox->exec.pid[mbox->exec.pid_index] = fork();
+		child_pid = mbox->exec.pid[mbox->exec.pid_index];
 		if (child_pid < 0)
 			return (destroy_mbox_with_exit(mbox, EXIT_FAILURE));
 		conf_sig_handler(SIG_STATE_PARENT);
@@ -98,10 +98,10 @@ static void	wait_for_execution(t_mbox *mbox)
 
 	i = -1;
 	exit_status = 0;
-	if (mbox->executor.pid_index != 0)
+	if (mbox->exec.pid_index != 0)
 	{
-		while (++i < cmd_counter(mbox->root))
-			waitpid(mbox->executor.pid[i], &exit_status, 0);
+		while (++i < cmd_counter(mbox->ast))
+			waitpid(mbox->exec.pid[i], &exit_status, 0);
 		if (g_signal_status == 0)
 		{
 			if (WIFEXITED(exit_status))
@@ -132,7 +132,7 @@ void	execute(t_mbox *mbox)
 
 	if (!allocate_pid_array(mbox))
 		return ;
-	cur = mbox->root;
+	cur = mbox->ast;
 	if (cur->type == CMD_NODE)
 	{
 		if (!execute_cmd(mbox, cur, SINGLE_CMD))

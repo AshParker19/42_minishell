@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 18:00:32 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/16 13:05:57 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/17 16:56:25 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,6 @@ void	builtin_header(t_mbox *mbox, t_ast *arg_node)
 	"        44"B_WHITE"::::::"CYAN"44"YELLOW"2"B_WHITE"::::::"YELLOW"2222222" \
 	B_WHITE":::::"YELLOW"2\n"CYAN"        4"B_WHITE"::::::::"CYAN"4"YELLOW"2" \
 	B_WHITE"::::::::::::::::::"YELLOW"2\n"CYAN"        4444444444" \
-	YELLOW"22222222222222222222\n"RESET, mbox->executor.io.cmd_fd[CMD_OUT]);
+	YELLOW"22222222222222222222\n"RESET, mbox->exec.io.cmd_fd[CMD_OUT]);
 	set_var_value_int(mbox, "?", EXIT_SUCCESS);
 }

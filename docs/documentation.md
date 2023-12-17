@@ -180,21 +180,21 @@ The struct `mbox` is the main structure of the program: it is being passed as an
 ```
 typedef struct s_mbox
 {
-    char                        *inp_orig;
-    char                        *inp_trim;
-    char                        *inp_shift;
-    char                        *inp_expand;
-    int                         consecutive_lt;
-    bool                        error_status;
-    t_env                       *env;
-    t_list                      *history_lst;
-    t_token                     *tokens;
-    t_token                     *tmp_token;
-    t_ast                       *root;
-    t_ast                       *tmp_node;
-    t_exec                      executor;
-    int                         count_cycles;
-    t_bool                      print_info;
+	char						*inp_orig;
+	char						*inp_trim;
+	char						*inp_shift;
+	char						*inp_expand;
+	int							consecutive_lt;
+	bool						error_status;
+	t_env						*env;
+	t_list						*history_lst;
+	t_token						*tokens;
+	t_token						*tmp_token;
+	t_ast						*ast;
+	t_ast						*tmp_node;
+	t_exec						exec;
+	int							count_cycles;
+	t_bool						info_mode;
 } t_mbox;
 ```
 
@@ -347,6 +347,15 @@ Below you can find a detailed description of each step.
 > :page_facing_up:  &nbsp; The file ['input_management.c'](../src/0_core/input_management.c) calls all the input management functions.
 
 ### Initialization
+
+On startup the program will initialize the [`t_mbox`](#t_mbox) struct. This struct contains all the information needed for the program to work. It is passed as an argument to most of the functions.\
+The following steps are executed during initialization:
+- creating a [t_env](#t_env) linked list for the [environment variables](#environment-variables)
+- creating a [t_builtin_cmd](#t_builtin_cmd) array for the [builtin commands](#builtin-commands)
+- ini
+
+> :page_facing_up:  &nbsp; The file ['manage_mbox.c'](../src/0_core/manage_mbox.c) contains the functions for initializing and destroying the mbox instance.
+
 #### Info Mode
 If frankenshell is started with the flag `--info` or `-i`, it will print the following information during runtime.:
 - Input Strings

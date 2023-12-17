@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:33:09 by astein            #+#    #+#             */
-/*   Updated: 2023/12/16 14:37:19 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/17 16:56:25 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,8 @@ static void	sort_and_print_var(const t_mbox *mbox)
 	i = -1;
 	while (env_matrix[++i])
 	{
-		ft_putstr_fd("declare -x ", mbox->executor.io.cmd_fd[CMD_OUT]);
-		ft_putendl_fd(env_matrix[i], mbox->executor.io.cmd_fd[CMD_OUT]);
+		ft_putstr_fd("declare -x ", mbox->exec.io.cmd_fd[CMD_OUT]);
+		ft_putendl_fd(env_matrix[i], mbox->exec.io.cmd_fd[CMD_OUT]);
 	}
 	free_whatever("m", env_matrix);
 }

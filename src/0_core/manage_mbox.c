@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:49:13 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/15 14:16:57 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/17 16:59:06 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 void	initialize_mbox(t_mbox *mbox, char **env)
 {
 	g_signal_status = 0;
-	mbox->print_info = ft_false;
+	mbox->info_mode = ft_false;
 	mbox->error_status = ft_false;
 	mbox->count_cycles = 0;
 	mbox->history_lst = NULL;
@@ -45,11 +45,11 @@ void	initialize_mbox(t_mbox *mbox, char **env)
 	mbox->consecutive_lt = 0;
 	mbox->tokens = NULL;
 	mbox->tmp_token = NULL;
-	mbox->root = NULL;
+	mbox->ast = NULL;
 	mbox->tmp_node = NULL;
-	mbox->executor.pid = NULL;
+	mbox->exec.pid = NULL;
 	initialize_io(mbox, NULL, 0);
-	load_vars_v2(mbox, env);
+	initialize_vars(mbox, env);
 	initialize_builtins(mbox);
 }
 

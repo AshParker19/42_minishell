@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 19:11:12 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/17 02:16:07 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/17 16:59:06 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ static char	*shift_readable(char *s)
 }
 
 /**
- * @brief	if 'print_info' is true printf one of a input state string
+ * @brief	if 'info_mode' is true printf one of a input state string
  * 			if it's 'original string' puts the header for all the input
  * 			strings too
  * 
@@ -107,7 +107,7 @@ void	display_info_str(t_mbox *mbox, char *state, char *str)
 {
 	char	*readable;
 
-	if (!mbox->print_info)
+	if (!mbox->info_mode)
 		return ;
 	if (!ft_strcmp(state, "input original"))
 	{
@@ -129,7 +129,7 @@ void	display_info_str(t_mbox *mbox, char *state, char *str)
 }
 
 /**
- * @brief	if 'print_info' is true puts a header and prints the content 
+ * @brief	if 'info_mode' is true puts a header and prints the content 
  * 			of each of the 'tokens' ll nodes
  * 
  * @param	mbox 
@@ -138,7 +138,7 @@ void	print_tokenizer_output(t_mbox *mbox)
 {
 	t_token	*current;
 
-	if (!mbox->print_info)
+	if (!mbox->info_mode)
 		return ;
 	put_headline("TOKENIZER", NULL, YELLOW);
 	current = mbox->tokens;

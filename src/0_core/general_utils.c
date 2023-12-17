@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:43:17 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/15 19:08:03 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/17 16:58:17 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,13 @@ void	reset_cycle(t_mbox *mbox)
 		return ;
 	free_input_strings_v2(mbox);
 	free_tokens_v2(mbox);
-	free_ast_v2(mbox->root);
-	mbox->root = NULL;
+	free_ast_v2(mbox->ast);
+	mbox->ast = NULL;
 	close_process_fds_v2(mbox);
 	free_process_v2(mbox);
-	mbox->executor.io.prev_pipe[P_LEFT] = -1;
-	mbox->executor.io.prev_pipe[P_RIGHT] = -1;
-	mbox->executor.pid_index = 0;
+	mbox->exec.io.prev_pipe[P_LEFT] = -1;
+	mbox->exec.io.prev_pipe[P_RIGHT] = -1;
+	mbox->exec.pid_index = 0;
 	conf_sig_handler(SIG_STATE_MAIN);
 	g_signal_status = 0;
 	mbox->consecutive_lt = 0;

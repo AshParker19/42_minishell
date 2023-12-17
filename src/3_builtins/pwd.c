@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:32:55 by astein            #+#    #+#             */
-/*   Updated: 2023/12/16 13:29:33 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/17 16:56:25 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	builtin_pwd(t_mbox *mbox, t_ast *arg_node)
 	(void)arg_node;
 	temp = NULL;
 	temp = getcwd(NULL, 0);
-	ft_putendl_fd(temp, mbox->executor.io.cmd_fd[CMD_OUT]);
+	ft_putendl_fd(temp, mbox->exec.io.cmd_fd[CMD_OUT]);
 	set_var_value_int(mbox, "?", EXIT_SUCCESS);
 	if (temp)
 		free(temp);

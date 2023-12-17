@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 18:26:39 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/15 14:16:57 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/17 16:58:17 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,50 +66,50 @@ t_bool	validate_token(t_token *token, int next_amount, int token_type)
  * 				- the nodes themselves
  * 
  * 			NOTE: function should only be called by 'free_cycle'
- * @param root 
+ * @param ast 
  */
-void	free_ast_v2(t_ast *root)
+void	free_ast_v2(t_ast *ast)
 {
-	if (root)
+	if (ast)
 	{
-		free_ast_v2(root->left);
-		free_ast_v2(root->right);
-		if (root->content)
+		free_ast_v2(ast->left);
+		free_ast_v2(ast->right);
+		if (ast->content)
 		{
-			free(root->content);
-			root->content = NULL;
+			free(ast->content);
+			ast->content = NULL;
 		}
-		free(root);
-		root = NULL;
+		free(ast);
+		ast = NULL;
 	}
 }
 
 /**
  * @brief	
  * 
- * @param	root 
+ * @param	ast 
  * @param	node_to_add 
  * @param	side 
  */
-void	connect_subtree(t_ast **root, t_ast *node_to_add, int side)
+void	connect_subtree(t_ast **ast, t_ast *node_to_add, int side)
 {
 	t_ast	*tmp;
 
 	tmp = NULL;
-	if (!root || !*root || !node_to_add)
+	if (!ast || !*ast || !node_to_add)
 		return ;
 	if (side == RIGHT)
 	{
-		if ((*root)->right)
-			tmp = (*root)->right;
-		(*root)->right = node_to_add;
+		if ((*ast)->right)
+			tmp = (*ast)->right;
+		(*ast)->right = node_to_add;
 		node_to_add->right = tmp;
 	}
 	else
 	{
-		if ((*root)->left)
-			tmp = (*root)->left;
-		(*root)->left = node_to_add;
+		if ((*ast)->left)
+			tmp = (*ast)->left;
+		(*ast)->left = node_to_add;
 		node_to_add->left = tmp;
 	}
 }

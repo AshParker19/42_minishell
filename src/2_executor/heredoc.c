@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:00:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/15 19:08:03 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/17 16:56:25 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,5 +111,5 @@ t_bool	heredoc(t_mbox *mbox, t_ast *redir_node, int *cur_p)
 		return (destroy_mbox_with_exit(mbox, EXIT_FAILURE));
 	if (pid_hd == 0)
 		hd_child(mbox, (t_hd){fd, ft_strdup(redir_node->content), NULL}, cur_p);
-	return (hd_parent(mbox, pid_hd, &mbox->executor.io.cmd_fd[CMD_IN], fd));
+	return (hd_parent(mbox, pid_hd, &mbox->exec.io.cmd_fd[CMD_IN], fd));
 }

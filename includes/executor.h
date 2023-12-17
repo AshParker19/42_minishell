@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executor.h                                         :+:      :+:    :+:   */
+/*   exec.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -43,7 +43,7 @@ typedef struct s_hd
 
 /*********************************# FUNCTIONS #********************************/
 
-/* executor */
+/* exec */
 void	execute(t_mbox *mbox);
 void	run_cmd_system(t_mbox *mbox, t_ast *cmd_node);
 
