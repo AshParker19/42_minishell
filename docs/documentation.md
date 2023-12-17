@@ -116,7 +116,7 @@ typedef struct s_mbox
     t_exec                      executor;
     int                         count_cycles;
     t_bool                      print_info;
-}   t_mbox;
+} t_mbox;
 ```
 
 ---
@@ -131,7 +131,7 @@ typedef struct s_env
     char            *key;
     char            *value;
     struct s_env    *next;
-}	t_env;
+} t_env;
 ```
 
 ---
@@ -143,10 +143,10 @@ The struct `t_history` is used to build a liked list, storing all previous user 
 ```
 typedef struct s_history
 {
-    int							index;
-    char						*inp;
-    t_mbox						*mbox;
-}	t_history;
+    int         index;
+    char        *inp;
+    t_mbox      *mbox;
+} t_history;
 ```  
 
 ---
@@ -158,10 +158,10 @@ The struct `t_token` is used to build a liked list, storing all tokens.
 ```
 typedef struct s_token
 {
-    int				type;
-    char			*value;
-    struct s_token	*next;
-}	t_token;
+    int             type;
+    char            *value;
+    struct s_token  *next;
+} t_token;
 ``````  
 
 ---
@@ -173,12 +173,12 @@ The struct `t_ast` is used to build a tree, storing all nodes.
 ```
 typedef struct s_ast
 {
-    int				type;
-    int				cmd_pos;
-    char			*content;
-    struct s_ast	*left;
-    struct s_ast	*right;
-}	t_ast;
+    int             type;
+    int             cmd_pos;
+    char            *content;
+    struct s_ast    *left;
+    struct s_ast    *right;
+} t_ast;
 ```
 
 ---
@@ -188,9 +188,9 @@ The struct `t_list` is a generic linked list structure used for various purposes
 ```
 typedef struct s_list
 {
-    void			*content;
-    struct s_list	*next;
-}					t_list;
+    void            *content;
+    struct s_list   *next;
+}   t_list;
 ```
 
 ---
@@ -205,7 +205,7 @@ typedef struct s_exec
     t_io			io;
     int				*pid;
     int				pid_index;
-}	t_exec;
+} t_exec;
 ```  
 
 ---
@@ -222,7 +222,7 @@ typedef struct s_io
     int		cmd_fd[2];
     int		dup_fd[2];
     int		prev_pipe[2];
-}	t_io;
+} t_io;
 ```
 
 ---
@@ -236,7 +236,7 @@ typedef struct s_hd
     int				*fd;
     char			*lim;
     char			*cur_line;
-}	t_hd;
+} t_hd;
 ```
 
 ---
@@ -249,7 +249,7 @@ typedef struct s_builtin_cmd
 {
     char				*cmd_name;
     t_builtin_function	func_name;
-}						t_builtin_cmd;
+} t_builtin_cmd;
 ```
 
 ---
