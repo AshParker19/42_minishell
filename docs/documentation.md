@@ -11,6 +11,59 @@
 # Table of Contents
 1. [Introduction](#introduction)
 2. [Installation](#installation)
+3. [Usage](#usage)
+4. [Definitions](#definitions)
+5. [Structs](#structs)
+	[[t_mbox](#t_mbox), 
+	[t_env](#t_env), 
+	[t_history](#t_history), 
+	[t_token](#t_token), 
+	[t_ast](#t_ast), 
+	[t_list](#t_list), 
+	[t_exec](#t_exec), 
+	[t_io](#t_io), 
+	[t_hd](#t_hd), 
+	[t_builtin_cmd](#t_builtin_cmd)]
+6. [How frankenshell works](#how-frankenshell-works)
+   1. [Initialization](#initialization)
+       1. [Info Mode](#info-mode)
+   2. [Processing a Single Cycle](#processing-a-single-cycle)
+       1. [Input Management](#input-management)
+           1. [Trim Input](#trim-input)
+           2. [Mark Separators](#mark-separators)
+               1. [Quoting](#quoting)
+           3. [Variable Expansion](#variable-expansion)
+               1. [Variable Expansion](#variable-expansion-1)
+               2. [Extract Limiter](#extract-limiter)
+           4. [Tokenizing](#tokenizing)
+           5. [Parsing](#parsing)
+   3. [Execution](#execution)
+       1. [Setup Execution](#setup-execution)
+           1. [Setup Pipes](#setup-pipes)
+           2. [Setup Redirections](#setup-redirections)
+               1. [Heredoc](#heredoc)
+       2. [Execute](#execute)
+   4. [Termination](#termination)
+       1. [Exit Status](#exit-status)
+       2. [Signals](#signals)
+7. [Builtin Commands](#builtin-commands)
+	[[42](#42), 
+	[cd](#cd), 
+	[echo](#echo), 
+	[env](#env), 
+	[exit](#exit), 
+	[export](#export), 
+	[history](#history), 
+	[pwd](#pwd), 
+	[unset](#unset)]
+8. [Environment Variables](#environment-variables)
+9. [Known Bugs](#known-bugs)
+10. [Acknowledgments](#acknowledgments)
+
+
+# Table of Contents
+1. [Introduction](#introduction)
+2. [Installation](#installation)
 2. [Usage](#usage)
 2. [Definitions](#definitions)
 2. [Structs](#structs)
@@ -22,8 +75,8 @@
         3. [Variable Expansion](#variable-expansion)
             1. [Variable Expansion](#variable-expansion)
             2. [Extract Limiter](#extract-limiter)
-        4. [Tokenize](#tokenize)
-        5. [Parse](#parse)
+        4. [Tokenize](#tokenizing)
+        5. [Parsing](#parsing)
     3. [Execution](#execution)
         1. [Setup Execution](#setup-execution)
             1. [Setup Pipes](#setup-pipes)
@@ -98,7 +151,10 @@ The following emoji are used in this file:
 | :---:             | ---       |
 | :arrow_right:     | link to another chapter  |
 | :page_facing_up:  | link to a code file           |
+| :bulb:          	| hint		                    |
 | :jigsaw:          | part of                       |
+
+
 
 These definitions are used throughout this manual as follows.
 
@@ -177,7 +233,7 @@ typedef struct s_history
 ### t_token
 The struct `t_token` is used to build a liked list, storing all tokens.
 > :jigsaw:      &nbsp;  The linked list is stored in the [`t_mbox`](#t_mbox) struct.\
-> :arrow_right:      &nbsp;  For further details see the section [Tokenize](#tokenize).
+> :arrow_right:      &nbsp;  For further details see the section [Tokenize](#tokenizing).
 ```
 typedef struct s_token
 {
@@ -279,8 +335,8 @@ typedef struct s_builtin_cmd
 
 
 
-# How frankenshell works
-The main task of frankenshell can be grouped into steps:
+## How frankenshell works
+The main task of frankenshell can be grouped into those steps:
 - [Initialization](#initialization)
 - Processing a Single Cycle
     - [Input Management](#input-management)
@@ -290,8 +346,8 @@ The main task of frankenshell can be grouped into steps:
 Below you can find a detailed description of each step.
 > :page_facing_up:  &nbsp; The file ['input_management.c'](../src/0_core/input_management.c) calls all the input management functions.
 
-## Initialization
-### Info Mode
+### Initialization
+#### Info Mode
 If frankenshell is started with the flag `--info` or `-i`, it will print the following information during runtime.:
 - Input Strings
     - original input
@@ -309,12 +365,9 @@ To get a 'readable' Version of the input strings, their [shifted values](#mark-s
 - `O` for `>` (redirection out)
 - `_` (space that can be removed)
 - `E` ('empty token' flag to inform the tokenizer that it should generate an empty token)
-> :page_facing_up:  &nbsp; check out the `shift_readable` function in [TODO.c](../src/0_core/TODO.c)
-
-
-
-> :floppy_disk: &nbsp;  The linked list is stored in the [`t_mbox`](#t_mbox) struct.\
-> :floppy_disk: &nbsp;  The linked list is stored in the [`t_mbox`](#t_mbox) struct.\
+> :page_facing_up:  &nbsp; check out the `shift_readable` function in [TODO.c](../src/0_core/TODO.c)\
+> :jigsaw: &nbsp;  The linked list is stored in the [`t_mbox`](#t_mbox) struct.\
+> :jigsaw: &nbsp;  The linked list is stored in the [`t_mbox`](#t_mbox) struct.\
 
 <details>
   <summary>Example <code>ls -l -a</code></summary>
@@ -578,131 +631,46 @@ hi   there
 
 </details>
 
-The ast tree is printed in a tree-like structure (left to right).The following example shows the ast tree of the input:\
-`<< lol cat | wc -l | grep a > out | echo -n Hello World`
-![Example][mindmap-ast-png]
+> :arrow_right: &nbsp; Refer to the section [Parsing](#parsing) for a better understanding of the ast.
 
-## Input Management
+
+### Input Management
 All the following steps are executed for each cycle.
 
 
-### Trim Input
+#### Trim Input
 First step is to trim the input. This means that all leading and trailing whitespaces are removed.
-> :speech_balloon:  &nbsp; Start frankenshell with the flag `--info` to see the trimmed input during runtime.\
-
-### Mark Separators
-
-### Variable Expansion
-
-#### Variable Expansion
-
-#### Extract Limiter
-
-### Tokenize
-
-### Parse
-
-## Execution
-
-### Setup Execution
-
-#### Setup Pipes
-
-#### Setup Redirections
-
-##### Heredoc
-
-### Execute
-
-## Termination
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Basic Shell Features
-### Shell Syntax
-#### Shell Operation PROGRAM FLOW
-#### Quoting
+> :bulb:  &nbsp; Start frankenshell with the flag `--info` to see the trimmed input string during runtime.\
+
+#### Mark Separators
+This step is used to mark all seperators in the input string. This is needed for the [tokenization](#tokenizing) and [parsing](#parsing).
+##### Quotes
 - **Single Quotes**: Enclosing text in single quotes (`'`) prevents the shell from interpreting any metacharacters within the quoted sequence.
 - **Double Quotes**: Using double quotes (`"`) also prevents interpretation of metacharacters, except for the dollar sign (`$`), which is used for variable expansion.
+
+Specail Case:
+Empty quotes will be marked as `E` (empty token) and will be ignored by the tokenizer.
+Examples
+...
 
 > ℹ️ &nbsp; Unclosed quotes (e.g. ```echo "Hello World```) will result in an error:\
 > ⚠️ &nbsp; frankenshell: syntax error: unclosed quotes
 
-##### Single Quotes
-##### Double Quotes
-### Shell Commands
-#### Simple Commands
-#### Pipelines
-Pipes (`|`) allow the output of one command to be used as input for another, enabling command chaining.
-### Special Parameters (the fuckin $?)
-### Shell Expansions
+While traversing the input string, the `quote state` will be updated for each character. So if a seperating character is found it will be only marked if the `quote state` is OUT__QUOTE.
+Examples:
+```
+Trimmed String:	echo "Hello 'astein', how are you?"
+Quote State: 	OOOOODDDDDDDDDDDDDDDDDDDDDDDDDDDDDO
+Marked String:	echo DHello 'astein', how are you?D
+Explanation:	The single quote is inside a double quote, so it will be ignored.
+```
+
+> :bulb:  &nbsp; Start frankenshell with the flag `--info` to see the marked input string during runtime.\
+
+#### Variable Expansion
+
 The **Variable Expansion** works simmilar like in bash:
+
 | Command            | Expand       | Output                        |
 | ----------------- | :----------: | ----------------------------- |
 | `echo $USER`       |      ✅        |      `current_user_value`      |
@@ -710,9 +678,70 @@ The **Variable Expansion** works simmilar like in bash:
 | `echo '$USER'`     |      ❌        |      `$USER`                   |
 | `<< $USER cat`     |      ❌        |  Won't expand, so the `EOF` of the heredoc will be `$USER` |
 
-#### Shell Parameter Expansion (DOLLAR EXPANSION I GUESS)
-#### Quote Removal
-### Redirections
+Special Cases
+Table with $?, $Space $"", Herdeoc refere to next section and so on, expansion in herdoc refere to heredoc
+
+> :arrow_right: &nbsp; Refer to the section [Quotes](#quotes) for a better understanding of variable expansion inside quotes.
+
+##### Extract Limiter
+
+special case var expansion in heredoc limiter doesnt work
+
+> :bulb:  &nbsp; Start frankenshell with the flag `--info` to see the expanded input string during runtime.\
+
+#### Tokenizing
+
+The expanded input string will be tokenized. This means that the input string will be split into tokens. Each token will be marked with a type. The following table shows all possible token types:
+...
+Examples
+```
+Expanded String:	TODO
+Tokens:				`ls`(arg); `-l`(arg); `-a`(arg); `|`(pipe); `wc`(cmd); `-l`(arg)
+```
+
+> :bulb:  &nbsp; Start frankenshell with the flag `--info` to see the token list during runtime.\
+
+#### Parsing
+After tokienizing the input string, the tokens will be parsed into an ast. The ast tree is used for the execution of the commands.
+Each node of the ast tree is an instance of the [t_ast](#t_ast) struct. It therefore has a type, a content and a two pointers to its left and right child node.
+This table shows all possible node types and their possible node conections:
+| Node Type | Left Child | Right Child |
+| --------- | ---------- | ----------- |
+| `PIPE`	| `CMD`		 | `PIPE` `CMD`|
+| `CMD`     | `REDIR` `NULL`    | `ARG` `NULL`|
+| `REDIR`	| `REDIR` `NULL`	| `NULL`      |
+| `ARG`     | `NULL`     | `ARG` `NULL`|
+
+To achive this we used a modified version of TODOs logic. Below u find the BNF Notion
+TODO BNF
+
+The ast tree is shown in a tree-like structure (left to right). The following example shows the ast tree of the input:\
+`<< lol cat | wc -l | grep a > out | echo -n Hello World`
+
+![Example][mindmap-ast-png]
+
+> :bulb:  &nbsp; Start frankenshell with the flag `--info` to see the ast tree during runtime.\
+
+
+### Execution
+The executor traverses the ast tree always from **left to right**. This ensures that pipes and redirections will always be setup before any command is executed.
+All commands are executed in a child process.
+Exception: Single Builtin cmds (refere to bugs)
+
+All childs will be spawn right after each other (so before the previous child is finished). The parent process waits (because of the open pipe fd) until the child process is finished.
+Exception: Heredoc
+
+The parent waits for all childs to finish before it continues with the next cycle. Each time a child process is finished, the parent process updates the exit status of the last child process. (TODO check if this is true and link to chapter exit status).
+
+#### Setup Execution
+
+##### Setup Pipes
+
+Pipes (`|`) allow the output of one command to be used as input for another, enabling command chaining.
+
+> :exlamation:  &nbsp; Note that the redirction into the pipe might be overwritten by the [redirection of the command itself](#setup-redirections).
+
+##### Setup Redirections
 
 The table below describes the redirection features available in frankenshell:
 | Feature| Mode            | Description                                                                                | Example                           |
@@ -724,16 +753,60 @@ The table below describes the redirection features available in frankenshell:
 
 These redirections allow for flexible manipulation of command input and output, similar to standard bash functionality.
 
-#### Redirecting Input
-#### Redirecting Output
-#### Appending Redirected Output
-#### Here Documents
-### Executing Commands
-#### Simple Command Expansion
-#### Command Search and Execution
-#### Command Execution Environment
+
+###### Heredoc
+
+The heredoc redirection allows inputting multiple lines until a termination string is reached or an EOF is sent via CTRL+D. The herdoc runs always in a child process and is connected to the command with a pipe. The herdoc uses `readline` to read the user input.
+
+If the heredoc recives an EOF, it will output the following error message:
+> ⚠️ &nbsp; frankenshell: TODO
+
+Variable expansion inside the herdoc is supported. Therefore each line of the heredoc will be expanded before it is sent to the pipe. TODO check if true.
+NOTE: the expansion, like in bash, is not supposed to work if the heredoc limmite is enclosed in single quotes. TODO CHECK IF ALSO DOUBLE QUOTES?
+EXAMPLE TABLE
+...
+
+##### Run CMD
+
+
+###### Run Builtin 
+
+TODO check out all builtins in the section
+
+###### Run Executable 
+
+the env linked list is send to execv
+
+### Termination
+
 #### Exit Status
+The current exit status of minishell is stored as an node with the key `?` in the variable linkes list. This simplyfies the variable expansion of `$?`. To update the value the noraml `TODO` function can be used. Since the value is an `char*` and the exit status is an integer there is a function `TODO` that allows an integer as a paramter to update the value of the node.
+Anyhow if the linked list is used for `execve`, `env` or `export` the `?` node will be ignored.
+
 ### Signals
+
+Each time a fork is happening all existing processes will be set to a specific 'signal status' via 'conf_sig_handler' in TODO File. This status will
+be used to determine which signal handling should be used in the calling process.
+
+The following Signals are being treaded in frankenshell:
+Table
+| Shortcut | Signal Name | Description 						|
+|:--------:|:-----------:|-------------						|
+| `CTRL+C` | SIGINT      | Interrupt signal					|
+| `CTRL+\` | SIGQUIT     | Quit signal 						|
+| `CTRL+D` | EOF	     | An EOF is send to the input fd 	|
+
+The following table shows all possible signal states defined in TODO enum file:
+| Signal State | Description 						| `CTRL+C` | `CTRL+\` | `CTRL+D` |
+|--------------|-------------						|----------|----------|----------|
+| `SIG_STATE_MAIN`    | showing basic promt				| |||
+
+TODO
+
+	SIG_STATE_MAIN     showing basic promt
+	SIG_STATE_PARENT   ignore all signals
+	SIGNAl_CHILD    basic setup for child
+	SIG_STATE_HD_CHILD  for heredoc
 
 	SIG_STATE_MAIN,
 	SIG_STATE_PARENT,
@@ -905,7 +978,7 @@ The builtin `env` outputs all variable key-value pairs of the linked list like `
 
 </details>
 
-:arrow_right: 		&nbsp; Refer to the section [Environment Variables](#environment-variables) for more details about the variables.
+:arrow_right: 		&nbsp; Refer to the section [Environment Variables](#environment-variables) for more details about the variables.\
 :warning: 		&nbsp; A [known bug](#known-bugs) exists with `env` and `export`.
 
 ---
@@ -989,8 +1062,8 @@ The builtin `export` updates (or creates) the enviromental variables inputed as 
 
 </details>
 
-:arrow_right: 		&nbsp; Refer to the section [Environment Variables](#environment-variables) for more details about the variables.
-:warning: 		&nbsp; A [known bug](#known-bugs) exists with `env` and `export`.
+> :arrow_right: 	&nbsp; Refer to the section [Environment Variables](#environment-variables) for more details about the variables.\
+> :warning: 		&nbsp; A [known bug](#known-bugs) exists with `env` and `export`.
 
 ---
 
@@ -1080,7 +1153,7 @@ The builtin `unset` deletes the corresponding variables.
 
 </details>
 
-:arrow_right: 		&nbsp; Refer to the section [Environment Variables](#environment-variables) for more details about the variables.
+> :arrow_right: 		&nbsp; Refer to the section [Environment Variables](#environment-variables) for more details about the variables.
 
 ---
 
@@ -1104,7 +1177,7 @@ If the built-in export is called with a valid key but no equal sign (like `expor
 ---
 
 **single cmds with redirs**
-
+Since frankenshell doesn't fork for a single builtin cmd like `echo foo > out` it changes the fds of the main process. This might affect the next cycle since the fds are not reseted.
 ---
 
 ## Acknowledgments
@@ -1115,7 +1188,7 @@ Thx to all those guys and gals for hints, tipps and feedback!
 [@Margarida](https://github.com/MariaAguiar)\
 [@Manuel](https://github.com/manuel-aguiar)
 
-:arrow_up:   <a href="#docu-top">back to top</a>   :arrow_up:
+> :arrow_up:   <a href="#docu-top">back to top</a>   :arrow_up:
 
 
 
