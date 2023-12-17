@@ -201,10 +201,10 @@ The struct `t_exec` is used to store all the information needed for the executio
 ```
 typedef struct s_exec
 {
-    t_builtin_cmd	builtins[10];
-    t_io			io;
-    int				*pid;
-    int				pid_index;
+    t_builtin_cmd   builtins[10];
+    t_io            io;
+    int             *pid;
+    int             pid_index;
 } t_exec;
 ```  
 
@@ -218,10 +218,10 @@ The struct `t_io` is used to store all the information needed for the redirectio
 ```
 typedef struct s_io
 {
-    t_bool	use_pipe[2];
-    int		cmd_fd[2];
-    int		dup_fd[2];
-    int		prev_pipe[2];
+    t_bool  use_pipe[2];
+    int     cmd_fd[2];
+    int     dup_fd[2];
+    int     prev_pipe[2];
 } t_io;
 ```
 
@@ -233,9 +233,9 @@ The struct `t_hd` is used to store all the information needed for the heredoc re
 ```
 typedef struct s_hd
 {
-    int				*fd;
-    char			*lim;
-    char			*cur_line;
+    int     *fd;
+    char    *lim;
+    char    *cur_line;
 } t_hd;
 ```
 
@@ -247,8 +247,8 @@ The struct `t_builtin_cmd` is used to create a conection between a builtin comma
 ```
 typedef struct s_builtin_cmd
 {
-    char				*cmd_name;
-    t_builtin_function	func_name;
+    char                *cmd_name;
+    t_builtin_function  func_name;
 } t_builtin_cmd;
 ```
 
