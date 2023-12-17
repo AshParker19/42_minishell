@@ -296,7 +296,7 @@ It will print the following information:
 - AST Tree containing all nodes and their type
 
 <details>
-  <summary>Example `echo the home dir of $USER is storred in '$HOME'`</summary>
+  <summary>Example ```echo the home dir of $USER is storred in '$HOME'```</summary>
 
   <pre><font color="#2AA1B3">frankenshell--&gt; </font>echo the home dir of $USER is storred in &apos;$HOME&apos;
 
