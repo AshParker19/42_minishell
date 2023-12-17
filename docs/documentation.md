@@ -130,12 +130,12 @@ The struct `t_env` is used to build a liked list, storing all (enviromental) var
 > :floppy_disk: &nbsp;  The linked list is stored in the [`t_mbox`](#t_mbox) struct.\
 > :scroll:      &nbsp;  For further details see the section [Environment Variables](#environment-variables).
 ```
-	typedef struct s_env
-	{
-        char            *key;
-        char            *value;
-        struct s_env    *next;
-	}	t_env;
+typedef struct s_env
+{
+    char            *key;
+    char            *value;
+    struct s_env    *next;
+}	t_env;
 ```
 
 ---
