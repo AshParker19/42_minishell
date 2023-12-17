@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 19:11:12 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/15 14:16:57 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/17 02:16:07 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static char	*shift_readable(char *s)
 	while (readable[++i])
 	{
 		if (readable[i] == add_offset('\''))
-			readable[i] = '`';
+			readable[i] = 'S';
 		else if (readable[i] == add_offset('"'))
 			readable[i] = 'D';
 		else if (readable[i] == add_offset('|'))
@@ -87,7 +87,7 @@ static char	*shift_readable(char *s)
 		else if (readable[i] == add_offset('>'))
 			readable[i] = 'O';
 		else if (readable[i] == NO_SPACE)
-			readable[i] = '_';
+			readable[i] = 'X';
 		else if (readable[i] == EMPTY_TOKEN)
 			readable[i] = 'E';
 	}

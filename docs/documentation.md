@@ -93,6 +93,13 @@ As ChatGPT said in 2023:
 
 ![Example][example-gif]
 ## Definitions
+The following emoji are used in this file:
+| Emoji             | Meaning   |
+| :---:             | ---       |
+| :scroll:          | link to another chapter  |
+| :page_facing_up:  | link to a code file           |
+| :jigsaw:          | part of                       |
+
 These definitions are used throughout this manual as follows.
 
 #### builtin
@@ -139,7 +146,7 @@ typedef struct s_mbox
 
 ### t_env
 The struct `t_env` is used to build a liked list, storing all (enviromental) variables.
-> :floppy_disk: &nbsp;  The linked list is stored in the [`t_mbox`](#t_mbox) struct.\
+> :jigsaw:      &nbsp;  The linked list is stored in the [`t_mbox`](#t_mbox) struct.\
 > :scroll:      &nbsp;  For further details see the section [Environment Variables](#environment-variables).
 ```
 typedef struct s_env
@@ -154,7 +161,7 @@ typedef struct s_env
 
 ### t_history
 The struct `t_history` is used to build a liked list, storing all previous user input. Therefore it uses the generic linked list structure [`t_list`](#t_list). 
-> :floppy_disk: &nbsp;  The linked list is stored in the [`t_mbox`](#t_mbox) struct.\
+> :jigsaw:      &nbsp;  The linked list is stored in the [`t_mbox`](#t_mbox) struct.\
 > :scroll:      &nbsp;  For further details about the history see the section [History](#history).
 ```
 typedef struct s_history
@@ -169,7 +176,7 @@ typedef struct s_history
 
 ### t_token
 The struct `t_token` is used to build a liked list, storing all tokens.
-> :floppy_disk: &nbsp;  The linked list is stored in the [`t_mbox`](#t_mbox) struct.\
+> :jigsaw:      &nbsp;  The linked list is stored in the [`t_mbox`](#t_mbox) struct.\
 > :scroll:      &nbsp;  For further details see the section [Tokenize](#tokenize).
 ```
 typedef struct s_token
@@ -178,13 +185,13 @@ typedef struct s_token
     char            *value;
     struct s_token  *next;
 } t_token;
-``````  
+```
 
 ---
 
 ### t_ast
 The struct `t_ast` is used to build a tree, storing all nodes.
-> :floppy_disk: &nbsp;  The root of the ast is stored in the [`t_mbox`](#t_mbox) struct.\
+> :jigsaw:      &nbsp;  The root of the ast is stored in the [`t_mbox`](#t_mbox) struct.\
 > :scroll:      &nbsp;  For further details see the section [Parser](#parser).
 ```
 typedef struct s_ast
@@ -213,7 +220,7 @@ typedef struct s_list
 
 ### t_exec
 The struct `t_exec` is used to store all the information needed for the execution of a command.
-> :floppy_disk: &nbsp;  An instance of this struct is stored in the [`t_mbox`](#t_mbox) struct.
+> :jigsaw:      &nbsp;  An instance of this struct is stored in the [`t_mbox`](#t_mbox) struct.
 ```
 typedef struct s_exec
 {
@@ -228,7 +235,7 @@ typedef struct s_exec
 
 ### t_io
 The struct `t_io` is used to store all the information needed for the redirection of a command.
-> :floppy_disk: &nbsp;  An instance of this struct is stored in the [`t_exec`](#t_exec) struct.\
+> :jigsaw:      &nbsp;  An instance of this struct is stored in the [`t_exec`](#t_exec) struct.\
 > :scroll:      &nbsp;  For further details see the section [Redirections](#redirections).
 
 ```
@@ -259,7 +266,7 @@ typedef struct s_hd
 
 ### t_builtin_cmd
 The struct `t_builtin_cmd` is used to create a conection between a builtin command name and its corresponding function.
-> :floppy_disk: &nbsp;  It is part of the [`t_exec`](#t_exec) struct.
+> :jigsaw:  &nbsp;  It is part of the [`t_exec`](#t_exec) struct.
 ```
 typedef struct s_builtin_cmd
 {
@@ -284,21 +291,110 @@ Below you can find a detailed description of each step.
 > :page_facing_up:  &nbsp; The file ['input_management.c'](../src/0_core/input_management.c) calls all the input management functions.
 
 ## Initialization
-### Print Debug Info
-If frankenshell is started with the flag `--info` or `-i`, it will print debug information during runtime.\
-It will print the following information:
-- Input States
-    - the original input
-    - the trimmed input
-    - the shifted input
-    - the expanded input
-- Token List containing all tokens and their type
-- AST Tree containing all nodes and their type
+### Info Mode
+If frankenshell is started with the flag `--info` or `-i`, it will print the following information during runtime.:
+- Input Strings
+    - original input
+    - trimmed input
+    - shifted input
+    - expanded input
+- Token list containing all tokens and their type
+- AST containing all nodes and their type
+
+To get a 'readable' Version of the input strings, their [shifted values](#mark-separators) will be displayed like:
+- `S` for `'` (contextual single quote)
+- `D` for `"` (contextual double quote)
+- `P` for `|` (seperating pipe)
+- `I` for `<` (redirection in)
+- `O` for `>` (redirection out)
+- `_` (space that can be removed)
+- `E` ('empty token' flag to inform the tokenizer that it should generate an empty token)
+> :page_facing_up:  &nbsp; check out the `shift_readable` function in [TODO.c](../src/0_core/TODO.c)
+
+
+
+> :floppy_disk: &nbsp;  The linked list is stored in the [`t_mbox`](#t_mbox) struct.\
+> :floppy_disk: &nbsp;  The linked list is stored in the [`t_mbox`](#t_mbox) struct.\
+
+<details>
+  <summary>Example <code>ls -l -a</code></summary>
+
+<pre>╰─± ./frankenshell -i
+ <font color="#A347BA">----------------------------------------</font>
+<font color="#A347BA">|          INFO MODE ACTIVATED!          |</font>
+<font color="#A347BA"> ----------------------------------------</font>
+<font color="#2AA1B3">frankenshell--&gt; </font>ls -l -a
+
+ <font color="#FF5F5F">----------------------------------------</font>
+<font color="#FF5F5F">|              INPUT STATES              |</font>
+<font color="#FF5F5F"> ----------------------------------------</font>
+input original:			(ls -l -a)
+
+input trimmed:			(ls -l -a)
+
+input shifted:	shifted:	(ls�-l�-a)
+		readable:	(ls_-l_-a)
+input expanded:	shifted:	(ls�-l�-a)
+		readable:	(ls_-l_-a)
+ <font color="#FF5F5F">========================================</font>
+
+ <font color="#A2734C">----------------------------------------</font>
+<font color="#A2734C">|               TOKENIZER                |</font>
+<font color="#A2734C"> ----------------------------------------</font>
+type:(0) 	 token:(ls)
+type:(0) 	 token:(-l)
+type:(0) 	 token:(-a)
+ <font color="#A2734C">========================================</font>
+
+ <font color="#2AA1B3">----------------------------------------</font>
+<font color="#2AA1B3">|                 PARSER                 |</font>
+<font color="#2AA1B3"> ----------------------------------------</font>
+
+              [arg] (-a)
+
+       [arg] (-l)
+
+[cmd] (ls)
+ <font color="#2AA1B3">========================================</font>
+
+ <font color="#26A269">----------------------------------------</font>
+<font color="#26A269">|                EXECUTOR                |</font>
+<font color="#26A269">|             (cmd count: 1)             |</font>
+ <font color="#26A269">----------------------------------------</font>
+total 288
+drwxrwxr-x 10 astein astein   4096 Dez 16 23:04 .
+drwxrwxr-x  3 astein astein   4096 Dez 15 14:03 ..
+-rwxrwxr-x  1 astein astein   6323 Dez 15 20:15 art.sh
+-rwxrwxr-x  1 astein astein   1498 Dez 15 20:03 count_stats.sh
+drwxrwxr-x  3 astein astein   4096 Dez 15 20:03 docs
+-rwxrwxr-x  1 astein astein 214360 Dez 16 23:04 frankenshell
+drwxrwxr-x  8 astein astein   4096 Dez 17 01:58 .git
+-rw-rw-r--  1 astein astein    215 Dez 15 20:03 .gitignore
+drwxrwxr-x  2 astein astein   4096 Dez 17 01:44 images
+drwxrwxr-x  2 astein astein   4096 Dez 15 20:03 includes
+drwxrwxr-x  4 astein astein   4096 Dez 16 23:04 libft
+-rw-rw-r--  1 astein astein   3841 Dez 15 20:30 Makefile
+drwxrwxr-x  6 astein astein   4096 Dez 16 23:04 obj
+-rw-rw-r--  1 astein astein   4768 Dez 16 23:14 README1.md
+-rw-rw-r--  1 astein astein   2797 Dez 16 15:22 README.md
+drwxrwxr-x  7 astein astein   4096 Dez 15 20:03 src
+-rw-rw-r--  1 astein astein     46 Dez 16 18:08 todo.txt
+drwxrwxr-x  2 astein astein   4096 Dez 15 20:22 .vscode
+ <font color="#26A269">========================================</font>
+
+<font color="#2AA1B3">frankenshell--&gt; </font>
+</pre>
+
+</details>
 
 <details>
   <summary>Example <code>echo the home dir of $USER is storred in '$HOME'</code></summary>
 
-  <pre><font color="#2AA1B3">frankenshell--&gt; </font>echo the home dir of $USER is storred in &apos;$HOME&apos;
+<pre>╰─± ./frankenshell -i
+ <font color="#A347BA">----------------------------------------</font>
+<font color="#A347BA">|          INFO MODE ACTIVATED!          |</font>
+<font color="#A347BA"> ----------------------------------------</font>
+<font color="#2AA1B3">frankenshell--&gt; </font>echo the home dir of $USER is storred in &apos;$HOME&apos;
 
  <font color="#FF5F5F">----------------------------------------</font>
 <font color="#FF5F5F">|              INPUT STATES              |</font>
@@ -358,6 +454,123 @@ type:(0) 	 token:($HOME)
 <font color="#26A269">|             (cmd count: 1)             |</font>
  <font color="#26A269">----------------------------------------</font>
 the home dir of astein is storred in $HOME
+ <font color="#26A269">========================================</font>
+
+<font color="#2AA1B3">frankenshell--&gt; </font>
+</pre>
+
+</details>
+
+<details>
+  <summary>Example <code><< $DONT_EXPAND cat | wc -l</code></summary>
+
+<pre>╰─± ./frankenshell -i
+ <font color="#A347BA">----------------------------------------</font>
+<font color="#A347BA">|          INFO MODE ACTIVATED!          |</font>
+<font color="#A347BA"> ----------------------------------------</font>
+<font color="#2AA1B3">frankenshell--&gt; </font>&lt;&lt; $DONT_EXPAND cat | wc -l
+
+ <font color="#FF5F5F">----------------------------------------</font>
+<font color="#FF5F5F">|              INPUT STATES              |</font>
+<font color="#FF5F5F"> ----------------------------------------</font>
+input original:			(&lt;&lt; $DONT_EXPAND cat | wc -l)
+
+input trimmed:			(&lt;&lt; $DONT_EXPAND cat | wc -l)
+
+input shifted:	shifted:	(���$DONT_EXPAND�cat���wc�-l)
+		readable:	(II_$DONT_EXPAND_cat_P_wc_-l)
+input expanded:	shifted:	(��$DONT_EXPAND�cat���wc�-l)
+		readable:	(II$DONT_EXPAND_cat_P_wc_-l)
+ <font color="#FF5F5F">========================================</font>
+
+ <font color="#A2734C">----------------------------------------</font>
+<font color="#A2734C">|               TOKENIZER                |</font>
+<font color="#A2734C"> ----------------------------------------</font>
+type:(2) 	 token:(&lt;)
+type:(2) 	 token:(&lt;)
+type:(0) 	 token:($DONT_EXPAND)
+type:(0) 	 token:(cat)
+type:(1) 	 token:(|)
+type:(0) 	 token:(wc)
+type:(0) 	 token:(-l)
+ <font color="#A2734C">========================================</font>
+
+ <font color="#2AA1B3">----------------------------------------</font>
+<font color="#2AA1B3">|                 PARSER                 |</font>
+<font color="#2AA1B3"> ----------------------------------------</font>
+
+              [arg] (-l)
+
+       [cmd] (wc)
+
+[|] (|)
+
+       [cmd] (cat)
+
+              [&lt;&lt;] ($DONT_EXPAND)
+ <font color="#2AA1B3">========================================</font>
+
+ <font color="#26A269">----------------------------------------</font>
+<font color="#26A269">|                EXECUTOR                |</font>
+<font color="#26A269">|             (cmd count: 2)             |</font>
+ <font color="#26A269">----------------------------------------</font>
+<font color="#A2734C">frankendoc&gt; </font>
+</pre>
+
+</details>
+
+<details>
+  <summary>Example <code>echo hi"" "" "" ""there</code></summary>
+
+<pre>╰─± ./frankenshell -i
+ <font color="#A347BA">----------------------------------------</font>
+<font color="#A347BA">|          INFO MODE ACTIVATED!          |</font>
+<font color="#A347BA"> ----------------------------------------</font>
+<font color="#2AA1B3">frankenshell--&gt; </font>echo hi&quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot;there
+
+ <font color="#FF5F5F">----------------------------------------</font>
+<font color="#FF5F5F">|              INPUT STATES              |</font>
+<font color="#FF5F5F"> ----------------------------------------</font>
+input original:			(echo hi&quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot;there)
+
+input trimmed:			(echo hi&quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot;there)
+
+input shifted:	shifted:	(echo�hi�����������there)
+		readable:	(echo_hiDD_E__E__DDthere)
+input expanded:	shifted:	(echo�hi�����������there)
+		readable:	(echo_hiDD_E__E__DDthere)
+ <font color="#FF5F5F">========================================</font>
+
+ <font color="#A2734C">----------------------------------------</font>
+<font color="#A2734C">|               TOKENIZER                |</font>
+<font color="#A2734C"> ----------------------------------------</font>
+type:(0) 	 token:(echo)
+type:(0) 	 token:(hi)
+type:(0) 	 token:()
+type:(0) 	 token:()
+type:(0) 	 token:(there)
+ <font color="#A2734C">========================================</font>
+
+ <font color="#2AA1B3">----------------------------------------</font>
+<font color="#2AA1B3">|                 PARSER                 |</font>
+<font color="#2AA1B3"> ----------------------------------------</font>
+
+                            [arg] (there)
+
+                     [arg] ()
+
+              [arg] ()
+
+       [arg] (hi)
+
+[cmd] (echo)
+ <font color="#2AA1B3">========================================</font>
+
+ <font color="#26A269">----------------------------------------</font>
+<font color="#26A269">|                EXECUTOR                |</font>
+<font color="#26A269">|             (cmd count: 1)             |</font>
+ <font color="#26A269">----------------------------------------</font>
+hi   there
  <font color="#26A269">========================================</font>
 
 <font color="#2AA1B3">frankenshell--&gt; </font>
