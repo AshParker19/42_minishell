@@ -96,8 +96,8 @@ These definitions are used throughout this manual as follows.
 
 ## Structs
 ### t_mbox
-The struct `mbox` is the main structure of the program: it is being passed as an argument to most of the functions and contains all the info needed for the program to work. The file ['manage_mbox.c'](../src/0_core/manage_mbox.c) contains the functions for initializing and
-destroying the mbox instance.
+The struct `mbox` is the main structure of the program: it is being passed as an argument to most of the functions and contains all the info needed for the program to work.
+> :page_facing_up:  &nbsp; The file ['manage_mbox.c'](../src/0_core/manage_mbox.c) contains the functions for initializing and destroying the mbox instance.
 ```
 typedef struct s_mbox
 {
