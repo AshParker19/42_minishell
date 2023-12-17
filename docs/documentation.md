@@ -1168,7 +1168,33 @@ The builtin `unset` deletes the corresponding variables.
 ---
 
 ## Environment Variables
-On programm start the enviromental variables will be loaded into frankenshell.\
+On programm start a [t_env](#t_env) linked list will be created from the enviromental variables and stored in the [t_mbox](#t_mbox) struct.
+
+> :page_facing_up: 	&nbsp; All related functions are in the [a_env_vars.c](../src/1_core/d_env_vars.c) file.
+
+The following functions are implemented:
+```
+// MANAGEMENT
+void initialize_vars(t_mbox *mbox, char **env);							//creates the ll on startup
+void free_vars(t_mbox *mbox);											//frees the ll
+static void *free_var(t_env *temp);										//free the given node
+static void var_add_back(t_mbox *mbox, t_env *new_var);					//adds the node to the end of the ll
+ 
+// READ FUNCTIONS
+t_bool is_var(const t_mbox *mbox, const char *key);						//checks if the argument 'key' is present in list
+static t_env *get_var_node(const t_mbox *mbox, const char *key);		//returns a pointer to the node with the given key
+char *get_var_value(const t_mbox *mbox, const char *key);				//returns a pointer to the value of the given key
+static int get_vars_count(const t_env *env_var);						//returns the amount of nodes in the ll
+char **get_env_as_matrix(const t_mbox *mbox, const char *put_quotes)	//creates a matrix of strings from the ll
+
+// WRITE FUNCTIONS
+void set_var_value(t_mbox *mbox, const char *key, const char *value);	//updates/creates node with the given key and value
+void set_var_value_int(t_mbox *mbox, const char *key, int int_value);	//updates/creates node with the given key and int value
+void increment_shlvl(t_mbox *mbox);										//increases the value of the 'SHLVL' variable
+void unset_var(t_mbox *mbox, const char *key);							//removes the node with the given key from the ll
+static void	*free_var(t_env *temp)
+```
+
 With the following [builtin](#builtins) commands variables can be...
 - **shown** using [env](#env)
 - **sorted and shown**  using [export](#export) without arguments
@@ -1176,7 +1202,9 @@ With the following [builtin](#builtins) commands variables can be...
 - **changed** using [export](#export)
 - **deleted** using [unset](#unset)
 
-> ℹ️ &nbsp; Keep in mind that some [builtins](#builtins) (e.g. [cd](#cd)) change some variables during runtime!
+> :bulb:			&nbsp; The linked list will be used for the [execve](#execve) function call.\
+> :bulb:			&nbsp; The linked list will be used for storing the [exit status](#exit-status).\
+> :bulb:			&nbsp; Keep in mind that some [builtins](#builtins) (e.g. [cd](#cd)) change some variables during runtime!\
 
 ## Known Bugs
 
