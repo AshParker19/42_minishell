@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:33:25 by astein            #+#    #+#             */
-/*   Updated: 2023/12/16 15:15:11 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/17 20:25:36 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /**
  * @brief   The builtin 'unset' deletes the corresponding nodes from the `t_env`
- * 			ll via the 'delete_var' function.
+ * 			ll via the 'unset_var' function.
  * 
  * @param   mbox        
  * @param   arg_node    
@@ -23,7 +23,7 @@ void	builtin_unset(t_mbox *mbox, t_ast *arg_node)
 {
 	while (arg_node)
 	{
-		delete_var(mbox, arg_node->content);
+		unset_var(mbox, arg_node->content);
 		arg_node = arg_node->right;
 	}
 	set_var_value_int(mbox, "?", EXIT_SUCCESS);

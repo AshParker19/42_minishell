@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:33:09 by astein            #+#    #+#             */
-/*   Updated: 2023/12/17 16:56:25 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/17 20:39:32 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@
  * @param   env_var     
  * @return  int         
  */
-static int	env_counter(t_env *env_var)
+static int	get_vars_count(t_env *env_var)
 {
 	if (!env_var)
 		return (0);
 	else
-		return (1 + env_counter(env_var->next));
+		return (1 + get_vars_count(env_var->next));
 }
 
 /**
@@ -40,7 +40,7 @@ static char	**bubble_sort(const t_mbox *mbox, char **env_matrix)
 	int	i;
 	int	env_count;
 
-	env_count = env_counter(mbox->env) - 1;
+	env_count = get_vars_count(mbox->env) - 1;
 	sorted = 0;
 	while (!sorted)
 	{
@@ -60,8 +60,8 @@ static char	**bubble_sort(const t_mbox *mbox, char **env_matrix)
 }
 
 /**
- * @brief   uses 'env_counter' to determine the size of the 't_env' ll;
- * 			creates a matrix of the ll via 'env_to_matrix' and passes those
+ * @brief   uses 'get_vars_count' to determine the size of the 't_env' ll;
+ * 			creates a matrix of the ll via 'get_env_as_matrix' and passes those
  * 			informations to 'bubble_sort' to sort the array.
  * 
  * @param   mbox        
@@ -71,7 +71,7 @@ static void	sort_and_print_var(const t_mbox *mbox)
 	char	**env_matrix;
 	int		i;
 
-	env_matrix = env_to_matrix(mbox, "\"");
+	env_matrix = get_env_as_matrix(mbox, "\"");
 	env_matrix = bubble_sort(mbox, env_matrix);
 	if (!env_matrix)
 		return ;

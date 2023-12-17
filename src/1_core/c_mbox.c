@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   manage_mbox.c                                      :+:      :+:    :+:   */
+/*   c_mbox.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:49:13 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/17 16:59:06 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/17 20:08:56 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	destroy_mbox(t_mbox *mbox)
 	exit_status = ft_atoi(get_var_value(mbox, "?"));
 	reset_cycle(mbox);
 	ft_lstclear(&(mbox->history_lst), del_history_node);
-	free_vars_v2(mbox);
+	free_vars(mbox);
 	exit(exit_status);
 }
 

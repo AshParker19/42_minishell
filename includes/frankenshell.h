@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2023/12/17 18:42:01 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/17 20:53:38 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,11 +90,40 @@ typedef struct s_history
 /*********************************# FUNCTIONS #********************************/
 
 /*========================================*/
-/*>>>>>>>>>> 0 CORE                       */
+/*>>>>>>>>>> 1 CORE                       */
 /*========================================*/
-/*>>> MAIN.C           */
+/*>>> A MAIN.C         */
 /*---------------------*/
 int		main(int ac, char **av, char **env);
+
+/*>>> B CYCLE.C        */
+/*---------------------*/
+
+/*>>> D ENV_VARS.C     */
+/*---------------------*/
+void	initialize_vars(t_mbox *mbox, char **env);
+t_bool	is_var(const t_mbox *mbox, const char *key);
+char	*get_var_value(const t_mbox *mbox, const char *key);
+char	**get_env_as_matrix(const t_mbox *mbox, const char *put_quotes);
+void	set_var_value(t_mbox *mbox, const char *key, const char *value);
+void	set_var_value_int(t_mbox *mbox, const char *key, int int_value);
+void	increment_shlvl(t_mbox *mbox);
+void	unset_var(t_mbox *mbox, const char *key);
+void	free_vars(t_mbox *mbox);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /*>>> MANAGE_MBOX.C    */
 /*---------------------*/
@@ -126,21 +155,6 @@ void	info_print_executor_banner(t_mbox *mbox, t_bool top_part, char *clr);
 /* input_manager.c */
 void	cycle_main(t_mbox *mbox);
 
-/* env.c */
-void	initialize_vars(t_mbox *mbox, char **env);
-char	*get_var_value(const t_mbox *mbox, const char *key);
-void	delete_var(t_mbox *mbox, const char *key);
-void	free_vars_v2(t_mbox *mbox);
-
-/* env_utils.c */
-t_bool	is_var(const t_mbox *mbox, const char *key);
-void	increment_shlvl(t_mbox *mbox);
-char	**env_to_matrix(const t_mbox *mbox, const char *put_quotes);
-void	*free_var_v2(t_env *temp);
-
-/* env_utils2.c */
-void	set_var_value(t_mbox *mbox, const char *key, const char *value);
-void	set_var_value_int(t_mbox *mbox, const char *key, int int_value);
 
 /* signals.c */
 void	conf_sig_handler(int sig_state);

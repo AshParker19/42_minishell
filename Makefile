@@ -33,8 +33,6 @@ SRCS = $(addprefix $(SRC_FOLDER), 						\
 	1_core/d_env_vars.c									\
 	1_core/e_signals.c									\
 	1_core/general_utils.c								\
-	1_core/env_utils.c									\
-	1_core/env_utils2.c									\
 	2_cycle/a_shift_seperators.c						\
 	2_cycle/b_expand_vars.c								\
 	2_cycle/c_tokenize.c								\
