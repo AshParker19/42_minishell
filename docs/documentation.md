@@ -127,8 +127,8 @@ destroying the mbox instance.
 
 ### t_env
 The struct `t_env` is used to build a liked list, storing all (enviromental) variables.
-:floppy_disk:       The linked list is stored in the [`t_mbox`](#t_mbox) struct.
-:scroll:            For further details see the section [Environment Variables](#environment-variables).
+> :floppy_disk: &nbsp;  The linked list is stored in the [`t_mbox`](#t_mbox) struct.\
+> :scroll:      &nbsp;  For further details see the section [Environment Variables](#environment-variables).
 <details>
   <summary>Code Snippet</summary>
 
