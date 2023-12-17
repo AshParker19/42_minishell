@@ -98,30 +98,26 @@ These definitions are used throughout this manual as follows.
 ### t_mbox
 The struct `mbox` is the main structure of the program: it is being passed as an argument to most of the functions and contains all the info needed for the program to work. The file ['manage_mbox.c'](../src/0_core/manage_mbox.c) contains the functions for initializing and
 destroying the mbox instance.
-
-<details>
-  <summary>Code Snippet</summary>
-
-    typedef struct s_mbox
-    {
-        char                        *inp_orig;
-        char                        *inp_trim;
-        char                        *inp_shift;
-        char                        *inp_expand;
-        int                         consecutive_lt;
-        bool                        error_status;
-        t_env                       *env;
-        t_list                      *history_lst;
-        t_token                     *tokens;
-        t_token                     *tmp_token;
-        t_ast                       *root;
-        t_ast                       *tmp_node;
-        t_exec                      executor;
-        int                         count_cycles;
-        t_bool                      print_info;
-    }   t_mbox;
-
-</details>
+```
+typedef struct s_mbox
+{
+    char                        *inp_orig;
+    char                        *inp_trim;
+    char                        *inp_shift;
+    char                        *inp_expand;
+    int                         consecutive_lt;
+    bool                        error_status;
+    t_env                       *env;
+    t_list                      *history_lst;
+    t_token                     *tokens;
+    t_token                     *tmp_token;
+    t_ast                       *root;
+    t_ast                       *tmp_node;
+    t_exec                      executor;
+    int                         count_cycles;
+    t_bool                      print_info;
+}   t_mbox;
+```
 
 ---
 
@@ -141,140 +137,120 @@ typedef struct s_env
 ---
 
 ### t_history
-The struct `t_history` is used to build a liked list, storing all previous user input. Therefore it uses the generic linked list structure [`t_list`](#t_list). The linked list is stored in the [`t_mbox`](#t_mbox) struct. For further details about the history see the section [History](#history).
-
-<details>
-  <summary>Code Snippet</summary>
-
-	typedef struct s_history
-	{
-		int							index;
-		char						*inp;
-		t_mbox						*mbox;
-	}	t_history;
-  
-</details>
+The struct `t_history` is used to build a liked list, storing all previous user input. Therefore it uses the generic linked list structure [`t_list`](#t_list). 
+> :floppy_disk: &nbsp;  The linked list is stored in the [`t_mbox`](#t_mbox) struct. 
+> :scroll:      &nbsp;  For further details about the history see the section [History](#history).
+```
+typedef struct s_history
+{
+    int							index;
+    char						*inp;
+    t_mbox						*mbox;
+}	t_history;
+```  
 
 ---
 
 ### t_token
-The struct `t_token` is used to build a liked list, storing all tokens. The linked list is stored in the [`t_mbox`](#t_mbox) struct. For further details see the section [Tokenize](#tokenize).
-
-<details>
-  <summary>Code Snippet</summary>
-
-	typedef struct s_token
-	{
-		int				type;
-		char			*value;
-		struct s_token	*next;
-	}	t_token;
-  
-</details>
+The struct `t_token` is used to build a liked list, storing all tokens.
+> :floppy_disk: &nbsp;  The linked list is stored in the [`t_mbox`](#t_mbox) struct.
+> :scroll:      &nbsp;  For further details see the section [Tokenize](#tokenize).
+```
+typedef struct s_token
+{
+    int				type;
+    char			*value;
+    struct s_token	*next;
+}	t_token;
+``````  
 
 ---
 
 ### t_ast
-The struct `t_ast` is used to build a tree, storing all nodes. The root of the ast is stored in the [`t_mbox`](#t_mbox) struct. For further details see the section [Parser](#parser).
-
-<details>
-  <summary>Code Snippet</summary>
-
-	typedef struct s_ast
-	{
-		int				type;
-		int				cmd_pos;
-		char			*content;
-		struct s_ast	*left;
-		struct s_ast	*right;
-	}	t_ast;
-
-</details>
+The struct `t_ast` is used to build a tree, storing all nodes.
+> :floppy_disk: &nbsp;  The root of the ast is stored in the [`t_mbox`](#t_mbox) struct.
+> :scroll:      &nbsp;  For further details see the section [Parser](#parser).
+```
+typedef struct s_ast
+{
+    int				type;
+    int				cmd_pos;
+    char			*content;
+    struct s_ast	*left;
+    struct s_ast	*right;
+}	t_ast;
+```
 
 ---
 
 ### t_list
 The struct `t_list` is a generic linked list structure used for various purposes.
-
-<details>
-  <summary>Code Snippet</summary>
-
-	typedef struct s_list
-	{
-		void			*content;
-		struct s_list	*next;
-	}					t_list;
-
-</details>
+```
+typedef struct s_list
+{
+    void			*content;
+    struct s_list	*next;
+}					t_list;
+```
 
 ---
 
 ### t_exec
-The struct `t_exec` is used to store all the information needed for the execution of a command. An instance of this struct is stored in the [`t_mbox`](#t_mbox) struct.
-
-<details>
-  <summary>Code Snippet</summary>
-
-	typedef struct s_exec
-	{
-		t_builtin_cmd	builtins[10];
-		t_io			io;
-		int				*pid;
-		int				pid_index;
-	}	t_exec;
-  
-</details>
+The struct `t_exec` is used to store all the information needed for the execution of a command.
+> :floppy_disk: &nbsp;  An instance of this struct is stored in the [`t_mbox`](#t_mbox) struct.
+```
+typedef struct s_exec
+{
+    t_builtin_cmd	builtins[10];
+    t_io			io;
+    int				*pid;
+    int				pid_index;
+}	t_exec;
+```  
 
 ---
 
 ### t_io
-The struct `t_io` is used to store all the information needed for the redirection of a command. An instance of this struct is stored in the [`t_exec`](#t_exec) struct. For further details see the section [Redirections](#redirections).
+The struct `t_io` is used to store all the information needed for the redirection of a command.
+> :floppy_disk: &nbsp;  An instance of this struct is stored in the [`t_exec`](#t_exec) struct.
+> :scroll:      &nbsp;  For further details see the section [Redirections](#redirections).
 
-<details>
-  <summary>Code Snippet</summary>
-
-	typedef struct s_io
-	{
-		t_bool	use_pipe[2];
-		int		cmd_fd[2];
-		int		dup_fd[2];
-		int		prev_pipe[2];
-	}	t_io;
-
-</details>
+```
+typedef struct s_io
+{
+    t_bool	use_pipe[2];
+    int		cmd_fd[2];
+    int		dup_fd[2];
+    int		prev_pipe[2];
+}	t_io;
+```
 
 ---
 
 ### t_hd
-The struct `t_hd` is used to store all the information needed for the heredoc redirection of a command. For further details see the section [Here Documents](#here-documents).
-
-<details>
-  <summary>Code Snippet</summary>
-
-	typedef struct s_hd
-	{
-		int				*fd;
-		char			*lim;
-		char			*cur_line;
-	}	t_hd;
-
-</details>
+The struct `t_hd` is used to store all the information needed for the heredoc redirection of a command.
+> :scroll:      &nbsp;  For further details see the section [Here Documents](#here-documents).
+```
+typedef struct s_hd
+{
+    int				*fd;
+    char			*lim;
+    char			*cur_line;
+}	t_hd;
+```
 
 ---
 
 ### t_builtin_cmd
-The struct `t_builtin_cmd` is used to create a conection between a builtin command name and its corresponding function. It is part of the [`t_exec`](#t_exec) struct.
-
-<details>
-  <summary>Code Snippet</summary>
-
-	typedef struct s_builtin_cmd
-	{
-		char				*cmd_name;
-		t_builtin_function	func_name;
-	}						t_builtin_cmd;
-
-</details>
+The struct `t_builtin_cmd` is used to create a conection between a builtin command name and its corresponding function.
+> :floppy_disk: &nbsp;  It is part of the [`t_exec`](#t_exec) struct.
+```
+typedef struct s_builtin_cmd
+{
+    char				*cmd_name;
+    t_builtin_function	func_name;
+}						t_builtin_cmd;
+```
 
 ---
 
