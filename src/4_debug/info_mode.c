@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 18:59:37 by astein            #+#    #+#             */
-/*   Updated: 2023/12/17 18:52:05 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/17 20:04:06 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,8 +200,8 @@ static void	display_ast(t_ast *ast, int indent_level)
  * |                    INFO MODE ACTIVATED!                    |
  *  ------------------------------------------------------------
  * 
- * @param   caption     
- * @param   data        
+ * @param   caption    wont be freeed!
+ * @param   data       will be freeed! 
  * @param   clr         
  */
 void	info_put_banner(t_mbox *mbox, char *caption, char *data, char *clr)
@@ -311,6 +311,9 @@ void	info_print_executor_banner(t_mbox *mbox, t_bool top_part, char *clr)
 		free(temp);
 	}
 	else
+	{
+		info_put_banner(mbox, "EXECUTOR", ft_strcat_multi(2, "LAST EXIT STATUS: ", get_var_value(mbox, "?")), clr);
 		info_print_line('=', '=', clr, ft_true);
+	}
 	dprintf(STDERR_FILENO, "%s", RESET);
 }
