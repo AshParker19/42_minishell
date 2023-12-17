@@ -14,7 +14,23 @@
 2. [Usage](#usage)
 2. [Definitions](#definitions)
 2. [Structs](#structs)
-3. [Basic Frankenshell Features](#basic-shell-features)
+3. [**How frankenshell works**](#how-frankenshell-works)
+    1. [Initialization](#initialization)
+    2. [Input Management](#input-management)
+        1. [Trim Input](#trim-input)
+        2. [Mark Seperators](#mark-seperators)
+        3. [Variable Expansion](#variable-expansion)
+            1. [Variable Expansion](#variable-expansion)
+            2. [Extract Limiter](#extract-limiter)
+        4. [Tokenize](#tokenize)
+        5. [Parse](#parse)
+    3. [Execution](#execution)
+        1. [Setup Execution](#setup-execution)
+            1. [Setup Pipes](#setup-pipes)
+            2. [Setup Redirections](#setup-redirections)
+                1. [Heredoc](#heredoc)
+        2. [Execute](#execute)
+    4. [Termination](#termination)
    1. [Shell Syntax](#shell-syntax)
       1. [Shell Operation PROGRAM FLOW](#shell-operation-program-flow)
       2. [Quoting](#quoting)
@@ -253,6 +269,137 @@ typedef struct s_builtin_cmd
 ```
 
 ---
+
+
+
+# How frankenshell works
+The main task of frankenshell can be grouped into steps:
+- [Initialization](#initialization)
+- Processing a Single Cycle
+    - [Input Management](#input-management)
+    - [Execution](#execution)
+- [Termination](#termination)
+
+Below you can find a detailed description of each step.
+> :page_facing_up:  &nbsp; The file ['input_management.c'](../src/0_core/input_management.c) calls all the input management functions.
+
+## Initialization
+### Print Debug Info
+If frankenshell is started with the flag `--info` or `-i`, it will print debug information during runtime.\
+It will print the following information:
+- Input States
+    - the original input
+    - the trimmed input
+    - the shifted input
+    - the expanded input
+- Token List containing all tokens and their type
+- AST Tree containing all nodes and their type
+
+The ast tree is printed in a tree-like structure (left to right).The following example shows the ast tree of the input:\
+`<< lol cat | wc -l | grep a > out | echo -n Hello World`
+![Example][mindmap-ast-png]
+
+## Input Management
+All the following steps are executed for each cycle.
+
+
+### Trim Input
+First step is to trim the input. This means that all leading and trailing whitespaces are removed.
+> :speech_balloon:  &nbsp; Start frankenshell with the flag `--info` to see the trimmed input during runtime.\
+
+### Mark Separators
+
+### Variable Expansion
+
+#### Variable Expansion
+
+#### Extract Limiter
+
+### Tokenize
+
+### Parse
+
+## Execution
+
+### Setup Execution
+
+#### Setup Pipes
+
+#### Setup Redirections
+
+##### Heredoc
+
+### Execute
+
+## Termination
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## Basic Shell Features
 ### Shell Syntax
@@ -518,7 +665,7 @@ The builtin `exit` terminates the calling process, outputs `exit` to `STDERR` an
 
 </details>
 
-:speech_balloon: &nbsp; If the argument exceeds 255, it will be subjected to modulo 256.
+> :speech_balloon: &nbsp; If the argument exceeds 255, it will be subjected to modulo 256.
 
 ---
 
@@ -741,3 +888,4 @@ Thx to all those guys and gals for hints, tipps and feedback!
 <!-- MARKDOWN LINKS & IMAGES -->
 [example-gif]: /images/example.gif
 [builtin_42]: /images/builtin_42.png
+[mindmap-ast-png]: /images/mindmap-ast.png
