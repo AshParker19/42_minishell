@@ -96,7 +96,7 @@ As ChatGPT said in 2023:
 The following emoji are used in this file:
 | Emoji             | Meaning   |
 | :---:             | ---       |
-| :scroll:          | link to another chapter  |
+| :arrow_right:     | link to another chapter  |
 | :page_facing_up:  | link to a code file           |
 | :jigsaw:          | part of                       |
 
@@ -147,7 +147,7 @@ typedef struct s_mbox
 ### t_env
 The struct `t_env` is used to build a liked list, storing all (enviromental) variables.
 > :jigsaw:      &nbsp;  The linked list is stored in the [`t_mbox`](#t_mbox) struct.\
-> :scroll:      &nbsp;  For further details see the section [Environment Variables](#environment-variables).
+> :arrow_right:      &nbsp;  For further details see the section [Environment Variables](#environment-variables).
 ```
 typedef struct s_env
 {
@@ -162,7 +162,7 @@ typedef struct s_env
 ### t_history
 The struct `t_history` is used to build a liked list, storing all previous user input. Therefore it uses the generic linked list structure [`t_list`](#t_list). 
 > :jigsaw:      &nbsp;  The linked list is stored in the [`t_mbox`](#t_mbox) struct.\
-> :scroll:      &nbsp;  For further details about the history see the section [History](#history).
+> :arrow_right:      &nbsp;  For further details about the history see the section [History](#history).
 ```
 typedef struct s_history
 {
@@ -177,7 +177,7 @@ typedef struct s_history
 ### t_token
 The struct `t_token` is used to build a liked list, storing all tokens.
 > :jigsaw:      &nbsp;  The linked list is stored in the [`t_mbox`](#t_mbox) struct.\
-> :scroll:      &nbsp;  For further details see the section [Tokenize](#tokenize).
+> :arrow_right:      &nbsp;  For further details see the section [Tokenize](#tokenize).
 ```
 typedef struct s_token
 {
@@ -192,7 +192,7 @@ typedef struct s_token
 ### t_ast
 The struct `t_ast` is used to build a tree, storing all nodes.
 > :jigsaw:      &nbsp;  The root of the ast is stored in the [`t_mbox`](#t_mbox) struct.\
-> :scroll:      &nbsp;  For further details see the section [Parser](#parser).
+> :arrow_right:      &nbsp;  For further details see the section [Parser](#parser).
 ```
 typedef struct s_ast
 {
@@ -236,7 +236,7 @@ typedef struct s_exec
 ### t_io
 The struct `t_io` is used to store all the information needed for the redirection of a command.
 > :jigsaw:      &nbsp;  An instance of this struct is stored in the [`t_exec`](#t_exec) struct.\
-> :scroll:      &nbsp;  For further details see the section [Redirections](#redirections).
+> :arrow_right:      &nbsp;  For further details see the section [Redirections](#redirections).
 
 ```
 typedef struct s_io
@@ -252,7 +252,7 @@ typedef struct s_io
 
 ### t_hd
 The struct `t_hd` is used to store all the information needed for the heredoc redirection of a command.
-> :scroll:      &nbsp;  For further details see the section [Here Documents](#here-documents).
+> :arrow_right:      &nbsp;  For further details see the section [Here Documents](#here-documents).
 ```
 typedef struct s_hd
 {
@@ -905,7 +905,7 @@ The builtin `env` outputs all variable key-value pairs of the linked list like `
 
 </details>
 
-:scroll: 		&nbsp; Refer to the section [Environment Variables](#environment-variables) for more details about the variables.
+:arrow_right: 		&nbsp; Refer to the section [Environment Variables](#environment-variables) for more details about the variables.
 :warning: 		&nbsp; A [known bug](#known-bugs) exists with `env` and `export`.
 
 ---
@@ -989,7 +989,7 @@ The builtin `export` updates (or creates) the enviromental variables inputed as 
 
 </details>
 
-:scroll: 		&nbsp; Refer to the section [Environment Variables](#environment-variables) for more details about the variables.
+:arrow_right: 		&nbsp; Refer to the section [Environment Variables](#environment-variables) for more details about the variables.
 :warning: 		&nbsp; A [known bug](#known-bugs) exists with `env` and `export`.
 
 ---
@@ -1080,7 +1080,7 @@ The builtin `unset` deletes the corresponding variables.
 
 </details>
 
-:scroll: 		&nbsp; Refer to the section [Environment Variables](#environment-variables) for more details about the variables.
+:arrow_right: 		&nbsp; Refer to the section [Environment Variables](#environment-variables) for more details about the variables.
 
 ---
 
