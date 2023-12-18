@@ -27,7 +27,7 @@ typedef struct s_io
 /*  data for execution */
 typedef struct s_exec
 {
-	t_builtin_cmd	builtins[11];
+	t_builtin_cmd	builtins[12];
 	t_io			io;
 	int				*pid;
 	int				pid_index;

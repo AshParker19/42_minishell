@@ -878,6 +878,7 @@ Each built-in command in frankenshell is detailed below with specific informatio
 | [`env`](#env-builtin)           | [`env.c`](../src/3_builtins/env.c)                  												| Displays the environment variables.         	|
 | [`exit`](#exit-builtin)         | [`exit.c`](../src/3_builtins/exit.c)                												| Exits the shell.                            	|
 | [`export`](#export-builtin)     | [`export.c`](../src/3_builtins/export.c)<br>[`export_utils.c`](../src/3_builtins/export_utils.c)	| Sets or exports environment variables.      	|
+| [`help`](#help-builtin)         | [`help.c`](../src/3_builtins/help.c)                												| Displays this documentation page on github  	|
 | [`history`](#history-builtin)   | [`history.c`](../src/3_builtins/history.c)          												| Displays the command history.               	|
 | [`infomode`](#infomode-builtin) | [`infomode.c`](../src/3_builtins/infomode.c)        												| Toggles the info mode.                      	|
 | [`pwd`](#pwd-builtin)           | [`pwd.c`](../src/3_builtins/pwd.c)                  												| Prints the working directory.               	|
@@ -1116,6 +1117,31 @@ The builtin `export` updates (or creates) the enviromental variables inputed as 
 
 > :arrow_right: 	&nbsp; Refer to the section [Environment Variables](#environment-variables) for more details about the variables.\
 > :warning: 		&nbsp; A [known bug](#known-bugs) exists with `env` and `export`.
+
+#### help (builtin)
+
+The builtin `help` displays the documentation page on github.
+
+<details>
+  <summary>Attributes</summary>
+
+| Attribute				| Details						                |
+|-----------------------|-----------------------------------------------|
+| Flags                 | `N/A`		                 	                |
+| Number of Arguments   | `0 to n` (all args will be ignored)           |
+| Exit Status           | `N/A`			           		                |
+| File				    | [`help.c`](../src/3_builtins/help.c)          |
+
+</details>
+
+<details>
+  <summary>Examples</summary>
+
+| **CMD**       | **Explanation**       	|
+|---------------|---------------------------|
+| `help`		| opens the documentation 	|
+
+</details>
 
 ---
 

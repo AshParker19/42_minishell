@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 11:32:13 by astein            #+#    #+#             */
-/*   Updated: 2023/12/18 01:54:31 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/18 02:25:04 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	builtin_echo(t_mbox *mbox, t_ast *arg_node);
 void	builtin_cd(t_mbox *mbox, t_ast *arg_node);
 void	builtin_pwd(t_mbox *mbox, t_ast *arg_node);
 void	builtin_export(t_mbox *mbox, t_ast *arg_node);
+void	builtin_help(t_mbox *mbox, t_ast *arg_node);
 void	builtin_unset(t_mbox *mbox, t_ast *arg_node);
 void	builtin_env(t_mbox *mbox, t_ast *arg_node);
 void	builtin_exit(t_mbox *mbox, t_ast *arg_node);
