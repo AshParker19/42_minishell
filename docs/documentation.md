@@ -103,7 +103,7 @@ As ChatGPT said in 2023:
 ![Example][example-gif]
 
 
-<h2 id="info-mode">Info Mode <a href="../src/4_debug/info_mode.c">💻</a></h2>
+<h2 id="info-mode">Info Mode <a href="../src/4_debug/info_mode.c#:~:text=info_put_text_center">💻</a></h2>
 ## Info Mode<a> [:computer:](../src/4_debug/info_mode.c)</a>
 To activate the info mode you can
 - start frankenshell with the flag `--info` or `-i`
@@ -1291,6 +1291,8 @@ void set_var_value_int(t_mbox *mbox, const char *key, int int_value);   //update
 void increment_shlvl(t_mbox *mbox);                                     //increases the value of the 'SHLVL' variable
 void unset_var(t_mbox *mbox, const char *key);                          //removes the node with the given key from the ll
 ```
+
+TODO: link the function with #:~:text=funtionname at the end of the url
 
 With the following [builtin](#builtins) commands variables can be...
 - **shown** using [env](#env-builtin)
