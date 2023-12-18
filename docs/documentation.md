@@ -870,7 +870,7 @@ TODO
 	SIG_STATE_IGNORE
  
 
-## Builtin Commands
+# Builtin Commands
 Each built-in command in frankenshell is detailed below with specific information and examples.
 
 | Command                         | File(s)     	                                      												| Description									|
@@ -891,7 +891,7 @@ Each built-in command in frankenshell is detailed below with specific informatio
 
 ---
 
-#### 42 (builtin)
+## 42 (builtin)
 
 The builtin `42` displays a 42 logo to STDOUT (or its redirection)
 
@@ -926,7 +926,7 @@ The builtin `42` displays a 42 logo to STDOUT (or its redirection)
 
 ---
 
-#### cd (builtin)
+## cd (builtin)
 
 The builtin `cd` runs a few checks to ensure the provided path is valid. Once it's all good, it uses the external function `chdir` to change the current working directory (wd) to this new path. At the same time, it updates the `PWD` variable to the new directory and `OLDPWD` to the previous one.
 
@@ -970,7 +970,7 @@ The builtin `cd` runs a few checks to ensure the provided path is valid. Once it
 
 ---
 
-#### echo (builtin)
+## echo (builtin)
 
 The builtin `echo` outputs the strings it is given as arguments, seperated by one space each, to the standard output (or its redirection).
 
@@ -1006,7 +1006,7 @@ The builtin `echo` outputs the strings it is given as arguments, seperated by on
 
 ---
 
-#### env (builtin)
+## env (builtin)
 
 The builtin `env` outputs all variable key-value pairs of the linked list like `key=value\n`
 
@@ -1039,7 +1039,7 @@ The builtin `env` outputs all variable key-value pairs of the linked list like `
 
 ---
 
-#### exit (builtin)
+## exit (builtin)
 
 The builtin `exit` terminates the calling process, outputs `exit` to `STDERR` and if provided with a numeric argument, it sets the exit status to that argument's value.
 
@@ -1081,7 +1081,7 @@ The builtin `exit` terminates the calling process, outputs `exit` to `STDERR` an
 
 ---
 
-#### export (builtin)
+## export (builtin)
 
 The builtin `export` updates (or creates) the enviromental variables inputed as key value pairs like `key1=value1 key2=value2`. If no argument is given, it will instead output all variables in alphabetical order.
 
@@ -1121,7 +1121,7 @@ The builtin `export` updates (or creates) the enviromental variables inputed as 
 > :arrow_right: 	Refer to the section [Environment Variables](#environment-variables) for more details about the variables.\
 > :warning: 		A [known bug](#known-bugs) exists with `env` and `export`.
 
-#### help (builtin)
+## help (builtin)
 
 The builtin `help` displays the documentation page on github.
 
@@ -1148,7 +1148,7 @@ The builtin `help` displays the documentation page on github.
 
 ---
 
-#### history (builtin)
+## history (builtin)
 
 The builtin `history` outputs all previous user input in a numbered list.
 
@@ -1176,7 +1176,7 @@ The builtin `history` outputs all previous user input in a numbered list.
 
 ---
 
-#### infomode (builtin)
+## infomode (builtin)
 
 The builtin `infomode` toggles the info mode feature.
 
@@ -1206,7 +1206,7 @@ The builtin `infomode` toggles the info mode feature.
 
 ---
 
-#### pwd (builtin)
+## pwd (builtin)
 
 The builtin `pwd` outputs the current wd using the external function 'getcwd'. Like in bash all arguments will be ignored.
 
@@ -1236,7 +1236,7 @@ The builtin `pwd` outputs the current wd using the external function 'getcwd'. L
 
 ---
 
-#### unset (builtin)
+## unset (builtin)
 
 The builtin `unset` deletes the corresponding variables.
 
@@ -1268,7 +1268,7 @@ The builtin `unset` deletes the corresponding variables.
 
 ---
 
-## Environment Variables
+# Environment Variables
 On programm start a [t_env](#t_env) linked list will be created from the enviromental variables and stored in the [t_mbox](#t_mbox) struct.
 
 > :page_facing_up: 	All related functions are in the [a_env_vars.c](../src/1_core/d_env_vars.c) file.
@@ -1308,7 +1308,9 @@ With the following [builtin](#builtins) commands variables can be...
 :bulb:			The linked list will be used for storing the [exit status](#exit-status).\
 :bulb:			Keep in mind that some [builtins](#builtins) (e.g. [cd](#cd-builtin)) change some variables during runtime!
 
-## Known Bugs
+<br>
+
+# Known Bugs
 
 **export vs env**
 
@@ -1319,8 +1321,9 @@ If the built-in export is called with a valid key but no equal sign (like `expor
 **single cmds with redirs**
 Since frankenshell doesn't fork for a single builtin cmd like `echo foo > out` it changes the fds of the main process. This might affect the next cycle since the fds are not reseted.
 ---
+<br>
 
-## Acknowledgments
+# Acknowledgments
 Thx to those guys and gals for hints, tipps and feedback!
 
 [@Gabriel](https://github.com/portugueseTorch)\
