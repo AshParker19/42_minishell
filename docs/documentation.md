@@ -673,7 +673,7 @@ All the following steps are executed for each cycle.
 | [Shift Separators](#shift-separators)         | `echo_DHelloD_$USER_E__S!S_P_wc____-l`                |
 | [Variable Expansion](#variable-expansion)     | `echo_DHelloD_astein_E__S!S_P_wc____-l`               |
 | [Tokenize](#tokenizing)                       | `echo`(WORD) <br> `Hello`(WORD) <br> `astein`(WORD) <br> ` `(WORD) <br> `!`(WORD) <br> `\|`(PIPE) <br> `wc`(WORD) <br> `-l`(WORD) |
-| [Parsing](#parsing)                           | <img src="../images/mindmap-ast-echo-hello-astein.png" alt="Example" heigth="100"/> |
+| [Parsing](#parsing)                           | <img src="../images/mindmap-ast-echo-hello-astein.png" alt="Example" width="300"/> |
 
 #### Trim Input
 First step is to trim the input. This means that all leading and trailing whitespaces are removed.
