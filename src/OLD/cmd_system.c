@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 13:07:56 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/15 14:16:57 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/18 16:42:10 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char	**tmp_freer(char *args_str, char *lim_null)
  * @param arg_node 
  * @return char** 
  */
-char	**args_to_matrix(t_mbox *mbox, char *cmd, t_ast *arg_node)
+char	**get_args_to_matrix(t_mbox *mbox, char *cmd, t_ast *arg_node)
 {
 	char	**av;
 	char	*args_str;

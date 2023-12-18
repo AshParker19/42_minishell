@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 16:07:39 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/17 17:15:13 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/18 18:46:25 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ enum e_pipe_side
 # define CD_A           "cd: too many arguments"
 # define WA_F 			"wrong argument!\nuse: -i ('--info')"
 # define WN   			"wrong number of arguments!"
-# define W_HD 			"warning: here-document at line "
+# define W_HD 			"warning: frankendoc at line "
 # define DW 			" delimited by end-of-file (wanted `"
 # define NAR			"numeric argument required"
 # define TMA			"too many arguments"

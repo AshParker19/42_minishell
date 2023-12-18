@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc.c                                          :+:      :+:    :+:   */
+/*   j_hd.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:00:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/17 16:56:25 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/18 18:34:48 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,11 @@ static void	hd_child(t_mbox *mbox, t_hd hd, int *cur_p)
 {
 	t_bool	expand_vars;
 
+	conf_sig_handler(SIG_STATE_HD_CHILD);
+	expand_vars = check_lim_qoutes(&hd.lim);
 	close(hd.fd[P_RIGHT]);
 	if (cur_p && cur_p[P_RIGHT] != -1)
 		close(cur_p[P_RIGHT]);
-	conf_sig_handler(SIG_STATE_HD_CHILD);
-	expand_vars = check_lim_qoutes(&hd.lim);
 	while (ft_true)
 	{
 		hd.cur_line = readline(HEREDOC_PROMPT);
@@ -79,6 +79,7 @@ t_bool	hd_parent(t_mbox *mbox, int pid_hd, int *cmd_in_fd, int *fd)
 	}
 	else
 	{
+		set_var_value_int(mbox, "?", EXIT_SUCCESS);
 		*cmd_in_fd = fd[P_RIGHT];
 		return (ft_true);
 	}
@@ -99,7 +100,7 @@ t_bool	hd_parent(t_mbox *mbox, int pid_hd, int *cmd_in_fd, int *fd)
  * @param cmd_in_fd 
  * @return t_bool 
  */
-t_bool	heredoc(t_mbox *mbox, t_ast *redir_node, int *cur_p)
+t_bool	setup_hd(t_mbox *mbox, t_ast *redir_node, int *cur_p)
 {
 	int		fd[2];
 	int		pid_hd;

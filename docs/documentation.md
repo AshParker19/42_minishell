@@ -810,15 +810,59 @@ These redirections allow for flexible manipulation of command input and output, 
 
 ###### Heredoc
 
-The heredoc redirection allows inputting multiple lines until a termination string is reached or an EOF is sent via CTRL+D. The herdoc runs always in a child process and is connected to the command with a pipe. The herdoc uses `readline` to read the user input.
+The heredoc redirection allows inputting multiple lines until a termination string is reached or an EOF is sent via `CTRL+D`. The herdoc runs always in a child process and is connected to the command with a pipe. The herdoc uses `readline` to read the user input.
 
-If the heredoc recives an EOF, it will output the following error message:
-> ⚠️ frankenshell: TODO
+:bulb: Variable Expansion inside the heredoc is supported!\
+:warning: Like in bash: The expansion is not supposed to work if the limiter contains contextual quotes!\
+:bulb: Therefore the [:book: Variable Expansion](#variable-expansion) obtains `'`,`"` and `$` in case of the hd limter.
 
-Variable expansion inside the herdoc is supported. Therefore each line of the heredoc will be expanded before it is sent to the pipe. TODO check if true.
-NOTE: the expansion, like in bash, is not supposed to work if the heredoc limmite is enclosed in single quotes. TODO CHECK IF ALSO DOUBLE QUOTES?
-EXAMPLE TABLE
+**This is the heredoc routine:**
+1. The heredoc is setup by creating a pipe and forking a child process.
+2. The Child Process...
+	1. ...determines the heredoc `limiter` (aka EOF) by removing contextual quotes<sup>1</sup>
+
+	2. ...closes the read end of the pipe
+	3. ... starts an infinite **loop** that...
+		- **reads** the user input via `readline`
+		- **expands variables** in the read line<sup>1</sup>
+		- **writes** the (expanded) line **to** the write end of the **pipe**
+	4. ...**terminates** the loop if one of the following conditions is met:
+		- line matches the limiter<sup>2</sup>
+		- line matches EOF `CTRL+D`
+		- `STDIN` was closed from the signal handler `CTRL+C`<sup>3,4</sup>
+	5. ...close the write end of the pipe
+	6. ...frees all memory anf updates the the **exit status** to
+		- `0` if the heredoc was terminated by the `limiter`
+		- `0` if the heredoc was terminated by EOF `CTRL+D`
+		- `130` if the heredoc was terminated by the signal handler `CTRL+C`\
+3. The Parent Process...
+	1. ...closes the write end of the pipe
+	2. ...waits for the child process to finish
+	3. ...updates the **exit status** to the exit status of the hd child process
+	4. ...checks how the hd hild process was terminated:
+		- `CTRL+C`
+			- closes the read end of the pipe
+			- returns `false`
+		- `EOF` or `limitter`
+			- returns `true`
+
+
+<sup>1</sup>:warning: If the limtter contains contextual quotes, variable expansion inside the heredoc will be disabled.\
+<sup>3</sup> Before expanison! The heredoc can't be terminated if the expanded input matches the limiter!\
+<sup>3</sup> Checked via the global variable: `g_signal_status == SIGNAL_EXIT_HD`\
+<sup>4</sup> ```frankenshell: warning: frankendoc at line 1 delimited by end-of-file (wanted `foo')```
+
+
+EXAMPLES
+```
+<< foo cat
+Hello
+World
+foo
 ...
+```
+
+
 
 ##### Run CMD
 

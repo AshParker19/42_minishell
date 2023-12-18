@@ -60,7 +60,7 @@ void	setup_process_std_tmp(t_mbox *mbox);
 t_bool	setup_redirs(t_mbox *mbox, t_ast *redir_node, int *cur_p);
 
 /* heredoc */
-t_bool	heredoc(t_mbox *mbox, t_ast *redir_node, int *cur_p);
+t_bool	setup_hd(t_mbox *mbox, t_ast *redir_node, int *cur_p);
 char	*get_key(char *str, int *i);
 void	exit_heredoc_child(t_mbox *mbox, t_hd *hd, int exit_status);
 t_bool	check_lim_qoutes(char **str);
@@ -69,7 +69,7 @@ char	*expand_heredoc_input(t_mbox *mbox, char *str);
 /* executor_utils */
 void	initialize_io(t_mbox *mbox, t_ast *cur, int cmd_pos);
 int		cmd_counter(t_ast *ast_node);
-char	**args_to_matrix(t_mbox *mbox, char *cmd, t_ast *arg_node);
+char	**get_args_to_matrix(t_mbox *mbox, char *cmd, t_ast *arg_node);
 void	close_process_fds_v2(t_mbox *mbox);
 t_bool	allocate_pid_array(t_mbox *mbox);
 t_bool	hd_parent_wait(t_mbox *mbox, int *cur_p, t_ast *node_cpy,

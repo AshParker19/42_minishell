@@ -43,7 +43,7 @@ SRCS = $(addprefix $(SRC_FOLDER), 						\
 	2_cycle/g_pipe.c									\
 	2_cycle/h_fork.c									\
 	2_cycle/i_redir.c									\
-	2_cycle/j_heredoc.c									\
+	2_cycle/j_hd.c										\
 	2_cycle/k_run_cmd.c									\
 	2_cycle/1_tokenizer_utils/heredoc_limiter.c			\
 	2_cycle/1_tokenizer_utils/tokenizer_utils.c			\

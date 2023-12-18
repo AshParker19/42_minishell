@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 19:28:09 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/15 14:16:57 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/18 18:31:20 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,5 @@ void	exit_heredoc_child(t_mbox *mbox, t_hd *hd, int exit_status)
 	close(hd->fd[P_LEFT]);
 	free_whatever("pp", hd->lim, hd->cur_line);
 	set_var_value_int(mbox, "?", exit_status);
-	close_process_fds_v2(mbox);
 	destroy_mbox(mbox);
 }
