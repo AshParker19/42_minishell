@@ -9,22 +9,24 @@
 
 **Legend**\
 <br>
- &nbsp;&nbsp;&nbsp;	:book:				&nbsp;&nbsp; Link to another chapter<br>
- &nbsp;&nbsp;&nbsp;	:computer:		 	&nbsp;&nbsp; Link to .c file<br>
- &nbsp;&nbsp;&nbsp;	:page_facing_up: 	&nbsp;&nbsp; Link to .h file<br>
- &nbsp;&nbsp;&nbsp;	:bulb:	 			&nbsp;&nbsp; Hint<br>
- &nbsp;&nbsp;&nbsp;	:pencil2:			&nbsp;&nbsp; Example<br>
- &nbsp;&nbsp;&nbsp;	:warning:			&nbsp;&nbsp; Warning / Important<br>
- &nbsp;&nbsp;&nbsp;	:jigsaw:			&nbsp;&nbsp; Part of smth<br>
+ :book:				Link to another chapter<br>
+ :computer:		 	Link to .c file<br>
+ :page_facing_up: 	Link to .h file<br>
+ :bulb:	 			Hint<br>
+ :pencil2:			Example<br>
+ :warning:			Warning / Important<br>
+ :jigsaw:			Part of smth<br>
  
 
 # Table of Contents
 1. [Introduction](#introduction)
-2. [Installation](#installation)
-3. [Usage](#usage) [[Info Mode](#info-mode)]
-4. [Definitions](#definitions)
-4. [Syntax](#syntax)
-5. [Structs](#structs)
+1. [Installation](#installation)
+1. [Usage](#usage),
+	[Info Mode](#info-mode)
+1. [Definitions](#definitions)
+1. [Syntax](#syntax)
+1. [Structs](#structs)\
+	&nbsp;&nbsp;&nbsp;&nbsp;
 	[[t_mbox](#t_mbox), 
 	[t_env](#t_env), 
 	[t_history](#t_history), 
@@ -35,25 +37,9 @@
 	[t_io](#t_io), 
 	[t_hd](#t_hd), 
 	[t_builtin_cmd](#t_builtin_cmd)]
-6. [How frankenshell works](#how-frankenshell-works)
-   1. [Initialization](#initialization) [[Info Mode](#info-mode)]
-    1. [Processing a Single Cycle](#processing-a-single-cycle)
-		1. [Trim Input](#trim-input),
-		[Mark Empty Quotes](#mark-empty-quotes),
-		[Shift Separators](#shift-separators),
-		[Variable Expansion](#variable-expansion)
-		2. [Tokenizing](#tokenizing)
-		3. [Parsing](#parsing)
-   		4. [Execution](#execution)
-       1. [Setup Execution](#setup-execution)
-           1. [Setup Pipes](#setup-pipes)
-           2. [Setup Redirections](#setup-redirections)
-               1. [Heredoc](#heredoc)
-       2. [Execute](#execute)
-   4. [Termination](#termination)
-       1. [Exit Status](#exit-status)
-       2. [Signals](#signals)
-7. [Builtin Commands](#builtin-commands)
+1. [Environment Variables](#environment-variables)
+7. [Builtin Commands](#builtin-commands)\
+	&nbsp;&nbsp;&nbsp;&nbsp;
 	[[42](#42-builtin), 
 	[cd](#cd-builtin), 
 	[echo](#echo-builtin), 
@@ -63,7 +49,23 @@
 	[history](#history-builtin), 
 	[pwd](#pwd-builtin), 
 	[unset](#unset-builtin)]
-8. [Environment Variables](#environment-variables)
+1. [Exit Status](#exit-status)
+2. [Signals](#signals)
+1. [How frankenshell operates](#how-frankenshell-operates)
+   1. [Initialization](#initialization)
+    1. [Processing a cycle](#processing-a-cycle)
+		1. [Trim Input](#trim-input),
+		[Mark Empty Quotes](#mark-empty-quotes),
+		[Shift Separators](#shift-separators),
+		[Variable Expansion](#variable-expansion)
+		2. [Tokenizing](#tokenizing)
+		3. [Parsing](#parsing)
+       	4. [Setup Execution](#setup-execution),
+        [Setup Pipes](#setup-pipes),
+        [Setup Redirections](#setup-redirections)
+    	6. [Heredoc](#heredoc)
+       	2. [Execute](#execute)
+   4. [Termination](#termination)
 9. [Known Bugs](#known-bugs)
 10. [Acknowledgments](#acknowledgments)
 
@@ -103,7 +105,7 @@ As ChatGPT said in 2023:
 ![Example][example-gif]
 
 
-<h2 id="info-mode">Info Mode <a href="../src/4_debug/info_mode.c#:~:text=info_print_line">💻</a></h2>
+<h2 id="info-mode">Info Mode <a href="../src/4_debug/info_mode.c">💻</a></h2>
 ## Info Mode<a> [:computer:](../src/4_debug/info_mode.c)</a>
 To activate the info mode you can
 - start frankenshell with the flag `--info` or `-i`
@@ -446,6 +448,8 @@ If you use single quotes inside double quotes, the single quotes will be interpr
 :bulb: An contextual quote (single or double) must always be closed with the **same** quote type.\
 :warning: If contextual quotes are not closed, frankenshell prints an error and updates the exit status to `2`.
 
+TODO Some more rules like 0 to n args; always a file after a > and so on...
+
 **:pencil2: Examples**
 ```
 frankenshell--> echo "this single quote: ' is inside contextual quotes and therefore not contextual!"
@@ -609,11 +613,11 @@ typedef struct s_builtin_cmd
 
 <br>
 
-# How frankenshell works
+# How frankenshell operates
 The main task of frankenshell can be grouped into those steps:
 - [Initialization](#initialization)
 - Processing a Single Cycle
-    - [Input Management](#processing-a-single-cycle)
+    - [Input Management](#processing-a-cycle)
     - [Execution](#execution)
 - [Termination](#termination)
 
@@ -636,7 +640,7 @@ The following steps are executed during initialization:
 
 <br>
 
-### Processing a Single Cycle
+### Processing a cycle
 All the following steps are executed for each cycle.
 
 | **Step** 										| **Example** |
@@ -774,7 +778,7 @@ The ast tree is shown in a tree-like structure (left to right). The following ex
 > :bulb: Activate the [info mode](#info-mode) to see the ast tree during runtime
 
 
-### Execution
+#### Setup Execution
 The executor traverses the ast tree always from **left to right**. This ensures that pipes and redirections will always be setup before any command is executed.
 All commands are executed in a child process.
 Exception: Single Builtin cmds (refer to bugs)
@@ -784,7 +788,6 @@ Exception: Heredoc
 
 The parent waits for all childs to finish before it continues with the next cycle. Each time a child process is finished, the parent process updates the exit status of the last child process. (TODO check if this is true and link to chapter exit status).
 
-#### Setup Execution
 
 ##### Setup Pipes
 
