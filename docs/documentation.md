@@ -363,16 +363,8 @@ To activate the info mode you can
 - run the [builtin command](#builtin-commands) [`infomode`](#infomode-builtin)
 
 If the info mode is activated frankenshell will print the following information during runtime.:
-started with the flag `--info` or `-i`, it will
 
-| Input String  | Example                                               |
-|---------------|-------------------------------------------------------|
-| original      | `echo "Hello" $USER "" '!' \| wc    -l     `          |
-| trimmed       | `echo "Hello" $USER "" '!' \| wc -l`                  |
-| empty quotes  | `echo "Hello" $USER E_ '!' \| wc    -l`               |
-| shifted       | `echo_DHelloD_$USER_E__S!S_P_wc____-l`                |
-| expanded      | `echo_DHelloD_astein_E__S!S_P_wc____-l`               |
-
+- Input Strings
 - Token list containing all tokens and their type
 - AST containing all nodes and their type
 
@@ -662,6 +654,16 @@ hi   there
 
 ### Input Management
 All the following steps are executed for each cycle.
+
+| **Step** 										| **Example** |
+| --------------------------------- 			| ----------- |
+| Finished Reading    							| `echo "Hello" $USER "" '!' \| wc    -l     `          |
+| [Trim Input](#trim-input)       				| `echo "Hello" $USER "" '!' \| wc -l`                  |
+| [Mark Empty Quotes](#mark-empty-quotes) 		| `echo "Hello" $USER E_ '!' \| wc    -l`               |
+| [Shift Separators](#shift-separators) 		| `echo_DHelloD_$USER_E__S!S_P_wc____-l`                |
+| [Variable Expansion](#variable-expansion) 	| `echo_DHelloD_astein_E__S!S_P_wc____-l`               |
+| [Tokenize](#tokenizing) 						| `echo`(WORD) <br> `Hello`(WORD) <br> `astein`(WORD) <br> ` `(WORD) <br> `!`(WORD) <br> `\|`(PIPE) <br> `wc`(WORD) <br> `-l`(WORD) |
+| [Parsing](#parsing) 							| ![Example][mindmap-ast-echo-hello-astein]				|
 
 
 #### Trim Input
@@ -1380,3 +1382,4 @@ Thx to all those guys and gals for hints, tipps and feedback!
 [example-gif]: /images/example.gif
 [builtin_42]: /images/builtin_42.png
 [mindmap-ast-png]: /images/mindmap-ast.png
+[mindmap-ast-echo-hello-astein]: /images/mindmap-ast-echo-hello-astein.png
