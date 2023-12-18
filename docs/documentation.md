@@ -103,7 +103,7 @@ As ChatGPT said in 2023:
 ![Example][example-gif]
 
 
-<h2 id="info-mode">Info Mode <a href="../src/4_debug/info_mode.c#:~:text=info_put_text_center">💻</a></h2>
+<h2 id="info-mode">Info Mode <a href="../src/4_debug/info_mode.c#:~:text=info_print_line">💻</a></h2>
 ## Info Mode<a> [:computer:](../src/4_debug/info_mode.c)</a>
 To activate the info mode you can
 - start frankenshell with the flag `--info` or `-i`
