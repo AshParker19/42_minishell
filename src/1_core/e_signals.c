@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   e_signals.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 19:30:56 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/15 19:27:02 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/18 00:28:15 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,24 +90,6 @@ static void	sh_main(int signal)
 		rl_redisplay();
 	}
 }
-
-/**
- * @brief   Whenever we fork we need to adjust the signal handling in the 
- *          child and parent. This can be done with this function using the
- *          following codes:
- *  
- *          SIG_STATE_MAIN     showing basic promt
- *          SIG_STATE_PARENT   ignore all signals
- *          SIGNAl_CHILD    basic setup for child
- *          SIG_STATE_HD_CHILD  for heredoc
- * 
- *          NOTE:
- *              CTRL C  =   SIGINT
- *              CTRL \  =   SIGQUIT
- *              CTRL D  =   EOF
- * 
- * @param sig_state 
- */
 
 /**
  * @brief   Whenever we fork we need to adjust the signal handling in both

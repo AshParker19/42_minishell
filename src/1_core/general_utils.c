@@ -6,44 +6,11 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:43:17 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/17 16:58:17 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/18 00:27:11 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "frankenshell.h"
-
-/**
- * @brief	This is the main freeing function which we call after each cycle
- * 			of treating an input promt.
- * 			It frees all allocated memory and closes all fds related to
- * 			one cycle:
- * 				- free_input_strings_v2
- * 				- free_tokens_v2
- * 				- free_ast_v2
- * 				- close_process_fds_v2
- * @brief   this function frees and resets everthting thats needed to process
- *          one cycle
- * 
- * 
- * @param	mbox 
- */
-void	reset_cycle(t_mbox *mbox)
-{
-	if (!mbox)
-		return ;
-	free_input_strings_v2(mbox);
-	free_tokens_v2(mbox);
-	free_ast_v2(mbox->ast);
-	mbox->ast = NULL;
-	close_process_fds_v2(mbox);
-	free_process_v2(mbox);
-	mbox->exec.io.prev_pipe[P_LEFT] = -1;
-	mbox->exec.io.prev_pipe[P_RIGHT] = -1;
-	mbox->exec.pid_index = 0;
-	conf_sig_handler(SIG_STATE_MAIN);
-	g_signal_status = 0;
-	mbox->consecutive_lt = 0;
-}
 
 void	*create_syntax_err(t_mbox *mbox, t_token *err_token)
 {

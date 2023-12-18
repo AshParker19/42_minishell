@@ -30,6 +30,7 @@
    2. [Processing a Single Cycle](#processing-a-single-cycle)
        1. [Input Management](#input-management)
            1. [Trim Input](#trim-input)
+           2. [Mark Empty Quotes](#mark-empty-quotes)
            2. [Shift Separators](#shift-separators)
                1. [Quoting](#quoting)
            3. [Variable Expansion](#variable-expansion)
@@ -197,7 +198,7 @@ typedef struct s_mbox
 	t_bool						info_mode;
 } t_mbox;
 ```
-
+TODO STRUCT CHANGED! 
 ---
 
 ### t_env
@@ -358,11 +359,15 @@ The following steps are executed during initialization:
 
 #### Info Mode
 If frankenshell is started with the flag `--info` or `-i`, it will print the following information during runtime.:
-- Input Strings
-    - original input
-    - trimmed input
-    - shifted input
-    - expanded input
+
+| Input String  | Example                                               |
+|---------------|-------------------------------------------------------|
+| original      | `echo "Hello" $USER "" '!' \| wc    -l     `          |
+| trimmed       | `echo "Hello" $USER "" '!' \| wc -l`                  |
+| empty quotes  | `echo "Hello" $USER E_ '!' \| wc    -l`               |
+| shifted       | `echo_DHelloD_$USER_E__S!S_P_wc____-l`                |
+| expanded      | `echo_DHelloD_astein_E__S!S_P_wc____-l`               |
+
 - Token list containing all tokens and their type
 - AST containing all nodes and their type
 
@@ -379,6 +384,11 @@ To get a 'readable' Version of the input strings, their [shifted values](#shift-
 > :jigsaw: &nbsp;  The linked list is stored in the [`t_mbox`](#t_mbox) struct.\
 
 TODO: UPDATE THE EXAMPLES SINCE I CHANGED THE DEBUG INFO LAYOUT
+<details>
+  <summary>Example <code>echo "Hello" $USER "" '!' | wc    -l&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code></summary>
+
+</details>
+
 <details>
   <summary>Example <code>ls -l -a</code></summary>
 
@@ -652,6 +662,10 @@ All the following steps are executed for each cycle.
 First step is to trim the input. This means that all leading and trailing whitespaces are removed.
 > :bulb:  &nbsp; Start frankenshell with the flag `--info` to see the trimmed input string during runtime.\
 
+#### Mark Empty Quotes
+Empty quotes will be marked as `E` (empty token) and will be ignored by the tokenizer.
+Examples
+
 #### Shift Separators
 This step is used to mark all seperators in the input string. This is needed for the [tokenization](#tokenizing) and [parsing](#parsing).
 ##### Quotes
@@ -659,8 +673,6 @@ This step is used to mark all seperators in the input string. This is needed for
 - **Double Quotes**: Using double quotes (`"`) also prevents interpretation of metacharacters, except for the dollar sign (`$`), which is used for variable expansion.
 
 Specail Case:
-Empty quotes will be marked as `E` (empty token) and will be ignored by the tokenizer.
-Examples
 ...
 
 > ℹ️ &nbsp; Unclosed quotes (e.g. ```echo "Hello World```) will result in an error:\
@@ -1203,7 +1215,7 @@ With the following [builtin](#builtins) commands variables can be...
 
 > :bulb:    		&nbsp; The linked list will be used for the [execve](#execve) function call.\
 > :bulb:			&nbsp; The linked list will be used for storing the [exit status](#exit-status).\
-> :bulb:			&nbsp; Keep in mind that some [builtins](#builtins) (e.g. [cd](#cd)) change some variables during runtime!\
+> :bulb:			&nbsp; Keep in mind that some [builtins](#builtins) (e.g. [cd](#cd)) change some variables during runtime!
 
 ## Known Bugs
 

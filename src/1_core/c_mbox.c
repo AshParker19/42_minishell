@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:49:13 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/17 20:08:56 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/18 01:12:36 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	initialize_mbox(t_mbox *mbox, char **env)
 	mbox->env = NULL;
 	mbox->inp_orig = NULL;
 	mbox->inp_trim = NULL;
+	mbox->inp_eq = NULL;
 	mbox->inp_shift = NULL;
 	mbox->inp_expand = NULL;
 	mbox->consecutive_lt = 0;

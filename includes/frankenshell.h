@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2023/12/17 20:53:38 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/18 01:12:36 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ typedef struct s_mbox
 {
 	char						*inp_orig;
 	char						*inp_trim;
+	char						*inp_eq;
 	char						*inp_shift;
 	char						*inp_expand;
 	int							consecutive_lt;
@@ -115,7 +116,7 @@ void	free_vars(t_mbox *mbox);
 
 
 
-
+void	mark_empty_quotes(t_mbox *mbox);
 
 
 

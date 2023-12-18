@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 18:26:39 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/17 16:58:17 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/18 01:12:36 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ void	connect_subtree(t_ast **ast, t_ast *node_to_add, int side)
 }
 
 /**
- * @brief	this function frees and NULLs all 4 input strings, if they have
+ * @brief	this function frees and NULLs all 5 input strings, if they have
  * 			been allocated before
  * 
  * 			NOTE: function should only be called by 'free_cycle'
@@ -124,6 +124,8 @@ void	connect_subtree(t_ast **ast, t_ast *node_to_add, int side)
  */
 void	free_input_strings_v2(t_mbox *mbox)
 {
+	if(!mbox)
+		return ;
 	if (mbox->inp_orig)
 	{
 		free(mbox->inp_orig);
@@ -133,6 +135,11 @@ void	free_input_strings_v2(t_mbox *mbox)
 	{
 		free(mbox->inp_trim);
 		mbox->inp_trim = NULL;
+	}
+	if (mbox->inp_eq)
+	{
+		free(mbox->inp_eq);
+		mbox->inp_eq = NULL;
 	}
 	if (mbox->inp_shift)
 	{

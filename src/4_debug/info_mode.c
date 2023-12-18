@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 18:59:37 by astein            #+#    #+#             */
-/*   Updated: 2023/12/17 20:04:06 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/18 00:47:27 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ static char	*info_shift_readable(char *s)
 		else if (readable[i] == add_offset('>'))
 			readable[i] = 'O';
 		else if (readable[i] == NO_SPACE)
-			readable[i] = 'X';
+			readable[i] = '_';
 		else if (readable[i] == EMPTY_TOKEN)
 			readable[i] = 'E';
 	}
@@ -229,20 +229,20 @@ void	info_print_input_string(t_mbox *mbox, char *state, char *str, char *clr)
 	if (!mbox->info_mode)
 		return ;
 	dprintf(STDERR_FILENO, "%s", clr);
-	if (!ft_strcmp(state, "input original")
-		|| !ft_strcmp(state, "input trimmed"))
+	if (!ft_strcmp(state, "original")
+		|| !ft_strcmp(state, "trimmed"))
 		dprintf(STDERR_FILENO, "%s:\t\t\t(%s)\n\n", state, str);
 	else
 	{
 		dprintf(STDERR_FILENO, "%s:\tshifted:\t(%s)\n", state, str);
 		readable = info_shift_readable (str);
 		dprintf(STDERR_FILENO, "\t\treadable:\t(%s)\n", readable);
-		if (ft_strcmp(state, "input expanded"))
+		if (ft_strcmp(state, "expanded"))
 			dprintf(STDERR_FILENO, "\n");
 		free(readable);
 	}
 	dprintf(STDERR_FILENO, "%s", RESET);
-	if (!ft_strcmp(state, "input expanded"))
+	if (!ft_strcmp(state, "expanded"))
 		info_print_line('=', '=', LIGHT_RED, ft_true);
 }
 
