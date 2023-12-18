@@ -662,18 +662,22 @@ All the following steps are executed for each cycle.
 | [Mark Empty Quotes](#mark-empty-quotes) 		| `echo "Hello" $USER E_ '!' \| wc    -l`               |
 | [Shift Separators](#shift-separators) 		| `echo_DHelloD_$USER_E__S!S_P_wc____-l`                |
 | [Variable Expansion](#variable-expansion) 	| `echo_DHelloD_astein_E__S!S_P_wc____-l`               |
-| [Tokenize](#tokenizing) 						| `echo`(WORD) <br> `Hello`(WORD) <br> `astein`(WORD) <br> ` `(WORD) <br> `!`(WORD) <br> `\|`(PIPE) <br> `wc`(WORD) <br> `-l`(WORD) |
+| [Tokenize](#tokenizing) 						| ![Example][token-table] 						        |
 | [Parsing](#parsing) 							| ![Example][mindmap-ast-echo-hello-astein]				|
 
-| **Step**                                      | **Example** |
-| --------------------------------------------- | ----------- |
-| Finished Reading                              | `echo "Hello" $USER "" '!' \| wc    -l     `          |
-| [Trim Input](#trim-input)                     | `echo "Hello" $USER "" '!' \| wc -l`                  |
-| [Mark Empty Quotes](#mark-empty-quotes)       | `echo "Hello" $USER E_ '!' \| wc    -l`               |
-| [Shift Separators](#shift-separators)         | `echo_DHelloD_$USER_E__S!S_P_wc____-l`                |
-| [Variable Expansion](#variable-expansion)     | `echo_DHelloD_astein_E__S!S_P_wc____-l`               |
-| [Tokenize](#tokenizing)                       | `echo`(WORD) <br> `Hello`(WORD) <br> `astein`(WORD) <br> ` `(WORD) <br> `!`(WORD) <br> `\|`(PIPE) <br> `wc`(WORD) <br> `-l`(WORD) |
-| [Parsing](#parsing)                           | <img src="../images/mindmap-ast-echo-hello-astein.png" alt="Example" width="300"/> |
+<!--
+THIS TABLE IS IN THE TABLE ABOVE AS SCREENSHOT!
+| Type | Value |
+| ---- | ----- |
+| WORD_TOKEN | `echo` |
+| WORD_TOKEN | `Hello`	|
+| WORD_TOKEN | `astein`	|
+| WORD_TOKEN | ` `	|
+| WORD_TOKEN | `!`	|
+| PIPE_TOKEN | `|`	|
+| WORD_TOKEN | `wc`	|
+| WORD_TOKEN | `-l`	|
+-->
 
 #### Trim Input
 First step is to trim the input. This means that all leading and trailing whitespaces are removed.
@@ -1392,3 +1396,4 @@ Thx to all those guys and gals for hints, tipps and feedback!
 [builtin_42]: /images/builtin_42.png
 [mindmap-ast-png]: /images/mindmap-ast.png
 [mindmap-ast-echo-hello-astein]: /images/mindmap-ast-echo-hello-astein.png
+[token-table]: /images/token-table.png
