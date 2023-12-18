@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:33:57 by astein            #+#    #+#             */
-/*   Updated: 2023/12/16 13:13:51 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/18 02:03:51 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ static t_bool	is_long_long(char *str_nr, int *nr)
  * 							 else
  * 								1
  * DOCUMENTATION:
- * https://github.com/ahokcool/frankenshell/blob/main/docs/documentation.md#exit
+ * https://github.com/ahokcool/frankenshell/blob/main/docs/documentation.md#exit-builtin
  * 
  * @param   mbox        
  * @param   arg_node    

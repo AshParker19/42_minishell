@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 11:32:13 by astein            #+#    #+#             */
-/*   Updated: 2023/12/15 20:22:09 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/18 01:54:31 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	builtin_env(t_mbox *mbox, t_ast *arg_node);
 void	builtin_exit(t_mbox *mbox, t_ast *arg_node);
 void	builtin_history(t_mbox *mbox, t_ast *arg_node);
 void	builtin_header(t_mbox *mbox, t_ast *arg_node);
+void	builtin_infomode(t_mbox *mbox, t_ast *arg_node);
 
 /* builtins_utils */
 void	initialize_builtins(t_mbox *mbox);

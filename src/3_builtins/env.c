@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:33:46 by astein            #+#    #+#             */
-/*   Updated: 2023/12/17 16:56:25 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/18 02:03:42 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
  * 				env -u "NAME" ./minishell 	--> no key NAME will be in env
  * 
  * DOCUMENTATION:
- * https://github.com/ahokcool/frankenshell/blob/main/docs/documentation.md#env
+ * https://github.com/ahokcool/frankenshell/blob/main/docs/documentation.md#env-builtin
  * 
  * @param   mbox        
  * @param   arg_node    

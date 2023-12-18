@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:54:41 by astein            #+#    #+#             */
-/*   Updated: 2023/12/17 16:56:25 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/18 01:54:08 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,10 @@ void	initialize_builtins(t_mbox *mbox)
 	mbox->exec.builtins[7].func_name = builtin_history;
 	mbox->exec.builtins[8].cmd_name = "42";
 	mbox->exec.builtins[8].func_name = builtin_header;
-	mbox->exec.builtins[9].cmd_name = NULL;
-	mbox->exec.builtins[9].func_name = NULL;
+	mbox->exec.builtins[9].cmd_name = "infomode";
+	mbox->exec.builtins[9].func_name = builtin_infomode;
+	mbox->exec.builtins[10].cmd_name = NULL;
+	mbox->exec.builtins[10].func_name = NULL;
 }
 
 /**

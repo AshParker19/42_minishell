@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:32:31 by astein            #+#    #+#             */
-/*   Updated: 2023/12/16 14:37:13 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/18 02:03:06 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
  * 				- exit status updating
  * 
  * DOCUMENTATION:
- * https://github.com/ahokcool/frankenshell/blob/main/docs/documentation.md#cd 			
+ * https://github.com/ahokcool/frankenshell/blob/main/docs/documentation.md#cd-builtin
  */
 
 #include "frankenshell.h"
@@ -71,7 +71,7 @@ static void	change_pwd(t_mbox *mbox, char *new_path)
  * 	-> a file		-> error: 'cd: Not a directory'
  * 
  * DOCUMENTATION:
- * https://github.com/ahokcool/frankenshell/blob/main/docs/documentation.md#cd
+ * https://github.com/ahokcool/frankenshell/blob/main/docs/documentation.md#cd-builtin
  * 			
  * @param   mbox        
  * @param   new_path    
@@ -115,7 +115,7 @@ static void	check_dir(t_mbox *mbox, char *new_path)
  *          arg 			-> cd to arg via 'check_dir'
  *        	
  * DOCUMENTATION:
- * https://github.com/ahokcool/frankenshell/blob/main/docs/documentation.md#cd
+ * https://github.com/ahokcool/frankenshell/blob/main/docs/documentation.md#cd-builtin
  */
 void	builtin_cd(t_mbox *mbox, t_ast *arg_node)
 {

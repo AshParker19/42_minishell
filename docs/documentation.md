@@ -48,15 +48,15 @@
        1. [Exit Status](#exit-status)
        2. [Signals](#signals)
 7. [Builtin Commands](#builtin-commands)
-	[[42](#42), 
-	[cd](#cd), 
-	[echo](#echo), 
-	[env](#env), 
-	[exit](#exit), 
-	[export](#export), 
-	[history](#history), 
-	[pwd](#pwd), 
-	[unset](#unset)]
+	[[42](#42-builtin), 
+	[cd](#cd-builtin), 
+	[echo](#echo-builtin), 
+	[env](#env-builtin), 
+	[exit](#exit-builtin), 
+	[export](#export-builtin), 
+	[history](#history-builtin), 
+	[pwd](#pwd-builtin), 
+	[unset](#unset-builtin)]
 8. [Environment Variables](#environment-variables)
 9. [Known Bugs](#known-bugs)
 10. [Acknowledgments](#acknowledgments)
@@ -219,7 +219,7 @@ typedef struct s_env
 ### t_history
 The struct `t_history` is used to build a liked list, storing all previous user input. Therefore it uses the generic linked list structure [`t_list`](#t_list). 
 > :jigsaw:      &nbsp;  The linked list is stored in the [`t_mbox`](#t_mbox) struct.\
-> :arrow_right:      &nbsp;  For further details about the history see the section [History](#history).
+> :arrow_right:      &nbsp;  For further details about the history see the section [History](#history-builtin).
 ```
 typedef struct s_history
 {
@@ -358,7 +358,12 @@ The following steps are executed during initialization:
 > :page_facing_up:  &nbsp; The file ['manage_mbox.c'](../src/0_core/manage_mbox.c) contains the functions for initializing and destroying the mbox instance.
 
 #### Info Mode
-If frankenshell is started with the flag `--info` or `-i`, it will print the following information during runtime.:
+To activate the info mode you can
+- start frankenshell with the flag `--info` or `-i`
+- run the [builtin command](#builtin-commands) [`infomode`](#infomode-builtin)
+
+If the info mode is activated frankenshell will print the following information during runtime.:
+started with the flag `--info` or `-i`, it will
 
 | Input String  | Example                                               |
 |---------------|-------------------------------------------------------|
@@ -371,6 +376,7 @@ If frankenshell is started with the flag `--info` or `-i`, it will print the fol
 - Token list containing all tokens and their type
 - AST containing all nodes and their type
 
+##### Readable Input String
 To get a 'readable' Version of the input strings, their [shifted values](#shift-separators) will be displayed like:
 - `S` for `'` (contextual single quote)
 - `D` for `"` (contextual double quote)
@@ -663,8 +669,30 @@ First step is to trim the input. This means that all leading and trailing whites
 > :bulb:  &nbsp; Start frankenshell with the flag `--info` to see the trimmed input string during runtime.\
 
 #### Mark Empty Quotes
-Empty quotes will be marked as `E` (empty token) and will be ignored by the tokenizer.
+Bash generates an empty token for a pair of empty quotes if the two conditions are met:
+- the empty quotes are not inside another pair of quotes\
+(refer to `OUT_Q` as the [quote state](#quote-state))
+- the empty quotes are surrounded by at least one whitespace character (or the beginning/end of the string) before and after 
+
+Empty quotes will be marked as `EMPTY_TOKEN` and `NO_SPACE` characters.
+> :arrow_right: &nbsp; Refer to the section [Shift Separators](#shift-separators) for a better understanding of the marked input string.
+
 Examples
+| inp_trim		        | inp_eq            | empty quotes      |    
+| ----------------------|-------------------|:-----------------:|
+| `echo ""`			    | `echo E_`         | :white_check_mark:|
+| `echo ''`			    | `echo E_`         | :white_check_mark:|
+| `echo """"`			| `echo E___`       | :white_check_mark:|
+| `echo "" "" "'hi"`    | `echo E_ E_ "'hi"`| :white_check_mark:|
+| `echo hi""`			| `echo hi""`       | :x:               |
+| `echo hi''`			| `echo hi''`       | :x:               |
+| `echo ""hi`			| `echo ""hi`       | :x:               |
+| `echo ''hi`			| `echo ''hi`       | :x:               |
+| `echo '""'`			| `echo '""'`       | :x:               |
+| `echo "''"`			| `echo "''"`       | :x:               |
+
+> :arrow_right: &nbsp; Refer to the section [Readble Input String](#readable-input-string) for a better understanding of the marked input string.\
+> :bulb:        &nbsp; Start frankenshell with the flag `--info` to see the marked input string during runtime.
 
 #### Shift Separators
 This step is used to mark all seperators in the input string. This is needed for the [tokenization](#tokenizing) and [parsing](#parsing).
@@ -678,6 +706,7 @@ Specail Case:
 > ℹ️ &nbsp; Unclosed quotes (e.g. ```echo "Hello World```) will result in an error:\
 > ⚠️ &nbsp; frankenshell: syntax error: unclosed quotes
 
+###### Quote State
 While traversing the input string, the `quote state` will be updated for each character. So if a seperating character is found it will be only marked if the `quote state` is OUT__QUOTE.
 Examples:
 ```
@@ -701,7 +730,7 @@ The **Variable Expansion** works simmilar like in bash:
 | `<< $USER cat`     |      ❌        |  Won't expand, so the `EOF` of the heredoc will be `$USER` |
 
 Special Cases
-Table with $?, $Space $"", Herdeoc refere to next section and so on, expansion in herdoc refere to heredoc
+Table with $?, $Space $"", Herdeoc refer to next section and so on, expansion in herdoc refer to heredoc
 
 > :arrow_right: &nbsp; Refer to the section [Quotes](#quotes) for a better understanding of variable expansion inside quotes.
 
@@ -748,7 +777,7 @@ The ast tree is shown in a tree-like structure (left to right). The following ex
 ### Execution
 The executor traverses the ast tree always from **left to right**. This ensures that pipes and redirections will always be setup before any command is executed.
 All commands are executed in a child process.
-Exception: Single Builtin cmds (refere to bugs)
+Exception: Single Builtin cmds (refer to bugs)
 
 All childs will be spawn right after each other (so before the previous child is finished). The parent process waits (because of the open pipe fd) until the child process is finished.
 Exception: Heredoc
@@ -841,23 +870,24 @@ TODO
 ## Builtin Commands
 Each built-in command in frankenshell is detailed below with specific information and examples.
 
-| Command                 | File(s)     	                                      												| Description									|
-|-------------------------|-----------------------------------------------------------------------------------------------------|-----------------------------------------------|
-| [`42`](#42)             | [`42.c`](../src/3_builtins/42.c)                    												| 42 it is ;)                                 	|
-| [`cd`](#cd)             | [`cd.c`](../src/3_builtins/cd.c)                    												| Changes the current directory.              	|
-| [`echo`](#echo)         | [`echo.c`](../src/3_builtins/echo.c)                												| Displays a line of text.                    	|
-| [`env`](#env)           | [`env.c`](../src/3_builtins/env.c)                  												| Displays the environment variables.         	|
-| [`exit`](#exit)         | [`exit.c`](../src/3_builtins/exit.c)                												| Exits the shell.                            	|
-| [`export`](#export)     | [`export.c`](../src/3_builtins/export.c)<br>[`export_utils.c`](../src/3_builtins/export_utils.c)	| Sets or exports environment variables.      	|
-| [`history`](#history)   | [`history.c`](../src/3_builtins/history.c)          												| Displays the command history.               	|
-| [`pwd`](#pwd)           | [`pwd.c`](../src/3_builtins/pwd.c)                  												| Prints the working directory.               	|
-| [`unset`](#unset)       | [`unset.c`](../src/3_builtins/unset.c)              												| Unsets environment variables.               	|
+| Command                         | File(s)     	                                      												| Description									|
+|---------------------------------|-----------------------------------------------------------------------------------------------------|-----------------------------------------------|
+| [`42`](#42-builtin)             | [`42.c`](../src/3_builtins/42.c)                    												| 42 it is ;)                                 	|
+| [`cd`](#cd-builtin)             | [`cd.c`](../src/3_builtins/cd.c)                    												| Changes the current directory.              	|
+| [`echo`](#echo-builtin)         | [`echo.c`](../src/3_builtins/echo.c)                												| Displays a line of text.                    	|
+| [`env`](#env-builtin)           | [`env.c`](../src/3_builtins/env.c)                  												| Displays the environment variables.         	|
+| [`exit`](#exit-builtin)         | [`exit.c`](../src/3_builtins/exit.c)                												| Exits the shell.                            	|
+| [`export`](#export-builtin)     | [`export.c`](../src/3_builtins/export.c)<br>[`export_utils.c`](../src/3_builtins/export_utils.c)	| Sets or exports environment variables.      	|
+| [`history`](#history-builtin)   | [`history.c`](../src/3_builtins/history.c)          												| Displays the command history.               	|
+| [`infomode`](#infomode-builtin) | [`infomode.c`](../src/3_builtins/infomode.c)        												| Toggles the info mode.                      	|
+| [`pwd`](#pwd-builtin)           | [`pwd.c`](../src/3_builtins/pwd.c)                  												| Prints the working directory.               	|
+| [`unset`](#unset-builtin)       | [`unset.c`](../src/3_builtins/unset.c)              												| Unsets environment variables.               	|
 
 
 
 ---
 
-#### 42
+#### 42 (builtin)
 
 The builtin `42` displays a 42 logo to STDOUT (or its redirection)
 
@@ -892,7 +922,7 @@ The builtin `42` displays a 42 logo to STDOUT (or its redirection)
 
 ---
 
-#### cd
+#### cd (builtin)
 
 The builtin `cd` runs a few checks to ensure the provided path is valid. Once it's all good, it uses the external function `chdir` to change the current working directory (wd) to this new path. At the same time, it updates the `PWD` variable to the new directory and `OLDPWD` to the previous one.
 
@@ -936,7 +966,7 @@ The builtin `cd` runs a few checks to ensure the provided path is valid. Once it
 
 ---
 
-#### echo
+#### echo (builtin)
 
 The builtin `echo` outputs the strings it is given as arguments, seperated by one space each, to the standard output (or its redirection).
 
@@ -972,7 +1002,7 @@ The builtin `echo` outputs the strings it is given as arguments, seperated by on
 
 ---
 
-#### env
+#### env (builtin)
 
 The builtin `env` outputs all variable key-value pairs of the linked list like `key=value\n`
 
@@ -1005,7 +1035,7 @@ The builtin `env` outputs all variable key-value pairs of the linked list like `
 
 ---
 
-#### exit
+#### exit (builtin)
 
 The builtin `exit` terminates the calling process, outputs `exit` to `STDERR` and if provided with a numeric argument, it sets the exit status to that argument's value.
 
@@ -1047,7 +1077,7 @@ The builtin `exit` terminates the calling process, outputs `exit` to `STDERR` an
 
 ---
 
-#### export
+#### export (builtin)
 
 The builtin `export` updates (or creates) the enviromental variables inputed as key value pairs like `key1=value1 key2=value2`. If no argument is given, it will instead output all variables in alphabetical order.
 
@@ -1089,7 +1119,7 @@ The builtin `export` updates (or creates) the enviromental variables inputed as 
 
 ---
 
-#### history
+#### history (builtin)
 
 The builtin `history` outputs all previous user input in a numbered list.
 
@@ -1117,7 +1147,37 @@ The builtin `history` outputs all previous user input in a numbered list.
 
 ---
 
-#### pwd
+#### infomode (builtin)
+
+The builtin `infomode` toggles the info mode feature.
+
+> :arrow_right: &nbsp; Refer to the section [Info mode](#info-mode) for more details about the info mode.
+
+<details>
+  <summary>Attributes</summary>
+
+| Attribute				| Details						                |
+|-----------------------|-----------------------------------------------|
+| Flags                 | `N/A`		                 	                |
+| Number of Arguments   | `0 to n` (all args will be ignored)           |
+| Exit Status           | `0`			           		                |
+| File				    | [`infomode.c`](../src/3_builtins/infomode.c)  |
+
+</details>
+
+<details>
+  <summary>Examples</summary>
+
+| **CMD**       | **STDERR**				|
+|---------------|---------------------------|
+| `infomode`	| `INFO MODE ACTIVATED!`    |
+| `infomode`    | `INFO MODE DEACTIVATED!`  |
+
+</details>
+
+---
+
+#### pwd (builtin)
 
 The builtin `pwd` outputs the current wd using the external function 'getcwd'. Like in bash all arguments will be ignored.
 
@@ -1147,7 +1207,7 @@ The builtin `pwd` outputs the current wd using the external function 'getcwd'. L
 
 ---
 
-#### unset
+#### unset (builtin)
 
 The builtin `unset` deletes the corresponding variables.
 
@@ -1207,15 +1267,15 @@ void unset_var(t_mbox *mbox, const char *key);                          //remove
 ```
 
 With the following [builtin](#builtins) commands variables can be...
-- **shown** using [env](#env)
-- **sorted and shown**  using [export](#export) without arguments
-- **created** using [export](#export)
-- **changed** using [export](#export)
-- **deleted** using [unset](#unset)
+- **shown** using [env](#env-builtin)
+- **sorted and shown**  using [export](#export-builtin) without arguments
+- **created** using [export](#export-builtin)
+- **changed** using [export](#export-builtin)
+- **deleted** using [unset](#unset-builtin)
 
 > :bulb:    		&nbsp; The linked list will be used for the [execve](#execve) function call.\
 > :bulb:			&nbsp; The linked list will be used for storing the [exit status](#exit-status).\
-> :bulb:			&nbsp; Keep in mind that some [builtins](#builtins) (e.g. [cd](#cd)) change some variables during runtime!
+> :bulb:			&nbsp; Keep in mind that some [builtins](#builtins) (e.g. [cd](#cd-builtin)) change some variables during runtime!
 
 ## Known Bugs
 

@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:33:09 by astein            #+#    #+#             */
-/*   Updated: 2023/12/17 20:39:32 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/18 02:04:13 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ static void	sort_and_print_var(const t_mbox *mbox)
  *							-> export: `@=LL': not a valid identifier
  * 
  * DOUCMENTATION:
- * https://github.com/ahokcool/frankenshell/blob/main/docs/documentation.md#export
+ * https://github.com/ahokcool/frankenshell/blob/main/docs/documentation.md#export-builtin
  * @param   arg_node 
  * @param   mbox 
  */

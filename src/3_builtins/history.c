@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 11:45:50 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/17 16:56:25 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/18 02:04:23 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	save_history(t_mbox *mbox)
  * 			in a numbered list.
  * 
  * DOCUMENTATION:
- * https://github.com/ahokcool/frankenshell/blob/main/docs/documentation.md#history
+ * https://github.com/ahokcool/frankenshell/blob/main/docs/documentation.md#history-builtin
  * @param   mbox        
  * @param   arg_node    
  */

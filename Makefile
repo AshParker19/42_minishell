@@ -47,7 +47,7 @@ SRCS = $(addprefix $(SRC_FOLDER), 						\
 	2_cycle/k_run_cmd.c									\
 	2_cycle/1_tokenizer_utils/heredoc_limiter.c			\
 	2_cycle/1_tokenizer_utils/tokenizer_utils.c			\
-	2_cycle/1_tokenizer_utils/tokenizer_utils2.c			\
+	2_cycle/1_tokenizer_utils/tokenizer_utils2.c		\
 	2_cycle/2_parser_utils/parser_utils.c				\
 	2_cycle/2_parser_utils/command.c					\
 	2_cycle/2_parser_utils/job.c						\
@@ -55,25 +55,26 @@ SRCS = $(addprefix $(SRC_FOLDER), 						\
 	2_cycle/2_parser_utils/redir_in.c					\
 	2_cycle/2_parser_utils/redir_out.c					\
 	2_cycle/2_parser_utils/token_list.c					\
-	OLD/cmd_runner.c								\
-	OLD/executor_utils.c							\
-	OLD/executor_utils2.c						\
-	OLD/cmd_system.c								\
-	OLD/cmd_builtin.c							\
-	OLD/pipes.c									\
-	OLD/redirection.c							\
-	OLD/heredoc_utils.c							\
-	OLD/heredoc_utils2.c							\
+	OLD/cmd_runner.c									\
+	OLD/executor_utils.c								\
+	OLD/executor_utils2.c								\
+	OLD/cmd_system.c									\
+	OLD/cmd_builtin.c									\
+	OLD/pipes.c											\
+	OLD/redirection.c									\
+	OLD/heredoc_utils.c									\
+	OLD/heredoc_utils2.c								\
+	3_builtins/42.c										\
 	3_builtins/cd.c										\
 	3_builtins/echo.c									\
-	3_builtins/pwd.c									\
-	3_builtins/export.c									\
-	3_builtins/export_utils.c							\
-	3_builtins/unset.c									\
 	3_builtins/env.c									\
 	3_builtins/exit.c									\
+	3_builtins/export.c									\
+	3_builtins/export_utils.c							\
 	3_builtins/history.c								\
-	3_builtins/42.c										\
+	3_builtins/infomode.c								\
+	3_builtins/pwd.c									\
+	3_builtins/unset.c									\
 	4_debug/info_mode.c									\
 	)
 
