@@ -6,62 +6,34 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:00:19 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/18 18:34:48 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/18 19:49:45 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "frankenshell.h"
 
 /**
- * @brief	this function will be only called by 'heredoc' for each line
- * 			checks
- * 			1. if interrupted by CTRL C
- *			2, if interrupted by CTRL D
+ * @brief   The Parent Process of the hd...
+ *				...closes the write end of the pipe
+ *				...waits for the child process to finish
+ *				...updates the exit status to the exit status of the hd child process
+ *				...checks how the hd hild process was terminated:
+ *					CTRL+C
+ *						closes the read end of the pipe
+ *						returns false
+ *					EOF or limitter
+ *						returns true
+ *
+ * DOCUMENATION:
+ * https://github.com/ahokcool/frankenshell/blob/main/docs/documentation.md#heredoc
  * 
- * @param mbox 
- * @param hd 
+ * @param   mbox        
+ * @param   pid_hd      
+ * @param   cmd_in_fd   
+ * @param   fd          
+ * @return  t_bool      
  */
-static void	tmp_exiter(t_mbox *mbox, t_hd *hd)
-{
-	if (g_signal_status == SIGNAL_EXIT_HD)
-		exit_heredoc_child(mbox, hd, 130);
-	if (!hd->cur_line)
-	{
-		err_msg(mbox, NO_EXIT_STATUS, "nnynnn", ERR_P,
-			W_HD, ft_itoa(mbox->count_cycles), DW, hd->lim, "')");
-		exit_heredoc_child(mbox, hd, EXIT_SUCCESS);
-	}
-}
-
-static void	hd_child(t_mbox *mbox, t_hd hd, int *cur_p)
-{
-	t_bool	expand_vars;
-
-	conf_sig_handler(SIG_STATE_HD_CHILD);
-	expand_vars = check_lim_qoutes(&hd.lim);
-	close(hd.fd[P_RIGHT]);
-	if (cur_p && cur_p[P_RIGHT] != -1)
-		close(cur_p[P_RIGHT]);
-	while (ft_true)
-	{
-		hd.cur_line = readline(HEREDOC_PROMPT);
-		tmp_exiter(mbox, &hd);
-		if (hd.cur_line[0] != '\0')
-		{
-			if (str_cmp_strct(hd.cur_line, hd.lim))
-				exit_heredoc_child(mbox, &hd, 0);
-			if (expand_vars && hd.cur_line)
-				hd.cur_line = expand_heredoc_input(mbox, hd.cur_line);
-			ft_putendl_fd(hd.cur_line, hd.fd[P_LEFT]);
-		}
-		else
-			ft_putendl_fd("", hd.fd[P_LEFT]);
-		if (hd.cur_line)
-			free(hd.cur_line);
-	}
-}
-
-t_bool	hd_parent(t_mbox *mbox, int pid_hd, int *cmd_in_fd, int *fd)
+static t_bool	hd_parent(t_mbox *mbox, int pid_hd, int *cmd_in_fd, int *fd)
 {
 	int	exit_status;
 
@@ -86,19 +58,15 @@ t_bool	hd_parent(t_mbox *mbox, int pid_hd, int *cmd_in_fd, int *fd)
 }
 
 /**
- * @brief 
+ * @brief   This function manages the heredoc redirection
  * 
- * 			NOTE: if the var expansion turns out to be excatlly the lim str
- * 					it still doesnt exit the heredoc
- * 				e.g. << -R cat
- * 					   > asd
- * 					   > $LESS (this expands to -R but doens't exit the heredoc)
- * 					   > -R
+ * DOCUMENATION:
+ * https://github.com/ahokcool/frankenshell/blob/main/docs/documentation.md#heredoc
  * 
- * @param mbox 
- * @param redir_node 
- * @param cmd_in_fd 
- * @return t_bool 
+ * @param   mbox        
+ * @param   redir_node  
+ * @param   cur_p       
+ * @return  t_bool      
  */
 t_bool	setup_hd(t_mbox *mbox, t_ast *redir_node, int *cur_p)
 {

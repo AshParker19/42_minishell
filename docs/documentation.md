@@ -860,6 +860,12 @@ Hello
 World
 foo
 ...
+
+e.g. << -R cat
+ * 					   > asd
+ * 					   > $LESS (this expands to -R but doens't exit the heredoc)
+ * 					   > -R
+
 ```
 
 
@@ -1313,7 +1319,18 @@ The builtin `unset` deletes the corresponding variables.
 ---
 
 # Environment Variables
-On programm start a [t_env](#t_env) linked list will be created from the enviromental variables and stored in the [t_mbox](#t_mbox) struct.
+On programm start a [t_env](#t_env) linked list will be created from the enviromental variables and stored in the [t_mbox](#t_mbox) struct. Variable represent a simple key-value pair. The key is a string and the value is a string. The key is always unique. The value can be empty.\
+A key has to match the following regex:
+```
+^[a-zA-Z_]+[a-zA-Z0-9_]*$
+
+Explanation:
+^				-> start of string
+[a-zA-Z_]		-> first char must be a letter or '_'
++				-> one or more chars
+[a-zA-Z0-9_]*	-> zero or more letters, numbers or '_'
+$				-> end of string
+```
 
 > :page_facing_up: 	All related functions are in the [a_env_vars.c](../src/1_core/d_env_vars.c) file.
 

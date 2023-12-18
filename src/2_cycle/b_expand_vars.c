@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_vars.c                                      :+:      :+:    :+:   */
+/*   b_expand_vars.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 12:58:49 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/15 14:16:57 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/18 19:46:54 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,66 @@ static t_bool	detect_heredoc(t_mbox *mbox, int *k, int quote_s, char cur_c)
 		return (ft_true);
 	}
 	return (ft_false);
+}
+
+/**
+ * @brief   This function gets a string and should return a copied str of the
+ *          key. the key will be returned.
+ * 
+ * 			NOTE:         
+ *          the index i will be shifted!
+ * 
+ * 			regex key:
+ * 				^[a-zA-Z_]+[a-zA-Z0-9_]*$
+ * 
+ * 				^			-> start of string
+ * 				[a-zA-Z_]	-> first char must be a letter or '_'
+ * 				+			-> one or more
+ * 				[a-zA-Z0-9_]*-> zero or more letters, numbers or '_'
+ * 
+ * 
+ * 			EXAMPLE:
+ * 			i	str				RETURN		i (new)
+ * 			-----------------------------------------
+ * 			1	$LESS Hello	-> LESS			4
+ * 			1	$@ Hello	-> NULL			0
+ * 			1	$"Hi"		-> NULL			0
+ * 			3	HI$LESS		-> LESS			6
+ * 			3	HI$LESS@lol	-> LESS			6
+ * 
+ * DOCUMENATION:
+ * https://github.com/ahokcool/frankenshell/blob/main/docs/documentation.md#environment-variables
+ * 
+ * @param	str 
+ * @return	char* 
+ */
+char	*get_key(char *str, int *i)
+{
+	char	*key;
+
+	key = NULL;
+	if (!str)
+		return (key);
+	if (str[*i] == '?')
+		return (ft_chr2str('?'));
+	if (!ft_isalpha(str[(*i)]) && str[(*i)] != '_')
+	{
+		(*i)--;
+		return (key);
+	}
+	while (str[*i])
+	{
+		if (ft_isalnum(str[*i]) || str[*i] == '_')
+			key = append_str(key, ft_chr2str(str[*i]), ft_true);
+		else
+		{
+			(*i)--;
+			return (key);
+		}
+		(*i)++;
+	}
+	(*i)--;
+	return (key);
 }
 
 /*

@@ -44,6 +44,7 @@ SRCS = $(addprefix $(SRC_FOLDER), 						\
 	2_cycle/h_fork.c									\
 	2_cycle/i_redir.c									\
 	2_cycle/j_hd.c										\
+	2_cycle/k_hd_child.c								\
 	2_cycle/k_run_cmd.c									\
 	2_cycle/1_tokenizer_utils/heredoc_limiter.c			\
 	2_cycle/1_tokenizer_utils/tokenizer_utils.c			\
@@ -62,8 +63,6 @@ SRCS = $(addprefix $(SRC_FOLDER), 						\
 	OLD/cmd_builtin.c									\
 	OLD/pipes.c											\
 	OLD/redirection.c									\
-	OLD/heredoc_utils.c									\
-	OLD/heredoc_utils2.c								\
 	3_builtins/42.c										\
 	3_builtins/cd.c										\
 	3_builtins/echo.c									\

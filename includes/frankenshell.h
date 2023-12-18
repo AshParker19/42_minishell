@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2023/12/18 01:12:36 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/18 19:47:18 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,8 @@ void	set_var_value_int(t_mbox *mbox, const char *key, int int_value);
 void	increment_shlvl(t_mbox *mbox);
 void	unset_var(t_mbox *mbox, const char *key);
 void	free_vars(t_mbox *mbox);
+char	*get_key(char *str, int *i);
+
 
 
 
@@ -120,7 +122,7 @@ void	mark_empty_quotes(t_mbox *mbox);
 
 
 
-
+void	hd_child(t_mbox *mbox, t_hd hd, int *cur_p);
 
 
 
