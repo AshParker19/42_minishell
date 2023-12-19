@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   a_mark_empty_quotes.c                              :+:      :+:    :+:   */
+/*   1_mark_empty_quotes.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 00:37:31 by astein            #+#    #+#             */
-/*   Updated: 2023/12/18 01:16:12 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/18 20:13:57 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,8 @@ static t_bool	is_make_empty(t_mbox *mbox, int i, int qs, t_bool check_prev)
 }
 
 /**
- * @brief 
- * 
-
- * THIS function uses a flag to check if its called recurseuvleyyy		
+ * @brief   THIS function uses a flag to check if its called recursively
+		
  * RULE - SPECIAL CASE EMPTY QUOTES -> EMPTY TOKENS
  * THIS SPECAIL CASE CAN ONLY HAPPEN IF BEFORE AND AFTER THERE ARE WS 
  * (or beginning / end of string)
@@ -81,13 +79,14 @@ static t_bool	is_make_empty(t_mbox *mbox, int i, int qs, t_bool check_prev)
  * the input could still be valid or invalid this function doesnt care about it,
  * since it is the job of 'shift_context_chars' and 'tokenize'
  * 
- * @param mbox 
- * @param i 
- * @param check_prev 
- * 	This parameter is used to mark if the previous char needs to be checked
- * 	also we use it to mark if the function is called recursively so we can
- * 	terminate the recursion before the end of the string
- * @param qs 
+ * @param   mbox        
+ * @param   i           
+ * @param   check_prev 
+ * 				This parameter is used to mark if the previous char needs to be
+ * 				checked also we use it to mark if the function is called
+ * 				recursively so we can terminate the recursion before the end of
+ * 				the string 
+ * @param   qs          
  */
 static void	mark_e_q_recursively(t_mbox *mbox, int i, t_bool check_prev, int qs)
 {
@@ -113,6 +112,17 @@ static void	mark_e_q_recursively(t_mbox *mbox, int i, t_bool check_prev, int qs)
 	}
 }
 
+/**
+ * @brief   Only marks empty quotes as EMPTY_TOKEN or NO_SPACE
+ * 
+ * 			inp_trim					inp_eq
+ * 			echo "" Hello World -> 		echo E_ Hello World
+ * 
+ * DOCUMENTATION:
+ * https://github.com/ahokcool/frankenshell/blob/main/docs/documentation.md#mark-empty-quotes
+ * 
+ * @param   mbox        
+ */
 void	mark_empty_quotes(t_mbox *mbox)
 {
 	mbox->inp_eq = ft_strdup(mbox->inp_trim);

@@ -6,34 +6,13 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 15:05:22 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/15 14:16:57 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/18 20:24:55 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "frankenshell.h"
 
-/**
- * @brief	shifts the receiving character to negative ASCII values
- * 			so it will be used for tokenization
- * 
- * @param	c 
- * @return	int 
- */
-int	add_offset(int c)
-{
-	return (c - 126);
-}
 
-/**
- * @brief	shifts it back to a needed ASCII value
- * 
- * @param	c 
- * @return	int 
- */
-int	remove_offset(int c)
-{
-	return (c + 126);
-}
 
 /**
  * @brief these functions return true or false depending on the result

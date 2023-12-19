@@ -1,61 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   a_shift_seperators.c                               :+:      :+:    :+:   */
+/*   2_shift_seperators.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 14:36:59 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/18 01:12:36 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/18 22:30:27 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "frankenshell.h"
 
-/**
- * @brief   accepts an address of quote_state to update it using
- *  		TODO: rewrite because now we have 3 arguments
- *          call by reference and accepts the cur char of the srting
- *          checks the cur quote state and compares it to single or double 
- *          quotes characters.
- *          if quote_state is OUT_Q, means no quote were found before
- *              and is it is now change quote state to aacording
- *              value(single or double quote)
- *          else
- *              means that the quote was found, and is a needed quote occurs
- *              close it and put quote_state to OUT_Q  
- * 
- * @param   quote_state 
- * @param   cur_char 
- */
-void	update_quote_state(int *quote_state, char cur_char, t_bool shift)
-{
-	char	single_q;
-	char	double_q;
 
-	single_q = '\'';
-	double_q = '"';
-	if (shift)
-	{
-		single_q = add_offset('\'');
-		double_q = add_offset('"');
-	}
-	if (*quote_state == OUT_Q)
-	{
-		if (cur_char == single_q)
-			*quote_state = cur_char;
-		else if (cur_char == double_q)
-			*quote_state = cur_char;
-	}
-	else if (*quote_state == single_q)
-	{
-		if (cur_char == single_q)
-			*quote_state = OUT_Q;
-	}
-	else if (*quote_state == double_q)
-		if (cur_char == double_q)
-			*quote_state = OUT_Q;
-}
 
 
 

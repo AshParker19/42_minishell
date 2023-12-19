@@ -704,6 +704,18 @@ Examples
 ---
 
 #### Shift Separators
+
+ To prepare the input string for the tokenizer all seperating characters
+ * 			need to be found. To mark them frankenshell shifts their ASCII value by -128. This makes an easy check for all of them possible (ASCII < 0) without loosing their original value.
+ * 			
+ * 			This file contains all the functions related to the shifting of the seperating characters.
+ * 
+ * 			A seperating character needs to be outside of any quotes to be shifted.
+ * 			Those are the characters which we consider as seperating characters:
+ * 				- whitespace 
+ * 				- pipe	(|)
+ * 				- redirections (>, <, >>, <<)
+ 
 This step is used to mark all seperators in the input string. This is needed for the [tokenization](#tokenizing) and [parsing](#parsing).
 
 ###### Quote State
