@@ -19,6 +19,9 @@
  :jigsaw:					Part of smth<br>
  
 
+<h1 id="table-of-content">
+	Table of Contents
+</h1>
 
 # Table of Contents
 1. [Introduction](#introduction)
@@ -108,8 +111,7 @@ As ChatGPT said in 2023:
 
 
 <h2 id="info-mode">
-	<a style="font-size: 50%;">text</a>
-	<a href="../src/4_debug/info_mode.c"> 🔝 </a>
+	<a href="../src/4_debug/info_mode.c">🔝 </a>
 	Info Mode
 	<a href="../src/4_debug/info_mode.c"> 💻</a>
 </h2>
