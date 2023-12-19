@@ -761,26 +761,67 @@ Explanation:	The single quote is inside a double quote, so it will be ignored.
 
 ---
 
-#### Variable Expansion
+### Variable Expansion
 
 The [environment variable](#environment-variables) expansion works similar like in bash:
 
-:bulb: Variable Expansion happens if the variable is **not** inside single [quotes](#quotes).\
-:warning: If the variable is part of the [heredoc](#heredoc) limiter it won't be expanded! (e.g. `<< $USER cat`)\
-:book: Refer to the section [heredoc](#heredoc) for the variable expansion **inside a heredoc**.\
-:bulb:  Activate the [info mode](#info-mode) to see all input string states during runtime.
+- Variable Expansion happens if the variable is **not** inside single [quotes](#quotes).
+- Whitespaces inside the variable value will be [marked as `NO_SPACE` characters](#removal-of-whitespaces-of-expanded-variable-values). Therefore the [tokenizer](#tokenizing) can make multiple tokens out of it.
+- If the variable is part of the [heredoc limiter](#extract-limiter) it won't be expanded! (e.g. `<< $USER cat`)
+
+:bulb:  Activate the [info mode](#info-mode) to see the expanded input string states during runtime.
 
 | Command           |  Valid Key 			| Expand       			| Output                        							|
 | ------------------|   :------: 			| :----------: 			| ----------------------------- 							|
 | `echo $USER`		| :white_check_mark:	| :white_check_mark:	| `astein`				      								|
 | `echo "$USER"`    | :white_check_mark:	| :white_check_mark:	| `astein`				      								|
 | `echo '$USER'`    | :white_check_mark:	| :x:	        		| `$USER`                   								|
-| `<< $USER cat`    | N/A		 			| :x:	        		| Won't expand, so the `EOF` of the heredoc will be `$USER` |
+| `<< $USER cat`    | N/A		 			| :x:	        		| Won't expand, so the `EOF` of the [heredoc](#heredoc) will be `$USER` 	|
 
 
 <br>
 
-**:pencil2: Examples (Special Cases)**
+---
+
+#### Removal of whitespaces of expanded variable values
+
+
+If there are whitespaces in the expanded Variable they will be marked as `NO_SPACE` characters.\
+Therefore the tokenizer will make multiple tokens out of it.\
+Quote Protection of whitespaces is not supported inside a variable. (like in bash)\
+Example:
+```
+frankenshell--> export foo="Hello           World"
+frankenshell--> echo $foo
+Hello World
+frankenshell--> export foo="Hello'        'World" //tries a quote protect of whitespaces
+Hello' 'World                                     //doesn't work 
+```
+
+---
+
+#### Extract Limiter
+
+The variable expansion for a heredoc limiter is a special case.\
+Variable Expension is not allowed inside a heredoc limiter!\
+Anyhow there some strange rules for the determine the limiter:
+| Case                  | Limiter <br> (send to tokenizer) | Explanation   | Limiter<sup> 1</sup> <br> (to exit hd)                           | Var. expansion <sup> 2</sup> <br> (inside heredoc) |
+| ----                  | ---           | -----------                                                                       | -------     | :---:                                    |
+| `<< $USER cat`        | `$USER`       |                                                                                   | `$USER`     | :white_check_mark:                        |
+| `<< "FOO BAR" cat`    | `"FOO BAR"`   |                                                                                   | `FOO BAR`   | :x:                                       |
+| `<< "$FOO $BAR" cat`  | `"$FOO $BAR"` |                                                                                   | `$FOO $BAR` | :x:                                       |
+| `<< $'FOO' cat`       | `'FOO'`       |   `$` is followed by contextual `'`; <br> the `$` will be removed                 | `FOO`       | :x:                                       |
+| `<< $"FOO" cat`       | `"FOO"`       |   `$` is followed by contextual `"`; <br> the `$` will be removed                 | `FOO`       | :x:                                       |
+| `<< $"FOO"$"BAR" cat` | `"FOO""BAR"`  |   twice: <br> `$` is followed by contextual quotes; <br> the `$` will be removed  | `FOOBAR`    | :x:                                       |
+
+<sup>1</sup> The contextual quotes will be removed by the [heredoc](#heredoc) function.\
+<sup>2</sup> Different topic: Refer to the section [:book: heredoc](#heredoc) for the variable expansion **inside a heredoc**.
+
+<br>
+
+---
+
+**:pencil2: Variable Expansion Examples (Special Cases)**
 | Special Case			| Valid Key					  			| Expand 			| Explanation 												| Output (example)			|
 |---------------		| :---:   					  			| :---:				|-------------												|--------------				|
 | `echo $@ hi`			| :x:									| :x:				| first char of false key gets swallowed					| `hi` 						|
@@ -797,36 +838,6 @@ The [environment variable](#environment-variables) expansion works similar like 
 | `echo 'foo $BAR'`		| N/A									| :x:				| inside contextual quotes `'` -> no expansion				| `foo $BAR` 				|
 | `echo foo$USER$HOME`	| :white_check_mark: :white_check_mark:	| :white_check_mark: :white_check_mark:| the second `$` is not an allowed char of a key <br> therfore it terminates the first key. 										| `fooastein/home/astein`	|
 | `echo foo $NOTEXIST bar`| :white_check_mark:					| :white_check_mark:| the key doesn't exist; <br> expands to NULL				| `a b`						|
-
-
-##### Removal of whitespaces of expanded variable values
-If there are whitespaces in the expanded Variable they will be marked as `NO_SPACE` characters.\
-Therefore the tokenizer will make multiple tokens out of it.\
-Quote Protection of whitespaces is not supported inside a variable. (like in bash)\
-Example:
-```
-frankenshell--> export foo="Hello           World"
-frankenshell--> echo $foo
-Hello World
-frankenshell--> export foo="Hello'        'World" //tries a quote protect of whitespaces
-Hello' 'World                                     //doesn't work 
-```
-
-##### Extract Limiter
-
-The variable expansion for a heredoc limiter is a special case.\
-Variable Expension is not allowed inside a heredoc limiter!\
-Anyhow there some strange rules for the determine the limiter:
-| Case                  | Limiter <br> (send to heredoc) | Limiter <br> (actuall lim of hd)       | Explanation                                                           | Var. expansion <br> inside heredoc<sup>1</sup> |
-| ----                  | ---           | -------       | -----------                                                           | :---:                                    |
-| `<< $USER cat`        | `$USER`       | `$USER`       |                                                                       | :white_check_mark:                        |
-| `<< "FOO BAR" cat`    | `"FOO BAR"`   | `FOO BAR`     | contextual quotes get removed                                         | :x:                                       |
-| `<< "$FOO $BAR" cat`  | `"$FOO $BAR"` | `$FOO $BAR`   | no variable expansion; <br> contextual quotes get removed             | :x:                                       |
-| `<< $'FOO' cat`       | `'FOO'`       | `FOO`         |   `$` is followed by contextual `'`; <br> the `$` will be removed     | :x:                                       |
-| `<< $"FOO" cat`       | `"FOO"`       | `FOO`         |   `$` is followed by contextual `"`; <br> the `$` will be removed     | :x:                                       |
-| `<< $"FOO"$"BAR" cat` | `"FOO""BAR"`  | `FOOBAR`      |   twice: <br> `$` is followed by contextual quotes; <br> the `$` will be removed  | :x:                                       |
-
-<sup>1</sup> Different topic: Refer to the section [:book: heredoc](#heredoc) for the variable expansion **inside a heredoc**.
 
 
 
@@ -1425,7 +1436,12 @@ The builtin `unset` deletes the corresponding variables.
 ---
 
 # Environment Variables
-This is general information about environment variables in frankenshell. ([:book: variable expansion](#variable-expansion))
+This is general information about environment variables in frankenshell.
+
+**Related Sections:**\
+[:book: variable expansion](#variable-expansion)\
+[:book: heredoc](#heredoc)
+
 
 On programm start a [t_env](#t_env) linked list will be created from the enviromental variables and stored in the [t_mbox](#t_mbox) struct. Variable represent a simple key-value pair. The key is a string and the value is a string. The key is always unique. The value can be empty.\
 A key has to match the following regex:
@@ -1442,7 +1458,7 @@ $				-> end of string
 
 > :page_facing_up: 	All related functions are in the [a_env_vars.c](../src/1_core/d_env_vars.c) file.
 
-The following functions are implemented:
+The following functions are implemented: TODO DOUBLE CHECK
 ```
 // MANAGEMENT
 void initialize_vars(t_mbox *mbox, char **env);                         //creates the ll on startup
