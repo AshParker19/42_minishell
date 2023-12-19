@@ -1,4 +1,4 @@
-<a name="docu-top"></a>
+<a id="docu-top"></a>
 <br />
 <div align="center">
 	<a href="../art.sh">
@@ -19,7 +19,9 @@
  :jigsaw:					Part of smth<br>
  
 
-<h1 id="table-of-content">
+<br><h1 id="table-of-content">
+	<a href="#docu-top">🔝 </a>
+	<a href="#table-of-content">▶️ </a>
 	Table of Contents
 </h1>
 
@@ -73,10 +75,9 @@
 9. [Known Bugs](#known-bugs)
 10. [Acknowledgments](#acknowledgments)
 
-
-
-<h1 id="introduction">
+<br><h1 id="introduction">
 	<a href="#table-of-content">🔝 </a>
+	<a href="#introduction">▶️ </a>
 	Introduction
 </h1>
 
@@ -84,8 +85,9 @@ As ChatGPT said in 2023:
 
 > Minishell is a [42 school](https://42.fr/en/homepage/) project designed to create a simplified Unix shell. The idea behind Minishell is to develop a basic command-line interface (CLI) that can execute simple commands and handle input/output redirection. It's meant to serve as a learning exercise for students to gain a fundamental understanding of how shells work by implementing core features like parsing user input, managing processes, handling signals, creating builtins and executing system commands.
 
-<h1 id="installation">
+<br><h1 id="installation">
 	<a href="#table-of-content">🔝 </a>
+	<a href="#installation">▶️ </a>
 	Installation
 </h1>
 
@@ -111,18 +113,26 @@ As ChatGPT said in 2023:
 	# Exit the program
 	$ exit
 ```
-# Usage
+
+<br><h1 id="usage">
+	<a href="#table-of-content">🔝 </a>
+	<a href="#usage">▶️ </a>
+	Usage
+</h1>
+
 **frankenshell** is designed to mimic the behavior of the traditional **bash** shell. So feel free to use it like bash.
 
 ![Example][example-gif]
 
 
-<h2 id="info-mode">
+<br><h2 id="info-mode">
 	<a href="#table-of-content">🔝 </a>
+	<a href="#usage">◀️ </a>
+	<a href="#info-mode">▶️ </a>
 	Info Mode
 	<a href="../src/4_debug/info_mode.c"> 💻</a>
 </h2>
-## Info Mode<a> [:computer:](../src/4_debug/info_mode.c)</a>
+
 To activate the info mode you can
 - start frankenshell with the flag `--info` or `-i`
 - run the [builtin command](#builtin-commands) [`infomode`](#infomode-builtin)
@@ -415,8 +425,11 @@ hi   there
 
 :arrow_right: Refer to the section [Parsing](#parsing) for a better understanding of the ast.
 
-
-# Definitions
+<br><h1 id="definitions">
+	<a href="#table-of-content">🔝 </a>
+	<a href="#definitions">▶️ </a>
+	Definitions
+</h1>
 
 These definitions are used throughout this manual as follows.
 
@@ -438,9 +451,13 @@ These definitions are used throughout this manual as follows.
 **ast / tree**\
 &nbsp;&nbsp;&nbsp;&nbsp;The parser in Frankenshell constructs an abstract syntax tree (AST). For more in-depth information on this subject, refer to the [:book:Parser](#parser) chapter.
 
-<br>
+<br><h1 id="syntax">
+	<a href="#table-of-content">🔝 </a>
+	<a href="#syntax">▶️ </a>
+	Syntax
+</h1>
 
-# Syntax
+
 
 ## Seperators
 The following characters are used as seperators for the input string
@@ -484,9 +501,12 @@ frankenshell--> echo "this single quote ' doesn't close the double quote
 frankenshell: syntax error: unclosed quotes
 ```
 
-<br>
+<br><h1 id="structs">
+	<a href="#table-of-content">🔝 </a>
+	<a href="#structs">▶️ </a>
+	Structs
+</h1>
 
-# Structs
 ### t_mbox [:page_facing_up:](../includes/frankenshell.h) [:computer:](../src/1_core/c_mbox.c)
 The struct `mbox` is the main structure of the program: it is being passed as an argument to most of the functions and contains all the info needed for the program to work.\
 :page_facing_up:  The file ['manage_mbox.c'](../src/0_core/manage_mbox.c) contains the functions for initializing and destroying the mbox instance.
@@ -629,7 +649,11 @@ typedef struct s_builtin_cmd
 
 <br>
 
-# How frankenshell operates
+<br><h1 id="how-frankenshell-operates">
+	<a href="#table-of-content">🔝 </a>
+	<a href="#how-frankenshell-operates">▶️ </a>
+	How Frankenshell Operates
+</h1>
 The main task of frankenshell can be grouped into those steps:
 - [Initialization](#initialization)
 - Processing a Single Cycle
@@ -1015,12 +1039,17 @@ the env linked list is send to execv
 
 ### Termination
 
-#### Exit Status
+<br><h1 id="exit-status">
+	<a href="#table-of-content">🔝 </a>
+	▶️ Exit Status
+</h1>
 The current exit status of minishell is stored as an node with the key `?` in the variable linkes list. This simplyfies the variable expansion of `$?`. To update the value the noraml `TODO` function can be used. Since the value is an `char*` and the exit status is an integer there is a function `TODO` that allows an integer as a paramter to update the value of the node.
 Anyhow if the linked list is used for `execve`, `env` or `export` the `?` node will be ignored.
 
-### Signals
-
+<br><h1 id="signals">
+	<a href="#table-of-content">🔝 </a>
+	▶️ Signals
+</h1>
 Each time a fork is happening all existing processes will be set to a specific 'signal status' via 'conf_sig_handler' in TODO File. This status will
 be used to determine which signal handling should be used in the calling process.
 
@@ -1052,7 +1081,10 @@ TODO
 	SIG_STATE_IGNORE
  
 
-# Builtin Commands
+<br><h1 id="builtin-commands">
+	<a href="#table-of-content">🔝 </a>
+	▶️ Builtin Commands
+</h1>
 Each built-in command in frankenshell is detailed below with specific information and examples.
 
 | Command                         | File(s)     	                                      												| Description									|
@@ -1448,9 +1480,10 @@ The builtin `unset` deletes the corresponding variables.
 
 > :arrow_right: 		Refer to the section [Environment Variables](#environment-variables) for more details about the variables.
 
----
-
-# Environment Variables
+<br><h1 id="environment-variables">
+	<a href="#table-of-content">🔝 </a>
+	▶️ Environment Variables
+</h1>
 This is general information about environment variables in frankenshell.
 
 **Related Sections:**\
@@ -1510,8 +1543,11 @@ With the following [builtin](#builtins) commands variables can be...
 
 <br>
 
-# Known Bugs
-
+<br><h1 id="known-bugs">
+	<a href="#table-of-content">🔝 </a>
+	<a href="#known-bugs">▶️ </a>
+	Known Bugs
+</h1>
 **export vs env**
 
 If the built-in export is called with a valid key but no equal sign (like `export foo`) `foo` should be listed in the output of the `export`, but not in the output of the `env` function call. In frankenshell, `foo` is not added to the linked list of variables and therefore is not printed in either case. A simple boolean in the `s_env` structure could solve the problem.
@@ -1523,7 +1559,11 @@ Since frankenshell doesn't fork for a single builtin cmd like `echo foo > out` i
 ---
 <br>
 
-# Acknowledgments
+<br><h1 id="acknowledgments">
+	<a href="#table-of-content">🔝 </a>
+	<a href="#acknowledgments">▶️ </a>
+	Acknowledgments
+</h1>
 Thx to those guys and gals for hints, tipps and feedback!
 
 [@Gabriel](https://github.com/portugueseTorch)\
@@ -1531,8 +1571,9 @@ Thx to those guys and gals for hints, tipps and feedback!
 [@Margarida](https://github.com/MariaAguiar)\
 [@Manuel](https://github.com/manuel-aguiar)
 
-> :arrow_up:   <a href="#docu-top">back to top</a>   :arrow_up:
-
+<br><h1>
+	<a href="#table-of-content">🔝 </a>
+</h1>
 
 
 
