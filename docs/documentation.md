@@ -9,13 +9,14 @@
 
 **Legend**\
 <br>
- :book:				Link to another chapter<br>
- :computer:		 	Link to .c file<br>
- :page_facing_up: 	Link to .h file<br>
- :bulb:	 			Hint<br>
- :pencil2:			Example<br>
- :warning:			Warning / Important<br>
- :jigsaw:			Part of smth<br>
+ :book:						Link to another chapter<br>
+ :computer:		 			Link to .c file<br>
+ :page_facing_up: 			Link to .h file<br>
+ :bulb:	 					Hint<br>
+ :pencil2:					Example<br>
+ :warning:					Warning / Important<br>
+ :jigsaw:					Part of smth<br>
+ :building_construction:	Section under construction!<br>
  
 
 # Table of Contents
@@ -797,9 +798,36 @@ The [environment variable](#environment-variables) expansion works similar like 
 | `echo foo$USER$HOME`	| :white_check_mark: :white_check_mark:	| :white_check_mark: :white_check_mark:| the second `$` is not an allowed char of a key <br> therfore it terminates the first key. 										| `fooastein/home/astein`	|
 | `echo foo $NOTEXIST bar`| :white_check_mark:					| :white_check_mark:| the key doesn't exist; <br> expands to NULL				| `a b`						|
 
+
+##### Removal of whitespaces of expanded variable values
+If there are whitespaces in the expanded Variable they will be marked as `NO_SPACE` characters.\
+Therefore the tokenizer will make multiple tokens out of it.\
+Quote Protection of whitespaces is not supported inside a variable. (like in bash)\
+Example:
+```
+frankenshell--> export foo="Hello           World"
+frankenshell--> echo $foo
+Hello World
+frankenshell--> export foo="Hello'        'World" //tries a quote protect of whitespaces
+Hello' 'World                                     //doesn't work 
+```
+
 ##### Extract Limiter
 
-special case var expansion in heredoc limiter doesn't work
+The variable expansion for a heredoc limiter is a special case.\
+Variable Expension is not allowed inside a heredoc limiter!\
+Anyhow there some strange rules for the determine the limiter:
+| Case                  | Limiter <br> (send to heredoc) | Limiter <br> (actuall lim of hd)       | Explanation                                                           | Var. expansion <br> inside heredoc<sup>1</sup> |
+| ----                  | ---           | -------       | -----------                                                           | :---:                                    |
+| `<< $USER cat`        | `$USER`       | `$USER`       |                                                                       | :white_check_mark:                        |
+| `<< "FOO BAR" cat`    | `"FOO BAR"`   | `FOO BAR`     | contextual quotes get removed                                         | :x:                                       |
+| `<< "$FOO $BAR" cat`  | `"$FOO $BAR"` | `$FOO $BAR`   | no variable expansion; <br> contextual quotes get removed             | :x:                                       |
+| `<< $'FOO' cat`       | `'FOO'`       | `FOO`         |   `$` is followed by contextual `'`; <br> the `$` will be removed     | :x:                                       |
+| `<< $"FOO" cat`       | `"FOO"`       | `FOO`         |   `$` is followed by contextual `"`; <br> the `$` will be removed     | :x:                                       |
+| `<< $"FOO"$"BAR" cat` | `"FOO""BAR"`  | `FOOBAR`      |   twice: <br> `$` is followed by contextual quotes; <br> the `$` will be removed  | :x:                                       |
+
+<sup>1</sup> Different topic: Refer to the section [:book: heredoc](#heredoc) for the variable expansion **inside a heredoc**.
+
 
 
 
@@ -892,7 +920,7 @@ The heredoc redirection allows inputting multiple lines until a termination stri
 
 :bulb: Variable Expansion inside the heredoc is supported!\
 :warning: Like in bash: The expansion is not supposed to work if the limiter contains contextual quotes!\
-:bulb: Therefore the [:book: Variable Expansion](#variable-expansion) obtains `'`,`"` and `$` in case of the hd limter.
+:bulb: Therefore the [:book:  extract limiter](#extract-limiter) part of the [:book: variable expansion](#variable-expansion) obtains `'`,`"` and `$` characters.
 
 **This is the heredoc routine:**
 1. The heredoc is setup by creating a pipe and forking a child process.
@@ -925,7 +953,7 @@ The heredoc redirection allows inputting multiple lines until a termination stri
 			- returns `true`
 
 
-<sup>1</sup>:warning: If the limtter contains contextual quotes, variable expansion inside the heredoc will be disabled.\
+<sup>1</sup>:warning: If the limiter contains contextual quotes, variable expansion inside the heredoc will be disabled ([:book: extract limiter](#extract-limiter)).\
 <sup>3</sup> Before expanison! The heredoc can't be terminated if the expanded input matches the limiter!\
 <sup>3</sup> Checked via the global variable: `g_signal_status == SIGNAL_EXIT_HD`\
 <sup>4</sup> ```frankenshell: warning: frankendoc at line 1 delimited by end-of-file (wanted `foo')```

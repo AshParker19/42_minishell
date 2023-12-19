@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2023/12/19 02:11:58 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/19 19:32:30 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,7 @@ t_bool	shift_seps(t_mbox *mbox, int i, int quote_state);
 /*>>> 2_exp_vars.c     */
 /*---------------------*/
 char	*get_key(char *str, int *i);
-
+t_bool	expand_vars_main(t_mbox *mbox, int k, int quote_state);
 
 
 

@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 15:35:02 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/19 02:16:41 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/19 16:01:48 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	update_quote_state(int *quote_state, char cur_char, t_bool shift);
 t_bool	expand_vars_main(t_mbox *mbox, int k, int quote_state);
 
 /* HEREDOC UTILS*/
-char	*extract_limiter(t_mbox *mbox, int *k, int *quote_state, char *lim);
+// char	*exp_hd_lim(t_mbox *mbox, int *k, int *quote_state, char *lim);
 
 /* TOKENIZER */
 t_bool	tokenize(t_mbox *mbox, int i);

@@ -36,7 +36,7 @@ SRCS = $(addprefix $(SRC_FOLDER), 						\
 	1_core/6_err_msg.c									\
 	2_cycle/0_mark_eq.c									\
 	2_cycle/1_shift_seps.c								\
-	2_cycle/aa_exp_vars.c								\
+	2_cycle/2_exp_vars.c								\
 	2_cycle/bb_tokenize.c								\
 	2_cycle/d_parse.c									\
 	2_cycle/e_execute_ast.c								\
