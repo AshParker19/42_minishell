@@ -1,40 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   2_shift_seperators.c                               :+:      :+:    :+:   */
+/*   1_shift_seps.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 14:36:59 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/18 22:30:27 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/19 02:18:20 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "frankenshell.h"
 
-
-
-
-
-
 /**
- * @brief   1. marks empty quotes as empty tokens via 'mark_e_q_recursively'
- * 				e.g. "" -> E_
- * 			2. traverses through the string and if quotes_state is Q_OUT,
- *          		if cur char is a context char
- *          			shifts it to negative ASCII value
+ * @brief   To prepare the input string for the tokenizer all seperating
+ * 			characters need to be found. To mark them frankenshell shifts their
+ * 			ASCII value by -126. This makes an easy check for all of them
+ * 			possible (ASCII < 0) without loosing their original value.
+ * 			
+ * 			A seperating char needs to be outside of any quotes to be shifted.
+ * 			Those are the characters which we consider as seperating characters:
+ * 				- whitespace (SPACE, '\n', '\t', '\v', '\a', '\b', '\f', '\r')
+ * 				- pipe	(|)
+ * 				- redirections (>, <)
  * 
- *	CONTEXT CHARS:
- *	 - context quotes						"'
- *	 - separators 							|<>
- *	 - whitespaces (if qoute_state = OUT_Q)	\n\t\v\a\b\f\r (via 'ft_isspace')
+ * DOCUMENTATION:
+ * https://github.com/ahokcool/frankenshell/blob/main/docs/documentation.md#shift-separators
  * 
- * @param   mbox 
- * @param   i 
+ * @param   mbox        
+ * @param   i           
  * @param   quote_state 
- * @return  t_bool 
+ * @return  t_bool      
  */
-t_bool	shift_context_chars(t_mbox *mbox, int i, int quote_state)
+t_bool	shift_seps(t_mbox *mbox, int i, int quote_state)
 {
 	mbox->inp_shift = ft_strdup(mbox->inp_eq);
 	while (mbox->inp_shift[++i])

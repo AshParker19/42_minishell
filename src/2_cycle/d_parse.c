@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   d_parse.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:16:49 by astein            #+#    #+#             */
-/*   Updated: 2023/12/17 18:41:32 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/19 02:08:50 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ t_bool	parse(t_mbox *mbox)
 	mbox->tmp_token = mbox->tokens;
 	mbox->ast = job_main(mbox);
 	if (mbox->tmp_token)
-		create_syntax_err(mbox, mbox->tmp_token);
+		syntax_err_msg(mbox, mbox->tmp_token);
 	info_print_parser(mbox, CYAN);
-	if (mbox->error_status)
+	if (mbox->syntax_err_encountered)
 		return (ft_false);
 	return (ft_true);
 }

@@ -27,16 +27,17 @@ LIB_FOLDER     = ./libft/
 # Files
 LIBFT = $(LIB_FOLDER)libft.a
 SRCS = $(addprefix $(SRC_FOLDER), 						\
-	1_core/a_main.c										\
-	1_core/b_cycle.c									\
-	1_core/c_mbox.c										\
-	1_core/d_env_vars.c									\
-	1_core/e_signals.c									\
-	1_core/general_utils.c								\
-	2_cycle/a_mark_empty_quotes.c						\
-	2_cycle/a_shift_seperators.c						\
-	2_cycle/b_expand_vars.c								\
-	2_cycle/c_tokenize.c								\
+	1_core/0_mbox.c										\
+	1_core/1_main.c										\
+	1_core/2_cycle.c									\
+	1_core/3_shifting.c									\
+	1_core/4_env_vars.c									\
+	1_core/5_signals.c									\
+	1_core/6_err_msg.c									\
+	2_cycle/0_mark_eq.c									\
+	2_cycle/1_shift_seps.c								\
+	2_cycle/aa_exp_vars.c								\
+	2_cycle/bb_tokenize.c								\
 	2_cycle/d_parse.c									\
 	2_cycle/e_execute_ast.c								\
 	2_cycle/f_setup_cmd.c								\

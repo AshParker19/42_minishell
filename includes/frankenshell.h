@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2023/12/18 19:47:18 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/19 02:11:58 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ typedef struct s_mbox
 	char						*inp_shift;
 	char						*inp_expand;
 	int							consecutive_lt;
-	bool						error_status;
+	bool						syntax_err_encountered;	//track the first error
 	t_env						*env;
 	t_list						*history_lst;
 	t_token						*tokens;
@@ -91,16 +91,30 @@ typedef struct s_history
 /*********************************# FUNCTIONS #********************************/
 
 /*========================================*/
-/*>>>>>>>>>> 1 CORE                       */
+/*>>>>>>>>>> FOLDER 1_CORE                */
 /*========================================*/
-/*>>> A MAIN.C         */
+/*>>> 0_MBOX.C         */
+/*---------------------*/
+void	initialize_mbox(t_mbox *mbox, char **env);
+void	destroy_mbox(t_mbox *mbox);
+t_bool	destroy_mbox_with_exit(t_mbox *mbox, int exit_status);
+
+/*>>> 1_MAIN.C         */
 /*---------------------*/
 int		main(int ac, char **av, char **env);
 
-/*>>> B CYCLE.C        */
+/*>>> 2_CYCLE.C        */
 /*---------------------*/
+void	cycle_main(t_mbox *mbox);
+void	reset_cycle(t_mbox *mbox);
 
-/*>>> D ENV_VARS.C     */
+/*>>> 3_SHIFTING.C     */
+/*---------------------*/
+int		add_offset(int c);
+int		remove_offset(int c);
+void	update_quote_state(int *quote_state, char cur_char, t_bool shift);
+
+/*>>> 4_ENV_VARS.C     */
 /*---------------------*/
 void	initialize_vars(t_mbox *mbox, char **env);
 t_bool	is_var(const t_mbox *mbox, const char *key);
@@ -111,44 +125,53 @@ void	set_var_value_int(t_mbox *mbox, const char *key, int int_value);
 void	increment_shlvl(t_mbox *mbox);
 void	unset_var(t_mbox *mbox, const char *key);
 void	free_vars(t_mbox *mbox);
+
+/*>>> 5_SIGNALS.C      */
+/*---------------------*/
+void	conf_sig_handler(int sig_state);
+
+/*>>> 6_ERR_MSG.C	   */
+/*---------------------*/
+void	err_msg(t_mbox *mbox, int exit_status, const char *format, ...);
+void	*syntax_err_msg(t_mbox *mbox, t_token *err_token);
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*========================================*/
+/*>>>>>>>>>> FOLDER 2_CYCLE               */
+/*========================================*/
+/*>>> O_MARK_EQ.C	   */
+/*---------------------*/
+void	mark_empty_quotes(t_mbox *mbox);
+
+/*>>> 1_shift_seps.c   */
+/*---------------------*/
+t_bool	shift_seps(t_mbox *mbox, int i, int quote_state);
+
+/*>>> 2_exp_vars.c     */
+/*---------------------*/
 char	*get_key(char *str, int *i);
 
 
 
 
-
-
-void	mark_empty_quotes(t_mbox *mbox);
-
-
+// BELO IS OLD AND NOT SORTED FUNCTION!!!
+// 0000000-----------------
+// ---
+// --
 
 void	hd_child(t_mbox *mbox, t_hd hd, int *cur_p);
 
-
-
-
-
-/*>>> MANAGE_MBOX.C    */
-/*---------------------*/
-void	initialize_mbox(t_mbox *mbox, char **env);
-void	destroy_mbox(t_mbox *mbox);
-t_bool	destroy_mbox_with_exit(t_mbox *mbox, int exit_status);
-
-/*========================================*/
-/*>>>>>>>>>> 1 INPUT MANAGER */
-/*========================================*/
-
-/*========================================*/
-/*>>>>>>>>>> 2 EXECUTOR */
-/*========================================*/
-
-/*========================================*/
-/*>>>>>>>>>> 3 BUILTINS */
-/*========================================*/
-
-/*========================================*/
-/*>>>>>>>>>> 4 DEBUG */
-/*========================================*/
 void	info_put_banner(t_mbox *mbox, char *caption, char *data, char *clr);
 void	info_print_input_string(t_mbox *mbox, char *state, char *str, char *clr);
 void	info_print_tokenizer(t_mbox *mbox, char *clr);
@@ -156,7 +179,7 @@ void	info_print_parser(t_mbox *mbox, char *clr);
 void	info_print_executor_banner(t_mbox *mbox, t_bool top_part, char *clr);
 
 /* input_manager.c */
-void	cycle_main(t_mbox *mbox);
+
 
 
 /* signals.c */
@@ -169,8 +192,7 @@ void	free_tokens_v2(t_mbox *mbox);
 
 
 /* general_utils.c */
-void	reset_cycle(t_mbox *mbox);
 void	err_msg(t_mbox *mbox, int exit_status, const char *format, ...);
-void	*create_syntax_err(t_mbox *mbox, t_token *err_token);
+void	*syntax_err_msg(t_mbox *mbox, t_token *err_token);
 
 #endif

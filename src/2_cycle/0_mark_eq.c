@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   1_mark_empty_quotes.c                              :+:      :+:    :+:   */
+/*   0_mark_eq.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 00:37:31 by astein            #+#    #+#             */
-/*   Updated: 2023/12/18 20:13:57 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/19 02:01:12 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static t_bool	is_make_empty(t_mbox *mbox, int i, int qs, t_bool check_prev)
  * 
  * if the function above fails it only means that we dont create empty tokens.
  * the input could still be valid or invalid this function doesnt care about it,
- * since it is the job of 'shift_context_chars' and 'tokenize'
+ * since it is the job of 'shift_seps' and 'tokenize'
  * 
  * @param   mbox        
  * @param   i           

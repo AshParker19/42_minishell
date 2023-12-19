@@ -682,10 +682,14 @@ Bash generates an empty token for a pair of empty quotes if the two conditions a
 - the empty quotes are surrounded by at least one whitespace character (or the beginning/end of the string) before and after 
 
 Empty quotes will be marked as `EMPTY_TOKEN` and `NO_SPACE` characters.
+```
+# define NO_SPACE       -125
+# define EMPTY_TOKEN    -126
+```
 > :arrow_right: Refer to the section [Shift Separators](#shift-separators) for a better understanding of the marked input string.
 
 Examples
-| inp_trim		        | inp_eq            | empty quotes      |    
+| inp_trim		        | inp_eq            | empty quotes      |
 | ----------------------|-------------------|:-----------------:|
 | `echo ""`			    | `echo E_`         | :white_check_mark:|
 | `echo ''`			    | `echo E_`         | :white_check_mark:|
@@ -705,22 +709,46 @@ Examples
 
 #### Shift Separators
 
- To prepare the input string for the tokenizer all seperating characters
- * 			need to be found. To mark them frankenshell shifts their ASCII value by -128. This makes an easy check for all of them possible (ASCII < 0) without loosing their original value.
- * 			
- * 			This file contains all the functions related to the shifting of the seperating characters.
- * 
- * 			A seperating character needs to be outside of any quotes to be shifted.
- * 			Those are the characters which we consider as seperating characters:
- * 				- whitespace 
- * 				- pipe	(|)
- * 				- redirections (>, <, >>, <<)
- 
-This step is used to mark all seperators in the input string. This is needed for the [tokenization](#tokenizing) and [parsing](#parsing).
+To prepare the input string for the tokenizer all seperating characters need to be found. To mark them frankenshell shifts their ASCII value by `-126`. This makes an easy check for all of them possible (`ASCII < 0`) without loosing their original value. A seperating char needs to be outside of any quotes to be shifted.
+Those are the characters which we consider as seperating characters:
+- whitespace (` `, `\n`, `\t`, `\v`, `\a`, `\b`, `\f`, `\r`)
+- pipe	(`|`)
+- redirections (`<`, `>`)
+
+Examples
+| inp_trim		        | inp_eq		    | inp_shift         |
+| ----------------------|-------------------|---|
+| `echo "" "" "'hi"`    | `echo E_ E_ "'hi"`|  TODO |
+| `echo hi""`			| `echo hi""`       |   |
+| `echo hi''`			| `echo hi''`       |   |
+| `echo ""hi`			| `echo ""hi`       |   |
+| `echo ''hi`			| `echo ''hi`       |   |
+| `echo '""'`			| `echo '""'`       |   |
+| `echo "''"`			| `echo "''"`       |   |
 
 ###### Quote State
-While traversing the input string, the `quote state` will be updated for each character. So if a seperating character is found it will be only marked if the `quote state` is OUT__QUOTE.
-Examples:
+ * IDEA:
+ * 		If somwehre at frankenshell we loop through the an input string
+ * 		sometimes we need to know if we are inside or outside of contextual
+ * 		quotes. This function updates the quote_state variable to the current
+ * 		state of the quotes.
+ * 
+ * LOGIC:
+ * 		if quote_state is OUT_Q (the cur_char is outside of contextual quotes)
+ * 			if cur_char is a quote
+ * 				update quote_state to the cur_char
+ * 			else
+ * 				quote_state stays OUT_Q
+ *		else (the cur_char is inside of contextual quotes)
+ * 			if matching quote is found
+ * 				update quote_state to OUT_Q
+ * 			else
+ * 				quote_state stays the same          
+While traversing the input string, the `quote state` will be updated for each character. So if a seperating character is found it will be only marked if the `quote state` is `OUT__QUOTE`  TODO LINK TO H FILE:
+```
+# define OUT_Q  0
+```
+TODO EMOJI Examples:
 ```
 Trimmed String:	echo "Hello 'astein', how are you?"
 Quote State: 	OOOOODDDDDDDDDDDDDDDDDDDDDDDDDDDDDO
@@ -769,6 +797,17 @@ Tokens:				`ls`(arg); `-l`(arg); `-a`(arg); `|`(pipe); `wc`(cmd); `-l`(arg)
 > :bulb: Activate the [info mode](#info-mode) to see the token list during runtime
 
 #### Parsing
+
+We have the boolean `syntax_err_encountered` in the [t_mbox](#t_mbox) struct.
+Even if there are multiple errors, only the first error will be printed TODO LINK THE FUNCTION AND CHECK WHY THERE COULD BE MULTIPLE SYNTAX ERRORS
+- the ast won't be executed
+The possible errors could be:
+```
+frankenshell: syntax error near unexpected token `foo'
+frankenshell: syntax error near unexpected token `newline'
+TODO DOUBLE CHECK hwat foo could be...
+```
+
 After tokienizing the input string, the tokens will be parsed into an ast. The ast tree is used for the execution of the commands.
 Each node of the ast tree is an instance of the [t_ast](#t_ast) struct. It therefore has a type, a content and a two pointers to its left and right child node.
 This table shows all possible node types and their possible node conections:
@@ -810,6 +849,12 @@ Pipes (`|`) allow the output of one command to be used as input for another, ena
 ##### Setup Redirections
 
 The table below describes the redirection features available in frankenshell:
+
+Since there can be multiple redirections we need to keep track if one of them fails. Since bash only troughs one error. Example:
+```
+$: < file_not_exists < file_not_exists_2 cat
+bash: file_not_exists: No such file or directory
+```
 | Feature| Mode            | Description                                                                                | Example                           |
 |------|-------------|--------------------------------------------------------------------------------------------------|-----------------------------------|
 | `<`  |Input Redirection         | Redirects input from a file to a command.                                           | `wc < file.txt`              |

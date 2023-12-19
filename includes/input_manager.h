@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 15:35:02 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/17 16:58:17 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/19 02:16:41 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@
 
 /* outside quote state */
 # define OUT_Q     		 0
-/* indicate the necessity of an empty token */
-# define EMPTY_TOKEN	-126
 /* indicate a whitespace character to be ignored */
 # define NO_SPACE	    -125
+/* indicate the necessity of an empty token */
+# define EMPTY_TOKEN	-126
 
 /* data types from other header files */
 typedef struct s_mbox	t_mbox;
@@ -48,7 +48,7 @@ typedef struct s_ast
 /*********************************# FUNCTIONS #********************************/
 
 /* HANDLE QUOTES */
-t_bool	shift_context_chars(t_mbox *mbox, int i, int quote_state);
+t_bool	shift_seps(t_mbox *mbox, int i, int quote_state);
 void	update_quote_state(int *quote_state, char cur_char, t_bool shift);
 
 /* VARIABLES EXPANSION */

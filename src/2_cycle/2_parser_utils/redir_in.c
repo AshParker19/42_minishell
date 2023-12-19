@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 20:24:57 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/15 14:16:57 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/19 02:08:50 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static t_ast	*redir_in_case1(t_mbox *mbox)
 	if (!validate_token(mbox->tmp_token, 1, RED_IN_TOKEN))
 		return (NULL);
 	if (!validate_token(mbox->tmp_token, 2, WORD_TOKEN))
-		return (create_syntax_err(mbox, mbox->tmp_token->next->next));
+		return (syntax_err_msg(mbox, mbox->tmp_token->next->next));
 	red_in_hd_node = ast_create_node(RED_IN_HD);
 	red_in_hd_node->content = ft_strdup(mbox->tmp_token->next->next->value);
 	mbox->tmp_token = mbox->tmp_token->next->next->next;
@@ -68,7 +68,7 @@ static t_ast	*redir_in_case2(t_mbox *mbox)
 	if (!validate_token(mbox->tmp_token, 0, RED_IN_TOKEN))
 		return (NULL);
 	if (!validate_token(mbox->tmp_token, 1, WORD_TOKEN))
-		return (create_syntax_err(mbox, mbox->tmp_token->next));
+		return (syntax_err_msg(mbox, mbox->tmp_token->next));
 	red_in_node = ast_create_node(RED_IN);
 	red_in_node->content = ft_strdup(mbox->tmp_token->next->value);
 	mbox->tmp_token = mbox->tmp_token->next->next;

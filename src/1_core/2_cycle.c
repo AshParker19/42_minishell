@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   b_cycle.c                                          :+:      :+:    :+:   */
+/*   2_cycle.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:38:32 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/18 01:12:36 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/19 02:01:12 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void	cycle_main(t_mbox *mbox)
 	info_put_banner(mbox, "INPUT STATES", NULL, LIGHT_RED);
 	add_history(mbox->inp_orig);
 	save_history(mbox);
-	mbox->error_status = ft_false;
 	info_print_input_string(mbox, "original", mbox->inp_orig, LIGHT_RED);
 	mbox->inp_trim = ft_strtrim(mbox->inp_orig, " \n\t\v\a\b\f\r");
 	if (!mbox->inp_trim || mbox->inp_trim[0] == 0)
@@ -41,7 +40,7 @@ void	cycle_main(t_mbox *mbox)
 	info_print_input_string(mbox, "trimmed", mbox->inp_trim, LIGHT_RED);
 	mark_empty_quotes(mbox);
 	info_print_input_string(mbox, "empty quotes", mbox->inp_eq, LIGHT_RED);
-	if (!shift_context_chars(mbox, -1, OUT_Q))
+	if (!shift_seps(mbox, -1, OUT_Q))
 		return ;
 	info_print_input_string(mbox, "shifted", mbox->inp_shift, LIGHT_RED);
 	if (!expand_vars_main(mbox, 0, OUT_Q))
@@ -51,7 +50,7 @@ void	cycle_main(t_mbox *mbox)
 		return ;
 	if (!parse(mbox))
 		return ;
-	if (mbox->error_status == ft_false)
+	if (!mbox->syntax_err_encountered)
 		execute_ast(mbox);
 }
 
@@ -86,4 +85,5 @@ void	reset_cycle(t_mbox *mbox)
 	conf_sig_handler(SIG_STATE_MAIN);
 	g_signal_status = 0;
 	mbox->consecutive_lt = 0;
+	mbox->syntax_err_encountered = ft_false;
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   c_mbox.c                                           :+:      :+:    :+:   */
+/*   3_mbox.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:49:13 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/18 18:31:28 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/19 01:35:18 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	initialize_mbox(t_mbox *mbox, char **env)
 {
 	g_signal_status = 0;
 	mbox->info_mode = ft_false;
-	mbox->error_status = ft_false;
+	mbox->syntax_err_encountered = ft_false;
 	mbox->count_cycles = 0;
 	mbox->history_lst = NULL;
 	mbox->env = NULL;

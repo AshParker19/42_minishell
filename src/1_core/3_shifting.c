@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   f_shifted_chars.c                                  :+:      :+:    :+:   */
+/*   3_shifting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 20:16:30 by astein            #+#    #+#             */
-/*   Updated: 2023/12/18 22:37:33 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/19 02:24:35 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,16 @@
  * 			ASCII value by -126. This makes an easy check for all of them
  * 			possible (ASCII < 0) without loosing their original value.
  * 
- * 			The shiftinf (aka offseting) is done by the functions:
+ * 			The shifting (aka offseting) is done by the functions:
  * 				- add_offset()
  * 				- remove_offset()
  * 			
- * 			This file contains all the functions related to the shifting of the seperating characters.
+ * 			This file contains all the functions related to the shifting of the
+ * 			seperating characters.
  * 
- * 			A seperating character needs to be outside of any quotes to be shifted.
+ * 			A seperating char needs to be outside of any quotes to be shifted.
  * 			Those are the characters which we consider as seperating characters:
- * 				- whitespace 
+ * 				- whitespace (SPACE, '\n', '\t', '\v', '\a', '\b', '\f', '\r')
  * 				- pipe	(|)
  * 				- redirections (>, <, >>, <<)
  * 
@@ -34,13 +35,6 @@
  */
 
 # include "frankenshell.h"
-
-
-* This parameter is used to mark if the previous char needs to be checked
-also we use it to mark if the function is called recursively so we can
-terminate the recursion before the end of the string
-
-
 
 /* shifts the receiving char to negative ASCII values (for tokenizer) */
 int	add_offset(int c)
@@ -55,32 +49,10 @@ int	remove_offset(int c)
 }
 
 /**
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- * 
- * @param   quote_state 
- * @param   cur_char 
- */
-
-/**
  * @brief   Accepts an address of quote_state to update it
  *          
  * IDEA:
- * 		if somwehre at frankenshell we loop through the an input string
+ * 		If somwehre at frankenshell we loop through the an input string
  * 		sometimes we need to know if we are inside or outside of contextual
  * 		quotes. This function updates the quote_state variable to the current
  * 		state of the quotes.
