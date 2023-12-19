@@ -74,13 +74,21 @@
 10. [Acknowledgments](#acknowledgments)
 
 
-# Introduction
+
+<h1 id="introduction">
+	<a href="#table-of-content">🔝 </a>
+	Introduction
+</h1>
 
 As ChatGPT said in 2023:
 
 > Minishell is a [42 school](https://42.fr/en/homepage/) project designed to create a simplified Unix shell. The idea behind Minishell is to develop a basic command-line interface (CLI) that can execute simple commands and handle input/output redirection. It's meant to serve as a learning exercise for students to gain a fundamental understanding of how shells work by implementing core features like parsing user input, managing processes, handling signals, creating builtins and executing system commands.
 
-# Installation
+<h1 id="installation">
+	<a href="#table-of-content">🔝 </a>
+	Installation
+</h1>
+
 ```
 	# Clone this repository
 	$ git clone https://github.com/AshParker19/42_minishell
