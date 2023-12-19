@@ -9,6 +9,7 @@
 
 **Legend**\
 <br>
+ **:building_construction:	Section under construction!**<br>
  :book:						Link to another chapter<br>
  :computer:		 			Link to .c file<br>
  :page_facing_up: 			Link to .h file<br>
@@ -16,8 +17,8 @@
  :pencil2:					Example<br>
  :warning:					Warning / Important<br>
  :jigsaw:					Part of smth<br>
- :building_construction:	Section under construction!<br>
  
+
 
 # Table of Contents
 1. [Introduction](#introduction)
@@ -106,7 +107,12 @@ As ChatGPT said in 2023:
 ![Example][example-gif]
 
 
-<h2 id="info-mode">Info Mode <a href="../src/4_debug/info_mode.c">💻</a></h2>
+<h2 id="info-mode">
+	<a style="font-size: 50%;">text</a>
+	<a href="../src/4_debug/info_mode.c"> 🔝 </a>
+	Info Mode
+	<a href="../src/4_debug/info_mode.c"> 💻</a>
+</h2>
 ## Info Mode<a> [:computer:](../src/4_debug/info_mode.c)</a>
 To activate the info mode you can
 - start frankenshell with the flag `--info` or `-i`
