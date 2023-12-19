@@ -441,7 +441,7 @@ The following characters are used as seperators for the input string
 - **Single Quotes**:\
 Enclosing text in single quotes `'` prevents the shell from interpreting any metacharacters within the quoted sequence.
 - **Double Quotes**:\
-Using double quotes `"` also prevents interpretation of metacharacters, except for the dollar sign `$`, which is used for [:book: Variable Expansion](#variable-expansion).
+Using double quotes `"` also prevents interpretation of metacharacters, except for the dollar sign `$`, which is used for [:book: variable expansion](#variable-expansion).
 
 If you use single quotes inside double quotes, the single quotes will be interpreted as a normal character and vice versa.\
 :bulb: The outer quotes are always the contextual quotes.\
@@ -762,25 +762,46 @@ Explanation:	The single quote is inside a double quote, so it will be ignored.
 
 #### Variable Expansion
 
-The **Variable Expansion** works simmilar like in bash:
+The [environment variable](#environment-variables) expansion works similar like in bash:
 
-| Command            | Expand       | Output                        |
-| ----------------- | :----------: | ----------------------------- |
-| `echo $USER`       |      ✅        |      `current_user_value`      |
-| `echo "$USER"`     |      ✅        |      `current_user_value`      |
-| `echo '$USER'`     |      ❌        |      `$USER`                   |
-| `<< $USER cat`     |      ❌        |  Won't expand, so the `EOF` of the heredoc will be `$USER` |
+:bulb: Variable Expansion happens if the variable is **not** inside single [quotes](#quotes).\
+:warning: If the variable is part of the [heredoc](#heredoc) limiter it won't be expanded! (e.g. `<< $USER cat`)\
+:book: Refer to the section [heredoc](#heredoc) for the variable expansion **inside a heredoc**.\
+:bulb:  Activate the [info mode](#info-mode) to see all input string states during runtime.
 
-Special Cases
-Table with $?, $Space $"", Herdeoc refer to next section and so on, expansion in herdoc refer to heredoc
+| Command           |  Valid Key 			| Expand       			| Output                        							|
+| ------------------|   :------: 			| :----------: 			| ----------------------------- 							|
+| `echo $USER`		| :white_check_mark:	| :white_check_mark:	| `astein`				      								|
+| `echo "$USER"`    | :white_check_mark:	| :white_check_mark:	| `astein`				      								|
+| `echo '$USER'`    | :white_check_mark:	| :x:	        		| `$USER`                   								|
+| `<< $USER cat`    | N/A		 			| :x:	        		| Won't expand, so the `EOF` of the heredoc will be `$USER` |
 
-> :arrow_right: Refer to the section [Quotes](#quotes) for a better understanding of variable expansion inside quotes.
+
+<br>
+
+**:pencil2: Examples (Special Cases)**
+| Special Case			| Valid Key					  			| Expand 			| Explanation 												| Output (example)			|
+|---------------		| :---:   					  			| :---:				|-------------												|--------------				|
+| `echo $@ hi`			| :x:									| :x:				| first char of false key gets swallowed					| `hi` 						|
+| `echo $@@ hi`			| :x:									| :x:				| first char of false key gets swallowed					| `@ hi` 					|
+| `echo $1HOME`			| :x:									| :x:				| first char of false key gets swallowed					| `HOME` 					|
+| `$`					| :x:									| :x:				| no key 													| `$: command not found`	|
+| `echo $ hi`			| :x:									| :x:				| no key 													| `$ hi`	 				|
+| `$?`					| :negative_squared_cross_mark:			| :white_check_mark:| [:book: exit status](#exit-status) of the last command 	| `42: command not found`	|
+| `echo $?`				| :negative_squared_cross_mark:			| :white_check_mark:| [:book: exit status](#exit-status) of the last command 	| `42`						|	
+| `echo $??`			| :negative_squared_cross_mark:			| :white_check_mark:| [:book: exit status](#exit-status) of the last command 	| `42?`						|	
+| `echo $"USER"`		| :x:									| :x:				| the `"` block the key; <br> contextual quotes get removed	| `USER` 					|
+| `echo "foo $'BAR'"`	| :x:									| :x:				| the `'` block the key; <br> contextual quotes get removed	| `foo $'BAR'` 				|
+| `echo 'foo $"BAR"'`	| N/A									| :x:				| inside contextual quotes `'` -> no expansion				| `foo $"BAR"` 				|
+| `echo 'foo $BAR'`		| N/A									| :x:				| inside contextual quotes `'` -> no expansion				| `foo $BAR` 				|
+| `echo foo$USER$HOME`	| :white_check_mark: :white_check_mark:	| :white_check_mark: :white_check_mark:| the second `$` is not an allowed char of a key <br> therfore it terminates the first key. 										| `fooastein/home/astein`	|
+| `echo foo $NOTEXIST bar`| :white_check_mark:					| :white_check_mark:| the key doesn't exist; <br> expands to NULL				| `a b`						|
 
 ##### Extract Limiter
 
-special case var expansion in heredoc limiter doesnt work
+special case var expansion in heredoc limiter doesn't work
 
-> :bulb:  Activate the [info mode](#info-mode) to see all input string states during runtime.
+
 
 
 ---
@@ -1376,6 +1397,8 @@ The builtin `unset` deletes the corresponding variables.
 ---
 
 # Environment Variables
+This is general information about environment variables in frankenshell. ([:book: variable expansion](#variable-expansion))
+
 On programm start a [t_env](#t_env) linked list will be created from the enviromental variables and stored in the [t_mbox](#t_mbox) struct. Variable represent a simple key-value pair. The key is a string and the value is a string. The key is always unique. The value can be empty.\
 A key has to match the following regex:
 ```
