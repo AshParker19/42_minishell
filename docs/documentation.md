@@ -23,7 +23,6 @@
 	Table of Contents
 </h1>
 
-# Table of Contents
 1. [Introduction](#introduction)
 1. [Installation](#installation)
 1. [Usage](#usage),
@@ -111,7 +110,7 @@ As ChatGPT said in 2023:
 
 
 <h2 id="info-mode">
-	<a href="../src/4_debug/info_mode.c">🔝 </a>
+	<a href="#table-of-content">🔝 </a>
 	Info Mode
 	<a href="../src/4_debug/info_mode.c"> 💻</a>
 </h2>
