@@ -11,8 +11,11 @@
 <br>
  **:building_construction:	Section under construction!**<br>
  :book:						Link to another chapter<br>
- :computer:		 			Link to .c file<br>
- :page_facing_up: 			Link to .h file<br>
+ :top:						Link to top of the page / table of content<br>	
+ :arrow_backward:			Link to previous chapter<br>
+ :arrow_forward:			Link to this chapter<br>
+ :computer:		 			Link to related.c file<br>
+ :page_facing_up: 			Link to related.h file<br>
  :bulb:	 					Hint<br>
  :pencil2:					Example<br>
  :warning:					Warning / Important<br>
@@ -27,12 +30,13 @@
 
 1. [Introduction](#introduction)
 1. [Installation](#installation)
-1. [Usage](#usage),
-	[Info Mode](#info-mode)
+1. [Usage](#usage)
+	[[Info Mode](#info-mode)]
 1. [Definitions](#definitions)
 1. [Syntax](#syntax)
-1. [Structs](#structs)\
-	&nbsp;&nbsp;&nbsp;&nbsp;
+	[[Quotes](#quotes), 
+	[Seperators](#seperators)]
+1. [Structs](#structs)
 	[[t_mbox](#t_mbox), 
 	[t_env](#t_env), 
 	[t_history](#t_history), 
@@ -457,20 +461,15 @@ These definitions are used throughout this manual as follows.
 	Syntax
 </h1>
 
+The syntax of frankenshell is  designed to mimic  the syntax of bash.
 
+<br><h2 id="quotes">
+	<a href="#table-of-content">🔝 </a>
+	<a href="#syntax">◀️ </a>
+	<a href="#quotes">▶️ </a>
+	Quotes
+</h2>
 
-## Seperators
-The following characters are used as seperators for the input string
-| Symbol | Description              |
-|--------|--------------------------|
-| `\|`   | pipe	                    |
-| `<`    | redirection in           |
-| `<<`   | frankendoc aka heredoc   |
-| `>`    | redirection out          |
-| `>>`   | redirection out append   |
-| `'` `"`| contextual quotes        |
-
-## Quotes
 - **Single Quotes**:\
 Enclosing text in single quotes `'` prevents the shell from interpreting any metacharacters within the quoted sequence.
 - **Double Quotes**:\
@@ -501,13 +500,40 @@ frankenshell--> echo "this single quote ' doesn't close the double quote
 frankenshell: syntax error: unclosed quotes
 ```
 
+<br><h2 id="seperators">
+	<a href="#table-of-content">🔝 </a>
+	<a href="#syntax">◀️ </a>
+	<a href="#seperators">▶️ </a>
+	Seperators
+</h2>
+
+The following characters are used as seperators for the input string
+| Symbol | Description              |
+|--------|--------------------------|
+| `\|`   | pipe	                    |
+| `<`    | redirection in           |
+| `<<`   | frankendoc aka heredoc   |
+| `>`    | redirection out          |
+| `>>`   | redirection out append   |
+| `'` `"`| contextual quotes        |
+
+:warning: frankenshell doesn't support those seperators:\
+`;`, `&`, `&&`,`||`, `(`, `)`, `{`, `}`, `*`, `[`, `]`, `~`, `!`, `=`, `+`, `-`, `/`, `%`, `^`, `@`, `#`, `:`, `,`, `.`
+
 <br><h1 id="structs">
 	<a href="#table-of-content">🔝 </a>
 	<a href="#structs">▶️ </a>
 	Structs
 </h1>
 
-### t_mbox [:page_facing_up:](../includes/frankenshell.h) [:computer:](../src/1_core/c_mbox.c)
+<h3 id="t_mbox">
+	<a href="#table-of-content">🔝 </a>
+	<a href="#structs">◀️ </a>
+	t_mbox
+	<a href="./includes/">📄 </a>
+	<a href="./src/0_core/0_mbox">💻 </a>
+</h3>
+
 The struct `mbox` is the main structure of the program: it is being passed as an argument to most of the functions and contains all the info needed for the program to work.\
 :page_facing_up:  The file ['manage_mbox.c'](../src/0_core/manage_mbox.c) contains the functions for initializing and destroying the mbox instance.
 ```

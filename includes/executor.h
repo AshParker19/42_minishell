@@ -13,34 +13,6 @@
 #ifndef EXECUTOR_H
 # define EXECUTOR_H
 
-/*****************************# DATA STRUCTURES #******************************/
-
-/* data for input/output manipulations */
-typedef struct s_io
-{
-	t_bool	use_pipe[2];
-	int		cmd_fd[2];
-	int		dup_fd[2];
-	int		prev_pipe[2];
-}	t_io;
-
-/*  data for execution */
-typedef struct s_exec
-{
-	t_builtin_cmd	builtins[12];
-	t_io			io;
-	int				*pid;
-	int				pid_index;
-}	t_exec;
-
-/* heredoc */
-typedef struct s_hd
-{
-	int				*fd;
-	char			*lim;
-	char			*cur_line;
-}	t_hd;
-
 /*********************************# FUNCTIONS #********************************/
 
 /* exec */

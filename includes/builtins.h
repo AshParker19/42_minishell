@@ -6,22 +6,14 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 11:32:13 by astein            #+#    #+#             */
-/*   Updated: 2023/12/18 02:25:04 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/20 00:03:59 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILTINS_H
 # define BUILTINS_H
 
-/* bultins function pointer typedef */
-typedef void	(*t_builtin_function)(t_mbox *mbox, t_ast *arg_node);
 
-/* struct for each builtin */
-typedef struct s_builtin_cmd
-{
-	char				*cmd_name;
-	t_builtin_function	func_name;
-}						t_builtin_cmd;
 
 /* bultin functions */
 void	builtin_echo(t_mbox *mbox, t_ast *arg_node);

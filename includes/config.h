@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 16:07:39 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/18 18:46:25 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/19 23:36:05 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,11 @@ enum e_signal_state
 	SIG_STATE_HD_CHILD,
 	SIG_STATE_IGNORE
 };
+
+/**********************************# PARSING #*********************************/
+# define OUT_Q     		 0		// outside quote state
+# define NO_SPACE	    -125 	//indicate a whitespace character to be ignored */
+# define EMPTY_TOKEN	-126	// indicate the necessity of an empty token
 
 /**********************************# TOKENIZER #*******************************/
 /* token types for the t_token list */

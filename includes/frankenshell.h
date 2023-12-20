@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2023/12/19 19:32:30 by astein           ###   ########.fr       */
+/*   Updated: 2023/12/19 23:41:27 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,64 +29,12 @@
 /*****************************# PROJECT INCLUDES #*****************************/
 # include "../libft/libft_printf.h"
 # include "config.h"
-# include "input_manager.h"
+# include "structs.h"
 # include "builtins.h"
 # include "executor.h"
 
 /**********************************# INFO #************************************/
-
-/* global variable for signal handling */
-extern int						g_signal_status;
-
-/* typedefs from the other header files with all the info for mbox */
-typedef struct s_env			t_env;
-typedef struct s_history		t_history;
-typedef struct s_builtin_cmd	t_builtin_cmd;
-typedef struct s_exec			t_exec;
-
-/*****************************# DATA STRUCTURES #******************************/
-
-/* 
- *	the main structure of the program: it is being passed as an argument to most
- *	of the functions and contains all the info needed for the program to work.
- *	The file 'manage_mbox.c' contains the functions for initializing and
- *	destroying the mbox instance.
- */
-typedef struct s_mbox
-{
-	char						*inp_orig;
-	char						*inp_trim;
-	char						*inp_eq;
-	char						*inp_shift;
-	char						*inp_expand;
-	int							consecutive_lt;
-	bool						syntax_err_encountered;	//track the first error
-	t_env						*env;
-	t_list						*history_lst;
-	t_token						*tokens;
-	t_token						*tmp_token;
-	t_ast						*ast;
-	t_ast						*tmp_node;
-	t_exec						exec;
-	int							count_cycles;
-	t_bool						info_mode;
-}	t_mbox;
-
-/* struct to store all variables as key-value pairs in a linked list */
-typedef struct s_env
-{
-	char						*key;
-	char						*value;
-	struct s_env				*next;
-}	t_env;
-
-/* struct to store all the user input in a linked list */
-typedef struct s_history
-{
-	int							index;
-	char						*inp;
-	t_mbox						*mbox;
-}	t_history;
+extern int						g_signal_status;	//global variable for signal handling
 
 /*********************************# FUNCTIONS #********************************/
 
