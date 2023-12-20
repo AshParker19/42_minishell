@@ -739,7 +739,7 @@ The following characters are used as seperators for the input string
 	<a href="#structs">◀️ </a>
 	t_mbox
 	<a href="../includes/structs.h">📄 </a>
-	<a href="../src/0_core/0_mbox.c">💻 </a>
+	<a href="../src/1_core/0_mbox.c">💻 </a>
 </h3>
 
 The struct `mbox` is the main structure of the program: it is being passed as an argument to most of the functions and contains all the info needed for the program to work.\
