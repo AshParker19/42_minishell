@@ -48,8 +48,7 @@
 	[t_hd](#t_hd), 
 	[t_builtin_cmd](#t_builtin_cmd)]
 1. [Environment Variables](#environment-variables)
-7. [Builtin Commands](#builtin-commands)\
-	&nbsp;&nbsp;&nbsp;&nbsp;
+7. [Builtins](#builtin-commands)
 	[[42](#42-builtin), 
 	[cd](#cd-builtin), 
 	[echo](#echo-builtin), 
@@ -79,6 +78,16 @@
 9. [Known Bugs](#known-bugs)
 10. [Acknowledgments](#acknowledgments)
 
+
+
+
+
+
+
+
+
+
+
 <br><h1 id="introduction">
 	<a href="#table-of-content">🔝 </a>
 	<a href="#introduction">▶️ </a>
@@ -88,6 +97,34 @@
 As ChatGPT said in 2023:
 
 > Minishell is a [42 school](https://42.fr/en/homepage/) project designed to create a simplified Unix shell. The idea behind Minishell is to develop a basic command-line interface (CLI) that can execute simple commands and handle input/output redirection. It's meant to serve as a learning exercise for students to gain a fundamental understanding of how shells work by implementing core features like parsing user input, managing processes, handling signals, creating builtins and executing system commands.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <br><h1 id="installation">
 	<a href="#table-of-content">🔝 </a>
@@ -118,6 +155,31 @@ As ChatGPT said in 2023:
 	$ exit
 ```
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <br><h1 id="usage">
 	<a href="#table-of-content">🔝 </a>
 	<a href="#usage">▶️ </a>
@@ -127,6 +189,21 @@ As ChatGPT said in 2023:
 **frankenshell** is designed to mimic the behavior of the traditional **bash** shell. So feel free to use it like bash.
 
 ![Example][example-gif]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 <br><h2 id="info-mode">
@@ -146,6 +223,25 @@ If the info mode is activated frankenshell will print the following information 
 - Input String States
 - All [t_tokens](#t_token) (token type and value)
 - A [visual representation](#parsing) of the tree (ast) of the input string
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ### Readable Input String
 To get a 'readable' Version of the input strings, their [shifted values](#shift-separators) will be displayed like:
@@ -429,6 +525,31 @@ hi   there
 
 :arrow_right: Refer to the section [Parsing](#parsing) for a better understanding of the ast.
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <br><h1 id="definitions">
 	<a href="#table-of-content">🔝 </a>
 	<a href="#definitions">▶️ </a>
@@ -455,6 +576,25 @@ These definitions are used throughout this manual as follows.
 **ast / tree**\
 &nbsp;&nbsp;&nbsp;&nbsp;The parser in Frankenshell constructs an abstract syntax tree (AST). For more in-depth information on this subject, refer to the [:book:Parser](#parser) chapter.
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <br><h1 id="syntax">
 	<a href="#table-of-content">🔝 </a>
 	<a href="#syntax">▶️ </a>
@@ -462,6 +602,25 @@ These definitions are used throughout this manual as follows.
 </h1>
 
 The syntax of frankenshell is  designed to mimic  the syntax of bash.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <br><h2 id="quotes">
 	<a href="#table-of-content">🔝 </a>
@@ -500,6 +659,31 @@ frankenshell--> echo "this single quote ' doesn't close the double quote
 frankenshell: syntax error: unclosed quotes
 ```
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <br><h2 id="seperators">
 	<a href="#table-of-content">🔝 </a>
 	<a href="#syntax">◀️ </a>
@@ -519,6 +703,30 @@ The following characters are used as seperators for the input string
 
 :warning: frankenshell doesn't support those seperators:\
 `;`, `&`, `&&`,`||`, `(`, `)`, `{`, `}`, `*`, `[`, `]`, `~`, `!`, `=`, `+`, `-`, `/`, `%`, `^`, `@`, `#`, `:`, `,`, `.`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <br><h1 id="structs">
 	<a href="#table-of-content">🔝 </a>
@@ -673,444 +881,140 @@ typedef struct s_builtin_cmd
 } t_builtin_cmd;
 ```
 
-<br>
 
-<br><h1 id="how-frankenshell-operates">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<br><h1 id="environment-variables">
 	<a href="#table-of-content">🔝 </a>
-	<a href="#how-frankenshell-operates">▶️ </a>
-	How Frankenshell Operates
+	▶️ Environment Variables
 </h1>
-The main task of frankenshell can be grouped into those steps:
-- [Initialization](#initialization)
-- Processing a Single Cycle
-    - [Input Management](#processing-a-cycle)
-    - [Execution](#execution)
-- [Termination](#termination)
 
-Below you can find a detailed description of each step.
-> :page_facing_up:  The file ['input_management.c'](../src/0_core/input_management.c) calls all the input management functions.
+This is general information about environment variables in frankenshell.
+
+**Related Sections:**\
+[:book: variable expansion](#variable-expansion)\
+[:book: heredoc](#heredoc)
 
 
-<br>
-
-## Initialization
-
-On startup the program will initialize the [`t_mbox`](#t_mbox) struct. This struct contains all the information needed for the program to work. It is passed as an argument to most of the functions.\
-The following steps are executed during initialization:
-- creating a [t_env](#t_env) linked list for the [environment variables](#environment-variables)
-- creating a [t_builtin_cmd](#t_builtin_cmd) array for the [builtin commands](#builtin-commands)
-- ini
-
-> :page_facing_up:  The file ['manage_mbox.c'](../src/0_core/manage_mbox.c) contains the functions for initializing and destroying the mbox instance.
-
-
-<br>
-
-### Processing a cycle
-All the following steps are executed for each cycle.
-
-| **Step** 										| **Example** |
-| --------------------------------- 			| ----------- |
-| Finished Reading    							| `echo "Hello" $USER "" '!' \| wc    -l     `          |
-| [Trim Input](#trim-input)       				| `echo "Hello" $USER "" '!' \| wc -l`                  |
-| [Mark Empty Quotes](#mark-empty-quotes) 		| `echo "Hello" $USER E_ '!' \| wc    -l`               |
-| [Shift Separators](#shift-separators) 		| `echo_DHelloD_$USER_E__S!S_P_wc____-l`                |
-| [Variable Expansion](#variable-expansion) 	| `echo_DHelloD_astein_E__S!S_P_wc____-l`               |
-| [Tokenize](#tokenizing) 						| ![Example][token-table] 						        |
-| [Parsing](#parsing) 							| ![Example][mindmap-ast-echo-hello-astein]				|
-
-<!--
-THIS TABLE IS IN THE TABLE ABOVE AS SCREENSHOT!
-| Type | Value |
-| ---- | ----- |
-| WORD_TOKEN | `echo` |
-| WORD_TOKEN | `Hello`	|
-| WORD_TOKEN | `astein`	|
-| WORD_TOKEN | ` `	|
-| WORD_TOKEN | `!`	|
-| PIPE_TOKEN | `|`	|
-| WORD_TOKEN | `wc`	|
-| WORD_TOKEN | `-l`	|
--->
-
----
-
-#### Trim Input
-First step is to trim the input. This means that all leading and trailing whitespaces are removed.
-> :bulb:  Activate the [info mode](#info-mode) to see all input string states during runtime
-
----
-
-#### Mark Empty Quotes
-Bash generates an empty token for a pair of empty quotes if the two conditions are met:
-- the empty quotes are not inside another pair of quotes\
-(refer to `OUT_Q` as the [quote state](#quote-state))
-- the empty quotes are surrounded by at least one whitespace character (or the beginning/end of the string) before and after 
-
-Empty quotes will be marked as `EMPTY_TOKEN` and `NO_SPACE` characters.
+On programm start a [t_env](#t_env) linked list will be created from the enviromental variables and stored in the [t_mbox](#t_mbox) struct. Variable represent a simple key-value pair. The key is a string and the value is a string. The key is always unique. The value can be empty.\
+A key has to match the following regex:
 ```
-# define NO_SPACE       -125
-# define EMPTY_TOKEN    -126
-```
-> :arrow_right: Refer to the section [Shift Separators](#shift-separators) for a better understanding of the marked input string.
+^[a-zA-Z_]+[a-zA-Z0-9_]*$
 
-Examples
-| inp_trim		        | inp_eq            | empty quotes      |
-| ----------------------|-------------------|:-----------------:|
-| `echo ""`			    | `echo E_`         | :white_check_mark:|
-| `echo ''`			    | `echo E_`         | :white_check_mark:|
-| `echo """"`			| `echo E___`       | :white_check_mark:|
-| `echo "" "" "'hi"`    | `echo E_ E_ "'hi"`| :white_check_mark:|
-| `echo hi""`			| `echo hi""`       | :x:               |
-| `echo hi''`			| `echo hi''`       | :x:               |
-| `echo ""hi`			| `echo ""hi`       | :x:               |
-| `echo ''hi`			| `echo ''hi`       | :x:               |
-| `echo '""'`			| `echo '""'`       | :x:               |
-| `echo "''"`			| `echo "''"`       | :x:               |
-
-> :arrow_right: Refer to the section [Readble Input String](#readable-input-string) for a better understanding of the marked input string.\
-> :bulb: Activate the [info mode](#info-mode) to see all input string states during runtime
-
----
-
-#### Shift Separators
-
-To prepare the input string for the tokenizer all seperating characters need to be found. To mark them frankenshell shifts their ASCII value by `-126`. This makes an easy check for all of them possible (`ASCII < 0`) without loosing their original value. A seperating char needs to be outside of any quotes to be shifted.
-Those are the characters which we consider as seperating characters:
-- whitespace (` `, `\n`, `\t`, `\v`, `\a`, `\b`, `\f`, `\r`)
-- pipe	(`|`)
-- redirections (`<`, `>`)
-
-Examples
-| inp_trim		        | inp_eq		    | inp_shift         |
-| ----------------------|-------------------|---|
-| `echo "" "" "'hi"`    | `echo E_ E_ "'hi"`|  TODO |
-| `echo hi""`			| `echo hi""`       |   |
-| `echo hi''`			| `echo hi''`       |   |
-| `echo ""hi`			| `echo ""hi`       |   |
-| `echo ''hi`			| `echo ''hi`       |   |
-| `echo '""'`			| `echo '""'`       |   |
-| `echo "''"`			| `echo "''"`       |   |
-
-###### Quote State
- * IDEA:
- * 		If somwehre at frankenshell we loop through the an input string
- * 		sometimes we need to know if we are inside or outside of contextual
- * 		quotes. This function updates the quote_state variable to the current
- * 		state of the quotes.
- * 
- * LOGIC:
- * 		if quote_state is OUT_Q (the cur_char is outside of contextual quotes)
- * 			if cur_char is a quote
- * 				update quote_state to the cur_char
- * 			else
- * 				quote_state stays OUT_Q
- *		else (the cur_char is inside of contextual quotes)
- * 			if matching quote is found
- * 				update quote_state to OUT_Q
- * 			else
- * 				quote_state stays the same          
-While traversing the input string, the `quote state` will be updated for each character. So if a seperating character is found it will be only marked if the `quote state` is `OUT__QUOTE`  TODO LINK TO H FILE:
-```
-# define OUT_Q  0
-```
-TODO EMOJI Examples:
-```
-Trimmed String:	echo "Hello 'astein', how are you?"
-Quote State: 	OOOOODDDDDDDDDDDDDDDDDDDDDDDDDDDDDO
-Marked String:	echo DHello 'astein', how are you?D
-Explanation:	The single quote is inside a double quote, so it will be ignored.
+Explanation:
+^				-> start of string
+[a-zA-Z_]		-> first char must be a letter or '_'
++				-> one or more chars
+[a-zA-Z0-9_]*	-> zero or more letters, numbers or '_'
+$				-> end of string
 ```
 
-> :bulb:  Activate the [info mode](#info-mode) to see all input string states during runtime
+> :page_facing_up: 	All related functions are in the [a_env_vars.c](../src/1_core/d_env_vars.c) file.
 
----
-
-### Variable Expansion
-
-The [environment variable](#environment-variables) expansion works similar like in bash:
-
-- Variable Expansion happens if the variable is **not** inside single [quotes](#quotes).
-- Whitespaces inside the variable value will be [marked as `NO_SPACE` characters](#removal-of-whitespaces-of-expanded-variable-values). Therefore the [tokenizer](#tokenizing) can make multiple tokens out of it.
-- If the variable is part of the [heredoc limiter](#extract-limiter) it won't be expanded! (e.g. `<< $USER cat`)
-
-:bulb:  Activate the [info mode](#info-mode) to see the expanded input string states during runtime.
-
-| Command           |  Valid Key 			| Expand       			| Output                        							|
-| ------------------|   :------: 			| :----------: 			| ----------------------------- 							|
-| `echo $USER`		| :white_check_mark:	| :white_check_mark:	| `astein`				      								|
-| `echo "$USER"`    | :white_check_mark:	| :white_check_mark:	| `astein`				      								|
-| `echo '$USER'`    | :white_check_mark:	| :x:	        		| `$USER`                   								|
-| `<< $USER cat`    | N/A		 			| :x:	        		| Won't expand, so the `EOF` of the [heredoc](#heredoc) will be `$USER` 	|
-
-
-<br>
-
----
-
-#### Removal of whitespaces of expanded variable values
-
-
-If there are whitespaces in the expanded Variable they will be marked as `NO_SPACE` characters.\
-Therefore the tokenizer will make multiple tokens out of it.\
-Quote Protection of whitespaces is not supported inside a variable. (like in bash)\
-Example:
+The following functions are implemented: TODO DOUBLE CHECK
 ```
-frankenshell--> export foo="Hello           World"
-frankenshell--> echo $foo
-Hello World
-frankenshell--> export foo="Hello'        'World" //tries a quote protect of whitespaces
-Hello' 'World                                     //doesn't work 
-```
-
----
-
-#### Extract Limiter
-
-The variable expansion for a heredoc limiter is a special case.\
-Variable Expension is not allowed inside a heredoc limiter!\
-Anyhow there some strange rules for the determine the limiter:
-| Case                  | Limiter <br> (send to tokenizer) | Explanation   | Limiter<sup> 1</sup> <br> (to exit hd)                           | Var. expansion <sup> 2</sup> <br> (inside heredoc) |
-| ----                  | ---           | -----------                                                                       | -------     | :---:                                    |
-| `<< $USER cat`        | `$USER`       |                                                                                   | `$USER`     | :white_check_mark:                        |
-| `<< "FOO BAR" cat`    | `"FOO BAR"`   |                                                                                   | `FOO BAR`   | :x:                                       |
-| `<< "$FOO $BAR" cat`  | `"$FOO $BAR"` |                                                                                   | `$FOO $BAR` | :x:                                       |
-| `<< $'FOO' cat`       | `'FOO'`       |   `$` is followed by contextual `'`; <br> the `$` will be removed                 | `FOO`       | :x:                                       |
-| `<< $"FOO" cat`       | `"FOO"`       |   `$` is followed by contextual `"`; <br> the `$` will be removed                 | `FOO`       | :x:                                       |
-| `<< $"FOO"$"BAR" cat` | `"FOO""BAR"`  |   twice: <br> `$` is followed by contextual quotes; <br> the `$` will be removed  | `FOOBAR`    | :x:                                       |
-
-<sup>1</sup> The contextual quotes will be removed by the [heredoc](#heredoc) function.\
-<sup>2</sup> Different topic: Refer to the section [:book: heredoc](#heredoc) for the variable expansion **inside a heredoc**.
-
-<br>
-
----
-
-**:pencil2: Variable Expansion Examples (Special Cases)**
-| Special Case			| Valid Key					  			| Expand 			| Explanation 												| Output (example)			|
-|---------------		| :---:   					  			| :---:				|-------------												|--------------				|
-| `echo $@ hi`			| :x:									| :x:				| first char of false key gets swallowed					| `hi` 						|
-| `echo $@@ hi`			| :x:									| :x:				| first char of false key gets swallowed					| `@ hi` 					|
-| `echo $1HOME`			| :x:									| :x:				| first char of false key gets swallowed					| `HOME` 					|
-| `$`					| :x:									| :x:				| no key 													| `$: command not found`	|
-| `echo $ hi`			| :x:									| :x:				| no key 													| `$ hi`	 				|
-| `$?`					| :negative_squared_cross_mark:			| :white_check_mark:| [:book: exit status](#exit-status) of the last command 	| `42: command not found`	|
-| `echo $?`				| :negative_squared_cross_mark:			| :white_check_mark:| [:book: exit status](#exit-status) of the last command 	| `42`						|	
-| `echo $??`			| :negative_squared_cross_mark:			| :white_check_mark:| [:book: exit status](#exit-status) of the last command 	| `42?`						|	
-| `echo $"USER"`		| :x:									| :x:				| the `"` block the key; <br> contextual quotes get removed	| `USER` 					|
-| `echo "foo $'BAR'"`	| :x:									| :x:				| the `'` block the key; <br> contextual quotes get removed	| `foo $'BAR'` 				|
-| `echo 'foo $"BAR"'`	| N/A									| :x:				| inside contextual quotes `'` -> no expansion				| `foo $"BAR"` 				|
-| `echo 'foo $BAR'`		| N/A									| :x:				| inside contextual quotes `'` -> no expansion				| `foo $BAR` 				|
-| `echo foo$USER$HOME`	| :white_check_mark: :white_check_mark:	| :white_check_mark: :white_check_mark:| the second `$` is not an allowed char of a key <br> therfore it terminates the first key. 										| `fooastein/home/astein`	|
-| `echo foo $NOTEXIST bar`| :white_check_mark:					| :white_check_mark:| the key doesn't exist; <br> expands to NULL				| `a b`						|
-
-
-
-
-
----
-
-#### Tokenizing
-
-The expanded input string will be tokenized. This means that the input string will be split into tokens. Each token will be marked with a type. The following table shows all possible token types:
-...
-Examples
-```
-Expanded String:	TODO
-Tokens:				`ls`(arg); `-l`(arg); `-a`(arg); `|`(pipe); `wc`(cmd); `-l`(arg)
-```
-> :bulb: Activate the [info mode](#info-mode) to see the token list during runtime
-
-#### Parsing
-
-We have the boolean `syntax_err_encountered` in the [t_mbox](#t_mbox) struct.
-Even if there are multiple errors, only the first error will be printed TODO LINK THE FUNCTION AND CHECK WHY THERE COULD BE MULTIPLE SYNTAX ERRORS
-- the ast won't be executed
-The possible errors could be:
-```
-frankenshell: syntax error near unexpected token `foo'
-frankenshell: syntax error near unexpected token `newline'
-TODO DOUBLE CHECK hwat foo could be...
-```
-
-After tokienizing the input string, the tokens will be parsed into an ast. The ast tree is used for the execution of the commands.
-Each node of the ast tree is an instance of the [t_ast](#t_ast) struct. It therefore has a type, a content and a two pointers to its left and right child node.
-This table shows all possible node types and their possible node conections:
-| Node Type | Left Child | Right Child |
-| --------- | ---------- | ----------- |
-| `PIPE`	| `CMD`		 | `PIPE` `CMD`|
-| `CMD`     | `REDIR` `NULL`    | `ARG` `NULL`|
-| `REDIR`	| `REDIR` `NULL`	| `NULL`      |
-| `ARG`     | `NULL`     | `ARG` `NULL`|
-
-To achive this we used a modified version of TODOs logic. Below u find the BNF Notion
-TODO BNF
-
-The ast tree is shown in a tree-like structure (left to right). The following example shows the ast tree of the input:\
-`<< lol cat | wc -l | grep a > out | echo -n Hello World`
-
-![Example][mindmap-ast-png]
-
-> :bulb: Activate the [info mode](#info-mode) to see the ast tree during runtime
-
-
-#### Setup Execution
-The executor traverses the ast tree always from **left to right**. This ensures that pipes and redirections will always be setup before any command is executed.
-All commands are executed in a child process.
-Exception: Single Builtin cmds (refer to bugs)
-
-All childs will be spawn right after each other (so before the previous child is finished). The parent process waits (because of the open pipe fd) until the child process is finished.
-Exception: Heredoc
-
-The parent waits for all childs to finish before it continues with the next cycle. Each time a child process is finished, the parent process updates the exit status of the last child process. (TODO check if this is true and link to chapter exit status).
-
-
-##### Setup Pipes
-
-Pipes (`|`) allow the output of one command to be used as input for another, enabling command chaining.
-
-> :exlamation:  Note that the redirction into the pipe might be overwritten by the [redirection of the command itself](#setup-redirections).
-
-##### Setup Redirections
-
-The table below describes the redirection features available in frankenshell:
-
-Since there can be multiple redirections we need to keep track if one of them fails. Since bash only troughs one error. Example:
-```
-$: < file_not_exists < file_not_exists_2 cat
-bash: file_not_exists: No such file or directory
-```
-| Feature| Mode            | Description                                                                                | Example                           |
-|------|-------------|--------------------------------------------------------------------------------------------------|-----------------------------------|
-| `<`  |Input Redirection         | Redirects input from a file to a command.                                           | `wc < file.txt`              |
-| `<<` |Heredoc                   | Allows inputting multiple lines until a termination string is reached.              | `<< this_exits_the_hd wc`                  |
-| `>`  |Output Redirection        | Redirects the output of a command to a file, overwriting it if it already exists.   | `echo "replace by foo" > file.txt`              |
-| `>>` |Append Output Redirection | Appends command output to a file, creating it if it doesn't exist.                  | `echo "append foo" >> file.txt`
-
-These redirections allow for flexible manipulation of command input and output, similar to standard bash functionality.
-
-
-###### Heredoc
-
-The heredoc redirection allows inputting multiple lines until a termination string is reached or an EOF is sent via `CTRL+D`. The herdoc runs always in a child process and is connected to the command with a pipe. The herdoc uses `readline` to read the user input.
-
-:bulb: Variable Expansion inside the heredoc is supported!\
-:warning: Like in bash: The expansion is not supposed to work if the limiter contains contextual quotes!\
-:bulb: Therefore the [:book:  extract limiter](#extract-limiter) part of the [:book: variable expansion](#variable-expansion) obtains `'`,`"` and `$` characters.
-
-**This is the heredoc routine:**
-1. The heredoc is setup by creating a pipe and forking a child process.
-2. The Child Process...
-	1. ...determines the heredoc `limiter` (aka EOF) by removing contextual quotes<sup>1</sup>
-
-	2. ...closes the read end of the pipe
-	3. ... starts an infinite **loop** that...
-		- **reads** the user input via `readline`
-		- **expands variables** in the read line<sup>1</sup>
-		- **writes** the (expanded) line **to** the write end of the **pipe**
-	4. ...**terminates** the loop if one of the following conditions is met:
-		- line matches the limiter<sup>2</sup>
-		- line matches EOF `CTRL+D`
-		- `STDIN` was closed from the signal handler `CTRL+C`<sup>3,4</sup>
-	5. ...close the write end of the pipe
-	6. ...frees all memory anf updates the the **exit status** to
-		- `0` if the heredoc was terminated by the `limiter`
-		- `0` if the heredoc was terminated by EOF `CTRL+D`
-		- `130` if the heredoc was terminated by the signal handler `CTRL+C`\
-3. The Parent Process...
-	1. ...closes the write end of the pipe
-	2. ...waits for the child process to finish
-	3. ...updates the **exit status** to the exit status of the hd child process
-	4. ...checks how the hd hild process was terminated:
-		- `CTRL+C`
-			- closes the read end of the pipe
-			- returns `false`
-		- `EOF` or `limitter`
-			- returns `true`
-
-
-<sup>1</sup>:warning: If the limiter contains contextual quotes, variable expansion inside the heredoc will be disabled ([:book: extract limiter](#extract-limiter)).\
-<sup>3</sup> Before expanison! The heredoc can't be terminated if the expanded input matches the limiter!\
-<sup>3</sup> Checked via the global variable: `g_signal_status == SIGNAL_EXIT_HD`\
-<sup>4</sup> ```frankenshell: warning: frankendoc at line 1 delimited by end-of-file (wanted `foo')```
-
-
-EXAMPLES
-```
-<< foo cat
-Hello
-World
-foo
-...
-
-e.g. << -R cat
- * 					   > asd
- * 					   > $LESS (this expands to -R but doens't exit the heredoc)
- * 					   > -R
-
-```
-
-
-
-##### Run CMD
-
-
-###### Run Builtin 
-
-TODO check out all builtins in the section
-
-###### Run Executable 
-
-the env linked list is send to execv
-
-### Termination
-
-<br><h1 id="exit-status">
-	<a href="#table-of-content">🔝 </a>
-	▶️ Exit Status
-</h1>
-The current exit status of minishell is stored as an node with the key `?` in the variable linkes list. This simplyfies the variable expansion of `$?`. To update the value the noraml `TODO` function can be used. Since the value is an `char*` and the exit status is an integer there is a function `TODO` that allows an integer as a paramter to update the value of the node.
-Anyhow if the linked list is used for `execve`, `env` or `export` the `?` node will be ignored.
-
-<br><h1 id="signals">
-	<a href="#table-of-content">🔝 </a>
-	▶️ Signals
-</h1>
-Each time a fork is happening all existing processes will be set to a specific 'signal status' via 'conf_sig_handler' in TODO File. This status will
-be used to determine which signal handling should be used in the calling process.
-
-The following Signals are being treaded in frankenshell:
-Table
-| Shortcut | Signal Name | Description 						|
-|:--------:|:-----------:|-------------						|
-| `CTRL+C` | SIGINT      | Interrupt signal					|
-| `CTRL+\` | SIGQUIT     | Quit signal 						|
-| `CTRL+D` | EOF	     | An EOF is send to the input fd 	|
-
-The following table shows all possible signal states defined in TODO enum file:
-| Signal State | Description 						| `CTRL+C` | `CTRL+\` | `CTRL+D` |
-|--------------|-------------						|----------|----------|----------|
-| `SIG_STATE_MAIN`    | showing basic promt				| |||
-
-TODO
-
-	SIG_STATE_MAIN     showing basic promt
-	SIG_STATE_PARENT   ignore all signals
-	SIGNAl_CHILD    basic setup for child
-	SIG_STATE_HD_CHILD  for heredoc
-
-	SIG_STATE_MAIN,
-	SIG_STATE_PARENT,
-	SIG_STATE_CHILD,
-	SIG_STATE_CHILD_BUILTIN,
-	SIG_STATE_HD_CHILD,
-	SIG_STATE_IGNORE
+// MANAGEMENT
+void initialize_vars(t_mbox *mbox, char **env);                         //creates the ll on startup
+void free_vars(t_mbox *mbox);                                           //frees the ll
+static void *free_var(t_env *temp);                                     //free the given node
+static void var_add_back(t_mbox *mbox, t_env *new_var);                 //adds the node to the end of the ll
  
+// READ FUNCTIONS
+t_bool is_var(const t_mbox *mbox, const char *key);                     //checks if the argument 'key' is present in list
+static t_env *get_var_node(const t_mbox *mbox, const char *key);        //returns a pointer to the node with the given key
+char *get_var_value(const t_mbox *mbox, const char *key);               //returns a pointer to the value of the given key
+static int get_vars_count(const t_env *env_var);                        //returns the amount of nodes in the ll
+char **get_env_as_matrix(const t_mbox *mbox, const char *put_quotes)    //creates a matrix of strings from the ll
+
+// WRITE FUNCTIONS
+void set_var_value(t_mbox *mbox, const char *key, const char *value);   //updates/creates node with the given key and value
+void set_var_value_int(t_mbox *mbox, const char *key, int int_value);   //updates/creates node with the given key and int value
+void increment_shlvl(t_mbox *mbox);                                     //increases the value of the 'SHLVL' variable
+void unset_var(t_mbox *mbox, const char *key);                          //removes the node with the given key from the ll
+```
+
+TODO: link the function with #:~:text=funtionname at the end of the url
+
+With the following [builtin](#builtins) commands variables can be...
+- **shown** using [env](#env-builtin)
+- **sorted and shown**  using [export](#export-builtin) without arguments
+- **created** using [export](#export-builtin)
+- **changed** using [export](#export-builtin)
+- **deleted** using [unset](#unset-builtin)
+
+:bulb:    		The linked list will be used for the [execve](#execve) function call.\
+:bulb:			The linked list will be used for storing the [exit status](#exit-status).\
+:bulb:			Keep in mind that some [builtins](#builtins) (e.g. [cd](#cd-builtin)) change some variables during runtime!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <br><h1 id="builtin-commands">
 	<a href="#table-of-content">🔝 </a>
 	▶️ Builtin Commands
 </h1>
+
 Each built-in command in frankenshell is detailed below with specific information and examples.
 
 | Command                         | File(s)     	                                      												| Description									|
@@ -1506,66 +1410,552 @@ The builtin `unset` deletes the corresponding variables.
 
 > :arrow_right: 		Refer to the section [Environment Variables](#environment-variables) for more details about the variables.
 
-<br><h1 id="environment-variables">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<br><h1 id="exit-status">
 	<a href="#table-of-content">🔝 </a>
-	▶️ Environment Variables
+	▶️ Exit Status
 </h1>
-This is general information about environment variables in frankenshell.
 
-**Related Sections:**\
-[:book: variable expansion](#variable-expansion)\
-[:book: heredoc](#heredoc)
+**:warning: :building_construction:	Documentation under construction! :warning: :building_construction:**<br>
+
+The current exit status of minishell is stored as an node with the key `?` in the variable linkes list. This simplyfies the variable expansion of `$?`. To update the value the noraml `TODO` function can be used. Since the value is an `char*` and the exit status is an integer there is a function `TODO` that allows an integer as a paramter to update the value of the node.
+Anyhow if the linked list is used for `execve`, `env` or `export` the `?` node will be ignored.
 
 
-On programm start a [t_env](#t_env) linked list will be created from the enviromental variables and stored in the [t_mbox](#t_mbox) struct. Variable represent a simple key-value pair. The key is a string and the value is a string. The key is always unique. The value can be empty.\
-A key has to match the following regex:
-```
-^[a-zA-Z_]+[a-zA-Z0-9_]*$
-
-Explanation:
-^				-> start of string
-[a-zA-Z_]		-> first char must be a letter or '_'
-+				-> one or more chars
-[a-zA-Z0-9_]*	-> zero or more letters, numbers or '_'
-$				-> end of string
-```
-
-> :page_facing_up: 	All related functions are in the [a_env_vars.c](../src/1_core/d_env_vars.c) file.
-
-The following functions are implemented: TODO DOUBLE CHECK
-```
-// MANAGEMENT
-void initialize_vars(t_mbox *mbox, char **env);                         //creates the ll on startup
-void free_vars(t_mbox *mbox);                                           //frees the ll
-static void *free_var(t_env *temp);                                     //free the given node
-static void var_add_back(t_mbox *mbox, t_env *new_var);                 //adds the node to the end of the ll
  
-// READ FUNCTIONS
-t_bool is_var(const t_mbox *mbox, const char *key);                     //checks if the argument 'key' is present in list
-static t_env *get_var_node(const t_mbox *mbox, const char *key);        //returns a pointer to the node with the given key
-char *get_var_value(const t_mbox *mbox, const char *key);               //returns a pointer to the value of the given key
-static int get_vars_count(const t_env *env_var);                        //returns the amount of nodes in the ll
-char **get_env_as_matrix(const t_mbox *mbox, const char *put_quotes)    //creates a matrix of strings from the ll
 
-// WRITE FUNCTIONS
-void set_var_value(t_mbox *mbox, const char *key, const char *value);   //updates/creates node with the given key and value
-void set_var_value_int(t_mbox *mbox, const char *key, int int_value);   //updates/creates node with the given key and int value
-void increment_shlvl(t_mbox *mbox);                                     //increases the value of the 'SHLVL' variable
-void unset_var(t_mbox *mbox, const char *key);                          //removes the node with the given key from the ll
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<br><h1 id="signals">
+	<a href="#table-of-content">🔝 </a>
+	▶️ Signals
+</h1>
+
+Each time a fork is happening all existing processes will be set to a specific 'signal status' via 'conf_sig_handler' in TODO File. This status will
+be used to determine which signal handling should be used in the calling process.
+
+The following Signals are being treaded in frankenshell:
+Table
+| Shortcut | Signal Name | Description 						|
+|:--------:|:-----------:|-------------						|
+| `CTRL+C` | SIGINT      | Interrupt signal					|
+| `CTRL+\` | SIGQUIT     | Quit signal 						|
+| `CTRL+D` | EOF	     | An EOF is send to the input fd 	|
+
+The following table shows all possible signal states defined in TODO enum file:
+| Signal State | Description 						| `CTRL+C` | `CTRL+\` | `CTRL+D` |
+|--------------|-------------						|----------|----------|----------|
+| `SIG_STATE_MAIN`    | showing basic promt				| |||
+
+TODO
+
+	SIG_STATE_MAIN     showing basic promt
+	SIG_STATE_PARENT   ignore all signals
+	SIGNAl_CHILD    basic setup for child
+	SIG_STATE_HD_CHILD  for heredoc
+
+	SIG_STATE_MAIN,
+	SIG_STATE_PARENT,
+	SIG_STATE_CHILD,
+	SIG_STATE_CHILD_BUILTIN,
+	SIG_STATE_HD_CHILD,
+	SIG_STATE_IGNORE
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<br><h1 id="how-frankenshell-operates">
+	<a href="#table-of-content">🔝 </a>
+	<a href="#how-frankenshell-operates">▶️ </a>
+	How Frankenshell Operates
+</h1>
+
+**:warning: :building_construction:	Documentation under construction! :warning: :building_construction:**<br>
+
+The main task of frankenshell can be grouped into those steps:
+- [Initialization](#initialization)
+- Processing a Single Cycle
+    - [Input Management](#processing-a-cycle)
+    - [Execution](#execution)
+- [Termination](#termination)
+
+Below you can find a detailed description of each step.
+> :page_facing_up:  The file ['input_management.c'](../src/0_core/input_management.c) calls all the input management functions.
+
+
+<br>
+
+## Initialization
+
+**:warning: :building_construction:	Documentation under construction! :warning: :building_construction:**<br>
+
+On startup the program will initialize the [`t_mbox`](#t_mbox) struct. This struct contains all the information needed for the program to work. It is passed as an argument to most of the functions.\
+The following steps are executed during initialization:
+- creating a [t_env](#t_env) linked list for the [environment variables](#environment-variables)
+- creating a [t_builtin_cmd](#t_builtin_cmd) array for the [builtin commands](#builtin-commands)
+- ini
+
+> :page_facing_up:  The file ['manage_mbox.c'](../src/0_core/manage_mbox.c) contains the functions for initializing and destroying the mbox instance.
+
+
+<br>
+
+### Processing a cycle
+
+**:warning: :building_construction:	Documentation under construction! :warning: :building_construction:**<br>
+
+All the following steps are executed for each cycle.
+
+| **Step** 										| **Example** |
+| --------------------------------- 			| ----------- |
+| Finished Reading    							| `echo "Hello" $USER "" '!' \| wc    -l     `          |
+| [Trim Input](#trim-input)       				| `echo "Hello" $USER "" '!' \| wc -l`                  |
+| [Mark Empty Quotes](#mark-empty-quotes) 		| `echo "Hello" $USER E_ '!' \| wc    -l`               |
+| [Shift Separators](#shift-separators) 		| `echo_DHelloD_$USER_E__S!S_P_wc____-l`                |
+| [Variable Expansion](#variable-expansion) 	| `echo_DHelloD_astein_E__S!S_P_wc____-l`               |
+| [Tokenize](#tokenizing) 						| ![Example][token-table] 						        |
+| [Parsing](#parsing) 							| ![Example][mindmap-ast-echo-hello-astein]				|
+
+<!--
+THIS TABLE IS IN THE TABLE ABOVE AS SCREENSHOT!
+| Type | Value |
+| ---- | ----- |
+| WORD_TOKEN | `echo` |
+| WORD_TOKEN | `Hello`	|
+| WORD_TOKEN | `astein`	|
+| WORD_TOKEN | ` `	|
+| WORD_TOKEN | `!`	|
+| PIPE_TOKEN | `|`	|
+| WORD_TOKEN | `wc`	|
+| WORD_TOKEN | `-l`	|
+-->
+
+---
+
+#### Trim Input
+
+**:warning: :building_construction:	Documentation under construction! :warning: :building_construction:**<br>
+
+First step is to trim the input. This means that all leading and trailing whitespaces are removed.
+> :bulb:  Activate the [info mode](#info-mode) to see all input string states during runtime
+
+---
+
+#### Mark Empty Quotes
+
+**:warning: :building_construction:	Documentation under construction! :warning: :building_construction:**<br>
+
+Bash generates an empty token for a pair of empty quotes if the two conditions are met:
+- the empty quotes are not inside another pair of quotes\
+(refer to `OUT_Q` as the [quote state](#quote-state))
+- the empty quotes are surrounded by at least one whitespace character (or the beginning/end of the string) before and after 
+
+Empty quotes will be marked as `EMPTY_TOKEN` and `NO_SPACE` characters.
+```
+# define NO_SPACE       -125
+# define EMPTY_TOKEN    -126
+```
+> :arrow_right: Refer to the section [Shift Separators](#shift-separators) for a better understanding of the marked input string.
+
+Examples
+| inp_trim		        | inp_eq            | empty quotes      |
+| ----------------------|-------------------|:-----------------:|
+| `echo ""`			    | `echo E_`         | :white_check_mark:|
+| `echo ''`			    | `echo E_`         | :white_check_mark:|
+| `echo """"`			| `echo E___`       | :white_check_mark:|
+| `echo "" "" "'hi"`    | `echo E_ E_ "'hi"`| :white_check_mark:|
+| `echo hi""`			| `echo hi""`       | :x:               |
+| `echo hi''`			| `echo hi''`       | :x:               |
+| `echo ""hi`			| `echo ""hi`       | :x:               |
+| `echo ''hi`			| `echo ''hi`       | :x:               |
+| `echo '""'`			| `echo '""'`       | :x:               |
+| `echo "''"`			| `echo "''"`       | :x:               |
+
+> :arrow_right: Refer to the section [Readble Input String](#readable-input-string) for a better understanding of the marked input string.\
+> :bulb: Activate the [info mode](#info-mode) to see all input string states during runtime
+
+---
+
+#### Shift Separators
+
+**:warning: :building_construction:	Documentation under construction! :warning: :building_construction:**<br>
+
+To prepare the input string for the tokenizer all seperating characters need to be found. To mark them frankenshell shifts their ASCII value by `-126`. This makes an easy check for all of them possible (`ASCII < 0`) without loosing their original value. A seperating char needs to be outside of any quotes to be shifted.
+Those are the characters which we consider as seperating characters:
+- whitespace (` `, `\n`, `\t`, `\v`, `\a`, `\b`, `\f`, `\r`)
+- pipe	(`|`)
+- redirections (`<`, `>`)
+
+Examples
+| inp_trim		        | inp_eq		    | inp_shift         |
+| ----------------------|-------------------|---|
+| `echo "" "" "'hi"`    | `echo E_ E_ "'hi"`|  TODO |
+| `echo hi""`			| `echo hi""`       |   |
+| `echo hi''`			| `echo hi''`       |   |
+| `echo ""hi`			| `echo ""hi`       |   |
+| `echo ''hi`			| `echo ''hi`       |   |
+| `echo '""'`			| `echo '""'`       |   |
+| `echo "''"`			| `echo "''"`       |   |
+
+###### Quote State
+
+**:warning: :building_construction:	Documentation under construction! :warning: :building_construction:**<br>
+
+```
+ * IDEA:
+ * 		If somwehre at frankenshell we loop through the an input string
+ * 		sometimes we need to know if we are inside or outside of contextual
+ * 		quotes. This function updates the quote_state variable to the current
+ * 		state of the quotes.
+ * 
+ * LOGIC:
+ * 		if quote_state is OUT_Q (the cur_char is outside of contextual quotes)
+ * 			if cur_char is a quote
+ * 				update quote_state to the cur_char
+ * 			else
+ * 				quote_state stays OUT_Q
+ *		else (the cur_char is inside of contextual quotes)
+ * 			if matching quote is found
+ * 				update quote_state to OUT_Q
+ * 			else
+ * 				quote_state stays the same          
 ```
 
-TODO: link the function with #:~:text=funtionname at the end of the url
+While traversing the input string, the `quote state` will be updated for each character. So if a seperating character is found it will be only marked if the `quote state` is `OUT__QUOTE`  TODO LINK TO H FILE:
+```
+# define OUT_Q  0
+```
+TODO EMOJI Examples:
+```
+Trimmed String:	echo "Hello 'astein', how are you?"
+Quote State: 	OOOOODDDDDDDDDDDDDDDDDDDDDDDDDDDDDO
+Marked String:	echo DHello 'astein', how are you?D
+Explanation:	The single quote is inside a double quote, so it will be ignored.
+```
 
-With the following [builtin](#builtins) commands variables can be...
-- **shown** using [env](#env-builtin)
-- **sorted and shown**  using [export](#export-builtin) without arguments
-- **created** using [export](#export-builtin)
-- **changed** using [export](#export-builtin)
-- **deleted** using [unset](#unset-builtin)
+> :bulb:  Activate the [info mode](#info-mode) to see all input string states during runtime
 
-:bulb:    		The linked list will be used for the [execve](#execve) function call.\
-:bulb:			The linked list will be used for storing the [exit status](#exit-status).\
-:bulb:			Keep in mind that some [builtins](#builtins) (e.g. [cd](#cd-builtin)) change some variables during runtime!
+---
+
+### Variable Expansion
+
+The [environment variable](#environment-variables) expansion works similar like in bash:
+
+- Variable Expansion happens if the variable is **not** inside single [quotes](#quotes).
+- Whitespaces inside the variable value will be [marked as `NO_SPACE` characters](#removal-of-whitespaces-of-expanded-variable-values). Therefore the [tokenizer](#tokenizing) can make multiple tokens out of it.
+- If the variable is part of the [heredoc limiter](#extract-limiter) it won't be expanded! (e.g. `<< $USER cat`)
+
+:bulb:  Activate the [info mode](#info-mode) to see the expanded input string states during runtime.
+
+| Command           |  Valid Key 			| Expand       			| Output                        							|
+| ------------------|   :------: 			| :----------: 			| ----------------------------- 							|
+| `echo $USER`		| :white_check_mark:	| :white_check_mark:	| `astein`				      								|
+| `echo "$USER"`    | :white_check_mark:	| :white_check_mark:	| `astein`				      								|
+| `echo '$USER'`    | :white_check_mark:	| :x:	        		| `$USER`                   								|
+| `<< $USER cat`    | N/A		 			| :x:	        		| Won't expand, so the `EOF` of the [heredoc](#heredoc) will be `$USER` 	|
+
+
+<br>
+
+---
+
+#### Removal Of Whitespaces Of Expanded Variable Values
+
+
+If there are whitespaces in the expanded Variable they will be marked as `NO_SPACE` characters.\
+Therefore the tokenizer will make multiple tokens out of it.\
+Quote Protection of whitespaces is not supported inside a variable. (like in bash)\
+Example:
+```
+frankenshell--> export foo="Hello           World"
+frankenshell--> echo $foo
+Hello World
+frankenshell--> export foo="Hello'        'World" //tries a quote protect of whitespaces
+Hello' 'World                                     //doesn't work 
+```
+
+---
+
+#### Extract Limiter
+
+The variable expansion for a heredoc limiter is a special case.\
+Variable Expension is not allowed inside a heredoc limiter!\
+Anyhow there some strange rules for the determine the limiter:
+| Case                  | Limiter <br> (send to tokenizer) | Explanation   | Limiter<sup> 1</sup> <br> (to exit hd)                           | Var. expansion <sup> 2</sup> <br> (inside heredoc) |
+| ----                  | ---           | -----------                                                                       | -------     | :---:                                    |
+| `<< $USER cat`        | `$USER`       |                                                                                   | `$USER`     | :white_check_mark:                        |
+| `<< "FOO BAR" cat`    | `"FOO BAR"`   |                                                                                   | `FOO BAR`   | :x:                                       |
+| `<< "$FOO $BAR" cat`  | `"$FOO $BAR"` |                                                                                   | `$FOO $BAR` | :x:                                       |
+| `<< $'FOO' cat`       | `'FOO'`       |   `$` is followed by contextual `'`; <br> the `$` will be removed                 | `FOO`       | :x:                                       |
+| `<< $"FOO" cat`       | `"FOO"`       |   `$` is followed by contextual `"`; <br> the `$` will be removed                 | `FOO`       | :x:                                       |
+| `<< $"FOO"$"BAR" cat` | `"FOO""BAR"`  |   twice: <br> `$` is followed by contextual quotes; <br> the `$` will be removed  | `FOOBAR`    | :x:                                       |
+
+<sup>1</sup> The contextual quotes will be removed by the [heredoc](#heredoc) function.\
+<sup>2</sup> Different topic: Refer to the section [:book: heredoc](#heredoc) for the variable expansion **inside a heredoc**.
+
+<br>
+
+---
+
+**:pencil2: Variable Expansion Examples (Special Cases)**
+| Special Case			| Valid Key					  			| Expand 			| Explanation 												| Output (example)			|
+|---------------		| :---:   					  			| :---:				|-------------												|--------------				|
+| `echo $@ hi`			| :x:									| :x:				| first char of false key gets swallowed					| `hi` 						|
+| `echo $@@ hi`			| :x:									| :x:				| first char of false key gets swallowed					| `@ hi` 					|
+| `echo $1HOME`			| :x:									| :x:				| first char of false key gets swallowed					| `HOME` 					|
+| `$`					| :x:									| :x:				| no key 													| `$: command not found`	|
+| `echo $ hi`			| :x:									| :x:				| no key 													| `$ hi`	 				|
+| `$?`					| :negative_squared_cross_mark:			| :white_check_mark:| [:book: exit status](#exit-status) of the last command 	| `42: command not found`	|
+| `echo $?`				| :negative_squared_cross_mark:			| :white_check_mark:| [:book: exit status](#exit-status) of the last command 	| `42`						|	
+| `echo $??`			| :negative_squared_cross_mark:			| :white_check_mark:| [:book: exit status](#exit-status) of the last command 	| `42?`						|	
+| `echo $"USER"`		| :x:									| :x:				| the `"` block the key; <br> contextual quotes get removed	| `USER` 					|
+| `echo "foo $'BAR'"`	| :x:									| :x:				| the `'` block the key; <br> contextual quotes get removed	| `foo $'BAR'` 				|
+| `echo 'foo $"BAR"'`	| N/A									| :x:				| inside contextual quotes `'` -> no expansion				| `foo $"BAR"` 				|
+| `echo 'foo $BAR'`		| N/A									| :x:				| inside contextual quotes `'` -> no expansion				| `foo $BAR` 				|
+| `echo foo$USER$HOME`	| :white_check_mark: :white_check_mark:	| :white_check_mark: :white_check_mark:| the second `$` is not an allowed char of a key <br> therfore it terminates the first key. 										| `fooastein/home/astein`	|
+| `echo foo $NOTEXIST bar`| :white_check_mark:					| :white_check_mark:| the key doesn't exist; <br> expands to NULL				| `a b`						|
+
+
+
+
+
+---
+
+#### Tokenizing
+
+**:warning: :building_construction:	Documentation under construction! :warning: :building_construction:**<br>
+
+The expanded input string will be tokenized. This means that the input string will be split into tokens. Each token will be marked with a type. The following table shows all possible token types:
+...
+Examples
+```
+Expanded String:	TODO
+Tokens:				`ls`(arg); `-l`(arg); `-a`(arg); `|`(pipe); `wc`(cmd); `-l`(arg)
+```
+> :bulb: Activate the [info mode](#info-mode) to see the token list during runtime
+
+#### Parsing
+
+**:warning: :building_construction:	Documentation under construction! :warning: :building_construction:**<br>
+
+We have the boolean `syntax_err_encountered` in the [t_mbox](#t_mbox) struct.
+Even if there are multiple errors, only the first error will be printed TODO LINK THE FUNCTION AND CHECK WHY THERE COULD BE MULTIPLE SYNTAX ERRORS
+- the ast won't be executed
+The possible errors could be:
+```
+frankenshell: syntax error near unexpected token `foo'
+frankenshell: syntax error near unexpected token `newline'
+TODO DOUBLE CHECK hwat foo could be...
+```
+
+After tokienizing the input string, the tokens will be parsed into an ast. The ast tree is used for the execution of the commands.
+Each node of the ast tree is an instance of the [t_ast](#t_ast) struct. It therefore has a type, a content and a two pointers to its left and right child node.
+This table shows all possible node types and their possible node conections:
+| Node Type | Left Child | Right Child |
+| --------- | ---------- | ----------- |
+| `PIPE`	| `CMD`		 | `PIPE` `CMD`|
+| `CMD`     | `REDIR` `NULL`    | `ARG` `NULL`|
+| `REDIR`	| `REDIR` `NULL`	| `NULL`      |
+| `ARG`     | `NULL`     | `ARG` `NULL`|
+
+To achive this we used a modified version of TODOs logic. Below u find the BNF Notion
+TODO BNF
+
+The ast tree is shown in a tree-like structure (left to right). The following example shows the ast tree of the input:\
+`<< lol cat | wc -l | grep a > out | echo -n Hello World`
+
+![Example][mindmap-ast-png]
+
+> :bulb: Activate the [info mode](#info-mode) to see the ast tree during runtime
+
+
+#### Setup Execution
+
+**:warning: :building_construction:	Documentation under construction! :warning: :building_construction:**<br>
+
+The executor traverses the ast tree always from **left to right**. This ensures that pipes and redirections will always be setup before any command is executed.
+All commands are executed in a child process.
+Exception: Single Builtin cmds (refer to bugs)
+
+All childs will be spawn right after each other (so before the previous child is finished). The parent process waits (because of the open pipe fd) until the child process is finished.
+Exception: Heredoc
+
+The parent waits for all childs to finish before it continues with the next cycle. Each time a child process is finished, the parent process updates the exit status of the last child process. (TODO check if this is true and link to chapter exit status).
+
+
+##### Setup Pipes
+
+**:warning: :building_construction:	Documentation under construction! :warning: :building_construction:**<br>
+
+Pipes (`|`) allow the output of one command to be used as input for another, enabling command chaining.
+
+> :exlamation:  Note that the redirction into the pipe might be overwritten by the [redirection of the command itself](#setup-redirections).
+
+##### Setup Redirections
+
+**:warning: :building_construction:	Documentation under construction! :warning: :building_construction:**<br>
+
+The table below describes the redirection features available in frankenshell:
+
+Since there can be multiple redirections we need to keep track if one of them fails. Since bash only troughs one error. Example:
+```
+$: < file_not_exists < file_not_exists_2 cat
+bash: file_not_exists: No such file or directory
+```
+| Feature| Mode            | Description                                                                                | Example                           |
+|------|-------------|--------------------------------------------------------------------------------------------------|-----------------------------------|
+| `<`  |Input Redirection         | Redirects input from a file to a command.                                           | `wc < file.txt`              |
+| `<<` |Heredoc                   | Allows inputting multiple lines until a termination string is reached.              | `<< this_exits_the_hd wc`                  |
+| `>`  |Output Redirection        | Redirects the output of a command to a file, overwriting it if it already exists.   | `echo "replace by foo" > file.txt`              |
+| `>>` |Append Output Redirection | Appends command output to a file, creating it if it doesn't exist.                  | `echo "append foo" >> file.txt`
+
+These redirections allow for flexible manipulation of command input and output, similar to standard bash functionality.
+
+
+###### Heredoc
+
+**:warning: :building_construction:	Documentation under construction! :warning: :building_construction:**<br>
+
+The heredoc redirection allows inputting multiple lines until a termination string is reached or an EOF is sent via `CTRL+D`. The herdoc runs always in a child process and is connected to the command with a pipe. The herdoc uses `readline` to read the user input.
+
+:bulb: Variable Expansion inside the heredoc is supported!\
+:warning: Like in bash: The expansion is not supposed to work if the limiter contains contextual quotes!\
+:bulb: Therefore the [:book:  extract limiter](#extract-limiter) part of the [:book: variable expansion](#variable-expansion) obtains `'`,`"` and `$` characters.
+
+**This is the heredoc routine:**
+1. The heredoc is setup by creating a pipe and forking a child process.
+2. The Child Process...
+	1. ...determines the heredoc `limiter` (aka EOF) by removing contextual quotes<sup>1</sup>
+
+	2. ...closes the read end of the pipe
+	3. ... starts an infinite **loop** that...
+		- **reads** the user input via `readline`
+		- **expands variables** in the read line<sup>1</sup>
+		- **writes** the (expanded) line **to** the write end of the **pipe**
+	4. ...**terminates** the loop if one of the following conditions is met:
+		- line matches the limiter<sup>2</sup>
+		- line matches EOF `CTRL+D`
+		- `STDIN` was closed from the signal handler `CTRL+C`<sup>3,4</sup>
+	5. ...close the write end of the pipe
+	6. ...frees all memory anf updates the the **exit status** to
+		- `0` if the heredoc was terminated by the `limiter`
+		- `0` if the heredoc was terminated by EOF `CTRL+D`
+		- `130` if the heredoc was terminated by the signal handler `CTRL+C`\
+3. The Parent Process...
+	1. ...closes the write end of the pipe
+	2. ...waits for the child process to finish
+	3. ...updates the **exit status** to the exit status of the hd child process
+	4. ...checks how the hd hild process was terminated:
+		- `CTRL+C`
+			- closes the read end of the pipe
+			- returns `false`
+		- `EOF` or `limitter`
+			- returns `true`
+
+
+<sup>1</sup>:warning: If the limiter contains contextual quotes, variable expansion inside the heredoc will be disabled ([:book: extract limiter](#extract-limiter)).\
+<sup>3</sup> Before expanison! The heredoc can't be terminated if the expanded input matches the limiter!\
+<sup>3</sup> Checked via the global variable: `g_signal_status == SIGNAL_EXIT_HD`\
+<sup>4</sup> ```frankenshell: warning: frankendoc at line 1 delimited by end-of-file (wanted `foo')```
+
+
+EXAMPLES
+```
+<< foo cat
+Hello
+World
+foo
+...
+
+e.g. << -R cat
+ * 					   > asd
+ * 					   > $LESS (this expands to -R but doens't exit the heredoc)
+ * 					   > -R
+
+```
+
+
+
+##### Run CMD
+
+**:warning: :building_construction:	Documentation under construction! :warning: :building_construction:**<br>
+
+###### Run Builtin 
+
+**:warning: :building_construction:	Documentation under construction! :warning: :building_construction:**<br>
+
+TODO check out all builtins in the section
+
+###### Run Executable 
+
+**:warning: :building_construction:	Documentation under construction! :warning: :building_construction:**<br>
+
+the env linked list is send to execv
+
+### Termination
+
+**:warning: :building_construction:	Documentation under construction! :warning: :building_construction:**<br>
+
 
 <br>
 
@@ -1574,6 +1964,7 @@ With the following [builtin](#builtins) commands variables can be...
 	<a href="#known-bugs">▶️ </a>
 	Known Bugs
 </h1>
+
 **export vs env**
 
 If the built-in export is called with a valid key but no equal sign (like `export foo`) `foo` should be listed in the output of the `export`, but not in the output of the `env` function call. In frankenshell, `foo` is not added to the linked list of variables and therefore is not printed in either case. A simple boolean in the `s_env` structure could solve the problem.
@@ -1590,6 +1981,7 @@ Since frankenshell doesn't fork for a single builtin cmd like `echo foo > out` i
 	<a href="#acknowledgments">▶️ </a>
 	Acknowledgments
 </h1>
+
 Thx to those guys and gals for hints, tipps and feedback!
 
 [@Gabriel](https://github.com/portugueseTorch)\
