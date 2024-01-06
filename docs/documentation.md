@@ -1808,22 +1808,12 @@ To generate the tokens first the input string will be splited into an array. The
 
 > :bulb: Activate the [info mode](#info-mode) to see the token list during runtime
 
-#### Parsing
+### Parsing
 
-**:warning: :building_construction:	Documentation under construction! :warning: :building_construction:**<br>
+After tokienizing the input string, the tokens will be parsed into an AST. If the AST couldn't be build the input contains an syntax error (e.g. `ls | | wc`). If an vaild AST could be built it will be used for the execution.
 
-We have the boolean `syntax_err_encountered` in the [t_mbox](#t_mbox) struct.
-Even if there are multiple errors, only the first error will be printed TODO LINK THE FUNCTION AND CHECK WHY THERE COULD BE MULTIPLE SYNTAX ERRORS
-- the ast won't be executed
-The possible errors could be:
-```
-frankenshell: syntax error near unexpected token `foo'
-frankenshell: syntax error near unexpected token `newline'
-TODO DOUBLE CHECK hwat foo could be...
-```
-
-After tokienizing the input string, the tokens will be parsed into an ast. The ast tree is used for the execution of the commands.
 Each node of the ast tree is an instance of the [t_ast](#t_ast) struct. It therefore has a type, a content and a two pointers to its left and right child node.
+
 This table shows all possible node types and their possible node conections:
 | Node Type | Left Child | Right Child |
 | --------- | ---------- | ----------- |
@@ -1832,16 +1822,50 @@ This table shows all possible node types and their possible node conections:
 | `REDIR`	| `REDIR` `NULL`	| `NULL`      |
 | `ARG`     | `NULL`     | `ARG` `NULL`|
 
-To achive this we used a modified version of TODOs logic. Below u find the BNF Notion
-TODO BNF
+To build a vaild AST we use the following logic (check out the BNF Notation):
+```
+ <job>          : <command> '|' <job>    
+                | <command>              
+                ;
+ 
+ <command>      : <token list>           
+				;
+ 
+ <token list>   : [name]  <token list>   
+                | [arg]   <token list>   
+                | <redir> <token list>   
+                ;
+ 
+ <redir>        : <redir in> 
+                | <redir out>
+                ;
+ 
+ <redir in>     : '<<' [file]
+                | '<'  [file]
+                ;
+ 
+ <redir out>    : '>>' [file]
+                | '>'  [file]
+                ;
+  			
+```
 
-The ast tree is shown in a tree-like structure (left to right). The following example shows the ast tree of the input:\
-`<< lol cat | wc -l | grep a > out | echo -n Hello World`
+The following ast is visualiszed in a tree-like structure (left to right):
 
 ![Example][mindmap-ast-png]
 
 > :bulb: Activate the [info mode](#info-mode) to see the ast tree during runtime
 
+> :bulb: The boolean `syntax_err_encountered` in the [t_mbox](#t_mbox) struct makes sure, that even if there are multiple errors, only the first error will be printed (like bash)
+The possible syntax errors could be:
+```
+frankenshell: syntax error: unclosed quotes
+frankenshell: syntax error near unexpected token `<'
+frankenshell: syntax error near unexpected token `>'
+frankenshell: syntax error near unexpected token `|'
+frankenshell: syntax error near unexpected token `newline'
+frankenshell: syntax error near unexpected token `foo'
+```
 
 #### Setup Execution
 

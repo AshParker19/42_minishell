@@ -35,11 +35,12 @@ SRCS = $(addprefix $(SRC_FOLDER), 						\
 	1_core/5_signals.c									\
 	1_core/6_err_msg.c									\
 	1_core/7_utils.c									\
+	1_core/8_info_mode.c								\
 	2_cycle/0_mark_eq.c									\
 	2_cycle/1_shift_seps.c								\
 	2_cycle/2_exp_vars.c								\
 	2_cycle/3_tokenize.c								\
-	2_cycle/d_parse.c									\
+	2_cycle/4_parse.c									\
 	2_cycle/e_execute_ast.c								\
 	2_cycle/f_setup_cmd.c								\
 	2_cycle/g_pipe.c									\
@@ -48,13 +49,12 @@ SRCS = $(addprefix $(SRC_FOLDER), 						\
 	2_cycle/j_hd.c										\
 	2_cycle/k_hd_child.c								\
 	2_cycle/k_run_cmd.c									\
-	2_cycle/2_parser_utils/parser_utils.c				\
-	2_cycle/2_parser_utils/command.c					\
-	2_cycle/2_parser_utils/job.c						\
-	2_cycle/2_parser_utils/redir.c						\
-	2_cycle/2_parser_utils/redir_in.c					\
-	2_cycle/2_parser_utils/redir_out.c					\
-	2_cycle/2_parser_utils/token_list.c					\
+	3_parser/1_job.c									\
+	3_parser/2_command.c								\
+	3_parser/3_token_list.c								\
+	3_parser/4_redir.c									\
+	3_parser/5_redir_in.c								\
+	3_parser/6_redir_out.c								\
 	OLD/cmd_runner.c									\
 	OLD/executor_utils.c								\
 	OLD/executor_utils2.c								\
@@ -62,19 +62,18 @@ SRCS = $(addprefix $(SRC_FOLDER), 						\
 	OLD/cmd_builtin.c									\
 	OLD/pipes.c											\
 	OLD/redirection.c									\
-	3_builtins/42.c										\
-	3_builtins/cd.c										\
-	3_builtins/echo.c									\
-	3_builtins/env.c									\
-	3_builtins/exit.c									\
-	3_builtins/export.c									\
-	3_builtins/export_utils.c							\
-	3_builtins/help.c									\
-	3_builtins/history.c								\
-	3_builtins/infomode.c								\
-	3_builtins/pwd.c									\
-	3_builtins/unset.c									\
-	4_debug/info_mode.c									\
+	4_builtins/42.c										\
+	4_builtins/cd.c										\
+	4_builtins/echo.c									\
+	4_builtins/env.c									\
+	4_builtins/exit.c									\
+	4_builtins/export.c									\
+	4_builtins/export_utils.c							\
+	4_builtins/help.c									\
+	4_builtins/history.c								\
+	4_builtins/infomode.c								\
+	4_builtins/pwd.c									\
+	4_builtins/unset.c									\
 	)
 
 # Object files

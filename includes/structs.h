@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 15:35:02 by anshovah          #+#    #+#             */
-/*   Updated: 2024/01/06 18:26:37 by astein           ###   ########.fr       */
+/*   Updated: 2024/01/06 19:31:09 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,27 +164,8 @@ t_bool	expand_vars_main(t_mbox *mbox, int k, int quote_state);
 int		add_offset(int c);
 int		remove_offset(int c);
 
-/* PARSER */
-t_bool	parse(t_mbox *mbox);
-t_ast	*ast_create_node(int node_type);
-void	free_ast_v2(t_ast *ast);
-void	connect_subtree(t_ast **ast, t_ast *node_to_add, int on_right);
-t_bool	validate_token(t_token *token, int next_amount, int token_type);
 
 /****************# FUNCTIONS FOR BNF NOTATION TO BUILD AN AST# ****************/
 
-/* job */
-t_ast	*job_main(t_mbox *mbox);
-
-/* command */
-t_ast	*command_main(t_mbox *mbox);
-
-/* token_list */
-void	token_list_main(t_mbox *mbox);
-
-/* redir */
-t_ast	*redir_main(t_mbox *mbox);
-t_ast	*redir_in_main(t_mbox *mbox);
-t_ast	*redir_out_main(t_mbox *mbox);
 
 #endif

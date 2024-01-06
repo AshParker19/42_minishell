@@ -6,11 +6,50 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:38:32 by anshovah          #+#    #+#             */
-/*   Updated: 2024/01/06 17:13:51 by astein           ###   ########.fr       */
+/*   Updated: 2024/01/06 19:29:49 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "frankenshell.h"
+
+/**
+ * @brief	this function frees and NULLs all 5 input strings, if they have
+ * 			been allocated before
+ * 
+ * 			NOTE: function should only be called by 'free_cycle'
+ * 
+ * @param mbox 
+ */
+static void	free_inp_strs(t_mbox *mbox)
+{
+	if(!mbox)
+		return ;
+	if (mbox->inp_orig)
+	{
+		free(mbox->inp_orig);
+		mbox->inp_orig = NULL;
+	}
+	if (mbox->inp_trim)
+	{
+		free(mbox->inp_trim);
+		mbox->inp_trim = NULL;
+	}
+	if (mbox->inp_eq)
+	{
+		free(mbox->inp_eq);
+		mbox->inp_eq = NULL;
+	}
+	if (mbox->inp_shift)
+	{
+		free (mbox->inp_shift);
+		mbox->inp_shift = NULL;
+	}
+	if (mbox->inp_expand)
+	{
+		free(mbox->inp_expand);
+		mbox->inp_expand = NULL;
+	}
+}
 
 /**
  * @brief   This function is kind of the main for an execution cycle!
@@ -59,9 +98,9 @@ void	cycle_main(t_mbox *mbox)
  * 			of treating an input promt.
  * 			It frees all allocated memory and closes all fds related to
  * 			one cycle:
- * 				- free_input_strings_v2
+ * 				- free_inp_strs
  * 				- free_tokens
- * 				- free_ast_v2
+ * 				- free_ast
  * 				- close_process_fds_v2
  * @brief   this function frees and resets everthting thats needed to process
  *          one cycle
@@ -73,9 +112,9 @@ void	reset_cycle(t_mbox *mbox)
 {
 	if (!mbox)
 		return ;
-	free_input_strings_v2(mbox);
+	free_inp_strs(mbox);
 	free_tokens(mbox);
-	free_ast_v2(mbox->ast);
+	free_ast(mbox->ast);
 	mbox->ast = NULL;
 	close_process_fds_v2(mbox);
 	free_process_v2(mbox);

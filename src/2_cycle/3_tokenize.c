@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bb_tokenize.c                                      :+:      :+:    :+:   */
+/*   3_tokenize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 12:11:14 by anshovah          #+#    #+#             */
-/*   Updated: 2024/01/06 18:21:47 by astein           ###   ########.fr       */
+/*   Updated: 2024/01/06 19:03:48 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
  * 			mbox->tokens. Each token has a type (enum e_token_type) and a value.
  * 
  * DOCUMENTATION:
- *		https://github.com/ahokcool/frankenshell/docs/documentation.md#tokenizing
+ * https://github.com/ahokcool/frankenshell/docs/documentation.md#tokenizing
  * 
  */
 

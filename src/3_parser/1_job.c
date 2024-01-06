@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   job.c                                              :+:      :+:    :+:   */
+/*   1_job.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 17:49:29 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/15 14:16:57 by astein           ###   ########.fr       */
+/*   Updated: 2024/01/06 19:29:49 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,19 +54,19 @@ static t_ast	*job_case1(t_mbox *mbox)
 	pipe->left = command_main(mbox);
 	if (!pipe->left)
 	{
-		free_ast_v2(pipe);
+		free_ast(pipe);
 		return (NULL);
 	}
 	if (!validate_token(mbox->tmp_token, 0, PIPE_TOKEN))
 	{
-		free_ast_v2(pipe);
+		free_ast(pipe);
 		return (NULL);
 	}
 	mbox->tmp_token = mbox->tmp_token->next;
 	pipe->right = job_main(mbox);
 	if (!pipe->right)
 	{
-		free_ast_v2(pipe);
+		free_ast(pipe);
 		return (NULL);
 	}
 	return (pipe);

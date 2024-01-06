@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2024/01/06 18:26:20 by astein           ###   ########.fr       */
+/*   Updated: 2024/01/06 19:40:26 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,100 @@ t_bool	expand_vars_main(t_mbox *mbox, int k, int quote_state);
 t_bool	tokenize(t_mbox *mbox, int i);
 void	free_tokens(t_mbox *mbox);
 
+/*>>> 4_parse.c        */
+/*---------------------*/
+t_ast	*ast_create_node(int node_type);
+t_bool	validate_token(t_token *token, int next_amount, int token_type);
+void	free_ast(t_ast *ast);
+void	connect_subtree(t_ast **ast, t_ast *node_to_add, int on_right);
+t_bool	parse(t_mbox *mbox);
+
+/*========================================*/
+/*>>>>>>>>>> FOLDER 3_PARSER              */
+/*========================================*/
+/*>>> 1_job.c          */
+/*---------------------*/
+t_ast	*job_main(t_mbox *mbox);
+
+/*>>> 2_command.c      */
+/*---------------------*/
+t_ast	*command_main(t_mbox *mbox);
+
+/*>>> 3_token_list.c   */
+/*---------------------*/
+void	token_list_main(t_mbox *mbox);
+
+/*>>> 4_redir.c        */
+/*---------------------*/
+t_ast	*redir_main(t_mbox *mbox);
+
+/*>>> 5_redir_in.c     */
+/*---------------------*/
+t_ast	*redir_in_main(t_mbox *mbox);
+
+/*>>> 5_redir_out.c    */
+/*---------------------*/
+t_ast	*redir_out_main(t_mbox *mbox);
+
+/*========================================*/
+/*>>>>>>>>>> FOLDER 4_BUILTINS            */
+/*========================================*/
+/*>>> 42.c             */
+/*---------------------*/
+void	builtin_header(t_mbox *mbox, t_ast *arg_node);
+
+/*>>> cd.c             */
+/*---------------------*/
+void	builtin_cd(t_mbox *mbox, t_ast *arg_node);
+
+/*>>> echo.c           */
+/*---------------------*/
+void	builtin_echo(t_mbox *mbox, t_ast *arg_node);
+
+/*>>> env.c            */
+/*---------------------*/
+void	builtin_env(t_mbox *mbox, t_ast *arg_node);
+
+/*>>> exit.c           */
+/*---------------------*/
+void	builtin_exit(t_mbox *mbox, t_ast *arg_node);
+
+/*>>> export.c         */
+/*---------------------*/
+void	builtin_export(t_mbox *mbox, t_ast *arg_node);
+
+/*>>> export_utils.c   */
+/*---------------------*/
+void	case_equal_sign(t_mbox *mbox, t_ast *arg_node, t_bool *fnd_err, char *equal_sign);
+void	case_no_equal_sign(t_mbox *mbox, t_ast *arg_node, t_bool *fnd_err);
+
+/*>>> help.c           */
+/*---------------------*/
+void	builtin_help(t_mbox *mbox, t_ast *arg_node);
+
+/*>>> history.c        */
+/*---------------------*/
+void	builtin_history(t_mbox *mbox, t_ast *arg_node);
+
+/*>>> infomode.c       */
+/*---------------------*/
+void	builtin_infomode(t_mbox *mbox, t_ast *arg_node);
+
+/*>>> pwd.c            */
+/*---------------------*/
+void	builtin_pwd(t_mbox *mbox, t_ast *arg_node);
+
+/*>>> unset.c          */
+/*---------------------*/
+void	builtin_unset(t_mbox *mbox, t_ast *arg_node);
+
+
+
+
+
+
+
+
 
 // BELO IS OLD AND NOT SORTED FUNCTION!!!
 // 0000000-----------------
@@ -133,7 +227,6 @@ void	info_print_executor_banner(t_mbox *mbox, t_bool top_part, char *clr);
 void	conf_sig_handler(int sig_state);
 
 /* manage_mbox.c */
-void	free_input_strings_v2(t_mbox *mbox);
 
 
 
