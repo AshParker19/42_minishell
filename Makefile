@@ -34,10 +34,11 @@ SRCS = $(addprefix $(SRC_FOLDER), 						\
 	1_core/4_env_vars.c									\
 	1_core/5_signals.c									\
 	1_core/6_err_msg.c									\
+	1_core/7_utils.c									\
 	2_cycle/0_mark_eq.c									\
 	2_cycle/1_shift_seps.c								\
 	2_cycle/2_exp_vars.c								\
-	2_cycle/bb_tokenize.c								\
+	2_cycle/3_tokenize.c								\
 	2_cycle/d_parse.c									\
 	2_cycle/e_execute_ast.c								\
 	2_cycle/f_setup_cmd.c								\
@@ -47,9 +48,6 @@ SRCS = $(addprefix $(SRC_FOLDER), 						\
 	2_cycle/j_hd.c										\
 	2_cycle/k_hd_child.c								\
 	2_cycle/k_run_cmd.c									\
-	2_cycle/1_tokenizer_utils/heredoc_limiter.c			\
-	2_cycle/1_tokenizer_utils/tokenizer_utils.c			\
-	2_cycle/1_tokenizer_utils/tokenizer_utils2.c		\
 	2_cycle/2_parser_utils/parser_utils.c				\
 	2_cycle/2_parser_utils/command.c					\
 	2_cycle/2_parser_utils/job.c						\

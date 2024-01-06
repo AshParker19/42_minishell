@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:38:32 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/19 02:01:12 by astein           ###   ########.fr       */
+/*   Updated: 2024/01/06 17:13:51 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	cycle_main(t_mbox *mbox)
  * 			It frees all allocated memory and closes all fds related to
  * 			one cycle:
  * 				- free_input_strings_v2
- * 				- free_tokens_v2
+ * 				- free_tokens
  * 				- free_ast_v2
  * 				- close_process_fds_v2
  * @brief   this function frees and resets everthting thats needed to process
@@ -74,7 +74,7 @@ void	reset_cycle(t_mbox *mbox)
 	if (!mbox)
 		return ;
 	free_input_strings_v2(mbox);
-	free_tokens_v2(mbox);
+	free_tokens(mbox);
 	free_ast_v2(mbox->ast);
 	mbox->ast = NULL;
 	close_process_fds_v2(mbox);

@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 15:35:02 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/20 00:05:56 by astein           ###   ########.fr       */
+/*   Updated: 2024/01/06 18:26:37 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,17 +159,10 @@ t_bool	expand_vars_main(t_mbox *mbox, int k, int quote_state);
 /* HEREDOC UTILS*/
 // char	*exp_hd_lim(t_mbox *mbox, int *k, int *quote_state, char *lim);
 
-/* TOKENIZER */
-t_bool	tokenize(t_mbox *mbox, int i);
+
+
 int		add_offset(int c);
 int		remove_offset(int c);
-t_bool	ft_isspace(char c);
-t_bool	ft_issep(char c);
-t_bool	ft_isqoute(char c);
-t_bool	check_sp(char *no_space);
-t_bool	check_space_between_redir(t_mbox *mbox, char *str1, char *str2);
-int		get_token_type(char c);
-void	free_tokens_v2(t_mbox *mbox);
 
 /* PARSER */
 t_bool	parse(t_mbox *mbox);

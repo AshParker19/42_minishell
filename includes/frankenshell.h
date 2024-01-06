@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2023/12/19 23:41:27 by astein           ###   ########.fr       */
+/*   Updated: 2024/01/06 18:26:20 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,16 +83,11 @@ void	conf_sig_handler(int sig_state);
 void	err_msg(t_mbox *mbox, int exit_status, const char *format, ...);
 void	*syntax_err_msg(t_mbox *mbox, t_token *err_token);
 
-
-
-
-
-
-
-
-
-
-
+/*>>> 7_UTILS.C	       */
+/*---------------------*/
+t_bool	ft_isqoute(char c);
+t_bool	ft_issep(char c);
+t_bool	ft_isspace(char c);
 
 
 /*========================================*/
@@ -111,6 +106,10 @@ t_bool	shift_seps(t_mbox *mbox, int i, int quote_state);
 char	*get_key(char *str, int *i);
 t_bool	expand_vars_main(t_mbox *mbox, int k, int quote_state);
 
+/*>>> 3_tokenize.c     */
+/*---------------------*/
+t_bool	tokenize(t_mbox *mbox, int i);
+void	free_tokens(t_mbox *mbox);
 
 
 // BELO IS OLD AND NOT SORTED FUNCTION!!!
@@ -135,7 +134,6 @@ void	conf_sig_handler(int sig_state);
 
 /* manage_mbox.c */
 void	free_input_strings_v2(t_mbox *mbox);
-void	free_tokens_v2(t_mbox *mbox);
 
 
 

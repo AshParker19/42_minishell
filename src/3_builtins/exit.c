@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:33:57 by astein            #+#    #+#             */
-/*   Updated: 2023/12/18 02:03:51 by astein           ###   ########.fr       */
+/*   Updated: 2024/01/06 16:27:34 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	builtin_exit(t_mbox *mbox, t_ast *arg_node)
 {
 	int	exit_status;
 
-	ft_putstr_fd("exit\n", STDERR_FILENO);
+	ft_putstr_fd("exit\n", STDOUT_FILENO);
 	if (!arg_node)
 		destroy_mbox(mbox);
 	else

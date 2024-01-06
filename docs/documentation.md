@@ -1781,17 +1781,31 @@ Anyhow there some strange rules for the determine the limiter:
 
 ---
 
-#### Tokenizing
+### Tokenizing
 
-**:warning: :building_construction:	Documentation under construction! :warning: :building_construction:**<br>
+The expanded input string will be tokenized. This means that the input string will be split into tokens. Each token will be marked with a type. The following token types exist:
+```
+enum e_token_type
+{
+	WORD_TOKEN,
+	PIPE_TOKEN,
+	RED_IN_TOKEN,
+	RED_OUT_TOKEN,
+};
+```
 
-The expanded input string will be tokenized. This means that the input string will be split into tokens. Each token will be marked with a type. The following table shows all possible token types:
-...
-Examples
-```
-Expanded String:	TODO
-Tokens:				`ls`(arg); `-l`(arg); `-a`(arg); `|`(pipe); `wc`(cmd); `-l`(arg)
-```
+To generate the tokens first the input string will be splited into an array. Therefore the `NO_SPACE` character is used as an seperator. Then a loop will go through the array and generate the tokens. The following table shows the token generation logic:
+| Logic | Example |
+| ----- | ------- |
+| check for forbidden spaces between redir symbols						| `< < file cat`	|
+| if seperating characters in array entry (`\|`, `<`, `>`, `'`, `"`)	| `ls\|wc`			|
+| &nbsp;&nbsp;&nbsp;&nbsp; if quote state == outside quotes									| `ls\|wc`			| 
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; create token with value: everything until next seperator found| token: `ls`		|
+| &nbsp;&nbsp;&nbsp;&nbsp;else																| `"ls\|wc"`		|
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; create token with value: everything until matching quote found| token: `ls\|wc`	|
+|else																	| `ls`				|
+| &nbsp;&nbsp;&nbsp;&nbsp; create token with value: full array entry							| token: `ls`		|
+
 > :bulb: Activate the [info mode](#info-mode) to see the token list during runtime
 
 #### Parsing
