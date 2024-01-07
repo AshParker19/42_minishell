@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 16:07:39 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/19 23:36:05 by astein           ###   ########.fr       */
+/*   Updated: 2024/01/07 11:49:53 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,11 @@
 
 /**********************************# PROMPT FORMAT #***************************/
 /**
- *	The escape sequence '\001' are used to tell readline that
- *		the characters between them are non-printing
- *		(which in this case is the color sequence)
+ *	The escape sequence '\001' is used to tell readline that trailing chars
+ *	are non printing chars (which in this case is the color sequence)
  *		
- *	The escape sequence '\002' are used to tell readline that
- *		the characters between them are printing.		
+ *	The escape sequence '\002' is used to tell readline that trailing chars
+ *	are printing chars
 */
 # define PROMPT 		"\001\x1b[36m\002frankenshell--> \001\033[0m\002"
 # define ERR_P  		"\001\033[38;5;203m\002frankenshell: \001\033[0m\002"
@@ -56,7 +55,7 @@ enum e_signal_state
 
 /**********************************# PARSING #*********************************/
 # define OUT_Q     		 0		// outside quote state
-# define NO_SPACE	    -125 	//indicate a whitespace character to be ignored */
+# define NO_SPACE	    -125 	// indicate a ws character to be ignored
 # define EMPTY_TOKEN	-126	// indicate the necessity of an empty token
 
 /**********************************# TOKENIZER #*******************************/

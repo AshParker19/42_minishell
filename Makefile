@@ -41,7 +41,7 @@ SRCS = $(addprefix $(SRC_FOLDER), 						\
 	2_cycle/2_exp_vars.c								\
 	2_cycle/3_tokenize.c								\
 	2_cycle/4_parse.c									\
-	2_cycle/e_execute_ast.c								\
+	2_cycle/5_execute_ast.c								\
 	2_cycle/f_setup_cmd.c								\
 	2_cycle/g_pipe.c									\
 	2_cycle/h_fork.c									\
@@ -59,9 +59,9 @@ SRCS = $(addprefix $(SRC_FOLDER), 						\
 	OLD/executor_utils.c								\
 	OLD/executor_utils2.c								\
 	OLD/cmd_system.c									\
-	OLD/cmd_builtin.c									\
 	OLD/pipes.c											\
 	OLD/redirection.c									\
+	4_builtins/0_builtins_utils.c						\
 	4_builtins/42.c										\
 	4_builtins/cd.c										\
 	4_builtins/echo.c									\

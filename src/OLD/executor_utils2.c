@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 13:48:08 by anshovah          #+#    #+#             */
-/*   Updated: 2023/12/15 19:08:03 by astein           ###   ########.fr       */
+/*   Updated: 2024/01/07 12:48:24 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ char	*get_abs_cmd_path(t_mbox *mbox, char *cmd)
 }
 
 /**
- * @brief this function will be called by 'exec_parent'
+ * @brief this function will be called by 'conf_parent'
  *          if the cmd has a hd it makes the parent wait for the child to finish
  * 
  */

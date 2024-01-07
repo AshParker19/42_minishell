@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd_builtin.c                                      :+:      :+:    :+:   */
+/*   0_builtins_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:54:41 by astein            #+#    #+#             */
-/*   Updated: 2023/12/18 02:51:39 by astein           ###   ########.fr       */
+/*   Updated: 2024/01/07 11:34:16 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,11 @@ void	initialize_builtins(t_mbox *mbox)
 }
 
 /**
- * @brief   traverses through the ll and checks if an accepted string 
- *          is one of the builtin commands
- *          returns corresponding boolean value
+ * @brief   Checks if the cmd str is present in the array of 't_builtin_cmd'
  * 
- * @param   mbox 
- * @param   cmd 
- * @return  t_bool 
+ * @param   mbox        
+ * @param   cmd         
+ * @return  t_bool      
  */
 t_bool	is_cmd_builtin(t_mbox *mbox, char *cmd)
 {

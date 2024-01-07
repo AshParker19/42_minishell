@@ -90,7 +90,6 @@
 
 <br><h1 id="introduction">
 	<a href="#table-of-content">🔝 </a>
-	<a href="#introduction">▶️ </a>
 	Introduction
 </h1>
 
@@ -128,7 +127,6 @@ As ChatGPT said in 2023:
 
 <br><h1 id="installation">
 	<a href="#table-of-content">🔝 </a>
-	<a href="#installation">▶️ </a>
 	Installation
 </h1>
 
@@ -182,11 +180,10 @@ As ChatGPT said in 2023:
 
 <br><h1 id="usage">
 	<a href="#table-of-content">🔝 </a>
-	<a href="#usage">▶️ </a>
 	Usage
 </h1>
 
-**frankenshell** is designed to mimic the behavior of the traditional **bash** shell. So feel free to use it like bash.
+**frankenshell** is designed to mimic the behavior of the traditional [**bash shell**](https://de.wikipedia.org/wiki/Bash_(Shell)). So feel free to use it like bash.
 
 ![Example][example-gif]
 
@@ -209,9 +206,8 @@ As ChatGPT said in 2023:
 <br><h2 id="info-mode">
 	<a href="#table-of-content">🔝 </a>
 	<a href="#usage">◀️ </a>
-	<a href="#info-mode">▶️ </a>
 	Info Mode
-	<a href="../src/4_debug/info_mode.c"> 💻</a>
+	<a href="../src/1_core/8_info_mode.c"> 💻</a>
 </h2>
 
 To activate the info mode you can
@@ -552,7 +548,6 @@ hi   there
 
 <br><h1 id="definitions">
 	<a href="#table-of-content">🔝 </a>
-	<a href="#definitions">▶️ </a>
 	Definitions
 </h1>
 
@@ -597,7 +592,6 @@ These definitions are used throughout this manual as follows.
 
 <br><h1 id="syntax">
 	<a href="#table-of-content">🔝 </a>
-	<a href="#syntax">▶️ </a>
 	Syntax
 </h1>
 
@@ -625,7 +619,6 @@ The syntax of frankenshell is  designed to mimic  the syntax of bash.
 <br><h2 id="quotes">
 	<a href="#table-of-content">🔝 </a>
 	<a href="#syntax">◀️ </a>
-	<a href="#quotes">▶️ </a>
 	Quotes
 </h2>
 
@@ -687,7 +680,6 @@ frankenshell: syntax error: unclosed quotes
 <br><h2 id="seperators">
 	<a href="#table-of-content">🔝 </a>
 	<a href="#syntax">◀️ </a>
-	<a href="#seperators">▶️ </a>
 	Seperators
 </h2>
 

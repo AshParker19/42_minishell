@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2024/01/06 19:40:26 by astein           ###   ########.fr       */
+/*   Updated: 2024/01/07 12:51:55 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,10 @@
 # include "../libft/libft_printf.h"
 # include "config.h"
 # include "structs.h"
-# include "builtins.h"
 # include "executor.h"
 
 /**********************************# INFO #************************************/
-extern int						g_signal_status;	//global variable for signal handling
+extern int	g_signal_status;	//global variable for signal handling
 
 /*********************************# FUNCTIONS #********************************/
 
@@ -89,6 +88,13 @@ t_bool	ft_isqoute(char c);
 t_bool	ft_issep(char c);
 t_bool	ft_isspace(char c);
 
+/*>>> 8_INFO_MODE.C    */
+/*---------------------*/
+void	info_put_banner(t_mbox *mbox, char *caption, char *data, char *clr);
+void	info_print_input_string(t_mbox *mbox, char *state, char *str, char *clr);
+void	info_print_tokenizer(t_mbox *mbox, char *clr);
+void	info_print_parser(t_mbox *mbox, char *clr);
+void	info_print_executor_banner(t_mbox *mbox, t_bool top_part, char *clr);
 
 /*========================================*/
 /*>>>>>>>>>> FOLDER 2_CYCLE               */
@@ -118,6 +124,11 @@ t_bool	validate_token(t_token *token, int next_amount, int token_type);
 void	free_ast(t_ast *ast);
 void	connect_subtree(t_ast **ast, t_ast *node_to_add, int on_right);
 t_bool	parse(t_mbox *mbox);
+
+/*>>> 5_execute_ast.c  */
+/*---------------------*/
+void	execute_ast(t_mbox *mbox);
+
 
 /*========================================*/
 /*>>>>>>>>>> FOLDER 3_PARSER              */
@@ -149,6 +160,11 @@ t_ast	*redir_out_main(t_mbox *mbox);
 /*========================================*/
 /*>>>>>>>>>> FOLDER 4_BUILTINS            */
 /*========================================*/
+/*>>> 0_builtins_utils.c*/
+/*---------------------*/
+void	initialize_builtins(t_mbox *mbox);
+t_bool	is_cmd_builtin(t_mbox *mbox, char *cmd);
+
 /*>>> 42.c             */
 /*---------------------*/
 void	builtin_header(t_mbox *mbox, t_ast *arg_node);
@@ -184,6 +200,8 @@ void	builtin_help(t_mbox *mbox, t_ast *arg_node);
 
 /*>>> history.c        */
 /*---------------------*/
+void	save_history(t_mbox *mbox);
+void	del_history_node(void *content);
 void	builtin_history(t_mbox *mbox, t_ast *arg_node);
 
 /*>>> infomode.c       */
@@ -206,32 +224,42 @@ void	builtin_unset(t_mbox *mbox, t_ast *arg_node);
 
 
 
-// BELO IS OLD AND NOT SORTED FUNCTION!!!
-// 0000000-----------------
-// ---
-// --
+// BELOW IS OLD AND NOT SORTED FUNCTION!!!
+/* exec */
+void	run_cmd_system(t_mbox *mbox, t_ast *cmd_node);
 
+/* cmd runner */
+void	run_cmd_main(t_mbox *mbox, t_ast *cmd_node);
+t_bool	run_single_builtin(t_mbox *mbox);
+
+/* pipes */
+void	setup_use_pipe(t_mbox *mbox, int status);
+void	setup_pipes(t_mbox *mbox, int *cur_pipe);
+void	setup_process_std_tmp(t_mbox *mbox);
+
+/* redirections */
+t_bool	setup_redirs(t_mbox *mbox, t_ast *redir_node, int *cur_p);
+
+/* heredoc */
+t_bool	setup_hd(t_mbox *mbox, t_ast *redir_node, int *cur_p);
+
+/* executor_utils */
+void	initialize_fds(t_mbox *mbox, t_ast *cur, int cmd_pos);
+int		cmd_counter(t_ast *ast_node);
+char	**get_args_to_matrix(t_mbox *mbox, char *cmd, t_ast *arg_node);
+void	close_process_fds_v2(t_mbox *mbox);
+t_bool	hd_parent_wait(t_mbox *mbox, int *cur_p, t_ast *node_cpy,
+			int kid_pid);
+
+char	*get_abs_cmd_path(t_mbox *mbox, char *cmd);
+void	free_process_v2(t_mbox *mbox);
+
+
+
+void	run_cmd_builtin(t_mbox *mbox, t_ast *cmd_node, t_bool parent);
 void	hd_child(t_mbox *mbox, t_hd hd, int *cur_p);
-
-void	info_put_banner(t_mbox *mbox, char *caption, char *data, char *clr);
-void	info_print_input_string(t_mbox *mbox, char *state, char *str, char *clr);
-void	info_print_tokenizer(t_mbox *mbox, char *clr);
-void	info_print_parser(t_mbox *mbox, char *clr);
-void	info_print_executor_banner(t_mbox *mbox, t_bool top_part, char *clr);
-
-/* input_manager.c */
-
-
-
-/* signals.c */
-void	conf_sig_handler(int sig_state);
-
-/* manage_mbox.c */
-
-
-
-/* general_utils.c */
-void	err_msg(t_mbox *mbox, int exit_status, const char *format, ...);
-void	*syntax_err_msg(t_mbox *mbox, t_token *err_token);
+t_bool	setup_cmd(t_mbox *mbox, t_ast *cmd_node, int cmd_pos);
+void	conf_child(t_mbox *mbox, t_ast *cmd_node, int *cur_p);
+t_bool	conf_parent(t_mbox *mbox, int *cur_p, t_ast *node, int kid_pid);
 
 #endif
