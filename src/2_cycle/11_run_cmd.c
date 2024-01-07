@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   k_run_cmd.c                                        :+:      :+:    :+:   */
+/*   11_run_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 13:09:02 by astein            #+#    #+#             */
-/*   Updated: 2024/01/07 14:17:07 by astein           ###   ########.fr       */
+/*   Updated: 2024/01/07 14:38:18 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,31 +199,7 @@ static char	*get_abs_cmd_path(t_mbox *mbox, char *cmd)
 }
 
 
-
-/**
- * @brief	checks if the command node exists and has a value
- * 			if so it runs the cmd either via
- * 				- 'run_cmd_builtin' or
- *	 			- 'run_cmd_system'
- * 
- * @param	mbox		
- * @param	cmd_node	
- */
-void	run_cmd_main(t_mbox *mbox, t_ast *cmd_node)
-{
-	if (!cmd_node || !cmd_node->content)
-		return ;
-	if (mbox->exec.io.cmd_fd[CMD_IN] != -1)
-		close(mbox->exec.io.cmd_fd[CMD_IN]);
-	if (mbox->exec.io.cmd_fd[CMD_OUT] != -1)
-		close(mbox->exec.io.cmd_fd[CMD_OUT]);
-	if (is_cmd_builtin(mbox, cmd_node->content))
-		run_cmd_builtin(mbox, cmd_node, ft_false);
-	else
-		run_cmd_system(mbox, cmd_node);
-}
-
-void	run_cmd_system(t_mbox *mbox, t_ast *cmd_node)
+static void	run_cmd_system(t_mbox *mbox, t_ast *cmd_node)
 {
 	char	*abs_cmd_path;
 	char	**cur_env;
@@ -251,7 +227,7 @@ void	run_cmd_system(t_mbox *mbox, t_ast *cmd_node)
  * @param   mbox 
  * @param   cmd_node 
  */
-void	run_cmd_builtin(t_mbox *mbox, t_ast *cmd_node, t_bool parent)
+static void	run_cmd_builtin(t_mbox *mbox, t_ast *cmd_node, t_bool parent)
 {
 	int	i;
 
@@ -269,4 +245,52 @@ void	run_cmd_builtin(t_mbox *mbox, t_ast *cmd_node, t_bool parent)
 	}
 }
 
+/**
+ * @brief	checks if the command node exists and has a value
+ * 			if so it runs the cmd either via
+ * 				- 'run_cmd_builtin' or
+ *	 			- 'run_cmd_system'
+ * 
+ * @param	mbox		
+ * @param	cmd_node	
+ */
+void	run_cmd_main(t_mbox *mbox, t_ast *cmd_node)
+{
+	if (!cmd_node || !cmd_node->content)
+		return ;
+	if (mbox->exec.io.cmd_fd[CMD_IN] != -1)
+		close(mbox->exec.io.cmd_fd[CMD_IN]);
+	if (mbox->exec.io.cmd_fd[CMD_OUT] != -1)
+		close(mbox->exec.io.cmd_fd[CMD_OUT]);
+	if (is_cmd_builtin(mbox, cmd_node->content))
+		run_cmd_builtin(mbox, cmd_node, ft_false);
+	else
+		run_cmd_system(mbox, cmd_node);
+}
 
+t_bool	run_single_builtin(t_mbox *mbox)
+{
+	if (!setup_redirs(mbox, mbox->ast->left, NULL))
+	{
+		if (mbox->exec.io.cmd_fd[CMD_IN] != -1)
+			close (mbox->exec.io.cmd_fd[CMD_IN]);
+		if (mbox->exec.io.cmd_fd[CMD_OUT] != -1)
+			close (mbox->exec.io.cmd_fd[CMD_OUT]);
+		mbox->exec.io.cmd_fd[CMD_IN] = -1;
+		mbox->exec.io.cmd_fd[CMD_OUT] = -1;
+		return (ft_false);
+	}
+	if (mbox->exec.io.cmd_fd[CMD_IN] == -1)
+		mbox->exec.io.cmd_fd[CMD_IN] = STDIN_FILENO;
+	if (mbox->exec.io.cmd_fd[CMD_OUT] == -1)
+		mbox->exec.io.cmd_fd[CMD_OUT] = STDOUT_FILENO; 
+	run_cmd_builtin(mbox, mbox->ast, ft_true);
+	if (mbox->exec.io.cmd_fd[CMD_IN] != STDIN_FILENO)
+		close (mbox->exec.io.cmd_fd[CMD_IN]);
+	if (mbox->exec.io.cmd_fd[CMD_OUT] != STDOUT_FILENO)
+		close (mbox->exec.io.cmd_fd[CMD_OUT]);
+	mbox->exec.io.cmd_fd[CMD_IN] = -1;
+	mbox->exec.io.cmd_fd[CMD_OUT] = -1;
+	close_fds(mbox);
+	return (ft_true);
+}

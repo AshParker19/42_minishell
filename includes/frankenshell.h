@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2024/01/07 14:20:37 by astein           ###   ########.fr       */
+/*   Updated: 2024/01/07 14:41:20 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int		cmd_counter(t_ast *ast_node);
 /*>>> 8_INFO_MODE.C    */
 /*---------------------*/
 void	info_put_banner(t_mbox *mbox, char *caption, char *data, char *clr);
-void	info_print_input_string(t_mbox *mbox, char *state, char *str, char *clr);
+void	info_print_input_str(t_mbox *mbox, char *state, char *str, char *clr);
 void	info_print_tokenizer(t_mbox *mbox, char *clr);
 void	info_print_parser(t_mbox *mbox, char *clr);
 void	info_print_executor_banner(t_mbox *mbox, t_bool top_part, char *clr);
@@ -128,7 +128,36 @@ t_bool	parse(t_mbox *mbox);
 /*>>> 5_execute_ast.c  */
 /*---------------------*/
 void	execute_ast(t_mbox *mbox);
+void	free_process(t_mbox *mbox);
 
+/*>>> 6_setup_cmd.c    */
+/*---------------------*/
+t_bool	setup_cmd(t_mbox *mbox, t_ast *cmd_node, int cmd_pos);
+
+/*>>> 7_pipe.c         */
+/*---------------------*/
+void	initialize_fds(t_mbox *mbox, t_ast *cur, int cmd_pos);
+void	close_fds(t_mbox *mbox);
+void	conf_pipe(t_mbox *mbox, int status);
+void	redir_pipe(t_mbox *mbox, int *cur_pipe);
+void	connect_child_fds(t_mbox *mbox);
+
+/*>>> 8_redir.c        */
+/*---------------------*/
+t_bool	setup_redirs(t_mbox *mbox, t_ast *redir_node, int *cur_p);
+
+/*>>> 9_hd.c           */
+/*---------------------*/
+t_bool	setup_hd(t_mbox *mbox, t_ast *redir_node, int *cur_p);
+
+/*>>> 10_hd_child.c    */
+/*---------------------*/
+void	hd_child(t_mbox *mbox, t_hd hd, int *cur_p);
+
+/*>>> 11_run_cmd.c     */
+/*---------------------*/
+void	run_cmd_main(t_mbox *mbox, t_ast *cmd_node);
+t_bool	run_single_builtin(t_mbox *mbox);
 
 /*========================================*/
 /*>>>>>>>>>> FOLDER 3_PARSER              */
@@ -215,45 +244,5 @@ void	builtin_pwd(t_mbox *mbox, t_ast *arg_node);
 /*>>> unset.c          */
 /*---------------------*/
 void	builtin_unset(t_mbox *mbox, t_ast *arg_node);
-
-
-
-
-
-
-
-
-
-// BELOW IS OLD AND NOT SORTED FUNCTION!!!
-/* exec */
-void	run_cmd_system(t_mbox *mbox, t_ast *cmd_node);
-
-/* cmd runner */
-void	run_cmd_main(t_mbox *mbox, t_ast *cmd_node);
-
-/* pipes */
-void	conf_pipe(t_mbox *mbox, int status);
-void	redir_pipe(t_mbox *mbox, int *cur_pipe);
-void	connect_child_fds(t_mbox *mbox);
-
-/* redirections */
-t_bool	setup_redirs(t_mbox *mbox, t_ast *redir_node, int *cur_p);
-
-/* heredoc */
-t_bool	setup_hd(t_mbox *mbox, t_ast *redir_node, int *cur_p);
-
-/* executor_utils */
-void	initialize_fds(t_mbox *mbox, t_ast *cur, int cmd_pos);
-void	close_process_fds(t_mbox *mbox);
-
-void	free_process(t_mbox *mbox);
-
-
-
-void	run_cmd_builtin(t_mbox *mbox, t_ast *cmd_node, t_bool parent);
-void	hd_child(t_mbox *mbox, t_hd hd, int *cur_p);
-t_bool	setup_cmd(t_mbox *mbox, t_ast *cmd_node, int cmd_pos);
-void	conf_child(t_mbox *mbox, t_ast *cmd_node, int *cur_p);
-t_bool	conf_parent(t_mbox *mbox, int *cur_p, t_ast *node, int kid_pid);
 
 #endif

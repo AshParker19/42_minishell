@@ -1,51 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   i_redir.c                                          :+:      :+:    :+:   */
+/*   8_redir.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 12:45:19 by astein            #+#    #+#             */
-/*   Updated: 2024/01/07 14:10:56 by astein           ###   ########.fr       */
+/*   Updated: 2024/01/07 14:29:17 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "frankenshell.h"
-
-/**
- * @brief	initializes all the FDs as -1 so it's easy to check later on
- * 			if the were open
- * 
- * @param	mbox 
- */
-void	initialize_fds(t_mbox *mbox, t_ast *cur, int cmd_pos)
-{
-	mbox->exec.io.cmd_fd[CMD_IN] = -1;
-	mbox->exec.io.cmd_fd[CMD_OUT] = -1;
-	mbox->exec.io.dup_fd[CMD_IN] = -1;
-	mbox->exec.io.dup_fd[CMD_OUT] = -1;
-	if (cur)
-		cur->cmd_pos = cmd_pos;
-}
-
-/**
- * @brief	close all FDs of current cycle
- * 
- * 			NOTE: function should only be called by 'free_cycle'
- * 
- * @param mbox 
- */
-void	close_process_fds(t_mbox *mbox)
-{
-	if (mbox->exec.io.cmd_fd[CMD_IN] != -1)
-		close (mbox->exec.io.cmd_fd[CMD_IN]);
-	if (mbox->exec.io.cmd_fd[CMD_OUT] != -1)
-		close (mbox->exec.io.cmd_fd[CMD_OUT]);
-	if (mbox->exec.io.dup_fd[CMD_IN] != -1)
-		close (mbox->exec.io.dup_fd[CMD_IN]);
-	if (mbox->exec.io.dup_fd[CMD_OUT] != -1)
-		close (mbox->exec.io.dup_fd[CMD_OUT]);
-}
 
 /**
  * @brief   here we dont need to exit because:
@@ -132,6 +97,7 @@ static t_bool	conf_redir(t_mbox *mbox, t_ast *redir_node, int *cur_p)
 	}
 	return (ft_true);
 }
+
 
 /**
  * @brief   accept a 'redir_node' and sets up the redirections accordingly

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   info_mode.c                                        :+:      :+:    :+:   */
+/*   8_info_mode.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 18:59:37 by astein            #+#    #+#             */
-/*   Updated: 2023/12/18 00:47:27 by astein           ###   ########.fr       */
+/*   Updated: 2024/01/07 14:41:20 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
  *
  *			  EXPORTED:
  *				- info_put_banner
- *				- info_print_input_string
+ *				- info_print_input_str
  *				- info_print_tokenizer
  *				- info_print_parser
  *				- info_print_executor_banner
@@ -222,7 +222,7 @@ void	info_put_banner(t_mbox *mbox, char *caption, char *data, char *clr)
  * @param   state       
  * @param   str         
  */
-void	info_print_input_string(t_mbox *mbox, char *state, char *str, char *clr)
+void	info_print_input_str(t_mbox *mbox, char *state, char *str, char *clr)
 {
 	char	*readable;
 

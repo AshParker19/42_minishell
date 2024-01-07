@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:38:32 by anshovah          #+#    #+#             */
-/*   Updated: 2024/01/07 12:57:26 by astein           ###   ########.fr       */
+/*   Updated: 2024/01/07 14:41:20 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,19 +72,19 @@ void	cycle_main(t_mbox *mbox)
 	info_put_banner(mbox, "INPUT STATES", NULL, LIGHT_RED);
 	add_history(mbox->inp_orig);
 	save_history(mbox);
-	info_print_input_string(mbox, "original", mbox->inp_orig, LIGHT_RED);
+	info_print_input_str(mbox, "original", mbox->inp_orig, LIGHT_RED);
 	mbox->inp_trim = ft_strtrim(mbox->inp_orig, " \n\t\v\a\b\f\r");
 	if (!mbox->inp_trim || mbox->inp_trim[0] == 0)
 		return ;
-	info_print_input_string(mbox, "trimmed", mbox->inp_trim, LIGHT_RED);
+	info_print_input_str(mbox, "trimmed", mbox->inp_trim, LIGHT_RED);
 	mark_empty_quotes(mbox);
-	info_print_input_string(mbox, "empty quotes", mbox->inp_eq, LIGHT_RED);
+	info_print_input_str(mbox, "empty quotes", mbox->inp_eq, LIGHT_RED);
 	if (!shift_seps(mbox, -1, OUT_Q))
 		return ;
-	info_print_input_string(mbox, "shifted", mbox->inp_shift, LIGHT_RED);
+	info_print_input_str(mbox, "shifted", mbox->inp_shift, LIGHT_RED);
 	if (!expand_vars_main(mbox, 0, OUT_Q))
 		return ;
-	info_print_input_string(mbox, "expanded", mbox->inp_expand, LIGHT_RED);
+	info_print_input_str(mbox, "expanded", mbox->inp_expand, LIGHT_RED);
 	if (!tokenize(mbox, 0))
 		return ;
 	if (!parse(mbox))
@@ -101,7 +101,7 @@ void	cycle_main(t_mbox *mbox)
  * 				- free_inp_strs
  * 				- free_tokens
  * 				- free_ast
- * 				- close_process_fds
+ * 				- close_fds
  * @brief   this function frees and resets everthting thats needed to process
  *          one cycle
  * 
@@ -116,7 +116,7 @@ void	reset_cycle(t_mbox *mbox)
 	free_tokens(mbox);
 	free_ast(mbox->ast);
 	mbox->ast = NULL;
-	close_process_fds(mbox);
+	close_fds(mbox);
 	free_process(mbox);
 	mbox->exec.io.prev_pipe[P_LEFT] = -1;
 	mbox->exec.io.prev_pipe[P_RIGHT] = -1;

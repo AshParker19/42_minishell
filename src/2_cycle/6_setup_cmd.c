@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   f_setup_cmd.c                                      :+:      :+:    :+:   */
+/*   6_setup_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 12:46:17 by astein            #+#    #+#             */
-/*   Updated: 2024/01/07 14:09:07 by astein           ###   ########.fr       */
+/*   Updated: 2024/01/07 14:35:58 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,71 +47,9 @@ static t_bool	hd_parent_wait(t_mbox *mbox, int *cur_p, t_ast *node_cpy, int kid_
 	return (ft_true);
 }
 
-static t_bool	setup_single_builtin(t_mbox *mbox)
-{
-	if (!setup_redirs(mbox, mbox->ast->left, NULL))
-	{
-		if (mbox->exec.io.cmd_fd[CMD_IN] != -1)
-			close (mbox->exec.io.cmd_fd[CMD_IN]);
-		if (mbox->exec.io.cmd_fd[CMD_OUT] != -1)
-			close (mbox->exec.io.cmd_fd[CMD_OUT]);
-		mbox->exec.io.cmd_fd[CMD_IN] = -1;
-		mbox->exec.io.cmd_fd[CMD_OUT] = -1;
-		return (ft_false);
-	}
-	if (mbox->exec.io.cmd_fd[CMD_IN] == -1)
-		mbox->exec.io.cmd_fd[CMD_IN] = STDIN_FILENO;
-	if (mbox->exec.io.cmd_fd[CMD_OUT] == -1)
-		mbox->exec.io.cmd_fd[CMD_OUT] = STDOUT_FILENO; 
-	run_cmd_builtin(mbox, mbox->ast, ft_true);
-	if (mbox->exec.io.cmd_fd[CMD_IN] != STDIN_FILENO)
-		close (mbox->exec.io.cmd_fd[CMD_IN]);
-	if (mbox->exec.io.cmd_fd[CMD_OUT] != STDOUT_FILENO)
-		close (mbox->exec.io.cmd_fd[CMD_OUT]);
-	mbox->exec.io.cmd_fd[CMD_IN] = -1;
-	mbox->exec.io.cmd_fd[CMD_OUT] = -1;
-	close_process_fds(mbox);
-	return (ft_true);
-}
 
-/**
- * @brief	
- * 
- * @param	mbox 
- * @param	cmd_node 
- * @param	cmd_pos 
- * @return	t_bool 
- */
-t_bool	setup_cmd(t_mbox *mbox, t_ast *cmd_node, int cmd_pos)
-{
-	int	cur_pipe[2];
-	int	child_pid;
 
-	cur_pipe[0] = -1;
-	cur_pipe[1] = -1;
-	initialize_fds(mbox, cmd_node, cmd_pos);
-	if (cmd_pos == SINGLE_CMD && is_cmd_builtin(mbox, cmd_node->content))
-		return (setup_single_builtin(mbox));
-	else
-	{
-		conf_pipe(mbox, cmd_pos);
-		if (cmd_pos == FIRST_CMD || cmd_pos == MIDDLE_CMD)
-			if (pipe(cur_pipe) < 0)
-				return (destroy_mbox_with_exit(mbox, EXIT_FAILURE));
-		mbox->exec.pid[mbox->exec.pid_index] = fork();
-		child_pid = mbox->exec.pid[mbox->exec.pid_index];
-		if (child_pid < 0)
-			return (destroy_mbox_with_exit(mbox, EXIT_FAILURE));
-		conf_sig_handler(SIG_STATE_PARENT);
-		if (child_pid == 0)
-			conf_child(mbox, cmd_node, cur_pipe);
-		else
-			return (conf_parent(mbox, cur_pipe, cmd_node, child_pid));
-	}
-	return (ft_true);
-}
-
-void	conf_child(t_mbox *mbox, t_ast *cmd_node, int *cur_p)
+static void	conf_child(t_mbox *mbox, t_ast *cmd_node, int *cur_p)
 {
 	if (is_cmd_builtin(mbox, cmd_node->content))
 		conf_sig_handler(SIG_STATE_CHILD_BUILTIN);
@@ -137,7 +75,7 @@ void	conf_child(t_mbox *mbox, t_ast *cmd_node, int *cur_p)
 	destroy_mbox(mbox);
 }
 
-t_bool	conf_parent(t_mbox *mbox, int *cur_p, t_ast *node, int kid_pid)
+static t_bool	conf_parent(t_mbox *mbox, int *cur_p, t_ast *node, int kid_pid)
 {
 	t_ast	*cmd_node_cpy;
 
@@ -148,7 +86,44 @@ t_bool	conf_parent(t_mbox *mbox, int *cur_p, t_ast *node, int kid_pid)
 	mbox->exec.pid_index++;
 	mbox->exec.io.prev_pipe[P_RIGHT] = cur_p[P_RIGHT];
 	mbox->exec.io.prev_pipe[P_LEFT] = cur_p[P_LEFT];
-	close_process_fds(mbox);
+	close_fds(mbox);
 	cmd_node_cpy = node;
 	return (hd_parent_wait(mbox, cur_p, cmd_node_cpy, kid_pid));
+}
+
+/**
+ * @brief	
+ * 
+ * @param	mbox 
+ * @param	cmd_node 
+ * @param	cmd_pos 
+ * @return	t_bool 
+ */
+t_bool	setup_cmd(t_mbox *mbox, t_ast *cmd_node, int cmd_pos)
+{
+	int	cur_pipe[2];
+	int	child_pid;
+
+	cur_pipe[0] = -1;
+	cur_pipe[1] = -1;
+	initialize_fds(mbox, cmd_node, cmd_pos);
+	if (cmd_pos == SINGLE_CMD && is_cmd_builtin(mbox, cmd_node->content))
+		return (run_single_builtin(mbox));
+	else
+	{
+		conf_pipe(mbox, cmd_pos);
+		if (cmd_pos == FIRST_CMD || cmd_pos == MIDDLE_CMD)
+			if (pipe(cur_pipe) < 0)
+				return (destroy_mbox_with_exit(mbox, EXIT_FAILURE));
+		mbox->exec.pid[mbox->exec.pid_index] = fork();
+		child_pid = mbox->exec.pid[mbox->exec.pid_index];
+		if (child_pid < 0)
+			return (destroy_mbox_with_exit(mbox, EXIT_FAILURE));
+		conf_sig_handler(SIG_STATE_PARENT);
+		if (child_pid == 0)
+			conf_child(mbox, cmd_node, cur_pipe);
+		else
+			return (conf_parent(mbox, cur_pipe, cmd_node, child_pid));
+	}
+	return (ft_true);
 }

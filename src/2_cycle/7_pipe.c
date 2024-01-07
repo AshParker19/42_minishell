@@ -1,16 +1,52 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   g_pipe.c                                           :+:      :+:    :+:   */
+/*   7_pipe.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 13:02:07 by astein            #+#    #+#             */
-/*   Updated: 2024/01/07 13:08:39 by astein           ###   ########.fr       */
+/*   Updated: 2024/01/07 14:29:32 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "frankenshell.h"
+
+/**
+ * @brief	initializes all the FDs as -1 so it's easy to check later on
+ * 			if the were open
+ * 
+ * @param	mbox 
+ */
+void	initialize_fds(t_mbox *mbox, t_ast *cur, int cmd_pos)
+{
+	mbox->exec.io.cmd_fd[CMD_IN] = -1;
+	mbox->exec.io.cmd_fd[CMD_OUT] = -1;
+	mbox->exec.io.dup_fd[CMD_IN] = -1;
+	mbox->exec.io.dup_fd[CMD_OUT] = -1;
+	if (cur)
+		cur->cmd_pos = cmd_pos;
+}
+
+/**
+ * @brief	close all FDs of current cycle
+ * 
+ * 			NOTE: function should only be called by 'free_cycle'
+ * 
+ * @param mbox 
+ */
+void	close_fds(t_mbox *mbox)
+{
+	if (mbox->exec.io.cmd_fd[CMD_IN] != -1)
+		close (mbox->exec.io.cmd_fd[CMD_IN]);
+	if (mbox->exec.io.cmd_fd[CMD_OUT] != -1)
+		close (mbox->exec.io.cmd_fd[CMD_OUT]);
+	if (mbox->exec.io.dup_fd[CMD_IN] != -1)
+		close (mbox->exec.io.dup_fd[CMD_IN]);
+	if (mbox->exec.io.dup_fd[CMD_OUT] != -1)
+		close (mbox->exec.io.dup_fd[CMD_OUT]);
+}
+
 
 /**
  * @brief   according to the accepted status sets the bool values in use_pipe[]
@@ -77,3 +113,4 @@ void	connect_child_fds(t_mbox *mbox)
 			destroy_mbox_with_exit(mbox, EXIT_FAILURE);
 	}
 }
+
