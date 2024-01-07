@@ -1,16 +1,51 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirection.c                                      :+:      :+:    :+:   */
+/*   i_redir.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/09 16:47:15 by anshovah          #+#    #+#             */
-/*   Updated: 2024/01/07 12:48:14 by astein           ###   ########.fr       */
+/*   Created: 2024/01/07 12:45:19 by astein            #+#    #+#             */
+/*   Updated: 2024/01/07 14:10:56 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "frankenshell.h"
+
+/**
+ * @brief	initializes all the FDs as -1 so it's easy to check later on
+ * 			if the were open
+ * 
+ * @param	mbox 
+ */
+void	initialize_fds(t_mbox *mbox, t_ast *cur, int cmd_pos)
+{
+	mbox->exec.io.cmd_fd[CMD_IN] = -1;
+	mbox->exec.io.cmd_fd[CMD_OUT] = -1;
+	mbox->exec.io.dup_fd[CMD_IN] = -1;
+	mbox->exec.io.dup_fd[CMD_OUT] = -1;
+	if (cur)
+		cur->cmd_pos = cmd_pos;
+}
+
+/**
+ * @brief	close all FDs of current cycle
+ * 
+ * 			NOTE: function should only be called by 'free_cycle'
+ * 
+ * @param mbox 
+ */
+void	close_process_fds(t_mbox *mbox)
+{
+	if (mbox->exec.io.cmd_fd[CMD_IN] != -1)
+		close (mbox->exec.io.cmd_fd[CMD_IN]);
+	if (mbox->exec.io.cmd_fd[CMD_OUT] != -1)
+		close (mbox->exec.io.cmd_fd[CMD_OUT]);
+	if (mbox->exec.io.dup_fd[CMD_IN] != -1)
+		close (mbox->exec.io.dup_fd[CMD_IN]);
+	if (mbox->exec.io.dup_fd[CMD_OUT] != -1)
+		close (mbox->exec.io.dup_fd[CMD_OUT]);
+}
 
 /**
  * @brief   here we dont need to exit because:
@@ -29,7 +64,7 @@ static t_bool	create_open_file_err(t_mbox *mbox, char *fn)
 	return (ft_false);
 }
 
-static t_bool	setup_redir_in(t_mbox *mbox, t_ast *redir_node, int *cur_p)
+static t_bool	conf_redir_in(t_mbox *mbox, t_ast *redir_node, int *cur_p)
 {
 	int	*in_fd;
 
@@ -52,7 +87,7 @@ static t_bool	setup_redir_in(t_mbox *mbox, t_ast *redir_node, int *cur_p)
 	return (ft_true);
 }
 
-static t_bool	setup_redir_out(t_mbox *mbox, t_ast *redir_node)
+static t_bool	conf_redir_out(t_mbox *mbox, t_ast *redir_node)
 {
 	int	*out;
 
@@ -76,7 +111,7 @@ static t_bool	setup_redir_out(t_mbox *mbox, t_ast *redir_node)
 	return (ft_true);
 }
 
-static t_bool	redir_io(t_mbox *mbox, t_ast *redir_node, int *cur_p)
+static t_bool	conf_redir(t_mbox *mbox, t_ast *redir_node, int *cur_p)
 {
 	t_ast	*tmp;
 
@@ -85,12 +120,12 @@ static t_bool	redir_io(t_mbox *mbox, t_ast *redir_node, int *cur_p)
 	{
 		if (tmp->type == RED_IN || tmp->type == RED_IN_HD)
 		{
-			if (!setup_redir_in(mbox, tmp, cur_p))
+			if (!conf_redir_in(mbox, tmp, cur_p))
 				return (ft_false);
 		}
 		else if (tmp->type == RED_OUT_TR || tmp->type == RED_OUT_AP)
 		{
-			if (!setup_redir_out(mbox, tmp))
+			if (!conf_redir_out(mbox, tmp))
 				return (ft_false);
 		}
 		tmp = tmp->left;
@@ -100,7 +135,7 @@ static t_bool	redir_io(t_mbox *mbox, t_ast *redir_node, int *cur_p)
 
 /**
  * @brief   accept a 'redir_node' and sets up the redirections accordingly
- *          to the result of 'redir_io'
+ *          to the result of 'conf_redir'
  *          
  *          retunrs ft_false if any errors related to opening files occured
  * 
@@ -110,7 +145,7 @@ static t_bool	redir_io(t_mbox *mbox, t_ast *redir_node, int *cur_p)
  */
 t_bool	setup_redirs(t_mbox *mbox, t_ast *redir_node, int *cur_p)
 {
-	if (!redir_io(mbox, redir_node, cur_p))
+	if (!conf_redir(mbox, redir_node, cur_p))
 	{
 		if (g_signal_status != SIGNAL_EXIT_HD)
 			set_var_value_int(mbox, "?", EXIT_FAILURE);

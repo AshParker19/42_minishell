@@ -42,25 +42,18 @@ SRCS = $(addprefix $(SRC_FOLDER), 						\
 	2_cycle/3_tokenize.c								\
 	2_cycle/4_parse.c									\
 	2_cycle/5_execute_ast.c								\
-	2_cycle/f_setup_cmd.c								\
-	2_cycle/g_pipe.c									\
-	2_cycle/h_fork.c									\
-	2_cycle/i_redir.c									\
-	2_cycle/j_hd.c										\
-	2_cycle/k_hd_child.c								\
-	2_cycle/k_run_cmd.c									\
+	2_cycle/6_setup_cmd.c								\
+	2_cycle/7_pipe.c									\
+	2_cycle/8_redir.c									\
+	2_cycle/9_hd.c										\
+	2_cycle/10_hd_child.c								\
+	2_cycle/11_run_cmd.c								\
 	3_parser/1_job.c									\
 	3_parser/2_command.c								\
 	3_parser/3_token_list.c								\
 	3_parser/4_redir.c									\
 	3_parser/5_redir_in.c								\
 	3_parser/6_redir_out.c								\
-	OLD/cmd_runner.c									\
-	OLD/executor_utils.c								\
-	OLD/executor_utils2.c								\
-	OLD/cmd_system.c									\
-	OLD/pipes.c											\
-	OLD/redirection.c									\
 	4_builtins/0_builtins_utils.c						\
 	4_builtins/42.c										\
 	4_builtins/cd.c										\

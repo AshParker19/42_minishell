@@ -6,26 +6,72 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 12:46:17 by astein            #+#    #+#             */
-/*   Updated: 2024/01/07 12:51:40 by astein           ###   ########.fr       */
+/*   Updated: 2024/01/07 14:09:07 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "frankenshell.h"
 
+
 /**
- * @brief	recursively traverses through the AST and counts the amount
- * 			of command nodes
+ * @brief this function will be called by 'conf_parent'
+ *          if the cmd has a hd it makes the parent wait for the child to finish
  * 
- * @param	ast_node 
- * @return	int 
  */
-int	cmd_counter(t_ast *ast_node)
+static t_bool	hd_parent_wait(t_mbox *mbox, int *cur_p, t_ast *node_cpy, int kid_pid)
 {
-	if (!ast_node)
-		return (0);
-	if (ast_node->type == CMD_NODE)
-		return (1);
-	return (1 + cmd_counter(ast_node->right));
+	int	exit_status;
+
+	exit_status = 0;
+	while (node_cpy->left)
+	{
+		node_cpy = node_cpy->left;
+		if (node_cpy->type == RED_IN_HD)
+		{
+			conf_sig_handler(SIG_STATE_IGNORE);
+			waitpid(kid_pid, &exit_status, 0);
+			conf_sig_handler(SIG_STATE_PARENT);
+			set_var_value_int(mbox, "?", WEXITSTATUS(exit_status));
+			if (exit_status != EXIT_SUCCESS)
+			{
+				if (cur_p[P_LEFT] != -1)
+					close(cur_p[P_LEFT]);
+				if (cur_p[P_RIGHT] != -1)
+					close(cur_p[P_RIGHT]);
+				g_signal_status = SIGNAL_EXIT_HD;
+				return (ft_false);
+			}
+			return (ft_true);
+		}
+	}
+	return (ft_true);
+}
+
+static t_bool	setup_single_builtin(t_mbox *mbox)
+{
+	if (!setup_redirs(mbox, mbox->ast->left, NULL))
+	{
+		if (mbox->exec.io.cmd_fd[CMD_IN] != -1)
+			close (mbox->exec.io.cmd_fd[CMD_IN]);
+		if (mbox->exec.io.cmd_fd[CMD_OUT] != -1)
+			close (mbox->exec.io.cmd_fd[CMD_OUT]);
+		mbox->exec.io.cmd_fd[CMD_IN] = -1;
+		mbox->exec.io.cmd_fd[CMD_OUT] = -1;
+		return (ft_false);
+	}
+	if (mbox->exec.io.cmd_fd[CMD_IN] == -1)
+		mbox->exec.io.cmd_fd[CMD_IN] = STDIN_FILENO;
+	if (mbox->exec.io.cmd_fd[CMD_OUT] == -1)
+		mbox->exec.io.cmd_fd[CMD_OUT] = STDOUT_FILENO; 
+	run_cmd_builtin(mbox, mbox->ast, ft_true);
+	if (mbox->exec.io.cmd_fd[CMD_IN] != STDIN_FILENO)
+		close (mbox->exec.io.cmd_fd[CMD_IN]);
+	if (mbox->exec.io.cmd_fd[CMD_OUT] != STDOUT_FILENO)
+		close (mbox->exec.io.cmd_fd[CMD_OUT]);
+	mbox->exec.io.cmd_fd[CMD_IN] = -1;
+	mbox->exec.io.cmd_fd[CMD_OUT] = -1;
+	close_process_fds(mbox);
+	return (ft_true);
 }
 
 /**
@@ -45,10 +91,10 @@ t_bool	setup_cmd(t_mbox *mbox, t_ast *cmd_node, int cmd_pos)
 	cur_pipe[1] = -1;
 	initialize_fds(mbox, cmd_node, cmd_pos);
 	if (cmd_pos == SINGLE_CMD && is_cmd_builtin(mbox, cmd_node->content))
-		return (run_single_builtin(mbox));
+		return (setup_single_builtin(mbox));
 	else
 	{
-		setup_use_pipe(mbox, cmd_pos);
+		conf_pipe(mbox, cmd_pos);
 		if (cmd_pos == FIRST_CMD || cmd_pos == MIDDLE_CMD)
 			if (pipe(cur_pipe) < 0)
 				return (destroy_mbox_with_exit(mbox, EXIT_FAILURE));
@@ -71,7 +117,7 @@ void	conf_child(t_mbox *mbox, t_ast *cmd_node, int *cur_p)
 		conf_sig_handler(SIG_STATE_CHILD_BUILTIN);
 	else
 		conf_sig_handler(SIG_STATE_CHILD);
-	setup_pipes(mbox, cur_p);
+	redir_pipe(mbox, cur_p);
 	if (!setup_redirs(mbox, cmd_node->left, cur_p))
 	{
 		if (cmd_node->cmd_pos == FIRST_CMD || cmd_node->cmd_pos == MIDDLE_CMD)
@@ -81,7 +127,7 @@ void	conf_child(t_mbox *mbox, t_ast *cmd_node, int *cur_p)
 			close(mbox->exec.io.prev_pipe[P_RIGHT]);
 		destroy_mbox(mbox);
 	}
-	setup_process_std_tmp(mbox);
+	connect_child_fds(mbox);
 	if (cmd_node->cmd_pos == FIRST_CMD || cmd_node->cmd_pos == MIDDLE_CMD)
 		close(cur_p[P_RIGHT]);
 	if (cmd_node->cmd_pos != FIRST_CMD
@@ -102,7 +148,7 @@ t_bool	conf_parent(t_mbox *mbox, int *cur_p, t_ast *node, int kid_pid)
 	mbox->exec.pid_index++;
 	mbox->exec.io.prev_pipe[P_RIGHT] = cur_p[P_RIGHT];
 	mbox->exec.io.prev_pipe[P_LEFT] = cur_p[P_LEFT];
-	close_process_fds_v2(mbox);
+	close_process_fds(mbox);
 	cmd_node_cpy = node;
 	return (hd_parent_wait(mbox, cur_p, cmd_node_cpy, kid_pid));
 }

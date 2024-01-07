@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:04:05 by astein            #+#    #+#             */
-/*   Updated: 2024/01/07 12:51:55 by astein           ###   ########.fr       */
+/*   Updated: 2024/01/07 14:20:37 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@
 # include "../libft/libft_printf.h"
 # include "config.h"
 # include "structs.h"
-# include "executor.h"
 
 /**********************************# INFO #************************************/
 extern int	g_signal_status;	//global variable for signal handling
@@ -87,6 +86,7 @@ void	*syntax_err_msg(t_mbox *mbox, t_token *err_token);
 t_bool	ft_isqoute(char c);
 t_bool	ft_issep(char c);
 t_bool	ft_isspace(char c);
+int		cmd_counter(t_ast *ast_node);
 
 /*>>> 8_INFO_MODE.C    */
 /*---------------------*/
@@ -230,12 +230,11 @@ void	run_cmd_system(t_mbox *mbox, t_ast *cmd_node);
 
 /* cmd runner */
 void	run_cmd_main(t_mbox *mbox, t_ast *cmd_node);
-t_bool	run_single_builtin(t_mbox *mbox);
 
 /* pipes */
-void	setup_use_pipe(t_mbox *mbox, int status);
-void	setup_pipes(t_mbox *mbox, int *cur_pipe);
-void	setup_process_std_tmp(t_mbox *mbox);
+void	conf_pipe(t_mbox *mbox, int status);
+void	redir_pipe(t_mbox *mbox, int *cur_pipe);
+void	connect_child_fds(t_mbox *mbox);
 
 /* redirections */
 t_bool	setup_redirs(t_mbox *mbox, t_ast *redir_node, int *cur_p);
@@ -245,14 +244,9 @@ t_bool	setup_hd(t_mbox *mbox, t_ast *redir_node, int *cur_p);
 
 /* executor_utils */
 void	initialize_fds(t_mbox *mbox, t_ast *cur, int cmd_pos);
-int		cmd_counter(t_ast *ast_node);
-char	**get_args_to_matrix(t_mbox *mbox, char *cmd, t_ast *arg_node);
-void	close_process_fds_v2(t_mbox *mbox);
-t_bool	hd_parent_wait(t_mbox *mbox, int *cur_p, t_ast *node_cpy,
-			int kid_pid);
+void	close_process_fds(t_mbox *mbox);
 
-char	*get_abs_cmd_path(t_mbox *mbox, char *cmd);
-void	free_process_v2(t_mbox *mbox);
+void	free_process(t_mbox *mbox);
 
 
 

@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 16:38:32 by anshovah          #+#    #+#             */
-/*   Updated: 2024/01/06 19:29:49 by astein           ###   ########.fr       */
+/*   Updated: 2024/01/07 12:57:26 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void	cycle_main(t_mbox *mbox)
  * 				- free_inp_strs
  * 				- free_tokens
  * 				- free_ast
- * 				- close_process_fds_v2
+ * 				- close_process_fds
  * @brief   this function frees and resets everthting thats needed to process
  *          one cycle
  * 
@@ -116,8 +116,8 @@ void	reset_cycle(t_mbox *mbox)
 	free_tokens(mbox);
 	free_ast(mbox->ast);
 	mbox->ast = NULL;
-	close_process_fds_v2(mbox);
-	free_process_v2(mbox);
+	close_process_fds(mbox);
+	free_process(mbox);
 	mbox->exec.io.prev_pipe[P_LEFT] = -1;
 	mbox->exec.io.prev_pipe[P_RIGHT] = -1;
 	mbox->exec.pid_index = 0;

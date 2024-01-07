@@ -6,11 +6,30 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:19:44 by astein            #+#    #+#             */
-/*   Updated: 2024/01/07 12:52:19 by astein           ###   ########.fr       */
+/*   Updated: 2024/01/07 14:08:00 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "frankenshell.h"
+
+/**
+ * @brief	frees and NULLs in mbox:
+ * 				- cmd_av
+ * 				- pid
+ * 				
+ *
+ * 			NOTE: function should only be called by 'free_cycle'
+ * 
+ * @param 	mbox 
+ */
+void	free_process(t_mbox *mbox)
+{
+	if (mbox->exec.pid)
+	{
+		free (mbox->exec.pid);
+		mbox->exec.pid = NULL;
+	}
+}
 
 static t_bool	allocate_pid_array(t_mbox *mbox)
 {

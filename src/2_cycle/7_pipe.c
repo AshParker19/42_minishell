@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipes.c                                            :+:      :+:    :+:   */
+/*   g_pipe.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/06 18:23:27 by astein            #+#    #+#             */
-/*   Updated: 2023/12/17 16:56:25 by astein           ###   ########.fr       */
+/*   Created: 2024/01/07 13:02:07 by astein            #+#    #+#             */
+/*   Updated: 2024/01/07 13:08:39 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
  * @param   mbox 
  * @param   status 
  */
-void	setup_use_pipe(t_mbox *mbox, int status)
+void	conf_pipe(t_mbox *mbox, int status)
 {
 	if (status == SINGLE_CMD)
 	{
@@ -52,7 +52,7 @@ void	setup_use_pipe(t_mbox *mbox, int status)
  * @param   mbox 
  * @param   cur_pipe 
  */
-void	setup_pipes(t_mbox *mbox, int *cur_pipe)
+void	redir_pipe(t_mbox *mbox, int *cur_pipe)
 {
 	if (mbox->exec.io.use_pipe[CMD_IN])
 		mbox->exec.io.cmd_fd[CMD_IN] = mbox->exec.io.prev_pipe[P_RIGHT];
@@ -60,7 +60,7 @@ void	setup_pipes(t_mbox *mbox, int *cur_pipe)
 		mbox->exec.io.cmd_fd[CMD_OUT] = cur_pipe[P_LEFT];
 }
 
-void	setup_process_std_tmp(t_mbox *mbox)
+void	connect_child_fds(t_mbox *mbox)
 {
 	if (mbox->exec.io.cmd_fd[CMD_IN] != -1)
 	{
