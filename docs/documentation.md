@@ -69,11 +69,11 @@
 		[Variable Expansion](#variable-expansion)
 		2. [Tokenizing](#tokenizing)
 		3. [Parsing](#parsing)
-       	4. [Setup Execution](#setup-execution),
+       	4. [Executing](#executing),
         [Setup Pipes](#setup-pipes),
         [Setup Redirections](#setup-redirections)
     	6. [Heredoc](#heredoc)
-       	2. [Execute](#execute)
+       	2. [Executing](#executeing)
    4. [Termination](#termination)
 9. [Known Bugs](#known-bugs)
 10. [Acknowledgments](#acknowledgments)
@@ -1859,29 +1859,50 @@ frankenshell: syntax error near unexpected token `newline'
 frankenshell: syntax error near unexpected token `foo'
 ```
 
-#### Setup Execution
+### Executing
 
-**:warning: :building_construction:	Documentation under construction! :warning: :building_construction:**<br>
+The execution of the ast is handled by the file TODO LINK TO FILE
 
-The executor traverses the ast tree always from **left to right**. This ensures that pipes and redirections will always be setup before any command is executed.
-All commands are executed in a child process.
-Exception: Single Builtin cmds (refer to bugs)
+**Note**
+- Before the execution starts a vaild ast must be created. 
+	- If the ast couldn't be created the execution will be skipped.
+- The executor traverses the ast tree always from **left to right**.
+	- This ensures that pipes and redirections will always be setup before any command is executed.
+- All commands are executed in a child process.
+	- Exception: Single Builtin cmds (refer to bugs)
+- Pipes (`|`) allow the output of one command to be used as input for another, enabling command chaining.
+	- Note that the redirction into the pipe might be overwritten by the [redirection of the command itself](#setup-redirections).
+- All childs will be spawn right after each other (so before the previous child terminates).
+- The parent process waits (because of the open pipe fd) until the child process is finished.
+	- Exception: Heredoc
+	Before spawning a child process the parent process checks if the child includes a heredoc. In this case it waits unti the child is finished. (like bash) TODO EXAMPLE
+- The parent waits for all childs to finish before it continues with the next cycle. Each time a child process is finished, the parent process updates the exit status of the last child process. (TODO check if this is true and link to chapter exit status).
 
-All childs will be spawn right after each other (so before the previous child is finished). The parent process waits (because of the open pipe fd) until the child process is finished.
-Exception: Heredoc
-
-The parent waits for all childs to finish before it continues with the next cycle. Each time a child process is finished, the parent process updates the exit status of the last child process. (TODO check if this is true and link to chapter exit status).
+The [BPMN diagram](https://demo.bpmn.io/new) below shows the execution logic:
 
 
-##### Setup Pipes
+<img src="../images/BPMN/bpmn-execute_ast.svg" alt="bpmn" width="1000">
+![Example][bpmn-execute_ast]
 
-**:warning: :building_construction:	Documentation under construction! :warning: :building_construction:**<br>
+As the image shows, the execution may contain the following steps. Checkout those sections for more details about the execution steps:
+- setup command
+- setup redirections
+- setup heredoc
+- run the command
 
-Pipes (`|`) allow the output of one command to be used as input for another, enabling command chaining.
 
-> :exlamation:  Note that the redirction into the pipe might be overwritten by the [redirection of the command itself](#setup-redirections).
 
-##### Setup Redirections
+#### Setup Command
+
+Here the command will be setup. This means that a pipe<sup>*</sup> and a fork will be done. The child process will then [setup the redirections](#setup-redirections) and [run the command](#run-the-command).
+
+<sup>*</sup> Exception: Single or Last Commands don't need a pipe
+
+The [BPMN diagram](https://demo.bpmn.io/new) below shows the execution logic:
+
+![Example][bpmn-execute_ast]
+
+#### Setup Redirections
 
 **:warning: :building_construction:	Documentation under construction! :warning: :building_construction:**<br>
 
@@ -1900,6 +1921,16 @@ bash: file_not_exists: No such file or directory
 | `>>` |Append Output Redirection | Appends command output to a file, creating it if it doesn't exist.                  | `echo "append foo" >> file.txt`
 
 These redirections allow for flexible manipulation of command input and output, similar to standard bash functionality.
+
+#### Setup Heredoc
+
+
+
+
+
+
+
+
 
 
 ###### Heredoc
@@ -1966,21 +1997,11 @@ e.g. << -R cat
 
 
 
-##### Run CMD
+#### Run the Command
 
-**:warning: :building_construction:	Documentation under construction! :warning: :building_construction:**<br>
 
-###### Run Builtin 
 
-**:warning: :building_construction:	Documentation under construction! :warning: :building_construction:**<br>
 
-TODO check out all builtins in the section
-
-###### Run Executable 
-
-**:warning: :building_construction:	Documentation under construction! :warning: :building_construction:**<br>
-
-the env linked list is send to execv
 
 ### Termination
 
@@ -2079,3 +2100,8 @@ Thx to those guys and gals for hints, tipps and feedback!
 [mindmap-ast-png]: /images/mindmap-ast.png
 [mindmap-ast-echo-hello-astein]: /images/mindmap-ast-echo-hello-astein.png
 [token-table]: /images/token-table.png
+[bpmn-execute_ast]: /images/BPMN/bpmn-execute_ast.svg
+[bpmn-setup_cmd]: /images/token-table.png
+[bpmn-setup_redirs]: /images/token-table.png
+[bpmn-setup_hd]: /images/token-table.png
+[bpmn-run_cmd_main]: /images/token-table.png

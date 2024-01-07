@@ -6,12 +6,30 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:19:44 by astein            #+#    #+#             */
-/*   Updated: 2024/01/07 14:23:15 by astein           ###   ########.fr       */
+/*   Updated: 2024/01/07 22:02:57 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/**
+ * @brief   This file is the starting point of the execution. It calls all the
+ * 			functions needed to setup redirections, pipes and the execution of
+ * 			the commands.
+ * 
+ * DOCUMENATION:
+ * https://github.com/ahokcool/frankenshell/docs/documentation.md#executing
+ */
+
 #include "frankenshell.h"
 
+/**
+ * @brief   Before we start to execute we need to allocate the pid array so we
+ * 			can store the pids of all the child processes. The array is used in
+ * 			'wait_for_execution' to wait for all the child processes to be
+ * 			finished
+ * 
+ * @param   mbox        
+ * @return  t_bool      
+ */
 static t_bool	allocate_pid_array(t_mbox *mbox)
 {
 	mbox->exec.pid = ft_calloc(cmd_counter(mbox->ast), sizeof(int));
@@ -21,8 +39,10 @@ static t_bool	allocate_pid_array(t_mbox *mbox)
 }
 
 /**
- * @brief   called by 'execute_ast' after all the cmds have been executed to
- * 			wait for all the child processes to be finished
+ * @brief   called by 'execute_ast' after all the child processes have been
+ * 			forked. This function uses the pid array in which all the child
+ * 			processes pids are stored. It uses the pid array to wait for all
+ * 			the child processes to be finished. It also updates the exit status.
  * 
  * @param   mbox        
  */
@@ -48,18 +68,37 @@ static void	wait_for_execution(t_mbox *mbox)
 }
 
 /**
- * @brief	traverses trough the AST checks cmd POSITION
+ * @brief   traverses trough the AST.
+ * 
+ * 			(SINGLE_CMD)
+ * 			If the root is an cmd, no pipe is needed and the function call
+ * 			'setup_cmd' with the corresponding flag will process the cmd.
+ * 
+ * 			If the root is a pipe node the function will:
+ * 			- (FIRST_CMD) once: 
+ * 				- call the function 'setup_cmd' with the corresponding flag for
+ * 					the first cmd in the expression.
+ * 			- (MIDDLE_CMD) until the second last cmd is reached: 
+ * 				- call the function 'setup_cmd' with the corresponding flag for
+ * 					the middle cmd in the expression.
+ * 			- (LAST_CMD) once: 
+ * 				- call the function 'setup_cmd' with the corresponding flag for
+ * 					the last cmd in the expression.
+ * 
+ * 			In any case the function 'wait_for_execution' will be called to wait
+ * 			for all the child processes to be finished.
  * 
  * 			EXAMPLES:
- *      	SINGLE          ls -l
  * 
- *          	    FIRST       MIDDLE          LAST
- *      	input:  ls -l   | grep "Makefile" | wc -l
- * 			
- * 			then calls 'setup_cmd' with the corresponding flag and waits for
- * 			all the child processes to be finished
- * @param	mbox 
- * @return	t_bool 
+ * 			FLAG:	SINGLE_CMD	FIRST_CMD	MIDDLE_CMD			LAST_CMD
+ * 			INPUT:	ls -l
+ *      	INPUT:	echo HI
+ * 			INPUT:  			ls -l	| 	grep "Makefile" | 	wc -l
+ *      	
+ * DOCUMENATION:
+ * https://github.com/ahokcool/frankenshell/docs/documentation.md#executing
+ * 
+ * @param   mbox        
  */
 void	execute_ast(t_mbox *mbox)
 {
@@ -92,14 +131,10 @@ void	execute_ast(t_mbox *mbox)
 }
 
 /**
- * @brief	frees and NULLs in mbox:
- * 				- cmd_av
- * 				- pid
- * 				
- *
- * 			NOTE: function should only be called by 'free_cycle'
+ * @brief   called by 'reset_cycle' to free pid array which was allocated
+ * 			via 'allocate_pid_array'
  * 
- * @param 	mbox 
+ * @param   mbox        
  */
 void	free_process(t_mbox *mbox)
 {

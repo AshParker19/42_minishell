@@ -6,17 +6,15 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 13:09:02 by astein            #+#    #+#             */
-/*   Updated: 2024/01/07 14:38:18 by astein           ###   ########.fr       */
+/*   Updated: 2024/01/07 19:37:50 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "frankenshell.h"
 
-
 /**
  * @brief 		
  * 
- * 				TODO: maybe move to general utils maybe make static?
  * 
  * 				/usr/bin/ls -> ls
  * 				./hw.sh		-> hw.sh
@@ -38,24 +36,6 @@ static char	*seperate_cmd_from_path(char *path, t_bool free_path)
 	return (cmd);
 }
 
-static char	**tmp_freer(char *args_str, char *lim_null)
-{
-	int		i;
-	char	**av;
-
-	i = -1;
-	av = ft_split(args_str, add_offset('+'));
-	while (av[++i])
-	{
-		if (str_cmp_strct(av[i], lim_null))
-		{
-			free(av[i]);
-			av[i] = "\0";
-		}
-	}
-	return (av);
-}
-
 /**
  * @brief	take all the arg nodes and put them into a char** matrix
  * 			first arg is the paramter 'cmd'
@@ -65,12 +45,13 @@ static char	**tmp_freer(char *args_str, char *lim_null)
  * @param arg_node 
  * @return char** 
  */
-static char	**get_args_to_matrix(t_mbox *mbox, char *cmd, t_ast *arg_node)
+static char	**get_args_as_matrix(t_mbox *mbox, char *cmd, t_ast *arg_node)
 {
 	char	**av;
 	char	*args_str;
 	char	*lim_split;
 	char	*lim_null;
+	int		i;
 
 	(void)mbox;
 	args_str = seperate_cmd_from_path(cmd, ft_false);
@@ -87,7 +68,16 @@ static char	**get_args_to_matrix(t_mbox *mbox, char *cmd, t_ast *arg_node)
 			args_str = append_str(args_str, arg_node->content, ft_false);
 		arg_node = arg_node->right;
 	}
-	av = tmp_freer(args_str, lim_null);
+	i = -1;
+	av = ft_split(args_str, add_offset('+'));
+	while (av[++i])
+	{
+		if (str_cmp_strct(av[i], lim_null))
+		{
+			free(av[i]);
+			av[i] = "\0";
+		}
+	}
 	free_whatever("ppp", args_str, lim_null, lim_split);
 	return (av);
 }
@@ -139,7 +129,7 @@ static	char	*temp_run_cmd_system_error(t_mbox *mbox, char *cmd)
 	return (NULL);
 }
 
-static char	*get_abs_cmd_path_from_var(t_mbox *mbox, char *cmd)
+static char	*get_abs_cmd_path_from_env(t_mbox *mbox, char *cmd)
 {
 	char	**path_dirs;
 	int		i;
@@ -192,7 +182,7 @@ static char	*get_abs_cmd_path(t_mbox *mbox, char *cmd)
 		return (NULL);
 	}
 	if (!ft_strchr(cmd, '/'))
-		path = get_abs_cmd_path_from_var(mbox, cmd);
+		path = get_abs_cmd_path_from_env(mbox, cmd);
 	if (path)
 		return (path);
 	return (temp_run_cmd_system_error(mbox, cmd));
@@ -212,7 +202,7 @@ static void	run_cmd_system(t_mbox *mbox, t_ast *cmd_node)
 	if (!abs_cmd_path)
 		return ;
 	cur_env = get_env_as_matrix(mbox, NULL);
-	cur_av = get_args_to_matrix(mbox, abs_cmd_path, cmd_node->right);
+	cur_av = get_args_as_matrix(mbox, abs_cmd_path, cmd_node->right);
 	if (cur_av)
 		execve(abs_cmd_path, cur_av, cur_env);
 	if (abs_cmd_path)

@@ -6,17 +6,26 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 12:46:17 by astein            #+#    #+#             */
-/*   Updated: 2024/01/07 14:35:58 by astein           ###   ########.fr       */
+/*   Updated: 2024/01/07 22:15:46 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/**
+ * DOCUMENTATION:
+ * https://github.com/ahokcool/frankenshell/docs/documentation.md#setup-command
+ */
+
 #include "frankenshell.h"
 
-
 /**
- * @brief this function will be called by 'conf_parent'
- *          if the cmd has a hd it makes the parent wait for the child to finish
+ * @brief   This function will be called by 'conf_parent'
+ *          If the cmd has a hd it makes the parent wait for the child to finish
  * 
+ * @param   mbox        
+ * @param   cur_p       
+ * @param   node_cpy    
+ * @param   kid_pid     
+ * @return  t_bool      
  */
 static t_bool	hd_parent_wait(t_mbox *mbox, int *cur_p, t_ast *node_cpy, int kid_pid)
 {
@@ -47,8 +56,15 @@ static t_bool	hd_parent_wait(t_mbox *mbox, int *cur_p, t_ast *node_cpy, int kid_
 	return (ft_true);
 }
 
-
-
+/**
+ * @brief   Here the child process is configured. Therefore the child will be
+ * 			connected to the pipe first. Then the redirections will be setup.
+ * 			And finally the command will be executed via 'run_cmd_main'.
+ * 
+ * @param   mbox        
+ * @param   cmd_node    
+ * @param   cur_p       
+ */
 static void	conf_child(t_mbox *mbox, t_ast *cmd_node, int *cur_p)
 {
 	if (is_cmd_builtin(mbox, cmd_node->content))
@@ -92,12 +108,17 @@ static t_bool	conf_parent(t_mbox *mbox, int *cur_p, t_ast *node, int kid_pid)
 }
 
 /**
- * @brief	
+ * @brief   This function considers the command position ('cmd_pos') and sets up
+ * 			the pipe and fork if needed. The parent and child will then be
+ * 			handled by the functions 'conf_parent' and 'conf_child'.
  * 
- * @param	mbox 
- * @param	cmd_node 
- * @param	cmd_pos 
- * @return	t_bool 
+ * DOCUMENTATION:
+ * https://github.com/ahokcool/frankenshell/docs/documentation.md#setup-command
+ * 
+ * @param   mbox        
+ * @param   cmd_node    
+ * @param   cmd_pos     
+ * @return  t_bool      
  */
 t_bool	setup_cmd(t_mbox *mbox, t_ast *cmd_node, int cmd_pos)
 {
