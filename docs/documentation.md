@@ -7,8 +7,18 @@
   	<h1 align="center">Documentation of frankenshell</h1>
 </div>
 
-**Legend**\
-<br>
+<div style="text-align: center;">
+  <a href="https://www.buymeacoffee.com/ahokcool" target="_blank">
+    <img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"><br>
+  </a>
+    If this documentation is helpful for you, feel free to buy me a coffee ;)
+	<br>
+	<br>
+</div>
+
+
+
+#### Legend
  **:building_construction:	Section under construction!**<br>
  :book:						Link to another chapter<br>
  :top:						Link to top of the page / table of content<br>	
@@ -21,6 +31,9 @@
  :warning:					Warning / Important<br>
  :jigsaw:					Part of smth<br>
  
+
+
+
 
 <br><h1 id="table-of-content">
 	<a href="#docu-top">🔝 </a>
@@ -2050,12 +2063,14 @@ Thx to those guys and gals for hints, tipps and feedback!
 [@Margarida](https://github.com/MariaAguiar)\
 [@Manuel](https://github.com/manuel-aguiar)
 
-<br><h1>
-	<a href="#table-of-content">🔝 </a>
-</h1>
-
-
-
+<div style="text-align: center;">
+  <a href="https://www.buymeacoffee.com/ahokcool" target="_blank">
+    <img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"><br>
+  </a>
+    If this documentation is helpful for you, feel free to buy me a coffee ;)
+	<br>
+	<br>
+</div>
 
 
 
