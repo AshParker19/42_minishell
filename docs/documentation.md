@@ -1863,6 +1863,13 @@ frankenshell: syntax error near unexpected token `foo'
 
 The execution of the ast is handled by the file TODO LINK TO FILE
 
+**The execution may contain the following steps. Checkout those sections for more details about the execution steps:**
+- [:book: setup command](#setup-command)
+- [:book: setup redirections](#setup-redirections)
+- [:book: setup heredoc](#setup-heredoc)
+- [:book: run command](#run-command)
+
+
 **Note**
 - Before the execution starts a vaild ast must be created. 
 	- If the ast couldn't be created the execution will be skipped.
@@ -1878,17 +1885,10 @@ The execution of the ast is handled by the file TODO LINK TO FILE
 	Before spawning a child process the parent process checks if the child includes a heredoc. In this case it waits unti the child is finished. (like bash) TODO EXAMPLE
 - The parent waits for all childs to finish before it continues with the next cycle. Each time a child process is finished, the parent process updates the exit status of the last child process. (TODO check if this is true and link to chapter exit status).
 
-The [BPMN diagram](https://demo.bpmn.io/new) below shows the execution logic:
 
+**The [BPMN diagram](https://demo.bpmn.io/new) below shows the execution logic:**
+<img src="../images/BPMN/bpmn-execute_ast.svg" alt="execution logic" width="1000">
 
-<img src="../images/BPMN/bpmn-execute_ast.svg" alt="bpmn" width="1000">
-![Example][bpmn-execute_ast]
-
-As the image shows, the execution may contain the following steps. Checkout those sections for more details about the execution steps:
-- setup command
-- setup redirections
-- setup heredoc
-- run the command
 
 
 
@@ -1896,11 +1896,10 @@ As the image shows, the execution may contain the following steps. Checkout thos
 
 Here the command will be setup. This means that a pipe<sup>*</sup> and a fork will be done. The child process will then [setup the redirections](#setup-redirections) and [run the command](#run-the-command).
 
-<sup>*</sup> Exception: Single or Last Commands don't need a pipe
+<sup>*</sup> Exception: 'Single' or 'Last' Commands don't need a pipe!
 
-The [BPMN diagram](https://demo.bpmn.io/new) below shows the execution logic:
-
-![Example][bpmn-execute_ast]
+**The [BPMN diagram](https://demo.bpmn.io/new) below shows the execution logic:**
+<img src="../images/BPMN/setup_cmd.svg" alt="execution logic" width="1000">
 
 #### Setup Redirections
 
@@ -1922,11 +1921,19 @@ bash: file_not_exists: No such file or directory
 
 These redirections allow for flexible manipulation of command input and output, similar to standard bash functionality.
 
+**The [BPMN diagram](https://demo.bpmn.io/new) below shows the execution logic:**
+<img src="../images/BPMN/setup_redirs.svg" alt="execution logic" width="1000">
+
+
 #### Setup Heredoc
 
 
+The heredoc redirection allows inputting multiple lines until a termination string is reached or an EOF is sent via `CTRL+D`. The herdoc runs always in a child process and is connected to the command with a pipe. The herdoc uses `readline` to read the user input.
 
 
+
+**The [BPMN diagram](https://demo.bpmn.io/new) below shows the execution logic:**
+<img src="../images/BPMN/setup_hd.svg" alt="execution logic" width="1000">
 
 
 
@@ -1935,13 +1942,14 @@ These redirections allow for flexible manipulation of command input and output, 
 
 ###### Heredoc
 
-**:warning: :building_construction:	Documentation under construction! :warning: :building_construction:**<br>
 
-The heredoc redirection allows inputting multiple lines until a termination string is reached or an EOF is sent via `CTRL+D`. The herdoc runs always in a child process and is connected to the command with a pipe. The herdoc uses `readline` to read the user input.
+
 
 :bulb: Variable Expansion inside the heredoc is supported!\
 :warning: Like in bash: The expansion is not supposed to work if the limiter contains contextual quotes!\
 :bulb: Therefore the [:book:  extract limiter](#extract-limiter) part of the [:book: variable expansion](#variable-expansion) obtains `'`,`"` and `$` characters.
+REFERE TO SETUP HERDOC FOR MORE INFORMATION TODO
+
 
 **This is the heredoc routine:**
 1. The heredoc is setup by creating a pipe and forking a child process.
@@ -1997,10 +2005,12 @@ e.g. << -R cat
 
 
 
-#### Run the Command
+
+#### Run Command
 
 
-
+**The [BPMN diagram](https://demo.bpmn.io/new) below shows the execution logic:**
+<img src="../images/BPMN/run_cmd_main.svg" alt="execution logic" width="1000">
 
 
 ### Termination
@@ -2095,13 +2105,8 @@ Thx to those guys and gals for hints, tipps and feedback!
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
-[example-gif]: /images/example.gif
-[builtin_42]: /images/builtin_42.png
-[mindmap-ast-png]: /images/mindmap-ast.png
-[mindmap-ast-echo-hello-astein]: /images/mindmap-ast-echo-hello-astein.png
-[token-table]: /images/token-table.png
-[bpmn-execute_ast]: /images/BPMN/bpmn-execute_ast.svg
-[bpmn-setup_cmd]: /images/token-table.png
-[bpmn-setup_redirs]: /images/token-table.png
-[bpmn-setup_hd]: /images/token-table.png
-[bpmn-run_cmd_main]: /images/token-table.png
+[example-gif]: 						/images/example.gif
+[builtin_42]: 						/images/builtin_42.png
+[mindmap-ast-png]: 					/images/mindmap-ast.png
+[mindmap-ast-echo-hello-astein]: 	/images/mindmap-ast-echo-hello-astein.png
+[token-table]: 						/images/token-table.png

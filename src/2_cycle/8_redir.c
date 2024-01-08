@@ -6,29 +6,40 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 12:45:19 by astein            #+#    #+#             */
-/*   Updated: 2024/01/07 18:51:24 by astein           ###   ########.fr       */
+/*   Updated: 2024/01/07 22:53:58 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/**
+ * DOCUMENTATION:
+ * https://github.com/ahokcool/frankenshell/docs/documentation.md#setup-redirections
+ */
+
 #include "frankenshell.h"
 
-/**
- * @brief   here we dont need to exit because:
- *              - either we are not in a child
- *              - or the function 'conf_child' will exit the child properly
- *                  since we are pasing the ft_false all the way back there
- *                  so each funtion on the way has the posibillity to free all
- *                  allocated stuff
- * @param mbox 
- * @param fn        filename of the file causing the errror
- * @return t_bool 
- */
 static t_bool	create_open_file_err(t_mbox *mbox, char *fn)
 {
 	err_msg(mbox, NO_EXIT_STATUS, "nnnn", ERR_P, fn, CS, strerror(errno));
 	return (ft_false);
 }
 
+/**
+ * @brief   Called if an in redirection needs to be setup. 
+ * 			
+ * 	CASE: OPEN
+ *		It tries to open the file and if it fails it will create an
+ * 		error message and returns ft_false.
+ * 
+ * CASE: HEREDOC
+ * 		The heredoc will be setup via 'setup_hd'. If it fails it will
+ * 		return ft_false.
+ * 			
+ * 
+ * @param   mbox        
+ * @param   redir_node  
+ * @param   cur_p       
+ * @return  t_bool      
+ */
 static t_bool	conf_redir_in(t_mbox *mbox, t_ast *redir_node, int *cur_p)
 {
 	int	*in_fd;
@@ -52,6 +63,15 @@ static t_bool	conf_redir_in(t_mbox *mbox, t_ast *redir_node, int *cur_p)
 	return (ft_true);
 }
 
+/**
+ * @brief   Called if an out redirection needs to be setup. It tries to open
+ * 			the file and if it fails it will create an error message and returns
+ * 			ft_false.
+ * 
+ * @param   mbox        
+ * @param   redir_node  
+ * @return  t_bool      
+ */
 static t_bool	conf_redir_out(t_mbox *mbox, t_ast *redir_node)
 {
 	int	*out;
@@ -76,6 +96,15 @@ static t_bool	conf_redir_out(t_mbox *mbox, t_ast *redir_node)
 	return (ft_true);
 }
 
+/**
+ * @brief	A loop will traverse trough the redir_node and setup all the
+ * 			redirects.
+ * 
+ * @param   mbox        
+ * @param   redir_node  
+ * @param   cur_p       
+ * @return  t_bool      if config was successful
+ */
 static t_bool	conf_redir(t_mbox *mbox, t_ast *redir_node, int *cur_p)
 {
 	t_ast	*tmp;
@@ -98,16 +127,16 @@ static t_bool	conf_redir(t_mbox *mbox, t_ast *redir_node, int *cur_p)
 	return (ft_true);
 }
 
-
 /**
- * @brief   accept a 'redir_node' and sets up the redirections accordingly
- *          to the result of 'conf_redir'
- *          
- *          retunrs ft_false if any errors related to opening files occured
+ * @brief   According to the parameter redir_node the redirections will be setup
  * 
- * @param   mbox 
- * @param   redir_node 
- * @return  t_bool 
+ * DOCUMENTATION:
+ * https://github.com/ahokcool/frankenshell/docs/documentation.md#setup-redirections
+ * 
+ * @param   mbox        
+ * @param   redir_node  
+ * @param   cur_p       fd of current pipe
+ * @return  t_bool      if setup was successful
  */
 t_bool	setup_redirs(t_mbox *mbox, t_ast *redir_node, int *cur_p)
 {

@@ -6,17 +6,19 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 13:02:07 by astein            #+#    #+#             */
-/*   Updated: 2024/01/07 14:29:32 by astein           ###   ########.fr       */
+/*   Updated: 2024/01/07 22:45:40 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "frankenshell.h"
 
 /**
- * @brief	initializes all the FDs as -1 so it's easy to check later on
- * 			if the were open
+ * @brief   Initializes all the FDs with -1 so it's easy to check later on
+ * 			if the were open (so they need to be closed again)
  * 
- * @param	mbox 
+ * @param   mbox        
+ * @param   cur         
+ * @param   cmd_pos     
  */
 void	initialize_fds(t_mbox *mbox, t_ast *cur, int cmd_pos)
 {
@@ -28,13 +30,6 @@ void	initialize_fds(t_mbox *mbox, t_ast *cur, int cmd_pos)
 		cur->cmd_pos = cmd_pos;
 }
 
-/**
- * @brief	close all FDs of current cycle
- * 
- * 			NOTE: function should only be called by 'free_cycle'
- * 
- * @param mbox 
- */
 void	close_fds(t_mbox *mbox)
 {
 	if (mbox->exec.io.cmd_fd[CMD_IN] != -1)
@@ -47,47 +42,38 @@ void	close_fds(t_mbox *mbox)
 		close (mbox->exec.io.dup_fd[CMD_OUT]);
 }
 
-
 /**
- * @brief   according to the accepted status sets the bool values in use_pipe[]
- *          if
- *              - we need read/write end in this case sets bool as ft_true
- *          else
- *              - false
+ * @brief   According to the command position, booleans will be set.
+ * 			Later this information will be used to determine which end of the
+ * 			pipe will be used.
  * 
- * @param   mbox 
- * @param   status 
+ * @param   mbox        
+ * @param   cmd_pos      
  */
-void	conf_pipe(t_mbox *mbox, int status)
+void	conf_pipe(t_mbox *mbox, int cmd_pos)
 {
-	if (status == SINGLE_CMD)
+	if (cmd_pos == SINGLE_CMD)
 	{
 		mbox->exec.io.use_pipe[CMD_IN] = ft_false;
 		mbox->exec.io.use_pipe[CMD_OUT] = ft_false;
 	}
-	else if (status == FIRST_CMD)
+	else if (cmd_pos == FIRST_CMD)
 	{
 		mbox->exec.io.use_pipe[CMD_IN] = ft_false;
 		mbox->exec.io.use_pipe[CMD_OUT] = ft_true;
 	}
-	else if (status == MIDDLE_CMD)
+	else if (cmd_pos == MIDDLE_CMD)
 	{
 		mbox->exec.io.use_pipe[CMD_IN] = ft_true;
 		mbox->exec.io.use_pipe[CMD_OUT] = ft_true;
 	}
-	else if (status == LAST_CMD)
+	else if (cmd_pos == LAST_CMD)
 	{
 		mbox->exec.io.use_pipe[CMD_IN] = ft_true;
 		mbox->exec.io.use_pipe[CMD_OUT] = ft_false;
 	}
 }
 
-/**
- * @brief   
- * 
- * @param   mbox 
- * @param   cur_pipe 
- */
 void	redir_pipe(t_mbox *mbox, int *cur_pipe)
 {
 	if (mbox->exec.io.use_pipe[CMD_IN])

@@ -6,21 +6,27 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 13:09:02 by astein            #+#    #+#             */
-/*   Updated: 2024/01/07 19:37:50 by astein           ###   ########.fr       */
+/*   Updated: 2024/01/08 00:05:29 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+/**
+ * DOCUMENTATION:
+ * https://github.com/ahokcool/frankenshell/docs/documentation.md#run-command
+ */
 
 #include "frankenshell.h"
 
 /**
- * @brief 		
+ * @brief   Find the last / in string and return a copy of the string after.
  * 
- * 
+ * 			EXAMPLES:
  * 				/usr/bin/ls -> ls
  * 				./hw.sh		-> hw.sh
  * 
- * @param cmd 
- * @return char* 
+ * @param   path        
+ * @param   free_path   
+ * @return  char*       
  */
 static char	*seperate_cmd_from_path(char *path, t_bool free_path)
 {
@@ -37,13 +43,13 @@ static char	*seperate_cmd_from_path(char *path, t_bool free_path)
 }
 
 /**
- * @brief	take all the arg nodes and put them into a char** matrix
- * 			first arg is the paramter 'cmd'
+ * @brief   Take all the arg nodes and put them into a char** matrix
+ * 			First arg is the paramter 'cmd'
  * 
- * @param mbox 
- * @param cmd 
- * @param arg_node 
- * @return char** 
+ * @param   mbox        
+ * @param   cmd         
+ * @param   arg_node    
+ * @return  char**      
  */
 static char	**get_args_as_matrix(t_mbox *mbox, char *cmd, t_ast *arg_node)
 {
@@ -83,25 +89,26 @@ static char	**get_args_as_matrix(t_mbox *mbox, char *cmd, t_ast *arg_node)
 }
 
 /**
- * @brief	as soon as we find one '/' in the string we think its a path
+ * @brief   As soon as we find one '/' in the string we think its a path
  * 			(or if the path exists via 'access')
  * 
- * 			errno	exitcode	is path
- *					 				if directory
- *					126					cmd is a directory
- *					 				else if is a file
- *					 					if has permissions
- *											we should have executed the file!
- *					 					else
- *			13		126						cmd has no permissions
- *					 				else
- *					127 				127 No such file or directory
- *					 					
- *					 			else
- *					 				127 cmd not found
+ *			exitcode	is path
+ *			 				if directory
+ *			126					cmd is a directory
+ *			 				else if is a file
+ *			 					if has permissions
+ *									we should have executed the file!
+ *			 					else
+ *			126						cmd has no permissions
+ *			 				else
+ *			127 				127 No such file or directory
+ *			 					
+ *			 			else
+ *			 				127 cmd not found
  * 
- * @param mbox 
- * @param cmd 
+ * @param   mbox        
+ * @param   cmd         
+ * @return  char*       
  */
 static	char	*temp_run_cmd_system_error(t_mbox *mbox, char *cmd)
 {
@@ -129,6 +136,13 @@ static	char	*temp_run_cmd_system_error(t_mbox *mbox, char *cmd)
 	return (NULL);
 }
 
+/**
+ * @brief   Try to find the binary 'cmd' in on of the paths in the env 'PATH'.
+ * 
+ * @param   mbox        
+ * @param   cmd         
+ * @return  char*       path or NULL if not found
+ */
 static char	*get_abs_cmd_path_from_env(t_mbox *mbox, char *cmd)
 {
 	char	**path_dirs;
@@ -157,19 +171,15 @@ static char	*get_abs_cmd_path_from_env(t_mbox *mbox, char *cmd)
 }
 
 /**
- * @brief 	NOTE: MALLOCS!
- * 
- * 			1. check if we find a bin in the PATH variable
- * 				1.1 if yes return the absolute path
- * 			2. check if cmd is a path to a folder
- * 				2.1 if yes return NULL
- * 			3. check if cmd is a path to a file ./hw.sh
- * 				3.1 if yes return the absolute path
- * 
- * @param mbox 
- * @param cmd 
- * @param i 
- * @return char* 
+ * @brief   
+ * 	If argument cmd is present:
+ * 		If containts '/'
+ * 			asume its a path and return it
+ * 		Else
+ * 			search in env 'PATH' for the cmd via 'get_abs_cmd_path_from_env'
+ * @param   mbox        
+ * @param   cmd         
+ * @return  char*       
  */
 static char	*get_abs_cmd_path(t_mbox *mbox, char *cmd)
 {
@@ -188,7 +198,16 @@ static char	*get_abs_cmd_path(t_mbox *mbox, char *cmd)
 	return (temp_run_cmd_system_error(mbox, cmd));
 }
 
-
+/**
+ * @brief   This function prepares and executes the command via 'execve'.
+ * 			Therefore it gets:
+ * 				- the absolute path of the command via 'get_abs_cmd_path'
+ * 				- the arguments as a matrix via 'get_args_as_matrix'
+ * 				- the environment variables as a matrix via 'get_env_as_matrix'
+ * 
+ * @param   mbox        
+ * @param   cmd_node    
+ */
 static void	run_cmd_system(t_mbox *mbox, t_ast *cmd_node)
 {
 	char	*abs_cmd_path;
@@ -211,11 +230,11 @@ static void	run_cmd_system(t_mbox *mbox, t_ast *cmd_node)
 }
 
 /**
- * @brief   traverses through the ll and run builtin cmd via corresponding
- *          function pointer
+ * @brief   Finds the corresponding builtin function and runs it.
  * 
- * @param   mbox 
- * @param   cmd_node 
+ * @param   mbox        
+ * @param   cmd_node    
+ * @param   parent      
  */
 static void	run_cmd_builtin(t_mbox *mbox, t_ast *cmd_node, t_bool parent)
 {
@@ -236,13 +255,14 @@ static void	run_cmd_builtin(t_mbox *mbox, t_ast *cmd_node, t_bool parent)
 }
 
 /**
- * @brief	checks if the command node exists and has a value
- * 			if so it runs the cmd either via
- * 				- 'run_cmd_builtin' or
- *	 			- 'run_cmd_system'
+ * @brief   Chooses between 'run_cmd_builtin' and 'run_cmd_system'.
  * 
- * @param	mbox		
- * @param	cmd_node	
+ * 
+ * DOCUMENTATION:
+ * https://github.com/ahokcool/frankenshell/docs/documentation.md#run-command
+ * 
+ * @param   mbox        
+ * @param   cmd_node    
  */
 void	run_cmd_main(t_mbox *mbox, t_ast *cmd_node)
 {
@@ -258,6 +278,16 @@ void	run_cmd_main(t_mbox *mbox, t_ast *cmd_node)
 		run_cmd_system(mbox, cmd_node);
 }
 
+/**
+ * @brief   In the case of a single builtin command, this function will setup
+ * 			the redirections and run the command via 'run_cmd_builtin'.
+ * 
+ * DOCUMENTATION:
+ * https://github.com/ahokcool/frankenshell/docs/documentation.md#run-command
+ * 
+ * @param   mbox        
+ * @return  t_bool      
+ */
 t_bool	run_single_builtin(t_mbox *mbox)
 {
 	if (!setup_redirs(mbox, mbox->ast->left, NULL))
