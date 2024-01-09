@@ -12,7 +12,7 @@ Date: 2024-01-10
 ---
 
 <p align="center">
-  <a href="https://www.buymeacoffee.com/ahokcool" target="_blank">
+  <a href="[url-coffee]" target="_blank">
     <img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"><br>
   </a>
   If this documentation is helpful for you, feel free to buy me a coffee ;)
@@ -46,5 +46,7 @@ Date: 2024-01-10
 Here's [a link][1] to a website.
 And [another link][2] to a different site.
 
-[1]: https://example.com
-[2]: https://example.org
+
+<!-- Links -->
+[url-coffee]: https://www.buymeacoffee.com/ahokcool
+[url-BPMN]: asd
