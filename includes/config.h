@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 16:07:39 by anshovah          #+#    #+#             */
-/*   Updated: 2024/01/07 11:49:53 by astein           ###   ########.fr       */
+/*   Updated: 2024/01/09 20:30:28 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,12 @@
 
 enum e_signal_state
 {
-	SIG_STATE_MAIN,
-	SIG_STATE_PARENT,
-	SIG_STATE_CHILD,
-	SIG_STATE_CHILD_BUILTIN,
-	SIG_STATE_HD_CHILD,
-	SIG_STATE_IGNORE
+	SIG_STATE_MAIN,				// 0
+	SIG_STATE_PARENT,			// 1
+	SIG_STATE_CHILD,			// 2
+	SIG_STATE_CHILD_BUILTIN,	// 3
+	SIG_STATE_HD_CHILD,			// 4
+	SIG_STATE_IGNORE			// 5
 };
 
 /**********************************# PARSING #*********************************/

@@ -6,7 +6,7 @@
 /*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 15:35:02 by anshovah          #+#    #+#             */
-/*   Updated: 2024/01/07 11:55:55 by astein           ###   ########.fr       */
+/*   Updated: 2024/01/09 19:50:06 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,20 @@ typedef struct s_io				t_io;
 /* bultins function pointer typedef */
 typedef void	(*t_builtin_function)(t_mbox *mbox, t_ast *arg_node);
 
-/* struct for each builtin */
+/**
+ * The struct t_builtin_cmd is used to create a conection between a builtin
+ * command name and its corresponding function.
+ */
 typedef struct s_builtin_cmd
 {
 	char				*cmd_name;
 	t_builtin_function	func_name;
 }	t_builtin_cmd;
 
-/* data for input/output manipulations */
+/**
+ * The struct t_io is used to store all the information needed for
+ * the redirection of a command.
+ */
 typedef struct s_io
 {
 	t_bool				use_pipe[2];
@@ -48,7 +54,10 @@ typedef struct s_io
 	int					prev_pipe[2];
 }	t_io;
 
-/*  data for execution */
+/**
+ * The struct t_exec is used to store all the information needed for
+ * the execution of a command.
+ */ 
 typedef struct s_exec
 {
 	t_builtin_cmd		builtins[12];
@@ -83,7 +92,10 @@ typedef struct s_mbox
 	t_bool				info_mode;				// info mode on/off
 }	t_mbox;
 
-/* struct to store all variables as key-value pairs in a linked list */
+/**
+ * The struct t_env is used to build a liked list, storing all
+ * (enviromental) variables.
+ */	
 typedef struct s_env
 {
 	char				*key;
@@ -91,7 +103,10 @@ typedef struct s_env
 	struct s_env		*next;
 }	t_env;
 
-/* struct to store all the user input in a linked list */
+/**
+ * The struct t_history is used to build a liked list, storing all previous
+ * user input. Therefore it uses the generic linked list structure t_list.
+ */
 typedef struct s_history
 {
 	int					index;
@@ -99,7 +114,7 @@ typedef struct s_history
 	t_mbox				*mbox;
 }	t_history;
 
-/* token holder */
+/* The struct `t_token` is used to build a liked list, storing all tokens. */
 typedef struct s_token
 {
 	int					type;
@@ -107,7 +122,7 @@ typedef struct s_token
 	struct s_token		*next;
 }	t_token;
 
-/* abstract syntax tree to establish the order of execution */
+/* The struct t_ast is used to build an ast, storing all nodes. */
 typedef struct s_ast
 {
 	int					type;
@@ -117,7 +132,10 @@ typedef struct s_ast
 	struct s_ast		*right;
 }	t_ast;
 
-/* heredoc */
+/**
+ * The struct t_hd is used to store all the information needed for
+ * the heredoc redirection of a command.
+ */
 typedef struct s_hd
 {
 	int					*fd;
