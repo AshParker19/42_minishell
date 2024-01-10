@@ -683,7 +683,7 @@ This is general information about environment variables in frankenshell.
 [:book: unset](#unset-builtin)
 [:book: exit status](#exit-status)
 
-On [:book: programm start](#initialization) a linked list (t_env) will be created from the enviromental variables (`char **env`) and stored in the [t_mbox](#t_mbox) struct. Variables represent a simple key-value pair. Key and value are strings. The key is always unique and the value can be empty. On [:book: termination](#termination), the linked list is freed.
+On [:book: programm start](#initialization) a linked list (t_env) will be created from the enviromental variables (`char **env`) and stored in the [:book: t_mbox](#t_mbox) struct. Variables represent a simple key-value pair. Key and value are strings. The key is always unique and the value can be empty. On [:book: termination](#termination), the linked list is freed.
 
 **With the following [:book: builtin](#builtin-commands) commands variables can be...**
 - **created** using [:book: export](#export-builtin)
@@ -692,44 +692,44 @@ On [:book: programm start](#initialization) a linked list (t_env) will be create
 - **changed** using [:book: export](#export-builtin)
 - **deleted** using [:book: unset](#unset-builtin)
 
-**A key has to match the following [regex][url-regex]:**
+**A key has to match the following [:link: regex][url-regex]:**
 ```
 ^[a-zA-Z_]+[a-zA-Z0-9_]*$
 
 Explanation:
-^				# start of string
-[a-zA-Z_]		# first char must be a letter or '_'
-+				# one or more chars
-[a-zA-Z0-9_]*	# zero or more letters, numbers or '_'
-$				# end of string
+^               # start of string
+[a-zA-Z_]       # first char must be a letter or '_'
++               # one or more chars
+[a-zA-Z0-9_]*   # zero or more letters, numbers or '_'
+$               # end of string
 ```
 
-**The following functions are implemented in the [env_vars](../src/1_core/4_env_vars.c) file:**
+**The following functions are implemented in the [:computer: env_vars](../src/1_core/4_env_vars.c) file:**
 ```
 MANAGEMENT
- 	'initialize_vars'	# creates the ll on startup
-	'free_vars'			# frees the ll
-	'free_var'			# free the given node
-	'var_add_back'		# adds the node to the end of the ll
+ 	'initialize_vars'   # creates the ll on startup
+	'free_vars'         # frees the ll
+	'free_var'          # free the given node
+	'var_add_back'      # adds the node to the end of the ll
 
 READ FUNCTIONS
- 	'is_var'			# checks if the argument 'key' is present in list
-	'get_var_node'		# returns a pointer to the node with the given key
-	'get_var_value'		# returns a pointer to the value of the given key
-	'get_vars_count'	# returns the amount of nodes in the ll
-	'get_env_as_matrix'	# creates a matrix of strings from the ll
+ 	'is_var'            # checks if the argument 'key' is present in list
+	'get_var_node'      # returns a pointer to the node with the given key
+	'get_var_value'     # returns a pointer to the value of the given key
+	'get_vars_count'    # returns the amount of nodes in the ll
+	'get_env_as_matrix' # creates a matrix of strings from the ll
 
 WRITE FUNCTIONS
-	'set_var_value'		# updates/creates node with the given key and value
-	'set_var_value_int'	# updates/creates node with the given key and int value
-	'increment_shlvl'	# increases the value of the 'SHLVL' variable
-	'unset_var'			# removes the node with the given key from the ll
+	'set_var_value'     # updates/creates node with the given key and value
+	'set_var_value_int' # updates/creates node with the given key and int value
+	'increment_shlvl'   # increases the value of the 'SHLVL' variable
+	'unset_var'         # removes the node with the given key from the ll
 ```
 
 
 
 :bulb:    		The linked list will be used for the execve function call. Refer to section ([:book: run command](#run-command)).\
-:bulb:			The linked list will be used for storing the [exit status](#exit-status).
+:bulb:			The linked list will be used for storing the [:book: exit status](#exit-status).
 
 
 
