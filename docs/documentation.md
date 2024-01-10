@@ -96,7 +96,7 @@ Date: 2024-01-10
 
 As ChatGPT said in 2023:
 
-> Minishell is a [:link: 42 school][url-42] project that aims to create a simplified Unix shell using [:link: bash][url-bash] as a reference. The idea behind Minishell is to develop a basic command-line interface (CLI) that can execute simple commands and handle input/output redirection. It's meant to serve as a learning exercise for students to gain a fundamental understanding of how shells work by implementing core features like parsing user input, managing processes, handling signals, creating builtins and executing system commands.
+> Minishell is a [:link:42 school][url-42] project that aims to create a simplified Unix shell using [:link:bash][url-bash] as a reference. The idea behind Minishell is to develop a basic command-line interface (CLI) that can execute simple commands and handle input/output redirection. It's meant to serve as a learning exercise for students to gain a fundamental understanding of how shells work by implementing core features like parsing user input, managing processes, handling signals, creating builtins and executing system commands.
 
 <br><h1 id="installation">
 	<a href="#table-of-content">🔝 </a>
@@ -120,7 +120,7 @@ $ exit                                                    # Exit
 	Usage
 </h1>
 
-**frankenshell** is designed to mimic the behavior of the traditional [:link: **bash shell**][url-bash]. So feel free to use it like bash.
+**frankenshell** is designed to mimic the behavior of the traditional [:link:**bash shell**][url-bash]. So feel free to use it like bash.
 
 ![Example][example-gif]
 
@@ -132,16 +132,16 @@ $ exit                                                    # Exit
 </h2>
 
 To activate the info mode you can:
-- [:book: start](#initialization) frankenshell with the flag `--info` or `-i`
-- run the [:book: builtin](#builtin-commands) command [:book: infomode](#infomode-builtin)
+- [:book:start](#initialization) frankenshell with the flag `--info` or `-i`
+- run the [:book:builtin](#builtin-commands) command [:book:infomode](#infomode-builtin)
 
 If the info mode is activated, frankenshell will print the following information during runtime:
 
-- Input String States ([:book: String Management](#string-management))<sup>*</sup>
-- Token types and values ([:book: tokenizing](#tokenizing))
-- A visual representation of the ast ([:book: parsing](#parsing))
+- Input String States ([:book:String Management](#string-management))<sup>*</sup>
+- Token types and values ([:book:tokenizing](#tokenizing))
+- A visual representation of the ast ([:book:parsing](#parsing))
 
-<sup>*</sup> Also as [:book: readable strings](#readable-input-strings)
+<sup>*</sup> Also as [:book:readable strings](#readable-input-strings)
 
 <details>
   <summary>✏️ Example <code>echo "Hello" $USER "" '!' | wc    -l&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code></summary>
@@ -526,22 +526,22 @@ hi   there
 
 These definitions are used throughout this manual as follows.
 
-**builtin** ([:book: builtins](#builtin-commands))\
+**builtin** ([:book:builtins](#builtin-commands))\
 &nbsp;&nbsp;&nbsp;&nbsp;A command that is implemented internally by the shell itself, rather than by an executable program somewhere in the file system.
 
-**exit status** ([:book: exit status](#exit-status))\
+**exit status** ([:book:exit status](#exit-status))\
 &nbsp;&nbsp;&nbsp;&nbsp;The value returned by a command to its caller. The value is restricted to eight bits, so the maximum value is 255.
 
-**signal** ([:book: signals](#signals))\
+**signal** ([:book:signals](#signals))\
 &nbsp;&nbsp;&nbsp;&nbsp;A mechanism by which a process may be notified by the kernel of an event occurring in the system.
 
-**token** ([:book: tokenizing](#tokenizing))\
+**token** ([:book:tokenizing](#tokenizing))\
 &nbsp;&nbsp;&nbsp;&nbsp;A sequence of characters considered a single unit by frankenshell.
 
-**cycle** ([:book: processing a cycle](#processing-a-cycle))\
+**cycle** ([:book:processing a cycle](#processing-a-cycle))\
 &nbsp;&nbsp;&nbsp;&nbsp;The input is processed after the user hits the `return` key, which involves a series of steps: cleaning the input string, expanding variables, tokenizing, constructing an ast, setting up pipes, forking processes, and updating the exit status.
 
-**ast / tree** ([:book: parsing](#parsing))\
+**ast / tree** ([:book:parsing](#parsing))\
 &nbsp;&nbsp;&nbsp;&nbsp;The parser in Frankenshell constructs an abstract syntax tree (AST).
 
 <br><h1 id="syntax">
@@ -549,7 +549,7 @@ These definitions are used throughout this manual as follows.
     Syntax
 </h1>
 
-The syntax of frankenshell is designed to mimic the syntax of the traditional [:link: bash shell][url-bash].
+The syntax of frankenshell is designed to mimic the syntax of the traditional [:link:bash shell][url-bash].
 
 Note that redirections and arguments can be in any order. The only rule is that the filename (or limiter for heredoc) must appear immediately after the redirection.
 
@@ -575,13 +575,13 @@ $ echo > file Hello World
 - **Single Quotes**:\
 Enclosing text in single quotes `'` prevents the shell from interpreting any metacharacters within the quoted sequence.
 - **Double Quotes**:\
-Using double quotes `"` also prevents interpretation of metacharacters, except for the dollar sign `$`, which is used for [:book: variable expansion](#variable-expansion).
+Using double quotes `"` also prevents interpretation of metacharacters, except for the dollar sign `$`, which is used for [:book:variable expansion](#variable-expansion).
 
 If you use single quotes inside double quotes, the single quotes will be interpreted as normal characters and vice versa.
 
 :bulb: The outer quotes are always the contextual quotes.\
 :bulb: A contextual quote (single or double) must always be closed with the matching quote.\
-:warning: If contextual quotes are not closed, frankenshell prints an error and updates the [:book: exit status](#exit-status) to `2`.
+:warning: If contextual quotes are not closed, frankenshell prints an error and updates the [:book:exit status](#exit-status) to `2`.
 
 <details>
   <summary>✏️ Examples</summary>
@@ -631,7 +631,7 @@ The following characters are used as seperators for the input string:
 	<a href="../includes/structs.h">📄</a>
 </h1>
 
-All structs are defined int the header file [:page_facing_up: structs.h](../includes/structs.h).
+All structs are defined int the header file [:page_facing_up:structs.h](../includes/structs.h).
 
 
 <h2 id="t_mbox">
@@ -643,7 +643,7 @@ All structs are defined int the header file [:page_facing_up: structs.h](../incl
 </h2>
 
 The struct `mbox` is the main structure of the program: it is being passed as an argument to most of the functions and contains all the info needed for the program to work.\
-The file [:computer: manage_mbox.c](../src/1_core/0_mbox.c) contains the functions for initializing and destroying the mbox instance.
+The file [:computer:manage_mbox.c](../src/1_core/0_mbox.c) contains the functions for initializing and destroying the mbox instance.
 ```
 typedef struct s_mbox
 {
@@ -676,23 +676,23 @@ typedef struct s_mbox
 This is general information about environment variables in frankenshell.
 
 **Related Sections:**\
-[:book: variable expansion](#variable-expansion) 
-[:book: heredoc](#setup-heredoc)
-[:book: env](#env-builtin)
-[:book: export](#export-builtin)
-[:book: unset](#unset-builtin)
-[:book: exit status](#exit-status)
+[:book:variable expansion](#variable-expansion) 
+[:book:heredoc](#setup-heredoc)
+[:book:env](#env-builtin)
+[:book:export](#export-builtin)
+[:book:unset](#unset-builtin)
+[:book:exit status](#exit-status)
 
-On [:book: programm start](#initialization) a linked list (t_env) will be created from the enviromental variables (`char **env`) and stored in the [:book: t_mbox](#t_mbox) struct. Variables represent a simple key-value pair. Key and value are strings. The key is always unique and the value can be empty. On [:book: termination](#termination), the linked list is freed.
+On [:book:programm start](#initialization) a linked list (t_env) will be created from the enviromental variables (`char **env`) and stored in the [:book:t_mbox](#t_mbox) struct. Variables represent a simple key-value pair. Key and value are strings. The key is always unique and the value can be empty. On [:book:termination](#termination), the linked list is freed.
 
-**With the following [:book: builtin](#builtin-commands) commands variables can be...**
-- **created** using [:book: export](#export-builtin)
-- **shown** using [:book: env](#env-builtin)
-- **sorted and shown**  using [:book: export](#export-builtin) without arguments
-- **changed** using [:book: export](#export-builtin)
-- **deleted** using [:book: unset](#unset-builtin)
+**With the following [:book:builtin](#builtin-commands) commands variables can be...**
+- **created** using [:book:export](#export-builtin)
+- **shown** using [:book:env](#env-builtin)
+- **sorted and shown**  using [:book:export](#export-builtin) without arguments
+- **changed** using [:book:export](#export-builtin)
+- **deleted** using [:book:unset](#unset-builtin)
 
-**A key has to match the following [:link: regex][url-regex]:**
+**A key has to match the following [:link:regex][url-regex]:**
 ```
 ^[a-zA-Z_]+[a-zA-Z0-9_]*$
 
@@ -704,7 +704,7 @@ Explanation:
 $               # end of string
 ```
 
-**The following functions are implemented in the [:computer: env_vars](../src/1_core/4_env_vars.c) file:**
+**The following functions are implemented in the [:computer:env_vars](../src/1_core/4_env_vars.c) file:**
 ```
 MANAGEMENT
  	'initialize_vars'   # creates the ll on startup
@@ -728,8 +728,8 @@ WRITE FUNCTIONS
 
 
 
-:bulb:    		The linked list will be used for the execve function call. Refer to section ([:book: run command](#run-command)).\
-:bulb:			The linked list will be used for storing the [:book: exit status](#exit-status).
+:bulb:    		The linked list will be used for the execve function call. Refer to section ([:book:run command](#run-command)).\
+:bulb:			The linked list will be used for storing the [:book:exit status](#exit-status).
 
 
 
@@ -750,21 +750,21 @@ WRITE FUNCTIONS
 </h1>
 
 
-Each built-in command in frankenshell is detailed below with specific information and examples.
+Each builtin command in frankenshell is detailed below with specific information and examples:
 
 | Command                         | File(s)     	                                      												| Description									|
 |---------------------------------|-----------------------------------------------------------------------------------------------------|-----------------------------------------------|
-| [:book: `42`](#42-builtin)             | [:computer: `42.c`](../src/4_builtins/42.c)                    												| 42 it is ;)                                 	|
-| [:book: `cd`](#cd-builtin)             | [:computer: `cd.c`](../src/4_builtins/cd.c)                    												| Changes the current directory.              	|
-| [:book: `echo`](#echo-builtin)         | [:computer: `echo.c`](../src/4_builtins/echo.c)                												| Displays a line of text.                    	|
-| [:book: `env`](#env-builtin)           | [:computer: `env.c`](../src/4_builtins/env.c)                  												| Displays the environment variables.         	|
-| [:book: `exit`](#exit-builtin)         | [:computer: `exit.c`](../src/4_builtins/exit.c)                												| Exits the shell.                            	|
-| [:book: `export`](#export-builtin)     | [:computer: `export.c`](../src/4_builtins/export.c)<br>[:computer: `export_utils.c`](../src/4_builtins/export_utils.c)	| Sets or exports environment variables.      	|
-| [:book: `help`](#help-builtin)         | [:computer: `help.c`](../src/4_builtins/help.c)                												| Displays this documentation page on github  	|
-| [:book: `history`](#history-builtin)   | [:computer: `history.c`](../src/4_builtins/history.c)          												| Displays the command history.               	|
-| [:book: `infomode`](#infomode-builtin) | [:computer: `infomode.c`](../src/4_builtins/infomode.c)        												| Toggles the info mode.                      	|
-| [:book: `pwd`](#pwd-builtin)           | [:computer: `pwd.c`](../src/4_builtins/pwd.c)                  												| Prints the working directory.               	|
-| [:book: `unset`](#unset-builtin)       | [:computer: `unset.c`](../src/4_builtins/unset.c)              												| Unsets environment variables.               	|
+| [:book:`42`](#42-builtin)             | [:computer:`42.c`](../src/4_builtins/42.c)                    												| 42 it is ;)                                 	|
+| [:book:`cd`](#cd-builtin)             | [:computer:`cd.c`](../src/4_builtins/cd.c)                    												| Changes the current directory.              	|
+| [:book:`echo`](#echo-builtin)         | [:computer:`echo.c`](../src/4_builtins/echo.c)                												| Displays a line of text.                    	|
+| [:book:`env`](#env-builtin)           | [:computer:`env.c`](../src/4_builtins/env.c)                  												| Displays the environment variables.         	|
+| [:book:`exit`](#exit-builtin)         | [:computer:`exit.c`](../src/4_builtins/exit.c)                												| Exits frankenshell.                            	|
+| [:book:`export`](#export-builtin)     | [:computer:`export.c`](../src/4_builtins/export.c)<br>[:computer:`export_utils.c`](../src/4_builtins/export_utils.c)	| Sets or exports environment variables.      	|
+| [:book:`help`](#help-builtin)         | [:computer:`help.c`](../src/4_builtins/help.c)                												| Displays this documentation page on github  	|
+| [:book:`history`](#history-builtin)   | [:computer:`history.c`](../src/4_builtins/history.c)          												| Displays the command history.               	|
+| [:book:`infomode`](#infomode-builtin) | [:computer:`infomode.c`](../src/4_builtins/infomode.c)        												| Toggles the info mode.                      	|
+| [:book:`pwd`](#pwd-builtin)           | [:computer:`pwd.c`](../src/4_builtins/pwd.c)                  												| Prints the working directory.               	|
+| [:book:`unset`](#unset-builtin)       | [:computer:`unset.c`](../src/4_builtins/unset.c)              												| Unsets environment variables.               	|
 
 ---
 
@@ -973,8 +973,8 @@ The builtin `echo` outputs the strings it is given as arguments, seperated by on
 
 The builtin `env` outputs all variable key-value pairs of the linked list like `key=value\n`
 
-:bulb: Refer to the section [:book: environment variables](#environment-variables) for more information about environment variables.\
-:warning: 		A [known bug](#known-bugs) exists with `env` and `export`.
+:bulb: Refer to the section [:book:environment variables](#environment-variables) for more information about environment variables.\
+:warning: 		A [:book:known bug](#known-bugs) exists with `env` and `export`.
 
 <details>
   <summary>Attributes</summary>
@@ -1026,7 +1026,7 @@ The builtin `env` outputs all variable key-value pairs of the linked list like `
 
 The builtin `exit` terminates the calling process, outputs `exit` to `STDERR` and if provided with a numeric argument, it sets the exit status to that argument's value. If the argument exceeds `255`, it will be subjected to modulo `256`.
 
-:bulb: Refer to the section [:book: exit status](#exit-status) for more information about exit status.
+:bulb: Refer to the section [:book:exit status](#exit-status) for more information about exit status.
 
 <details>
   <summary>Attributes</summary>
@@ -1087,8 +1087,8 @@ The builtin `exit` terminates the calling process, outputs `exit` to `STDERR` an
 
 The builtin `export` updates (or creates) the enviromental variables inputed as key value pairs like `key1=value1 key2=value2`. If no argument is given, it will instead output all variables in alphabetical order.
 
-:bulb: Refer to the section [:book: environment variables](#environment-variables) for more information about environment variables.\
-:warning: 		A [known bug](#known-bugs) exists with `env` and `export`.
+:bulb: Refer to the section [:book:environment variables](#environment-variables) for more information about environment variables.\
+:warning: 		A [:book:known bug](#known-bugs) exists with `env` and `export`.
 
 <details>
   <summary>Attributes</summary>
@@ -1117,7 +1117,7 @@ The builtin `export` updates (or creates) the enviromental variables inputed as 
 | `export foo=bar`			| :white_check_mark: | :white_check_mark: 	   |		   |		  | `0` 			  |	**`foo`** 							|
 | `export foo=bar school=42`| :white_check_mark: | :white_check_mark: 	   |		   |		  | `0` 			  |	**`foo`** **`school`**				|
 
-<sup>1</sup> Refer to the section [Environment Variables](#environment-variables) for more details about the key syntax.\
+<sup>1</sup> Refer to the section [:book:Environment Variables](#environment-variables) for more details about the key syntax.\
 <sup>2</sup> Bold variables will be updated.\
 <sup>3</sup> In alphabetical order with prefix `declare -x `.
 
@@ -1194,7 +1194,7 @@ The builtin `help` displays the documentation page on github.
 	history (builtin)
 </h2>
 
-The builtin `history` outputs all previous user input in a numbered list to `STDOUT` (or its redirection). To do so, it uses a linked list stored in the [t_mbox](#t_mbox) struct. [:book: Each cycle](#processing-a-cycle), the input string is added to the list. On [:book: termination](#termination), the linked list is freed.
+The builtin `history` outputs all previous user input in a numbered list to `STDOUT` (or its redirection). To do so, it uses a linked list stored in the [:book:t_mbox](#t_mbox) struct. [:book:Each cycle](#processing-a-cycle), the input string is added to the list. On [:book:termination](#termination), the linked list is freed.
 
 <details>
   <summary>Attributes</summary>
@@ -1348,7 +1348,7 @@ The builtin `pwd` outputs the current wd using the external function `getcwd`. L
 
 The builtin `unset` deletes the corresponding variables.
 
-:bulb: Refer to the section [:book: environment variables](#environment-variables) for more information about environment variables.
+:bulb: Refer to the section [:book:environment variables](#environment-variables) for more information about environment variables.
 
 <details>
   <summary>Attributes</summary>
@@ -1397,18 +1397,18 @@ The builtin `unset` deletes the corresponding variables.
     Exit Status
 </h1>
 
-The current exit status of minishell is stored as an node with the key `?` in the linked list of [environment variables](#environment-variables).
+The current exit status of minishell is stored as an node with the key `?` in the linked list of [:book:environment variables](#environment-variables).
 
 The exit status will be updated in the following cases:
-- on [:book: startup](#initialization) to `0`
-- unclosed [:book: quotes](#quotes) to `2`
+- on [:book:startup](#initialization) to `0`
+- unclosed [:book:quotes](#quotes) to `2`
 - syntax errors
 - a command is not found
 - a file is not found
 - a permission is denied
 - a child process terminates
-- a sigle [:book: builtin](#builtin-commands) finished execution
-- a [:book: signal](#signals) is received
+- a sigle [:book:builtin](#builtin-commands) finished execution
+- a [:book:signal](#signals) is received
 
 Storing the exit status in the enviroment variables linked list simplifies the variable expansion of `$?`. `$?` always expands to the current exit status. 
 
@@ -1426,8 +1426,8 @@ Storing the exit status in the enviroment variables linked list simplifies the v
 	<a href="../src/1_core/5_signals.c">💻</a>
 </h1>
 
-Each time a fork is happening all existing processes will be set to a specific `signal status` via the function `conf_sig_handler` in [:computer: signals.c](../src/1_core/5_signals.c). This `signal status` will
-be used to determine which signal handling should be used in the regarding process. On [:book: programm start](#initialization) the `signal status` will be set to `SIG_STATE_MAIN`.
+Each time a fork is happening all existing processes will be set to a specific `signal status` via the function `conf_sig_handler` in [:computer:signals.c](../src/1_core/5_signals.c). This `signal status` will
+be used to determine which signal handling should be used in the regarding process. On [:book:programm start](#initialization) the `signal status` will be set to `SIG_STATE_MAIN`.
 
 **The following Signals are being treaded in frankenshell:**
 | Shortcut | Signal Name | Description 						|
@@ -1443,7 +1443,7 @@ be used to determine which signal handling should be used in the regarding proce
 
 <br>
 
-**The following table shows all possible signal states defined in [:page_facing_up: config.h](../includes/config.h)**
+**The following table shows all possible signal states defined in [:page_facing_up:config.h](../includes/config.h)**
 | Signal State 				| `CTRL + C` 					| `CTRL + \`			| `CTRL + D`				|
 |--------------				|----------						|----------				|----------					|
 | `SIG_STATE_MAIN`    		| new promt<br>exit status `130`| ignored				| `exit` frankenshell		|
@@ -1459,9 +1459,9 @@ be used to determine which signal handling should be used in the regarding proce
 </h1>
 
 The main tasks of frankenshell can be grouped into those steps:
-- [:book: Initialization](#initialization)
-- [:book: Processing a Cycle](#processing-a-cycle) (loop until `exit` is called)
-- [:book: Termination](#termination)
+- [:book:Initialization](#initialization)
+- [:book:Processing a Cycle](#processing-a-cycle) (loop until `exit` is called)
+- [:book:Termination](#termination)
 
 :bulb: Below you can find a detailed description of each step.
 
@@ -1473,13 +1473,13 @@ The main tasks of frankenshell can be grouped into those steps:
 	Initialization
 </h2>
 
-On startup the program will initialize the [:book: `t_mbox`](#t_mbox) struct. This struct contains all the information needed for the program to work. It is passed as an argument to most of the functions.\
+On startup the program will initialize the [:book:`t_mbox`](#t_mbox) struct. This struct contains all the information needed for the program to work. It is passed as an argument to most of the functions.\
 The following steps are executed during initialization:
-- creating a linked list for the [:book: environment variables](#environment-variables)
-- creating an array for the [:book: builtin commands](#builtin-commands) to connect the command name with the function pointer
-- seting the  [:book: signal status](#signals) to `SIG_STATE_MAIN`
-- setting the [:book: exit status](#exit-status) to `0`
-- setting the [:book: info mode](#info-mode) to `false` (or `true` if the argument `-i`, `--info` is provided)
+- creating a linked list for the [:book:environment variables](#environment-variables)
+- creating an array for the [:book:builtin commands](#builtin-commands) to connect the command name with the function pointer
+- seting the  [:book:signal status](#signals) to `SIG_STATE_MAIN`
+- setting the [:book:exit status](#exit-status) to `0`
+- setting the [:book:info mode](#info-mode) to `false` (or `true` if the argument `-i`, `--info` is provided)
 - initializing all other filedescriptors and variables to `-1`, `0` or `NULL`
 - displaying the promt and start reading the input
 
@@ -1493,11 +1493,11 @@ The following steps are executed during initialization:
 </h2>
 
 **All the following steps are executed for each cycle.**
-- [:book: String Management](#string-management)
-- [:book: Tokenizing](#tokenizing)
-- [:book: Parsing](#parsing)
-- [:book: Executing](#executing)
-- [:book: Cleanup Cycle](#cleanup-cycle)
+- [:book:String Management](#string-management)
+- [:book:Tokenizing](#tokenizing)
+- [:book:Parsing](#parsing)
+- [:book:Executing](#executing)
+- [:book:Cleanup Cycle](#cleanup-cycle)
 
 :bulb: Below you can find a detailed description of each step.
 
@@ -1512,16 +1512,16 @@ The following steps are executed during initialization:
 | **Step** 											| **Example**<sup>*</sup> |
 | --------------------------------- 				| ----------- |
 | Finished Reading    								| `echo "Hello" $USER "" '!' \| wc    -l     `          |
-| [:book: Trim Input](#trim-input)       			| `echo "Hello" $USER "" '!' \| wc -l`                  |
-| [:book: Mark Empty Quotes](#mark-empty-quotes)	| `echo "Hello" $USER E_ '!' \| wc    -l`               |
-| [:book: Shift Separators](#shift-separators) 		| `echo_DHelloD_$USER_E__S!S_P_wc____-l`                |
-| [:book: Variable Expansion](#variable-expansion) 	| `echo_DHelloD_astein_E__S!S_P_wc____-l`               |
+| [:book:Trim Input](#trim-input)       			| `echo "Hello" $USER "" '!' \| wc -l`                  |
+| [:book:Mark Empty Quotes](#mark-empty-quotes)	| `echo "Hello" $USER E_ '!' \| wc    -l`               |
+| [:book:Shift Separators](#shift-separators) 		| `echo_DHelloD_$USER_E__S!S_P_wc____-l`                |
+| [:book:Variable Expansion](#variable-expansion) 	| `echo_DHelloD_astein_E__S!S_P_wc____-l`               |
 
-<sup>*</sup>The [:book: readable input string](#readable-input-string) characters are displayed!
+<sup>*</sup>The [:book:readable input string](#readable-input-string) characters are displayed!
 
 #### Readable Input Strings
 
-Special Characers will be [:book: shifted](#shift-separators) to negative ASCII values. Therefore they are nor longer printable. To still be able to display the input string, the following characters will be used to represent the special characters:
+Special Characers will be [:book:shifted](#shift-separators) to negative ASCII values. Therefore they are nor longer printable. To still be able to display the input string, the following characters will be used to represent the special characters:
 | Character | Description |
 |-----------|-------------|
 | `_`       | No Space    |
@@ -1532,7 +1532,7 @@ Special Characers will be [:book: shifted](#shift-separators) to negative ASCII 
 | `I`	   	| Input Redirection |
 | `O`	   	| Output Redirection |
 
-:bulb: Activate the [:book: info mode](#info-mode) to see all input string states during runtime
+:bulb: Activate the [:book:info mode](#info-mode) to see all input string states during runtime
 
 ---
 
@@ -1589,7 +1589,7 @@ Marked String:	echo DHello 'asteinD, Show are you?S
 
 Bash generates an empty token for a pair of empty contextual quotes if the two conditions are met:
 - the empty quotes are not inside another pair of quotes\
-(refer to `OUT_Q` as the [:book: quote state](#quote-state))
+(refer to `OUT_Q` as the [:book:quote state](#quote-state))
 - the empty quotes are surrounded by at least one whitespace character (or the beginning/end of the string) before and after 
 
 Empty quotes will be marked as `EMPTY_TOKEN` and `NO_SPACE` characters.
@@ -1613,13 +1613,13 @@ Empty quotes will be marked as `EMPTY_TOKEN` and `NO_SPACE` characters.
 | `echo '""'`			| `echo '""'`       | :x:               |
 | `echo "''"`			| `echo "''"`       | :x:               |
 
-<sup>*</sup> [:book: Readable Input String](#readable-input-strings)
+<sup>*</sup> [:book:Readable Input String](#readable-input-strings)
 
 </details>
 
-:bulb: Refer to the section [:book: Shift Separators](#shift-separators) for a better understanding of the marked input string.\
+:bulb: Refer to the section [:book:Shift Separators](#shift-separators) for a better understanding of the marked input string.\
 :bulb: Refer to the section [Readble Input String](#readable-input-string) for a better understanding of the marked input string.\
-:bulb: Activate the [:book: info mode](#info-mode) to see all input string states during runtime
+:bulb: Activate the [:book:info mode](#info-mode) to see all input string states during runtime
 
 ---
 
@@ -1648,7 +1648,7 @@ Those are the characters which we consider as seperating characters:
 | `echo """" > file`		| `echo E___ > file`		| `echo_E____O_file`		|
 | `echo "" "" "'hi" \| wc`	| `echo E_ E_ "'hi" \| wc`	| `echo_E__E__D'hiD_P_wc`	|
 
-<sup>*</sup> [:book: Readable Input String](#readable-input-strings)\
+<sup>*</sup> [:book:Readable Input String](#readable-input-strings)\
 <sup>**</sup> No empty quotes, so the same then inp_trim.
 
 </details>
@@ -1661,11 +1661,11 @@ Those are the characters which we consider as seperating characters:
 	Variable Expansion
 </h4>
 
-The [:book: environment variable](#environment-variables) expansion works similar like in [:link: bash][url-bash].
+The [:book:environment variable](#environment-variables) expansion works similar like in [:link:bash][url-bash].
 
-- Variable Expansion happens if the variable is **not** inside single [:book: quotes](#quotes).
-- Whitespaces inside the variable value will be marked as `NO_SPACE` characters ([:book:](#removal-of-whitespaces-of-expanded-variable-values)). Therefore the [:book: tokenizer](#tokenizing) can make multiple tokens out of it.
-- If the variable is part of the [:book: heredoc limiter](#extract-limiter) it won't be expanded! (e.g. `<< $USER cat`)
+- Variable Expansion happens if the variable is **not** inside single [:book:quotes](#quotes).
+- Whitespaces inside the variable value will be marked as `NO_SPACE` characters ([:book:](#removal-of-whitespaces-of-expanded-variable-values)). Therefore the [:book:tokenizer](#tokenizing) can make multiple tokens out of it.
+- If the variable is part of the [:book:heredoc limiter](#extract-limiter) it won't be expanded! (e.g. `<< $USER cat`)
 
 :bulb:  Activate the [info mode](#info-mode) to see the expanded input string states during runtime.
 
@@ -1691,9 +1691,9 @@ The [:book: environment variable](#environment-variables) expansion works simila
 | `echo $1HOME`			| :x:									| :x:				| first char of false key gets swallowed					| `HOME` 					|
 | `$`					| :x:									| :x:				| no key 													| `$: command not found`	|
 | `echo $ hi`			| :x:									| :x:				| no key 													| `$ hi`	 				|
-| `$?`					| :negative_squared_cross_mark:			| :white_check_mark:| [:book: exit status](#exit-status) of the last command 	| `42: command not found`	|
-| `echo $?`				| :negative_squared_cross_mark:			| :white_check_mark:| [:book: exit status](#exit-status) of the last command 	| `42`						|	
-| `echo $??`			| :negative_squared_cross_mark:			| :white_check_mark:| [:book: exit status](#exit-status) of the last command 	| `42?`						|	
+| `$?`					| :negative_squared_cross_mark:			| :white_check_mark:| [:book:exit status](#exit-status) of the last command 	| `42: command not found`	|
+| `echo $?`				| :negative_squared_cross_mark:			| :white_check_mark:| [:book:exit status](#exit-status) of the last command 	| `42`						|	
+| `echo $??`			| :negative_squared_cross_mark:			| :white_check_mark:| [:book:exit status](#exit-status) of the last command 	| `42?`						|	
 | `echo $"USER"`		| :x:									| :x:				| the `"` block the key; <br> contextual quotes get removed	| `USER` 					|
 | `echo "foo $'BAR'"`	| :x:									| :x:				| the `'` block the key; <br> contextual quotes get removed	| `foo $'BAR'` 				|
 | `echo 'foo $"BAR"'`	| N/A									| :x:				| inside contextual quotes `'` -> no expansion				| `foo $"BAR"` 				|
@@ -1707,7 +1707,7 @@ The [:book: environment variable](#environment-variables) expansion works simila
 
 #### Removal Of Whitespaces Of Expanded Variable Values
 
-If there are whitespaces in the expanded Variable they will be marked as `NO_SPACE` characters. Therefore the tokenizer will make multiple tokens out of it. Quote Protection of whitespaces is not supported inside a variable. (like in [:link: bash][url-bash]).
+If there are whitespaces in the expanded Variable they will be marked as `NO_SPACE` characters. Therefore the tokenizer will make multiple tokens out of it. Quote Protection of whitespaces is not supported inside a variable. (like in [:link:bash][url-bash]).
 
 <details>
   <summary>✏️ Examples</summary>
@@ -1741,7 +1741,7 @@ The variable expansion for a heredoc limiter is a special case. Variable Expensi
 | `<< $"FOO"$"BAR" cat` | `"FOO""BAR"`  |   twice: <br> `$` is followed by contextual quotes; <br> the `$` will be removed  | `FOOBAR`    | :x:                                       |
 
 <sup>1</sup> The contextual quotes will be removed by the [heredoc](#setup-heredoc) function.\
-<sup>2</sup> Different topic: Refer to the section [:book: heredoc](#setup-heredoc) for the variable expansion **inside a heredoc**.
+<sup>2</sup> Different topic: Refer to the section [:book:heredoc](#setup-heredoc) for the variable expansion **inside a heredoc**.
 
 </details>
 
@@ -1758,7 +1758,7 @@ The variable expansion for a heredoc limiter is a special case. Variable Expensi
 	Tokenizing
 </h3>
 
-The [:book: expanded](#variable-expansion) input string will be tokenized. This means that the input string will be split into tokens. Each token will be marked with a type. The following token types exist:
+The [:book:expanded](#variable-expansion) input string will be tokenized. This means that the input string will be split into tokens. Each token will be marked with a type. The following token types exist:
 ```
 enum e_token_type
 {
@@ -1799,7 +1799,7 @@ To generate the tokens first the input string will be splited into an array. The
 
 </details>
 
-:bulb: Activate the [:book: info mode](#info-mode) to see the token list during runtime
+:bulb: Activate the [:book:info mode](#info-mode) to see the token list during runtime
 
 ---
 
@@ -1809,7 +1809,7 @@ To generate the tokens first the input string will be splited into an array. The
 	Parsing
 </h3>
 
-After [:book: tokienizing](#tokenizing) the input string, the tokens will be parsed into an AST. If the AST couldn't be build the input contains an syntax error (e.g. `ls | | wc`). If an vaild AST could be built it will be used for the [:book: execution](#executing).
+After [:book:tokienizing](#tokenizing) the input string, the tokens will be parsed into an AST. If the AST couldn't be build the input contains an syntax error (e.g. `ls | | wc`). If an vaild AST could be built it will be used for the [:book:execution](#executing).
 
 Each node of the ast tree is an instance of the `t_ast` struct. It therefore has a type, a content and a two pointers to it's left and right child node.
 
@@ -1877,7 +1877,7 @@ frankenshell: syntax error near unexpected token `newline'
 frankenshell: syntax error near unexpected token `foo'
 ```
 
-:bulb: The boolean `syntax_err_encountered` in the [:book: t_mbox](#t_mbox) struct makes sure, that even if there are multiple errors, only the first error will be printed (like bash does).
+:bulb: The boolean `syntax_err_encountered` in the [:book:t_mbox](#t_mbox) struct makes sure, that even if there are multiple errors, only the first error will be printed (like bash does).
 
 
 
@@ -1889,28 +1889,28 @@ frankenshell: syntax error near unexpected token `foo'
 	Executing
 </h3>
 
-The execution of the ast is handled by the file [:computer: execute_ast.c](../src/2_cycle/5_execute_ast.c). 
+The execution of the ast is handled by the file [:computer:execute_ast.c](../src/2_cycle/5_execute_ast.c). 
 
 **The execution may contain the following steps. Checkout those sections for more details about the execution steps:**
-- [:book: setup command](#setup-command)
-- [:book: setup redirections](#setup-redirections)
-- [:book: setup heredoc](#setup-heredoc)
-- [:book: run command](#run-command)
+- [:book:setup command](#setup-command)
+- [:book:setup redirections](#setup-redirections)
+- [:book:setup heredoc](#setup-heredoc)
+- [:book:run command](#run-command)
 
 
 **Note**
-- Before the execution starts a vaild ast must be created. ([:book: Parsing](#parsing))
+- Before the execution starts a vaild ast must be created. ([:book:Parsing](#parsing))
 	- If the ast couldn't be created the execution will be skipped.
 - The executor traverses the ast tree always from **left to right**.
 	- This ensures that pipes and redirections will always be setup before any command is executed.
 - All commands are executed in a child process.
 	- Exception: Single Builtin cmds
 - Pipes (`|`) allow the output of one command to be used as input for another, enabling command chaining.
-	- Note: Redirections to pipes might be overwritten by [:book: redirections](#setup-redirections) to files / [:book: heredoc](#setup-heredoc).
+	- Note: Redirections to pipes might be overwritten by [:book:redirections](#setup-redirections) to files / [:book:heredoc](#setup-heredoc).
 - All childs will be spawn right after each other (so before the previous child terminates).
 	- Exception Heredoc: Before spawning a child process the parent process checks if the child includes a heredoc. In this case it waits until the child is finished. (like bash)
 - The parent process waits (because of the open pipe fd) until the child process is finished.
-- The parent waits for all childs to finish before it continues with the next cycle. Each time a child process is finished, the parent process updates the [:book: exit status](#exit-status) of the terminated child process.
+- The parent waits for all childs to finish before it continues with the next cycle. Each time a child process is finished, the parent process updates the [:book:exit status](#exit-status) of the terminated child process.
 
 <br>
 
@@ -1925,7 +1925,7 @@ The execution of the ast is handled by the file [:computer: execute_ast.c](../sr
 	Setup Command
 </h4>
 
-Here the command will be setup. This means that a pipe<sup>*</sup> and a fork command will be executed. The child process will then [:book: setup the redirections](#setup-redirections) and [:book: run the command](#run-command).
+Here the command will be setup. This means that a pipe<sup>*</sup> and a fork command will be executed. The child process will then [:book:setup the redirections](#setup-redirections) and [:book:run the command](#run-command).
 
 <sup>*</sup> Exception: 'Single' or 'Last' Commands don't need a pipe!
 
@@ -1981,10 +1981,10 @@ The heredoc redirection allows inputing multiple lines until a termination strin
 
 <sup>1</sup> ```frankenshell: warning: frankendoc at line 1 delimited by end-of-file (wanted `foo')```\
 <sup>2</sup> Checked via the global variable: `g_signal_status == SIGNAL_EXIT_HD`\
-<sup>3</sup> Like in bash: The expansion is not supposed to work if the limiter contains contextual quotes! Therefore the [:book:  extract limiter](#extract-limiter) part of the [:book: variable expansion](#variable-expansion) obtains `'`,`"` and `$` characters.\
+<sup>3</sup> Like in bash: The expansion is not supposed to work if the limiter contains contextual quotes! Therefore the [:book:extract limiter](#extract-limiter) part of the [:book:variable expansion](#variable-expansion) obtains `'`,`"` and `$` characters.\
 <sup>4</sup> The heredoc can't be terminated if the expanded input matches the limiter! (first check matching limiter, then expand variable)
 
-**The [:link: BPMN diagram](https://demo.bpmn.io/new) below shows the heredoc execution logic:**
+**The [:link:BPMN diagram](https://demo.bpmn.io/new) below shows the heredoc execution logic:**
 <img src="../images/BPMN/setup_hd.svg" alt="execution logic" width="1000">
 
 ---
@@ -1997,11 +1997,11 @@ The heredoc redirection allows inputing multiple lines until a termination strin
 
 Since until now everything is already setup, the command can be executed.
 
-[:book: Builtin commands](#builtin-commands) just need to call the function pointer.
+[:book:Builtin commands](#builtin-commands) just need to call the function pointer.
 
-External / System commands need to be executed via `execve`. Therefore the command path is searched in the [:book: environment variables](#environment-variables). If the command is not found, the [:book: exit status](#exit-status) will be set to `127` and an error message will be printed. To call `execve` the command arguments and the enviomental variables need to be converted into an array of strings.
+External / System commands need to be executed via `execve`. Therefore the command path is searched in the [:book:environment variables](#environment-variables). If the command is not found, the [:book:exit status](#exit-status) will be set to `127` and an error message will be printed. To call `execve` the command arguments and the enviomental variables need to be converted into an array of strings.
 
-**The [:link: BPMN diagram](https://demo.bpmn.io/new) below shows the execution logic for running an command:**
+**The [:link:BPMN diagram](https://demo.bpmn.io/new) below shows the execution logic for running an command:**
 <img src="../images/BPMN/run_cmd_main.svg" alt="execution logic" width="1000">
 
 ---
@@ -2012,7 +2012,7 @@ External / System commands need to be executed via `execve`. Therefore the comma
 	Cleanup Cycle
 </h3>
 
-After (successful or not) [:book: executing](#executing) the ast, all cycle realted variables will be freed. This includes:
+After (successful or not) [:book:executing](#executing) the ast, all cycle realted variables will be freed. This includes:
 - input strings
 - tokens
 - ast
@@ -2027,9 +2027,9 @@ Also all open filedescriptors will be closed.
 	Termination
 </h2>
 
-All cycle realted variables will be freed on the end of each [:book: each cycle](#cleanup-cycle). Therfore on termination of frankenshell only those variables (linked lists) need to be freed:
-- [:book: history (builtin)](#history-builtin)
-- [:book: environment variables](#environment-variables)
+All cycle realted variables will be freed on the end of each [:book:each cycle](#cleanup-cycle). Therfore on termination of frankenshell only those variables (linked lists) need to be freed:
+- [:book:history (builtin)](#history-builtin)
+- [:book:environment variables](#environment-variables)
 
 
 <br><h1 id="known-bugs">
