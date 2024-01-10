@@ -804,7 +804,7 @@ The builtin `42` displays a 42 logo to `STDOUT` (or its redirection).
 | Number of Arguments   | `0 to n` (all args will be ignored)   	|
 | Exit Status           | `0`				           				|
 | Affected Variables    | `[NONE]`			           				|
-| File				    | [`42.c`](../src/4_builtins/42.c)			|
+| File				    | [:computer:`42.c`](../src/4_builtins/42.c)			|
 
 </details>
 
@@ -871,7 +871,7 @@ The builtin `cd` runs a few checks to ensure the provided path is valid. Once it
 | Argument Format	   	| absolute or relative path	   	|
 | Exit Status           | `0` `1`			           	|
 | Affected Variables    | `HOME` `OLDPWD` `PWD`        	|
-| File				    | [`cd.c`](../src/4_builtins/cd.c)|
+| File				    | [:computer:`cd.c`](../src/4_builtins/cd.c)|
 
 
 </details>
@@ -931,7 +931,7 @@ The builtin `echo` outputs the strings it is given as arguments, seperated by on
 | Argument Format	   	| all ASCII chars allowed		|
 | Exit Status           | `0`				           	|
 | Affected Variables    | `[NONE]`			       		|
-| File				    | [`echo.c`](../src/4_builtins/echo.c)	|
+| File				    | [:computer:`echo.c`](../src/4_builtins/echo.c)	|
 
 
 </details>
@@ -985,7 +985,7 @@ The builtin `env` outputs all variable key-value pairs of the linked list like `
 | Number of Arguments   | `0`						  	|
 | Exit Status           | `0` `127`			           	|
 | Affected Variables    | `[all]`			       		|
-| File				    | [`env.c`](../src/4_builtins/env.c) |
+| File				    | [:computer:`env.c`](../src/4_builtins/env.c) |
 
 </details>
 
@@ -1038,7 +1038,7 @@ The builtin `exit` terminates the calling process, outputs `exit` to `STDERR` an
 | Argument Format	   	| numeric [max long long]	   	|
 | Exit Status           | `0` - `255`		           	|
 | Affected Variables    | `[NONE]`			           	|
-| File				    | [`exit.c`](../src/4_builtins/exit.c) |
+| File				    | [:computer:`exit.c`](../src/4_builtins/exit.c) |
 
 
 </details>
@@ -1100,7 +1100,7 @@ The builtin `export` updates (or creates) the enviromental variables inputed as 
 | Argument Format	   	| `key=value`					|
 | Exit Status           | `0` `1`			           	|
 | Affected Variables    | `[key]`			       		|
-| Files				    | [`export.c`](../src/4_builtins/export.c) <br> [`export_utils.c`](../src/4_builtins/export_utils.c) |
+| Files				    | [:computer:`export.c`](../src/4_builtins/export.c) <br> [:computer:`export_utils.c`](../src/4_builtins/export_utils.c) |
 
 
 </details>
@@ -1155,7 +1155,7 @@ The builtin `help` displays the documentation page on github.
 | Flags                 | `N/A`		                 	                |
 | Number of Arguments   | `0 to n` (all args will be ignored)           |
 | Exit Status           | `N/A`			           		                |
-| File				    | [`help.c`](../src/4_builtins/help.c)          |
+| File				    | [:computer:`help.c`](../src/4_builtins/help.c)          |
 
 </details>
 
@@ -1204,7 +1204,7 @@ The builtin `history` outputs all previous user input in a numbered list to `STD
 | Flags                 | `N/A`		                 	|
 | Number of Arguments   | `0 to n` (all args will be ignored) |
 | Exit Status           | `0`			           		|
-| File				    | [`history.c`](../src/4_builtins/history.c) |
+| File				    | [:computer:`history.c`](../src/4_builtins/history.c) |
 
 </details>
 
@@ -1256,7 +1256,7 @@ The builtin `infomode` toggles the info mode feature.
 | Flags                 | `N/A`		                 	                |
 | Number of Arguments   | `0 to n` (all args will be ignored)           |
 | Exit Status           | `0`			           		                |
-| File				    | [`infomode.c`](../src/4_builtins/infomode.c)  |
+| File				    | [:computer:`infomode.c`](../src/4_builtins/infomode.c)  |
 
 </details>
 
@@ -1306,7 +1306,7 @@ The builtin `pwd` outputs the current wd using the external function `getcwd`. L
 | Number of Arguments   | `0 to n` (all args will be ignored)   	|
 | Exit Status           | `0`				           				|
 | Affected Variables    | `[NONE]`			           				|
-| File				    | [`pwd.c`](../src/4_builtins/pwd.c)		|
+| File				    | [:computer:`pwd.c`](../src/4_builtins/pwd.c)		|
 
 
 </details>
@@ -1360,7 +1360,7 @@ The builtin `unset` deletes the corresponding variables.
 | Argument Format	   	| `key`										|
 | Exit Status           | `0`				           				|
 | Affected Variables    | `[key]`			           				|
-| File				    | [`unset.c`](../src/4_builtins/unset.c)	|
+| File				    | [:computer:`unset.c`](../src/4_builtins/unset.c)	|
 
 </details>
 
