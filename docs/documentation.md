@@ -1429,7 +1429,7 @@ Storing the exit status in the enviroment variables linked list simplifies the v
 Each time a fork is happening all existing processes will be set to a specific `signal status` via the function `conf_sig_handler` in [:computer:signals.c](../src/1_core/5_signals.c). This `signal status` will
 be used to determine which signal handling should be used in the regarding process. On [:book:programm start](#initialization) the `signal status` will be set to `SIG_STATE_MAIN`.
 
-**The following Signals are being treaded in frankenshell:**
+**The following Signals are being treated in frankenshell:**
 | Shortcut | Signal Name | Description 						|
 |:--------:|:-----------:|-------------						|
 | `CTRL + C` | SIGINT      | Interrupt signal					|
@@ -1438,7 +1438,7 @@ be used to determine which signal handling should be used in the regarding proce
 
 <br>
 
-**The following chart shows how the `signal status` is set for each process, explained on an example:**
+**The following chart shows how the `signal status` is set for each process (explained on an example):**
 <img src="../images/BPMN/bpmn-signals.svg" alt="signal logic" width="1000">
 
 <br>
@@ -1474,14 +1474,16 @@ The main tasks of frankenshell can be grouped into those steps:
 </h2>
 
 On startup the program will initialize the [:book:`t_mbox`](#t_mbox) struct. This struct contains all the information needed for the program to work. It is passed as an argument to most of the functions.\
-The following steps are executed during initialization:
+
+**The following steps are executed during initialization:**
 - creating a linked list for the [:book:environment variables](#environment-variables)
 - creating an array for the [:book:builtin commands](#builtin-commands) to connect the command name with the function pointer
 - seting the  [:book:signal status](#signals) to `SIG_STATE_MAIN`
 - setting the [:book:exit status](#exit-status) to `0`
 - setting the [:book:info mode](#info-mode) to `false` (or `true` if the argument `-i`, `--info` is provided)
 - initializing all other filedescriptors and variables to `-1`, `0` or `NULL`
-- displaying the promt and start reading the input
+- displaying the promt `frankenshell--> `
+- starting to read the input
 
 ---
 
@@ -1517,7 +1519,7 @@ The following steps are executed during initialization:
 | [:book:Shift Separators](#shift-separators) 		| `echo_DHelloD_$USER_E__S!S_P_wc____-l`                |
 | [:book:Variable Expansion](#variable-expansion) 	| `echo_DHelloD_astein_E__S!S_P_wc____-l`               |
 
-<sup>*</sup>The [:book:readable input string](#readable-input-string) characters are displayed!
+<sup>*</sup>The [:book:readable input string](#readable-input-strings) characters are displayed!
 
 #### Readable Input Strings
 
@@ -1544,7 +1546,7 @@ Special Characers will be [:book:shifted](#shift-separators) to negative ASCII v
 
 First step is to trim the input. This means that all leading and trailing whitespaces are removed.
 
-:bulb:  Activate the [info mode](#info-mode) to see all input string states during runtime
+:bulb:  Activate the [:book:info mode](#info-mode) to see all input string states during runtime
 
 ---
 
@@ -1554,13 +1556,11 @@ First step is to trim the input. This means that all leading and trailing whites
 	Mark Empty Quotes
 </h4>
 
----
-
 ##### Quote State
 
 If somwehre in frankenshell we loop through an input string, sometimes we need to know if we are inside or outside of contextual quotes. The quote state function updates the `quote_state` variable to the current state of the quotes. While traversing the input string, the `quote state` will be updated for each character. If the current character is inside a quote, the `quote state` will be set to the matching quote. If the current character is outside of a quote, the `quote state` will be set to `OUT_Q`.
 
-**LOGIC:**
+**Logic:**
 ```
 if quote_state is OUT_Q (the cur_char is outside of contextual quotes)
 	if cur_char is a quote
@@ -1618,7 +1618,7 @@ Empty quotes will be marked as `EMPTY_TOKEN` and `NO_SPACE` characters.
 </details>
 
 :bulb: Refer to the section [:book:Shift Separators](#shift-separators) for a better understanding of the marked input string.\
-:bulb: Refer to the section [Readble Input String](#readable-input-string) for a better understanding of the marked input string.\
+:bulb: Refer to the section [:book:Readble Input String](#readable-input-string) for a better understanding of the marked input string.\
 :bulb: Activate the [:book:info mode](#info-mode) to see all input string states during runtime
 
 ---
@@ -1667,7 +1667,7 @@ The [:book:environment variable](#environment-variables) expansion works similar
 - Whitespaces inside the variable value will be marked as `NO_SPACE` characters ([:book:](#removal-of-whitespaces-of-expanded-variable-values)). Therefore the [:book:tokenizer](#tokenizing) can make multiple tokens out of it.
 - If the variable is part of the [:book:heredoc limiter](#extract-limiter) it won't be expanded! (e.g. `<< $USER cat`)
 
-:bulb:  Activate the [info mode](#info-mode) to see the expanded input string states during runtime.
+:bulb:  Activate the [:book:info mode](#info-mode) to see the expanded input string states during runtime.
 
 <details>
   <summary>✏️ Examples</summary>
@@ -1677,7 +1677,7 @@ The [:book:environment variable](#environment-variables) expansion works similar
 | `echo $USER`		| :white_check_mark:	| :white_check_mark:	| `astein`				      								|
 | `echo "$USER"`    | :white_check_mark:	| :white_check_mark:	| `astein`				      								|
 | `echo '$USER'`    | :white_check_mark:	| :x:	        		| `$USER`                   								|
-| `<< $USER cat`    | N/A		 			| :x:	        		| Won't expand, so the `EOF` of the [heredoc](#heredoc) will be `$USER` 	|
+| `<< $USER cat`    | N/A		 			| :x:	        		| Won't expand, so the `EOF` of the [:book:heredoc](#setup-heredoc) will be `$USER` 	|
 
 </details>
 
@@ -1740,7 +1740,7 @@ The variable expansion for a heredoc limiter is a special case. Variable Expensi
 | `<< $"FOO" cat`       | `"FOO"`       |   `$` is followed by contextual `"`; <br> the `$` will be removed                 | `FOO`       | :x:                                       |
 | `<< $"FOO"$"BAR" cat` | `"FOO""BAR"`  |   twice: <br> `$` is followed by contextual quotes; <br> the `$` will be removed  | `FOOBAR`    | :x:                                       |
 
-<sup>1</sup> The contextual quotes will be removed by the [heredoc](#setup-heredoc) function.\
+<sup>1</sup> The contextual quotes will be removed by the [:book:heredoc](#setup-heredoc) function.\
 <sup>2</sup> Different topic: Refer to the section [:book:heredoc](#setup-heredoc) for the variable expansion **inside a heredoc**.
 
 </details>
@@ -1864,7 +1864,7 @@ Each node of the ast tree is an instance of the `t_ast` struct. It therefore has
 **The following ast is visualiszed in a tree-like structure (left to right):**
 ![Example][mindmap-ast-png]
 
-:bulb: Activate the [info mode](#info-mode) to see the ast tree during runtime
+:bulb: Activate the [:book:info mode](#info-mode) to see the ast tree during runtime
 
 
 **Possible syntax errors could be:**
@@ -1914,7 +1914,7 @@ The execution of the ast is handled by the file [:computer:execute_ast.c](../src
 
 <br>
 
-**The [BPMN diagram](https://demo.bpmn.io/new) below shows the main execution logic:**
+**The [:link:BPMN diagram](https://demo.bpmn.io/new) below shows the main execution logic:**
 <img src="../images/BPMN/bpmn-execute_ast.svg" alt="execution logic" width="1000">
 
 ---
@@ -1929,7 +1929,7 @@ Here the command will be setup. This means that a pipe<sup>*</sup> and a fork co
 
 <sup>*</sup> Exception: 'Single' or 'Last' Commands don't need a pipe!
 
-**The [BPMN diagram](https://demo.bpmn.io/new) below shows the execution logic for seting up the commands:**
+**The [:link:BPMN diagram](https://demo.bpmn.io/new) below shows the execution logic for seting up the commands:**
 <img src="../images/BPMN/setup_cmd.svg" alt="execution logic" width="1000">
 
 ---
@@ -1958,7 +1958,7 @@ $ < file_not_exists < file_not_exists_2 cat
 bash: file_not_exists: No such file or directory
 ```
 
-**The [BPMN diagram](https://demo.bpmn.io/new) below shows the execution logic for seting up the redirections:**
+**The [:link:BPMN diagram](https://demo.bpmn.io/new) below shows the execution logic for seting up the redirections:**
 <img src="../images/BPMN/setup_redirs.svg" alt="execution logic" width="1000">
 
 ---
