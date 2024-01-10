@@ -104,13 +104,13 @@ As ChatGPT said in 2023:
 </h1>
 
 ```
-	$ git clone https://github.com/ahokcool/frankenshell.git	# Clone
-	$ cd frankenshell											# Change directory
-	$ make														# Compile
-	$ ./frankenshell [OPTIONS]									# Run (Option: --info)
-	$ echo "Let's goooooo!"										# Use
-		Let's goooooo!
-	$ exit														# Exit
+$ git clone https://github.com/ahokcool/frankenshell.git  # Clone
+$ cd frankenshell                                         # Change directory
+$ make                                                    # Compile
+$ ./frankenshell [OPTIONS]                                # Run (Option: --info)
+$ echo "Let's goooooo!"                                   # Use
+	Let's goooooo!
+$ exit                                                    # Exit
 ```
 
 :bulb: `make stats` provides you with some information about the files and the number of functions.

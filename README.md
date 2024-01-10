@@ -42,19 +42,19 @@ As ChatGPT said in 2023:
 <!-- INSTALLATION -->
 ## Installation
 ```
-	$ git clone https://github.com/ahokcool/frankenshell.git	# Clone
-	$ cd frankenshell											# Change directory
-	$ make														# Compile
-	$ ./frankenshell [OPTIONS]									# Run (Option: --info)
-	$ echo "Let's goooooo!"										# Use
-		Let's goooooo!
-	$ exit														# Exit
+$ git clone https://github.com/ahokcool/frankenshell.git  # Clone
+$ cd frankenshell                                         # Change directory
+$ make                                                    # Compile
+$ ./frankenshell [OPTIONS]                                # Run (Option: --info)
+$ echo "Let's goooooo!"                                   # Use
+	Let's goooooo!
+$ exit                                                    # Exit
 ```
 
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-**frankenshell** is designed to mimic the behavior of the traditional [**bash shell**][url-bash]. So feel free to use it like bash.
+**frankenshell** is designed to mimic the behavior of the traditional [:link: **bash shell**][url-bash]. So feel free to use it like bash.
 
 [![Example][example-gif]][link-docs]
 
@@ -66,6 +66,10 @@ Thx to all those guys and gals for hints, tipps and feedback!
 [@Martim](https://github.com/mm1212)\
 [@Margarida](https://github.com/MariaAguiar)\
 [@Manuel](https://github.com/manuel-aguiar)
+
+---
+
+<a href="./docs/documentation.md"><strong>»»» Explore the Documentation!</strong></a>
 
 ---
 
