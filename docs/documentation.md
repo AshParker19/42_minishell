@@ -1246,7 +1246,7 @@ The builtin `history` outputs all previous user input in a numbered list to `STD
 
 The builtin `infomode` toggles the info mode feature.
 
-:bulb: Refer to the section [Info mode](#info-mode) for more details about the info mode.
+:bulb: Refer to the section [:book:Info mode](#info-mode) for more details about the info mode.
 
 <details>
   <summary>Attributes</summary>
@@ -1412,7 +1412,7 @@ The exit status will be updated in the following cases:
 
 Storing the exit status in the enviroment variables linked list simplifies the variable expansion of `$?`. `$?` always expands to the current exit status. 
 
-:bulb: Anyhow if the linked list is used for `execve`, `env` or `export` the `?` node will be ignored.
+:bulb: Anyhow, if the linked list is used for `execve`, `env` or `export` the `?` node will be ignored.
 
 
  
@@ -1429,7 +1429,7 @@ Storing the exit status in the enviroment variables linked list simplifies the v
 Each time a fork is happening all existing processes will be set to a specific `signal status` via the function `conf_sig_handler` in [:computer:signals.c](../src/1_core/5_signals.c). This `signal status` will
 be used to determine which signal handling should be used in the regarding process. On [:book:programm start](#initialization) the `signal status` will be set to `SIG_STATE_MAIN`.
 
-**The following Signals are being treated in frankenshell:**
+**The following Signals are treated in frankenshell:**
 | Shortcut | Signal Name | Description 						|
 |:--------:|:-----------:|-------------						|
 | `CTRL + C` | SIGINT      | Interrupt signal					|
@@ -1460,7 +1460,7 @@ be used to determine which signal handling should be used in the regarding proce
 
 The main tasks of frankenshell can be grouped into those steps:
 - [:book:Initialization](#initialization)
-- [:book:Processing a Cycle](#processing-a-cycle) (loop until `exit` is called)
+- [:book:Processing Cycles](#processing-a-cycle) (loop until `exit` is called)
 - [:book:Termination](#termination)
 
 :bulb: Below you can find a detailed description of each step.
@@ -1473,7 +1473,7 @@ The main tasks of frankenshell can be grouped into those steps:
 	Initialization
 </h2>
 
-On startup the program will initialize the [:book:`t_mbox`](#t_mbox) struct. This struct contains all the information needed for the program to work. It is passed as an argument to most of the functions.\
+On startup the program will initialize the [:book:`t_mbox`](#t_mbox) struct. This struct contains all the information needed for the program to work. It is passed as an argument to most of the functions.
 
 **The following steps are executed during initialization:**
 - creating a linked list for the [:book:environment variables](#environment-variables)
@@ -1494,7 +1494,7 @@ On startup the program will initialize the [:book:`t_mbox`](#t_mbox) struct. Thi
 	<a href="../src/1_core/2_cycle.c">💻</a>
 </h2>
 
-**All the following steps are executed for each cycle.**
+**All the following steps are executed for each cycle:**
 - [:book:String Management](#string-management)
 - [:book:Tokenizing](#tokenizing)
 - [:book:Parsing](#parsing)
@@ -1590,7 +1590,7 @@ Marked String:	echo DHello 'asteinD, Show are you?S
 Bash generates an empty token for a pair of empty contextual quotes if the two conditions are met:
 - the empty quotes are not inside another pair of quotes\
 (refer to `OUT_Q` as the [:book:quote state](#quote-state))
-- the empty quotes are surrounded by at least one whitespace character (or the beginning/end of the string) before and after 
+- the empty quotes are surrounded by at least one whitespace character (on the beginning AND on the end of the string)
 
 Empty quotes will be marked as `EMPTY_TOKEN` and `NO_SPACE` characters.
 ```
@@ -1809,7 +1809,7 @@ To generate the tokens first the input string will be splited into an array. The
 	Parsing
 </h3>
 
-After [:book:tokienizing](#tokenizing) the input string, the tokens will be parsed into an AST. If the AST couldn't be build the input contains an syntax error (e.g. `ls | | wc`). If an vaild AST could be built it will be used for the [:book:execution](#executing).
+After [:book:tokienizing](#tokenizing) the input string, the tokens will be parsed into an AST. If the AST couldn't be build the input contains an syntax error (e.g. `ls | | wc`). If a vaild AST could be built, it will be used for the [:book:execution](#executing).
 
 Each node of the ast tree is an instance of the `t_ast` struct. It therefore has a type, a content and a two pointers to it's left and right child node.
 
@@ -1909,7 +1909,7 @@ The execution of the ast is handled by the file [:computer:execute_ast.c](../src
 	- Note: Redirections to pipes might be overwritten by [:book:redirections](#setup-redirections) to files / [:book:heredoc](#setup-heredoc).
 - All childs will be spawn right after each other (so before the previous child terminates).
 	- Exception Heredoc: Before spawning a child process the parent process checks if the child includes a heredoc. In this case it waits until the child is finished. (like bash)
-- The parent process waits (because of the open pipe fd) until the child process is finished.
+- The next child process waits (because of the open pipe fd) until the previous child process is finished.
 - The parent waits for all childs to finish before it continues with the next cycle. Each time a child process is finished, the parent process updates the [:book:exit status](#exit-status) of the terminated child process.
 
 <br>
@@ -1925,9 +1925,10 @@ The execution of the ast is handled by the file [:computer:execute_ast.c](../src
 	Setup Command
 </h4>
 
-Here the command will be setup. This means that a pipe<sup>*</sup> and a fork command will be executed. The child process will then [:book:setup the redirections](#setup-redirections) and [:book:run the command](#run-command).
+Here the command will be setup. This means that a pipe<sup>*</sup> and a fork command will be executed.\
+ The child process will then [:book:setup the redirections](#setup-redirections) and [:book:run the command](#run-command).
 
-<sup>*</sup> Exception: 'Single' or 'Last' Commands don't need a pipe!
+<sup>*</sup> **Exception:** `Single` or `Last` Commands don't need a pipe!
 
 **The [:link:BPMN diagram](https://demo.bpmn.io/new) below shows the execution logic for seting up the commands:**
 <img src="../images/BPMN/setup_cmd.svg" alt="execution logic" width="1000">
