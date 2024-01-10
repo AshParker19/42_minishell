@@ -22,9 +22,10 @@ Date: 2024-01-10
 
 **Legend**
 
- :book:						Link to another section						<br>
  :top:						Link to top of the page / table of content	<br>	
+ :link:						Link to external website					<br>
  :arrow_backward:			Link to parent section						<br>
+ :book:						Link to another section						<br>
  :computer:		 			Link to related.c file						<br>
  :page_facing_up: 			Link to related.h file						<br>
  :bulb:	 					Hint										<br>
@@ -67,12 +68,14 @@ Date: 2024-01-10
 1. [Exit Status](#exit-status)
 1. [Signals](#signals)
 1. [How Frankenshell Operates](#how-frankenshell-operates)
-   1. [Initialization](#initialization)
-    1. [Processing a cycle](#processing-a-cycle)
-		1. [Trim Input](#trim-input),
-		[Mark Empty Quotes](#mark-empty-quotes),
-		[Shift Separators](#shift-separators),
-		[Variable Expansion](#variable-expansion)
+	1. [Initialization](#initialization)
+	1. [Processing a cycle](#processing-a-cycle)
+		1. [String Management](#string-management)
+			1. [Trim Input](#trim-input)
+			1. [Mark Empty Quotes](#mark-empty-quotes)
+				[[Quote State](#quote-state)]
+			1. [Shift Separators](#shift-separators)
+			1. [Variable Expansion](#variable-expansion)
 		1. [Tokenizing](#tokenizing)
 		1. [Parsing](#parsing)
        	1. [Executing](#executing)
@@ -80,7 +83,8 @@ Date: 2024-01-10
 			1. [Setup Redirections](#setup-redirections)
 			1. [Setup Heredoc](#setup-heredoc)
 			1. [Run Command](#run-command)
-   1. [Termination](#termination)
+		1. [Cleanup Cycle](#cleanup-cycle)
+	1. [Termination](#termination)
 1. [Known Bugs](#known-bugs)
 1. [Acknowledgments](#acknowledgments)
 
@@ -91,7 +95,7 @@ Date: 2024-01-10
 
 As ChatGPT said in 2023:
 
-> Minishell is a [42 school][url-42] project that aims to create a simplified Unix shell using [bash][url-bash] as a reference. The idea behind Minishell is to develop a basic command-line interface (CLI) that can execute simple commands and handle input/output redirection. It's meant to serve as a learning exercise for students to gain a fundamental understanding of how shells work by implementing core features like parsing user input, managing processes, handling signals, creating builtins and executing system commands.
+> Minishell is a [:link: 42 school][url-42] project that aims to create a simplified Unix shell using [:link: bash][url-bash] as a reference. The idea behind Minishell is to develop a basic command-line interface (CLI) that can execute simple commands and handle input/output redirection. It's meant to serve as a learning exercise for students to gain a fundamental understanding of how shells work by implementing core features like parsing user input, managing processes, handling signals, creating builtins and executing system commands.
 
 <br><h1 id="installation">
 	<a href="#table-of-content">🔝 </a>
@@ -108,14 +112,14 @@ As ChatGPT said in 2023:
 	$ exit														# Exit
 ```
 
-> :bulb: `make stats` provides you with some information about the files and the number of functions.
+:bulb: `make stats` provides you with some information about the files and the number of functions.
 
 <br><h1 id="usage">
 	<a href="#table-of-content">🔝 </a>
 	Usage
 </h1>
 
-**frankenshell** is designed to mimic the behavior of the traditional [**bash shell**][url-bash]. So feel free to use it like bash.
+**frankenshell** is designed to mimic the behavior of the traditional [:link: **bash shell**][url-bash]. So feel free to use it like bash.
 
 ![Example][example-gif]
 
@@ -127,15 +131,391 @@ As ChatGPT said in 2023:
 </h2>
 
 To activate the info mode you can
-- start frankenshell with the flag `--info` or `-i`
+- [:book: start](#initialization) frankenshell with the flag `--info` or `-i`
 - run the [builtin](#builtin-commands) command [infomode](#infomode-builtin)
 
 If the info mode is activated frankenshell will print the following information during runtime.:
 
-- Input String States ([:book: processing a cycle](#processing-a-cycle))
+- Input String States ([:book: String Management](#string-management))<sup>*</sup>
 - Token types and values ([:book: tokenizing](#tokenizing))
 - A visual representation of the ast ([:book: parsing](#parsing))
 
+<sup>*</sup> Also as [:book: readable strings](#readable-input-strings)
+
+<details>
+  <summary>✏️ Example <code>echo "Hello" $USER "" '!' | wc    -l&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code></summary>
+
+<pre>$ ./frankenshell -i
+<font color="#A347BA"> -------------------------------------------------------------------------------- </font>
+<font color="#A347BA">|                              INFO MODE ACTIVATED!                              |</font>
+<font color="#A347BA"> -------------------------------------------------------------------------------- </font>
+<font color="#2AA1B3">frankenshell--&gt; </font>echo &quot;Hello&quot; $USER &quot;&quot; &apos;!&apos; | wc    -l     
+<font color="#FF5F5F"> -------------------------------------------------------------------------------- </font>
+<font color="#FF5F5F">|                                  INPUT STATES                                  |</font>
+<font color="#FF5F5F"> -------------------------------------------------------------------------------- </font>
+<font color="#FF5F5F">original:</font>			<font color="#FF5F5F">(echo &quot;Hello&quot; $USER &quot;&quot; &apos;!&apos; | wc    -l     )</font>
+
+<font color="#FF5F5F">trimmed:</font>			<font color="#FF5F5F">(echo &quot;Hello&quot; $USER &quot;&quot; &apos;!&apos; | wc    -l)</font>
+
+<font color="#FF5F5F">empty quotes:</font>	<font color="#FF5F5F">shifted:</font>	<font color="#FF5F5F">(echo &quot;Hello&quot; $USER �� &apos;!&apos; | wc    -l)</font>
+		<font color="#FF5F5F">readable:</font>	<font color="#FF5F5F">(echo &quot;Hello&quot; $USER E_ &apos;!&apos; | wc    -l)</font>
+
+<font color="#FF5F5F">shifted:</font>	<font color="#FF5F5F">shifted:</font>	<font color="#FF5F5F">(echo��Hello��$USER�����!����wc����-l)</font>
+		<font color="#FF5F5F">readable:</font>	<font color="#FF5F5F">(echo_DHelloD_$USER_E__S!S_P_wc____-l)</font>
+
+<font color="#FF5F5F">expanded:</font>	<font color="#FF5F5F">shifted:</font>	<font color="#FF5F5F">(echo��Hello��astein�����!����wc����-l)</font>
+		<font color="#FF5F5F">readable:</font>	<font color="#FF5F5F">(echo_DHelloD_astein_E__S!S_P_wc____-l)</font>
+<font color="#FF5F5F">==================================================================================</font>
+
+<font color="#A2734C"> -------------------------------------------------------------------------------- </font>
+<font color="#A2734C">|                                   TOKENIZER                                    |</font>
+<font color="#A2734C"> -------------------------------------------------------------------------------- </font>
+<font color="#A2734C">type:(0) </font>	<font color="#A2734C"> token:(echo)</font>
+<font color="#A2734C">type:(0) </font>	<font color="#A2734C"> token:(Hello)</font>
+<font color="#A2734C">type:(0) </font>	<font color="#A2734C"> token:(astein)</font>
+<font color="#A2734C">type:(0) </font>	<font color="#A2734C"> token:()</font>
+<font color="#A2734C">type:(0) </font>	<font color="#A2734C"> token:(!)</font>
+<font color="#A2734C">type:(1) </font>	<font color="#A2734C"> token:(|)</font>
+<font color="#A2734C">type:(0) </font>	<font color="#A2734C"> token:(wc)</font>
+<font color="#A2734C">type:(0) </font>	<font color="#A2734C"> token:(-l)</font>
+<font color="#A2734C">==================================================================================</font>
+
+<font color="#2AA1B3"> -------------------------------------------------------------------------------- </font>
+<font color="#2AA1B3">|                                     PARSER                                     |</font>
+<font color="#2AA1B3"> -------------------------------------------------------------------------------- </font>
+
+<font color="#2AA1B3">              [arg] (-l)</font>
+
+<font color="#2AA1B3">       [cmd] (wc)</font>
+
+<font color="#2AA1B3">[|] (|)</font>
+
+<font color="#2AA1B3">                                   [arg] (!)</font>
+
+<font color="#2AA1B3">                            [arg] ()</font>
+
+<font color="#2AA1B3">                     [arg] (astein)</font>
+
+<font color="#2AA1B3">              [arg] (Hello)</font>
+
+<font color="#2AA1B3">       [cmd] (echo)</font>
+<font color="#2AA1B3">==================================================================================</font>
+
+<font color="#26A269"> -------------------------------------------------------------------------------- </font>
+<font color="#26A269">|                                    EXECUTOR                                    |</font>
+<font color="#26A269">|                                 (cmd count: 2)                                 |</font>
+<font color="#26A269"> -------------------------------------------------------------------------------- </font>
+1
+<font color="#26A269"> -------------------------------------------------------------------------------- </font>
+<font color="#26A269">|                                    EXECUTOR                                    |</font>
+<font color="#26A269">|                              LAST EXIT STATUS: 0                               |</font>
+<font color="#26A269"> -------------------------------------------------------------------------------- </font>
+<font color="#26A269">==================================================================================</font>
+
+<font color="#2AA1B3">frankenshell--&gt; </font>
+
+</pre>
+
+</details>
+
+<details>
+  <summary>✏️ Example <code>ls -l -a</code></summary>
+
+<pre>$ ./frankenshell -i
+<font color="#A347BA"> -------------------------------------------------------------------------------- </font>
+<font color="#A347BA">|                              INFO MODE ACTIVATED!                              |</font>
+<font color="#A347BA"> -------------------------------------------------------------------------------- </font>
+<font color="#2AA1B3">frankenshell--&gt; </font>ls -l -a
+<font color="#FF5F5F"> -------------------------------------------------------------------------------- </font>
+<font color="#FF5F5F">|                                  INPUT STATES                                  |</font>
+<font color="#FF5F5F"> -------------------------------------------------------------------------------- </font>
+<font color="#FF5F5F">original:</font>			<font color="#FF5F5F">(ls -l -a)</font>
+
+<font color="#FF5F5F">trimmed:</font>			<font color="#FF5F5F">(ls -l -a)</font>
+
+<font color="#FF5F5F">empty quotes:</font>	<font color="#FF5F5F">shifted:</font>	<font color="#FF5F5F">(ls -l -a)</font>
+		<font color="#FF5F5F">readable:</font>	<font color="#FF5F5F">(ls -l -a)</font>
+
+<font color="#FF5F5F">shifted:</font>	<font color="#FF5F5F">shifted:</font>	<font color="#FF5F5F">(ls�-l�-a)</font>
+		<font color="#FF5F5F">readable:</font>	<font color="#FF5F5F">(ls_-l_-a)</font>
+
+<font color="#FF5F5F">expanded:</font>	<font color="#FF5F5F">shifted:</font>	<font color="#FF5F5F">(ls�-l�-a)</font>
+		<font color="#FF5F5F">readable:</font>	<font color="#FF5F5F">(ls_-l_-a)</font>
+<font color="#FF5F5F">==================================================================================</font>
+
+<font color="#A2734C"> -------------------------------------------------------------------------------- </font>
+<font color="#A2734C">|                                   TOKENIZER                                    |</font>
+<font color="#A2734C"> -------------------------------------------------------------------------------- </font>
+<font color="#A2734C">type:(0) </font>	<font color="#A2734C"> token:(ls)</font>
+<font color="#A2734C">type:(0) </font>	<font color="#A2734C"> token:(-l)</font>
+<font color="#A2734C">type:(0) </font>	<font color="#A2734C"> token:(-a)</font>
+<font color="#A2734C">==================================================================================</font>
+
+<font color="#2AA1B3"> -------------------------------------------------------------------------------- </font>
+<font color="#2AA1B3">|                                     PARSER                                     |</font>
+<font color="#2AA1B3"> -------------------------------------------------------------------------------- </font>
+
+<font color="#2AA1B3">              [arg] (-a)</font>
+
+<font color="#2AA1B3">       [arg] (-l)</font>
+
+<font color="#2AA1B3">[cmd] (ls)</font>
+<font color="#2AA1B3">==================================================================================</font>
+
+<font color="#26A269"> -------------------------------------------------------------------------------- </font>
+<font color="#26A269">|                                    EXECUTOR                                    |</font>
+<font color="#26A269">|                                 (cmd count: 1)                                 |</font>
+<font color="#26A269"> -------------------------------------------------------------------------------- </font>
+total 276
+drwxrwxr-x 10 astein astein   4096 Jan 10 11:10 .
+drwxrwxr-x  3 astein astein   4096 Dez 15 14:03 ..
+-rwxrwxr-x  1 astein astein   6323 Dez 15 20:15 art.sh
+-rwxrwxr-x  1 astein astein   1498 Dez 15 20:03 count_stats.sh
+drwxrwxr-x  2 astein astein   4096 Jan  9 14:42 docs
+-rw-rw-r--  1 astein astein      1 Jan 10 11:35 file
+-rwxrwxr-x  1 astein astein 208296 Jan 10 09:01 frankenshell
+drwxrwxr-x  8 astein astein   4096 Jan  9 20:50 .git
+-rw-rw-r--  1 astein astein    215 Dez 15 20:03 .gitignore
+drwxrwxr-x  3 astein astein   4096 Jan 10 11:55 images
+drwxrwxr-x  2 astein astein   4096 Jan  7 11:45 includes
+drwxrwxr-x  4 astein astein   4096 Jan 10 09:01 libft
+-rw-rw-r--  1 astein astein   3429 Jan  7 14:20 Makefile
+drwxrwxr-x  6 astein astein   4096 Jan 10 09:01 obj
+-rw-rw-r--  1 astein astein   1638 Jan  6 17:33 README1.md
+-rw-rw-r--  1 astein astein   2587 Jan  9 16:30 README.md
+drwxrwxr-x  6 astein astein   4096 Jan  7 14:17 src
+drwxrwxr-x  2 astein astein   4096 Dez 15 20:22 .vscode
+<font color="#26A269"> -------------------------------------------------------------------------------- </font>
+<font color="#26A269">|                                    EXECUTOR                                    |</font>
+<font color="#26A269">|                              LAST EXIT STATUS: 0                               |</font>
+<font color="#26A269"> -------------------------------------------------------------------------------- </font>
+<font color="#26A269">==================================================================================</font>
+
+<font color="#2AA1B3">frankenshell--&gt; </font>
+</pre>
+
+</details>
+
+<details>
+  <summary>✏️ Example <code>echo the home dir of $USER is storred in '$HOME'</code></summary>
+
+<pre>$ ./frankenshell -i
+<font color="#A347BA"> -------------------------------------------------------------------------------- </font>
+<font color="#A347BA">|                              INFO MODE ACTIVATED!                              |</font>
+<font color="#A347BA"> -------------------------------------------------------------------------------- </font>
+<font color="#2AA1B3">frankenshell--&gt; </font>echo the home dir of $USER is storred in &apos;$HOME&apos;
+<font color="#FF5F5F"> -------------------------------------------------------------------------------- </font>
+<font color="#FF5F5F">|                                  INPUT STATES                                  |</font>
+<font color="#FF5F5F"> -------------------------------------------------------------------------------- </font>
+<font color="#FF5F5F">original:</font>			<font color="#FF5F5F">(echo the home dir of $USER is storred in &apos;$HOME&apos;)</font>
+
+<font color="#FF5F5F">trimmed:</font>			<font color="#FF5F5F">(echo the home dir of $USER is storred in &apos;$HOME&apos;)</font>
+
+<font color="#FF5F5F">empty quotes:</font>	<font color="#FF5F5F">shifted:</font>	<font color="#FF5F5F">(echo the home dir of $USER is storred in &apos;$HOME&apos;)</font>
+		<font color="#FF5F5F">readable:</font>	<font color="#FF5F5F">(echo the home dir of $USER is storred in &apos;$HOME&apos;)</font>
+
+<font color="#FF5F5F">shifted:</font>	<font color="#FF5F5F">shifted:</font>	<font color="#FF5F5F">(echo�the�home�dir�of�$USER�is�storred�in��$HOME�)</font>
+		<font color="#FF5F5F">readable:</font>	<font color="#FF5F5F">(echo_the_home_dir_of_$USER_is_storred_in_S$HOMES)</font>
+
+<font color="#FF5F5F">expanded:</font>	<font color="#FF5F5F">shifted:</font>	<font color="#FF5F5F">(echo�the�home�dir�of�astein�is�storred�in��$HOME�)</font>
+		<font color="#FF5F5F">readable:</font>	<font color="#FF5F5F">(echo_the_home_dir_of_astein_is_storred_in_S$HOMES)</font>
+<font color="#FF5F5F">==================================================================================</font>
+
+<font color="#A2734C"> -------------------------------------------------------------------------------- </font>
+<font color="#A2734C">|                                   TOKENIZER                                    |</font>
+<font color="#A2734C"> -------------------------------------------------------------------------------- </font>
+<font color="#A2734C">type:(0) </font>	<font color="#A2734C"> token:(echo)</font>
+<font color="#A2734C">type:(0) </font>	<font color="#A2734C"> token:(the)</font>
+<font color="#A2734C">type:(0) </font>	<font color="#A2734C"> token:(home)</font>
+<font color="#A2734C">type:(0) </font>	<font color="#A2734C"> token:(dir)</font>
+<font color="#A2734C">type:(0) </font>	<font color="#A2734C"> token:(of)</font>
+<font color="#A2734C">type:(0) </font>	<font color="#A2734C"> token:(astein)</font>
+<font color="#A2734C">type:(0) </font>	<font color="#A2734C"> token:(is)</font>
+<font color="#A2734C">type:(0) </font>	<font color="#A2734C"> token:(storred)</font>
+<font color="#A2734C">type:(0) </font>	<font color="#A2734C"> token:(in)</font>
+<font color="#A2734C">type:(0) </font>	<font color="#A2734C"> token:($HOME)</font>
+<font color="#A2734C">==================================================================================</font>
+
+<font color="#2AA1B3"> -------------------------------------------------------------------------------- </font>
+<font color="#2AA1B3">|                                     PARSER                                     |</font>
+<font color="#2AA1B3"> -------------------------------------------------------------------------------- </font>
+
+<font color="#2AA1B3">                                                               [arg] ($HOME)</font>
+
+<font color="#2AA1B3">                                                        [arg] (in)</font>
+
+<font color="#2AA1B3">                                                 [arg] (storred)</font>
+
+<font color="#2AA1B3">                                          [arg] (is)</font>
+
+<font color="#2AA1B3">                                   [arg] (astein)</font>
+
+<font color="#2AA1B3">                            [arg] (of)</font>
+
+<font color="#2AA1B3">                     [arg] (dir)</font>
+
+<font color="#2AA1B3">              [arg] (home)</font>
+
+<font color="#2AA1B3">       [arg] (the)</font>
+
+<font color="#2AA1B3">[cmd] (echo)</font>
+<font color="#2AA1B3">==================================================================================</font>
+
+<font color="#26A269"> -------------------------------------------------------------------------------- </font>
+<font color="#26A269">|                                    EXECUTOR                                    |</font>
+<font color="#26A269">|                                 (cmd count: 1)                                 |</font>
+<font color="#26A269"> -------------------------------------------------------------------------------- </font>
+the home dir of astein is storred in $HOME
+<font color="#26A269"> -------------------------------------------------------------------------------- </font>
+<font color="#26A269">|                                    EXECUTOR                                    |</font>
+<font color="#26A269">|                              LAST EXIT STATUS: 0                               |</font>
+<font color="#26A269"> -------------------------------------------------------------------------------- </font>
+<font color="#26A269">==================================================================================</font>
+
+<font color="#2AA1B3">frankenshell--&gt; </font>
+</pre>
+
+</details>
+
+<details>
+  <summary>✏️ Example <code><< $DONT_EXPAND cat | wc -l</code></summary>
+
+<pre>$ ./frankenshell -i
+<font color="#A347BA"> -------------------------------------------------------------------------------- </font>
+<font color="#A347BA">|                              INFO MODE ACTIVATED!                              |</font>
+<font color="#A347BA"> -------------------------------------------------------------------------------- </font>
+<font color="#2AA1B3">frankenshell--&gt; </font>&lt;&lt; $DONT_EXPAND cat | wc -l
+<font color="#FF5F5F"> -------------------------------------------------------------------------------- </font>
+<font color="#FF5F5F">|                                  INPUT STATES                                  |</font>
+<font color="#FF5F5F"> -------------------------------------------------------------------------------- </font>
+<font color="#FF5F5F">original:</font>			<font color="#FF5F5F">(&lt;&lt; $DONT_EXPAND cat | wc -l)</font>
+
+<font color="#FF5F5F">trimmed:</font>			<font color="#FF5F5F">(&lt;&lt; $DONT_EXPAND cat | wc -l)</font>
+
+<font color="#FF5F5F">empty quotes:</font>	<font color="#FF5F5F">shifted:</font>	<font color="#FF5F5F">(&lt;&lt; $DONT_EXPAND cat | wc -l)</font>
+		<font color="#FF5F5F">readable:</font>	<font color="#FF5F5F">(&lt;&lt; $DONT_EXPAND cat | wc -l)</font>
+
+<font color="#FF5F5F">shifted:</font>	<font color="#FF5F5F">shifted:</font>	<font color="#FF5F5F">(���$DONT_EXPAND�cat���wc�-l)</font>
+		<font color="#FF5F5F">readable:</font>	<font color="#FF5F5F">(II_$DONT_EXPAND_cat_P_wc_-l)</font>
+
+<font color="#FF5F5F">expanded:</font>	<font color="#FF5F5F">shifted:</font>	<font color="#FF5F5F">(��$DONT_EXPAND�cat���wc�-l)</font>
+		<font color="#FF5F5F">readable:</font>	<font color="#FF5F5F">(II$DONT_EXPAND_cat_P_wc_-l)</font>
+<font color="#FF5F5F">==================================================================================</font>
+
+<font color="#A2734C"> -------------------------------------------------------------------------------- </font>
+<font color="#A2734C">|                                   TOKENIZER                                    |</font>
+<font color="#A2734C"> -------------------------------------------------------------------------------- </font>
+<font color="#A2734C">type:(2) </font>	<font color="#A2734C"> token:(&lt;)</font>
+<font color="#A2734C">type:(2) </font>	<font color="#A2734C"> token:(&lt;)</font>
+<font color="#A2734C">type:(0) </font>	<font color="#A2734C"> token:($DONT_EXPAND)</font>
+<font color="#A2734C">type:(0) </font>	<font color="#A2734C"> token:(cat)</font>
+<font color="#A2734C">type:(1) </font>	<font color="#A2734C"> token:(|)</font>
+<font color="#A2734C">type:(0) </font>	<font color="#A2734C"> token:(wc)</font>
+<font color="#A2734C">type:(0) </font>	<font color="#A2734C"> token:(-l)</font>
+<font color="#A2734C">==================================================================================</font>
+
+<font color="#2AA1B3"> -------------------------------------------------------------------------------- </font>
+<font color="#2AA1B3">|                                     PARSER                                     |</font>
+<font color="#2AA1B3"> -------------------------------------------------------------------------------- </font>
+
+<font color="#2AA1B3">              [arg] (-l)</font>
+
+<font color="#2AA1B3">       [cmd] (wc)</font>
+
+<font color="#2AA1B3">[|] (|)</font>
+
+<font color="#2AA1B3">       [cmd] (cat)</font>
+
+<font color="#2AA1B3">              [&lt;&lt;] ($DONT_EXPAND)</font>
+<font color="#2AA1B3">==================================================================================</font>
+
+<font color="#26A269"> -------------------------------------------------------------------------------- </font>
+<font color="#26A269">|                                    EXECUTOR                                    |</font>
+<font color="#26A269">|                                 (cmd count: 2)                                 |</font>
+<font color="#26A269"> -------------------------------------------------------------------------------- </font>
+<font color="#A2734C">frankendoc&gt; </font>Hello
+<font color="#A2734C">frankendoc&gt; </font>World
+<font color="#A2734C">frankendoc&gt; </font>$DONT_EXPAND
+2
+<font color="#26A269"> -------------------------------------------------------------------------------- </font>
+<font color="#26A269">|                                    EXECUTOR                                    |</font>
+<font color="#26A269">|                              LAST EXIT STATUS: 0                               |</font>
+<font color="#26A269"> -------------------------------------------------------------------------------- </font>
+<font color="#26A269">==================================================================================</font>
+
+<font color="#2AA1B3">frankenshell--&gt; </font>
+</pre>
+
+</details>
+
+<details>
+  <summary>✏️ Example <code>echo hi"" "" "" ""there</code></summary>
+
+<pre>$ ./frankenshell -i
+<font color="#A347BA"> -------------------------------------------------------------------------------- </font>
+<font color="#A347BA">|                              INFO MODE ACTIVATED!                              |</font>
+<font color="#A347BA"> -------------------------------------------------------------------------------- </font>
+<font color="#2AA1B3">frankenshell--&gt; </font>echo hi&quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot;there
+<font color="#FF5F5F"> -------------------------------------------------------------------------------- </font>
+<font color="#FF5F5F">|                                  INPUT STATES                                  |</font>
+<font color="#FF5F5F"> -------------------------------------------------------------------------------- </font>
+<font color="#FF5F5F">original:</font>			<font color="#FF5F5F">(echo hi&quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot;there</font>
+<font color="#FF5F5F">)</font>
+
+<font color="#FF5F5F">trimmed:</font>			<font color="#FF5F5F">(echo hi&quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot;there)</font>
+
+<font color="#FF5F5F">empty quotes:</font>	<font color="#FF5F5F">shifted:</font>	<font color="#FF5F5F">(echo hi&quot;&quot; �� �� &quot;&quot;there)</font>
+		<font color="#FF5F5F">readable:</font>	<font color="#FF5F5F">(echo hi&quot;&quot; E_ E_ &quot;&quot;there)</font>
+
+<font color="#FF5F5F">shifted:</font>	<font color="#FF5F5F">shifted:</font>	<font color="#FF5F5F">(echo�hi�����������there)</font>
+		<font color="#FF5F5F">readable:</font>	<font color="#FF5F5F">(echo_hiDD_E__E__DDthere)</font>
+
+<font color="#FF5F5F">expanded:</font>	<font color="#FF5F5F">shifted:</font>	<font color="#FF5F5F">(echo�hi�����������there)</font>
+		<font color="#FF5F5F">readable:</font>	<font color="#FF5F5F">(echo_hiDD_E__E__DDthere)</font>
+<font color="#FF5F5F">==================================================================================</font>
+
+<font color="#A2734C"> -------------------------------------------------------------------------------- </font>
+<font color="#A2734C">|                                   TOKENIZER                                    |</font>
+<font color="#A2734C"> -------------------------------------------------------------------------------- </font>
+<font color="#A2734C">type:(0) </font>	<font color="#A2734C"> token:(echo)</font>
+<font color="#A2734C">type:(0) </font>	<font color="#A2734C"> token:(hi)</font>
+<font color="#A2734C">type:(0) </font>	<font color="#A2734C"> token:()</font>
+<font color="#A2734C">type:(0) </font>	<font color="#A2734C"> token:()</font>
+<font color="#A2734C">type:(0) </font>	<font color="#A2734C"> token:(there)</font>
+<font color="#A2734C">==================================================================================</font>
+
+<font color="#2AA1B3"> -------------------------------------------------------------------------------- </font>
+<font color="#2AA1B3">|                                     PARSER                                     |</font>
+<font color="#2AA1B3"> -------------------------------------------------------------------------------- </font>
+
+<font color="#2AA1B3">                            [arg] (there)</font>
+
+<font color="#2AA1B3">                     [arg] ()</font>
+
+<font color="#2AA1B3">              [arg] ()</font>
+
+<font color="#2AA1B3">       [arg] (hi)</font>
+
+<font color="#2AA1B3">[cmd] (echo)</font>
+<font color="#2AA1B3">==================================================================================</font>
+
+<font color="#26A269"> -------------------------------------------------------------------------------- </font>
+<font color="#26A269">|                                    EXECUTOR                                    |</font>
+<font color="#26A269">|                                 (cmd count: 1)                                 |</font>
+<font color="#26A269"> -------------------------------------------------------------------------------- </font>
+hi   there
+<font color="#26A269"> -------------------------------------------------------------------------------- </font>
+<font color="#26A269">|                                    EXECUTOR                                    |</font>
+<font color="#26A269">|                              LAST EXIT STATUS: 0                               |</font>
+<font color="#26A269"> -------------------------------------------------------------------------------- </font>
+<font color="#26A269">==================================================================================</font>
+
+<font color="#2AA1B3">frankenshell--&gt; </font>
+</pre>
+
+</details>
+
+---
 
 
 <br><h1 id="definitions">
@@ -168,7 +548,7 @@ These definitions are used throughout this manual as follows.
     Syntax
 </h1>
 
-The syntax of frankenshell is designed to mimic the syntax of the traditional [**bash shell**][url-bash].
+The syntax of frankenshell is designed to mimic the syntax of the traditional [:link: bash shell][url-bash].
 
 Note that redirections and arguments can be in any order. The only rule is that right after the redirections there must be the filename (or limitter for heredoc).
 
@@ -197,8 +577,8 @@ Using double quotes `"` also prevents interpretation of metacharacters, except f
 If you use single quotes inside double quotes, the single quotes will be interpreted as a normal character and vice versa.
 
 :bulb: The outer quotes are always the contextual quotes.\
-:bulb: An contextual quote (single or double) must always be closed with the **same** quote type.\
-:warning: If contextual quotes are not closed, frankenshell prints an error and updates the exit status to `2`.
+:bulb: An contextual quote (single or double) must always be closed with an matching quote.\
+:warning: If contextual quotes are not closed, frankenshell prints an error and updates the [:book: exit status](#exit-status) to `2`.
 
 
 **:pencil2: Examples**
@@ -297,14 +677,14 @@ This is general information about environment variables in frankenshell.
 [:book: unset](#unset-builtin)
 [:book: exit status](#exit-status)
 
-On programm start a linked list (t_env) will be created from the enviromental variables and stored in the [t_mbox](#t_mbox) struct. Variables represent a simple key-value pair. Key and value are strings. The key is always unique and the value can be empty.
+On [:book: programm start](#initialization) a linked list (t_env) will be created from the enviromental variables (`char **env`) and stored in the [t_mbox](#t_mbox) struct. Variables represent a simple key-value pair. Key and value are strings. The key is always unique and the value can be empty. On [:book: termination](#termination), the linked list is freed.
 
-**With the following [builtin](#builtin-commands) commands variables can be...**
-- **shown** using [env](#env-builtin)
-- **sorted and shown**  using [export](#export-builtin) without arguments
-- **created** using [export](#export-builtin)
-- **changed** using [export](#export-builtin)
-- **deleted** using [unset](#unset-builtin)
+**With the following [:book: builtin](#builtin-commands) commands variables can be...**
+- **created** using [:book: export](#export-builtin)
+- **shown** using [:book: env](#env-builtin)
+- **sorted and shown**  using [:book: export](#export-builtin) without arguments
+- **changed** using [:book: export](#export-builtin)
+- **deleted** using [:book: unset](#unset-builtin)
 
 **A key has to match the following [regex][url-regex]:**
 ```
@@ -808,12 +1188,12 @@ The builtin `help` displays the documentation page on github.
 	history (builtin)
 </h2>
 
-The builtin `history` outputs all previous user input in a numbered list to `STDOUT` (or its redirection).
+The builtin `history` outputs all previous user input in a numbered list to `STDOUT` (or its redirection). To do so, it uses a linked list stored in the [t_mbox](#t_mbox) struct. [:book: Each cycle](#processing-a-cycle), the input string is added to the list. On [:book: termination](#termination), the linked list is freed.
 
 <details>
   <summary>Attributes</summary>
 
-| Attribute				| Details						|
+| Attribute				| Details						| 
 |-----------------------|-------------------------------|
 | Flags                 | `N/A`		                 	|
 | Number of Arguments   | `0 to n` (all args will be ignored) |
@@ -1014,15 +1394,15 @@ The builtin `unset` deletes the corresponding variables.
 The current exit status of minishell is stored as an node with the key `?` in the linked list of [environment variables](#environment-variables).
 
 The exit status will be updated in the following cases:
-- on startup to `0`
-- unclosed quotes to `2`
+- on [:book: startup](#initialization) to `0`
+- unclosed [:book: quotes](#quotes) to `2`
 - syntax errors
 - a command is not found
 - a file is not found
 - a permission is denied
 - a child process terminates
-- a sigle builtin finished execution
-- a signal is received
+- a sigle [:book: builtin](#builtin-commands) finished execution
+- a [:book: signal](#signals) is received
 
 Storing the exit status in the enviroment variables linked list simplifies the variable expansion of `$?`. `$?` always expands to the current exit status. 
 
@@ -1036,115 +1416,651 @@ Storing the exit status in the enviroment variables linked list simplifies the v
 <br><h1 id="signals">
     <a href="#table-of-content">🔝 </a>
     Signals
+	<a href="../includes/config.h">📄</a>
+	<a href="../src/1_core/5_signals.c">💻</a>
 </h1>
 
-Each time a fork is happening all existing processes will be set to a specific `signal status` via the function `conf_sig_handler` in [signals.c](../src/1_core/5_signals.c). This `signal status` will
-be used to determine which signal handling should be used in the regarding process.
+Each time a fork is happening all existing processes will be set to a specific `signal status` via the function `conf_sig_handler` in [:computer: signals.c](../src/1_core/5_signals.c). This `signal status` will
+be used to determine which signal handling should be used in the regarding process. On [:book: programm start](#initialization) the `signal status` will be set to `SIG_STATE_MAIN`.
 
-The following Signals are being treaded in frankenshell:
+**The following Signals are being treaded in frankenshell:**
 | Shortcut | Signal Name | Description 						|
 |:--------:|:-----------:|-------------						|
 | `CTRL + C` | SIGINT      | Interrupt signal					|
 | `CTRL + \` | SIGQUIT     | Quit signal 						|
 | `CTRL + D` | EOF	     | An EOF is send to the input fd 	|
 
+<br>
 
-
-The following table shows all possible signal states defined in TODO enum file:
-| Signal State | Description 						| `CTRL+C` | `CTRL+\` | `CTRL+D` |
-|--------------|-------------						|----------|----------|----------|
-| `SIG_STATE_MAIN`    | showing basic promt				| |||
-| `SIG_STATE_PARENT`    |   				| |||
-| `SIG_STATE_IGNORE`    |   				| |||
-| `SIG_STATE_CHILD`    |   				| |||
-| `SIG_STATE_CHILD_BUILTIN`    |   				| |||
-| `SIG_STATE_HD_CHILD`    |   				| |||
-
+**The following chart shows how the `signal status` is set for each process, explained on an example:**
 <img src="../images/BPMN/bpmn-signals.svg" alt="signal logic" width="1000">
 
+<br>
 
-<br><h1 id="how-frankenshell-operates">
+**The following table shows all possible signal states defined in [:page_facing_up: config.h](../includes/config.h)**
+| Signal State 				| `CTRL + C` 					| `CTRL + \`			| `CTRL + D`				|
+|--------------				|----------						|----------				|----------					|
+| `SIG_STATE_MAIN`    		| new promt<br>exit status `130`| ignored				| `exit` frankenshell		|
+| `SIG_STATE_PARENT`   		| `\n`							| `Quit (core dumped)\n`| default 					|
+| `SIG_STATE_IGNORE`   		| ignored						| ignored				| default					|
+| `SIG_STATE_CHILD`    		| default						| default				| default					|
+| `SIG_STATE_CHILD_BUILTIN` | default						| defatult				| default					|
+| `SIG_STATE_HD_CHILD`    	| exit heredoc					| ignored				| exit heredoc with warning |
+
+<br><br><h1 id="how-frankenshell-operates">
     <a href="#table-of-content">🔝 </a>
     How Frankenshell Operates
 </h1>
+
+The main tasks of frankenshell can be grouped into those steps:
+- [:book: Initialization](#initialization)
+- [:book: Processing a Cycle](#processing-a-cycle) (loop until `exit` is called)
+- [:book: Termination](#termination)
+
+:bulb: Below you can find a detailed description of each step.
+
+---
+
 <h2 id="initialization">
 	<a href="#table-of-content">🔝 </a>
 	<a href="#how-frankenshell-operates">◀️ </a>
 	Initialization
 </h2>
-<h3 id="processing-a-cycle">
+
+On startup the program will initialize the [:book: `t_mbox`](#t_mbox) struct. This struct contains all the information needed for the program to work. It is passed as an argument to most of the functions.\
+The following steps are executed during initialization:
+- creating a linked list for the [:book: environment variables](#environment-variables)
+- creating an array for the [:book: builtin commands](#builtin-commands) to connect the command name with the function pointer
+- seting the  [:book: signal status](#signals) to `SIG_STATE_MAIN`
+- setting the [:book: exit status](#exit-status) to `0`
+- setting the [:book: info mode](#info-mode) to `false` (or `true` if the argument `-i`, `--info` is provided)
+- initializing all other filedescriptors and variables to `-1`, `0` or `NULL`
+- displaying the promt and start reading the input
+
+---
+
+<h2 id="processing-a-cycle">
 	<a href="#table-of-content">🔝 </a>
 	<a href="#how-frankenshell-operates">◀️ </a>
 	Processing a Cycle
+	<a href="../src/1_core/2_cycle.c">💻</a>
+</h2>
+
+**All the following steps are executed for each cycle.**
+- [:book: String Management](#string-management)
+- [:book: Tokenizing](#tokenizing)
+- [:book: Parsing](#parsing)
+- [:book: Executing](#executing)
+- [:book: Cleanup Cycle](#cleanup-cycle)
+
+:bulb: Below you can find a detailed description of each step.
+
+---
+
+<h3 id="string-management">
+	<a href="#table-of-content">🔝 </a>
+	<a href="#processing-a-cycle">◀️ </a>
+	String Management
 </h3>
+
+| **Step** 											| **Example**<sup>*</sup> |
+| --------------------------------- 				| ----------- |
+| Finished Reading    								| `echo "Hello" $USER "" '!' \| wc    -l     `          |
+| [:book: Trim Input](#trim-input)       			| `echo "Hello" $USER "" '!' \| wc -l`                  |
+| [:book: Mark Empty Quotes](#mark-empty-quotes)	| `echo "Hello" $USER E_ '!' \| wc    -l`               |
+| [:book: Shift Separators](#shift-separators) 		| `echo_DHelloD_$USER_E__S!S_P_wc____-l`                |
+| [:book: Variable Expansion](#variable-expansion) 	| `echo_DHelloD_astein_E__S!S_P_wc____-l`               |
+
+<sup>*</sup>The [:book: readable input string](#readable-input-string) characters are displayed!
+
+#### Readable Input Strings
+
+Special Characers will be [:book: shifted](#shift-separators) to negative ASCII values. Therefore they are nor longer printable. To still be able to display the input string, the following characters will be used to represent the special characters:
+| Character | Description |
+|-----------|-------------|
+| `_`       | No Space    |
+| `E`       | Empty Token |
+| `S`       | Contextual Single Quotes |
+| `D`       | Contextual Double Quotes |
+| `P`       | Pipe        |
+| `I`	   	| Input Redirection |
+| `O`	   	| Output Redirection |
+
+:bulb: Activate the [:book: info mode](#info-mode) to see all input string states during runtime
+
+---
+
 <h4 id="trim-input">
 	<a href="#table-of-content">🔝 </a>
-	<a href="#processing-a-cycle">◀️ </a>
+	<a href="#string-management">◀️ </a>
 	Trim Input
 </h4>
+
+First step is to trim the input. This means that all leading and trailing whitespaces are removed.
+
+:bulb:  Activate the [info mode](#info-mode) to see all input string states during runtime
+
+---
+
 <h4 id="mark-empty-quotes">
 	<a href="#table-of-content">🔝 </a>
-	<a href="#processing-a-cycle">◀️ </a>
+	<a href="#string-management">◀️ </a>
 	Mark Empty Quotes
 </h4>
+
+---
+
+##### Quote State
+
+If somwehre in frankenshell we loop through an input string, sometimes we need to know if we are inside or outside of contextual quotes. The quote state function updates the `quote_state` variable to the current state of the quotes. While traversing the input string, the `quote state` will be updated for each character. If the current character is inside a quote, the `quote state` will be set to the matching quote. If the current character is outside of a quote, the `quote state` will be set to `OUT_Q`.
+
+**LOGIC:**
+```
+if quote_state is OUT_Q (the cur_char is outside of contextual quotes)
+	if cur_char is a quote
+		update quote_state to the cur_char
+	else
+		quote_state stays OUT_Q
+else (the cur_char is inside of contextual quotes)
+	if matching quote is found
+		update quote_state to OUT_Q
+	else
+		quote_state stays the same          
+```
+
+**:pencil2: Example:**
+```
+Trimmed String:	echo "Hello 'astein", 'how are you?'
+Quote State: 	OOOOODDDDDDDDDDDDDDOOOSSSSSSSSSSSSSO		//O = OUT_Q, D = IN_DOUBLE_QUOTES, S = IN_SINGLE_QUOTES
+Marked String:	echo DHello 'asteinD, Show are you?S
+```
+---
+
+Bash generates an empty token for a pair of empty contextual quotes if the two conditions are met:
+- the empty quotes are not inside another pair of quotes\
+(refer to `OUT_Q` as the [:book: quote state](#quote-state))
+- the empty quotes are surrounded by at least one whitespace character (or the beginning/end of the string) before and after 
+
+Empty quotes will be marked as `EMPTY_TOKEN` and `NO_SPACE` characters.
+```
+# define NO_SPACE       -125
+# define EMPTY_TOKEN    -126
+```
+
+**:pencil2: Examples**
+| inp_trim		        | inp_eq<sup>*</sup>| empty quotes      |
+| ----------------------|-------------------|:-----------------:|
+| `echo ""`			    | `echo E_`         | :white_check_mark:|
+| `echo ''`			    | `echo E_`         | :white_check_mark:|
+| `echo """"`			| `echo E___`       | :white_check_mark:|
+| `echo "" "" "'hi"`    | `echo E_ E_ "'hi"`| :white_check_mark:|
+| `echo hi""`			| `echo hi""`       | :x:               |
+| `echo hi''`			| `echo hi''`       | :x:               |
+| `echo ""hi`			| `echo ""hi`       | :x:               |
+| `echo ''hi`			| `echo ''hi`       | :x:               |
+| `echo '""'`			| `echo '""'`       | :x:               |
+| `echo "''"`			| `echo "''"`       | :x:               |
+
+<sup>*</sup> [:book: Readable Input String](#readable-input-strings)
+
+:bulb: Refer to the section [:book: Shift Separators](#shift-separators) for a better understanding of the marked input string.\
+:bulb: Refer to the section [Readble Input String](#readable-input-string) for a better understanding of the marked input string.\
+:bulb: Activate the [:book: info mode](#info-mode) to see all input string states during runtime
+
+---
+
 <h4 id="shift-separators">
 	<a href="#table-of-content">🔝 </a>
-	<a href="#processing-a-cycle">◀️ </a>
+	<a href="#string-management">◀️ </a>
 	Shift Separators
 </h4>
+
+To prepare the input string for the tokenizer all seperating characters need to be found. To mark them frankenshell shifts their ASCII value by `-126`. This makes an easy check for all of them possible (`ASCII < 0`) without loosing their original value. A seperating char needs to be outside of any quotes to be shifted.
+Those are the characters which we consider as seperating characters:
+- whitespace (` `, `\n`, `\t`, `\v`, `\a`, `\b`, `\f`, `\r`)
+- pipe	(`|`)
+- redirections (`<`, `>`)
+
+**:pencil2: Examples**
+| inp_trim		        	| inp_eq<sup>*</sup>		| inp_shift<sup>*</sup>    	|
+| ----------------------	|-------------------		|---						|
+| `echo Hi > file` 			| <sup>**</sup>				| `echo_Hi_O_file` 			|
+| `echo Hi >> file` 		| <sup>**</sup>				| `echo_Hi_OO_file` 		|
+| `< file cat` 				| <sup>**</sup>				| `I_file_cat` 				|
+| `<< file cat`				| <sup>**</sup>				| `II_file_cat` 			|
+| `echo Hi \| wc`			| <sup>**</sup>				| `echo_Hi_P_wc`			|
+| `echo """" > file`		| `echo E___ > file`		| `echo_E____O_file`		|
+| `echo "" "" "'hi" \| wc`	| `echo E_ E_ "'hi" \| wc`	| `echo_E__E__D'hiD_P_wc`	|
+
+<sup>*</sup> [:book: Readable Input String](#readable-input-strings)\
+<sup>**</sup> No empty quotes, so the same then inp_trim.
+
+
+---
+
 <h4 id="variable-expansion">
 	<a href="#table-of-content">🔝 </a>
-	<a href="#processing-a-cycle">◀️ </a>
+	<a href="#string-management">◀️ </a>
 	Variable Expansion
 </h4>
+
+The [:book: environment variable](#environment-variables) expansion works similar like in [:link: bash][url-bash].
+
+- Variable Expansion happens if the variable is **not** inside single [:book: quotes](#quotes).
+- Whitespaces inside the variable value will be marked as `NO_SPACE` characters ([:book:](#removal-of-whitespaces-of-expanded-variable-values)). Therefore the [:book: tokenizer](#tokenizing) can make multiple tokens out of it.
+- If the variable is part of the [:book: heredoc limiter](#extract-limiter) it won't be expanded! (e.g. `<< $USER cat`)
+
+:bulb:  Activate the [info mode](#info-mode) to see the expanded input string states during runtime.
+
+:pencil2: **Examples**
+
+| Command           |  Valid Key 			| Expand       			| Output                        							|
+| ------------------|   :------: 			| :----------: 			| ----------------------------- 							|
+| `echo $USER`		| :white_check_mark:	| :white_check_mark:	| `astein`				      								|
+| `echo "$USER"`    | :white_check_mark:	| :white_check_mark:	| `astein`				      								|
+| `echo '$USER'`    | :white_check_mark:	| :x:	        		| `$USER`                   								|
+| `<< $USER cat`    | N/A		 			| :x:	        		| Won't expand, so the `EOF` of the [heredoc](#heredoc) will be `$USER` 	|
+
+
+<br>
+
+---
+
+#### Removal Of Whitespaces Of Expanded Variable Values
+
+If there are whitespaces in the expanded Variable they will be marked as `NO_SPACE` characters. Therefore the tokenizer will make multiple tokens out of it. Quote Protection of whitespaces is not supported inside a variable. (like in [:link: bash][url-bash]).
+
+**:pencil2: Examples:**
+```
+frankenshell--> export foo="Hello           World"
+frankenshell--> echo $foo
+Hello World
+frankenshell--> export foo="Hello'        'World" //tries a quote protect of whitespaces
+Hello' 'World                                     //doesn't work 
+```
+
+---
+
+#### Extract Limiter
+
+The variable expansion for a heredoc limiter is a special case. Variable Expension is not allowed inside a heredoc limiter! Anyhow there some strange rules for the determine the limiter:
+
+**:pencil2: Examples:**
+| Case                  | Limiter <br> (send to tokenizer) | Explanation   | Limiter<sup> 1</sup> <br> (to exit hd)                           | Var. expansion <sup> 2</sup> <br> (inside heredoc) |
+| ----                  | ---           | -----------                                                                       | -------     | :---:                                    |
+| `<< $USER cat`        | `$USER`       |                                                                                   | `$USER`     | :white_check_mark:                        |
+| `<< "FOO BAR" cat`    | `"FOO BAR"`   |                                                                                   | `FOO BAR`   | :x:                                       |
+| `<< "$FOO $BAR" cat`  | `"$FOO $BAR"` |                                                                                   | `$FOO $BAR` | :x:                                       |
+| `<< $'FOO' cat`       | `'FOO'`       |   `$` is followed by contextual `'`; <br> the `$` will be removed                 | `FOO`       | :x:                                       |
+| `<< $"FOO" cat`       | `"FOO"`       |   `$` is followed by contextual `"`; <br> the `$` will be removed                 | `FOO`       | :x:                                       |
+| `<< $"FOO"$"BAR" cat` | `"FOO""BAR"`  |   twice: <br> `$` is followed by contextual quotes; <br> the `$` will be removed  | `FOOBAR`    | :x:                                       |
+
+<sup>1</sup> The contextual quotes will be removed by the [heredoc](#heredoc) function.\
+<sup>2</sup> Different topic: Refer to the section [:book: heredoc](#heredoc) for the variable expansion **inside a heredoc**.
+
+<br>
+
+---
+
+**:pencil2: Variable Expansion Examples (Special Cases)**
+| Special Case			| Valid Key					  			| Expand 			| Explanation 												| Output (example)			|
+|---------------		| :---:   					  			| :---:				|-------------												|--------------				|
+| `echo $@ hi`			| :x:									| :x:				| first char of false key gets swallowed					| `hi` 						|
+| `echo $@@ hi`			| :x:									| :x:				| first char of false key gets swallowed					| `@ hi` 					|
+| `echo $1HOME`			| :x:									| :x:				| first char of false key gets swallowed					| `HOME` 					|
+| `$`					| :x:									| :x:				| no key 													| `$: command not found`	|
+| `echo $ hi`			| :x:									| :x:				| no key 													| `$ hi`	 				|
+| `$?`					| :negative_squared_cross_mark:			| :white_check_mark:| [:book: exit status](#exit-status) of the last command 	| `42: command not found`	|
+| `echo $?`				| :negative_squared_cross_mark:			| :white_check_mark:| [:book: exit status](#exit-status) of the last command 	| `42`						|	
+| `echo $??`			| :negative_squared_cross_mark:			| :white_check_mark:| [:book: exit status](#exit-status) of the last command 	| `42?`						|	
+| `echo $"USER"`		| :x:									| :x:				| the `"` block the key; <br> contextual quotes get removed	| `USER` 					|
+| `echo "foo $'BAR'"`	| :x:									| :x:				| the `'` block the key; <br> contextual quotes get removed	| `foo $'BAR'` 				|
+| `echo 'foo $"BAR"'`	| N/A									| :x:				| inside contextual quotes `'` -> no expansion				| `foo $"BAR"` 				|
+| `echo 'foo $BAR'`		| N/A									| :x:				| inside contextual quotes `'` -> no expansion				| `foo $BAR` 				|
+| `echo foo$USER$HOME`	| :white_check_mark: :white_check_mark:	| :white_check_mark: :white_check_mark:| the second `$` is not an allowed char of a key <br> therfore it terminates the first key. 										| `fooastein/home/astein`	|
+| `echo foo $NOTEXIST bar`| :white_check_mark:					| :white_check_mark:| the key doesn't exist; <br> expands to NULL				| `a b`						|
+
+
+
+
+
+---
+
 <h3 id="tokenizing">
 	<a href="#table-of-content">🔝 </a>
-	<a href="#how-frankenshell-operates">◀️ </a>
+	<a href="#processing-a-cycle">◀️ </a>
 	Tokenizing
 </h3>
+
+The [:book: expanded](#variable-expansion) input string will be tokenized. This means that the input string will be split into tokens. Each token will be marked with a type. The following token types exist:
+```
+enum e_token_type
+{
+	WORD_TOKEN,
+	PIPE_TOKEN,
+	RED_IN_TOKEN,
+	RED_OUT_TOKEN,
+};
+```
+
+To generate the tokens first the input string will be splited into an array. Therefore the `NO_SPACE` character is used as an seperator. Then a loop will go through the array and generate the tokens. The following table shows the token generation logic:
+| Logic | Example |
+| ----- | ------- |
+| check for forbidden spaces between redir symbols						| `< < file cat`	|
+| if seperating characters in array entry (`\|`, `<`, `>`, `'`, `"`)	| `ls\|wc`			|
+| &nbsp;&nbsp;&nbsp;&nbsp; if quote state == outside quotes									| `ls\|wc`			| 
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; create token with value: everything until next seperator found| token: `ls`		|
+| &nbsp;&nbsp;&nbsp;&nbsp;else																| `"ls\|wc"`		|
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; create token with value: everything until matching quote found| token: `ls\|wc`	|
+|else																	| `ls`				|
+| &nbsp;&nbsp;&nbsp;&nbsp; create token with value: full array entry							| token: `ls`		|
+
+<br>
+
+:pencil2: **Example `echo "Hello" $USER "" '!' | wc    -l`**
+| Type | Value |
+| ---- | ----- |
+| WORD_TOKEN | `echo` |
+| WORD_TOKEN | `Hello`	|
+| WORD_TOKEN | `astein`	|
+| WORD_TOKEN | ` `	|
+| WORD_TOKEN | `!`	|
+| PIPE_TOKEN | `\|`	|
+| WORD_TOKEN | `wc`	|
+| WORD_TOKEN | `-l`	|
+
+
+:bulb: Activate the [info mode](#info-mode) to see the token list during runtime
+
+---
+
 <h3 id="parsing">
 	<a href="#table-of-content">🔝 </a>
-	<a href="#how-frankenshell-operates">◀️ </a>
+	<a href="#processing-a-cycle">◀️ </a>
 	Parsing
 </h3>
+
+After [:book: tokienizing](#tokenizing) the input string, the tokens will be parsed into an AST. If the AST couldn't be build the input contains an syntax error (e.g. `ls | | wc`). If an vaild AST could be built it will be used for the [:book: execution](#executing).
+
+Each node of the ast tree is an instance of the `t_ast` struct. It therefore has a type, a content and a two pointers to it's left and right child node.
+
+**This table shows all possible node types and their possible node conections:**
+| Node Type | Left Child | Right Child |
+| --------- | ---------- | ----------- |
+| `PIPE`	| `CMD`		 | `PIPE` `CMD`|
+| `CMD`     | `REDIR` `NULL`    | `ARG` `NULL`|
+| `REDIR`	| `REDIR` `NULL`	| `NULL`      |
+| `ARG`     | `NULL`     | `ARG` `NULL`|
+
+<br>
+
+**To build a vaild AST we use the following logic (check out the BNF Notation):**
+```
+ <job>          : <command> '|' <job>    
+                | <command>              
+                ;
+ 
+ <command>      : <token list>           
+				;
+ 
+ <token list>   : [name]  <token list>   
+                | [arg]   <token list>   
+                | <redir> <token list>   
+                ;
+ 
+ <redir>        : <redir in> 
+                | <redir out>
+                ;
+ 
+ <redir in>     : '<<' [file]
+                | '<'  [file]
+                ;
+ 
+ <redir out>    : '>>' [file]
+                | '>'  [file]
+                ;
+  			
+```
+
+<br>
+
+**:pencil2: Example: `echo "Hello" $USER "" '!' | wc    -l`**
+![Example][mindmap-ast-echo-hello-astein]
+
+
+**The following ast is visualiszed in a tree-like structure (left to right):**
+![Example][mindmap-ast-png]
+
+:bulb: Activate the [info mode](#info-mode) to see the ast tree during runtime
+
+:bulb: The boolean `syntax_err_encountered` in the [t_mbox](#t_mbox) struct makes sure, that even if there are multiple errors, only the first error will be printed (like bash).
+
+The possible syntax errors could be:
+```
+frankenshell: syntax error: unclosed quotes
+frankenshell: syntax error near unexpected token `<'
+frankenshell: syntax error near unexpected token `>'
+frankenshell: syntax error near unexpected token `|'
+frankenshell: syntax error near unexpected token `newline'
+frankenshell: syntax error near unexpected token `foo'
+```
+
+
+
+
+---
+
 <h3 id="executing">
 	<a href="#table-of-content">🔝 </a>
-	<a href="#how-frankenshell-operates">◀️ </a>
+	<a href="#processing-a-cycle">◀️ </a>
 	Executing
 </h3>
+
+The execution of the ast is handled by the file [:computer: execute_ast.c](../src/2_cycle/5_execute_ast.c). 
+
+**The execution may contain the following steps. Checkout those sections for more details about the execution steps:**
+- [:book: setup command](#setup-command)
+- [:book: setup redirections](#setup-redirections)
+- [:book: setup heredoc](#setup-heredoc)
+- [:book: run command](#run-command)
+
+
+**Note**
+- Before the execution starts a vaild ast must be created. ([:book: Parsing](#parsing))
+	- If the ast couldn't be created the execution will be skipped.
+- The executor traverses the ast tree always from **left to right**.
+	- This ensures that pipes and redirections will always be setup before any command is executed.
+- All commands are executed in a child process.
+	- Exception: Single Builtin cmds
+- Pipes (`|`) allow the output of one command to be used as input for another, enabling command chaining.
+	- Note that the redirection into the pipe might be overwritten by the [:book: redirection](#setup-redirections) to a file.
+- All childs will be spawn right after each other (so before the previous child terminates).
+	- Exception Heredoc: Before spawning a child process the parent process checks if the child includes a heredoc. In this case it waits unti the child is finished. (like bash)
+- The parent process waits (because of the open pipe fd) until the child process is finished.
+- The parent waits for all childs to finish before it continues with the next cycle. Each time a child process is finished, the parent process updates the [:book: exit status](#exit-status) of the last child process.
+
+<br>
+
+**The [BPMN diagram](https://demo.bpmn.io/new) below shows the main execution logic:**
+<img src="../images/BPMN/bpmn-execute_ast.svg" alt="execution logic" width="1000">
+
+---
+
 <h4 id="setup-command">
 	<a href="#table-of-content">🔝 </a>
 	<a href="#executing">◀️ </a>
 	Setup Command
 </h4>
+
+Here the command will be setup. This means that a pipe<sup>*</sup> and a fork will be done. The child process will then [:book: setup the redirections](#setup-redirections) and [:book: run the command](#run-command).
+
+<sup>*</sup> Exception: 'Single' or 'Last' Commands don't need a pipe!
+
+**The [BPMN diagram](https://demo.bpmn.io/new) below shows the execution logic for seting up the commands:**
+<img src="../images/BPMN/setup_cmd.svg" alt="execution logic" width="1000">
+
+---
+
 <h4 id="setup-redirections">
 	<a href="#table-of-content">🔝 </a>
 	<a href="#executing">◀️ </a>
 	Setup Redirections
 </h4>
+
+The table below describes the redirection features available in frankenshell:
+
+Since there can be multiple redirections we need to keep track if one of them fails. Since bash only troughs one error. Example:
+```
+$: < file_not_exists < file_not_exists_2 cat
+bash: file_not_exists: No such file or directory
+```
+| Feature| Mode            | Description                                                                                | Example                           |
+|------|-------------|--------------------------------------------------------------------------------------------------|-----------------------------------|
+| `<`  |Input Redirection         | Redirects input from a file to a command.                                           | `wc < file.txt`              |
+| `<<` |Heredoc                   | Allows inputting multiple lines until a termination string is reached.              | `<< this_exits_the_hd wc`                  |
+| `>`  |Output Redirection        | Redirects the output of a command to a file, overwriting it if it already exists.   | `echo "replace by foo" > file.txt`              |
+| `>>` |Append Output Redirection | Appends command output to a file, creating it if it doesn't exist.                  | `echo "append foo" >> file.txt`
+
+These redirections allow for flexible manipulation of command input and output, similar to standard bash functionality.
+
+**The [BPMN diagram](https://demo.bpmn.io/new) below shows the execution logic for seting up the redirections:**
+<img src="../images/BPMN/setup_redirs.svg" alt="execution logic" width="1000">
+
+---
+
+
+
+
+
+
+
+
+
 <h4 id="setup-heredoc">
 	<a href="#table-of-content">🔝 </a>
 	<a href="#executing">◀️ </a>
 	Setup Heredoc
 </h4>
 
-Heredeoc basics bla bla
+:bulb: Variable Expansion inside the heredoc is supported!\
+:warning: Like in bash: The expansion is not supposed to work if the limiter contains contextual quotes!\
+:bulb: Therefore the [:book:  extract limiter](#extract-limiter) part of the [:book: variable expansion](#variable-expansion) obtains `'`,`"` and `$` characters.
+REFERE TO SETUP HERDOC FOR MORE INFORMATION TODO
+
+
+**This is the heredoc routine:**
+1. The heredoc is setup by creating a pipe and forking a child process.
+2. The Child Process...
+	1. ...determines the heredoc `limiter` (aka EOF) by removing contextual quotes<sup>1</sup>
+
+	2. ...closes the read end of the pipe
+	3. ... starts an infinite **loop** that...
+		- **reads** the user input via `readline`
+		- **expands variables** in the read line<sup>1</sup>
+		- **writes** the (expanded) line **to** the write end of the **pipe**
+	4. ...**terminates** the loop if one of the following conditions is met:
+		- line matches the limiter<sup>2</sup>
+		- line matches EOF `CTRL+D`
+		- `STDIN` was closed from the signal handler `CTRL+C`<sup>3,4</sup>
+	5. ...close the write end of the pipe
+	6. ...frees all memory anf updates the the **exit status** to
+		- `0` if the heredoc was terminated by the `limiter`
+		- `0` if the heredoc was terminated by EOF `CTRL+D`
+		- `130` if the heredoc was terminated by the signal handler `CTRL+C`\
+3. The Parent Process...
+	1. ...closes the write end of the pipe
+	2. ...waits for the child process to finish
+	3. ...updates the **exit status** to the exit status of the hd child process
+	4. ...checks how the hd hild process was terminated:
+		- `CTRL+C`
+			- closes the read end of the pipe
+			- returns `false`
+		- `EOF` or `limitter`
+			- returns `true`
+
+
+<sup>1</sup>:warning: If the limiter contains contextual quotes, variable expansion inside the heredoc will be disabled ([:book: extract limiter](#extract-limiter)).\
+<sup>3</sup> Before expanison! The heredoc can't be terminated if the expanded input matches the limiter!\
+<sup>3</sup> Checked via the global variable: `g_signal_status == SIGNAL_EXIT_HD`\
+<sup>4</sup> ```frankenshell: warning: frankendoc at line 1 delimited by end-of-file (wanted `foo')```
+
+
+EXAMPLES
+```
+<< foo cat
+Hello
+World
+foo
+...
+
+e.g. << -R cat
+ * 					   > asd
+ * 					   > $LESS (this expands to -R but doens't exit the heredoc)
+ * 					   > -R
+
+```
+
+
+
+
+The heredoc redirection allows inputting multiple lines until a termination string is reached or an EOF is sent via `CTRL+D`. The herdoc runs always in a child process and is connected to the command with a pipe. The herdoc uses `readline` to read the user input.
+
+
+
+**The [BPMN diagram](https://demo.bpmn.io/new) below shows the heredoc execution logic:**
+<img src="../images/BPMN/setup_hd.svg" alt="execution logic" width="1000">
+
+---
 
 <h4 id="run-command">
 	<a href="#table-of-content">🔝 </a>
 	<a href="#executing">◀️ </a>
 	Run Command
 </h4>
-    <h2 id="termination">
-        <a href="#table-of-content">🔝 </a>
-        <a href="#how-frankenshell-operates">◀️ </a>
-        Termination
-    </h2>
+
+**The [BPMN diagram](https://demo.bpmn.io/new) below shows the execution logic for running an command:**
+<img src="../images/BPMN/run_cmd_main.svg" alt="execution logic" width="1000">
+
+---
+
+<h3 id="cleanup-cycle">
+	<a href="#table-of-content">🔝 </a>
+	<a href="#processing-a-cycle">◀️ </a>
+	Cleanup Cycle
+</h3>
+
+TODO
+
+---
+
+<h2 id="termination">
+	<a href="#table-of-content">🔝 </a>
+	<a href="#how-frankenshell-operates">◀️ </a>
+	Termination
+</h2>
+
+All cycle realted variables will be freed on the end of each [:book: each cycle](#cleanup-cycle). Therfore on termination of frankenshell only those variables (linked lists) need to be freed:
+- [:book: history (builtin)](#history-builtin)
+- [:book: environment variables](#environment-variables)
+
 
 <br><h1 id="known-bugs">
     <a href="#table-of-content">🔝 </a>
     Known Bugs
 </h1>
+
+
+**export vs env**
+
+If the built-in export is called with a valid key but no equal sign (like `export foo`) `foo` should be listed in the output of the `export`, but not in the output of the `env` function call. In frankenshell, `foo` is not added to the linked list of variables and therefore is not printed in either case. A simple boolean in the `s_env` structure could solve the problem.
+
+---
+
+**single cmds with redirs**
+
+Since frankenshell doesn't fork for a single builtin cmd like `echo foo > out` it changes the fds of the main process. This might affect the next cycle since the fds are not reseted.
+
+---
 
 <br><h1 id="acknowledgments">
     <a href="#table-of-content">🔝 </a>
@@ -1207,3 +2123,5 @@ Thx to those guys and gals for hints, tipps and feedback!
 [url-BPMN]: asd
 [builtin_42]: 						/images/builtin_42.png
 [example-gif]: 						/images/example.gif
+[mindmap-ast-png]: 					/images/mindmap-ast.png
+[mindmap-ast-echo-hello-astein]: 	/images/mindmap-ast-echo-hello-astein.png
