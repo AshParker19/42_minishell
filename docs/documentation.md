@@ -131,11 +131,11 @@ $ exit                                                    # Exit
 	<a href="../src/1_core/8_info_mode.c"> 💻</a>
 </h2>
 
-To activate the info mode you can
+To activate the info mode you can:
 - [:book: start](#initialization) frankenshell with the flag `--info` or `-i`
-- run the [builtin](#builtin-commands) command [infomode](#infomode-builtin)
+- run the [:book: builtin](#builtin-commands) command [:book: infomode](#infomode-builtin)
 
-If the info mode is activated frankenshell will print the following information during runtime.:
+If the info mode is activated, frankenshell will print the following information during runtime:
 
 - Input String States ([:book: String Management](#string-management))<sup>*</sup>
 - Token types and values ([:book: tokenizing](#tokenizing))
@@ -551,9 +551,10 @@ These definitions are used throughout this manual as follows.
 
 The syntax of frankenshell is designed to mimic the syntax of the traditional [:link: bash shell][url-bash].
 
-Note that redirections and arguments can be in any order. The only rule is that right after the redirections there must be the filename (or limitter for heredoc).
+Note that redirections and arguments can be in any order. The only rule is that the filename (or limiter for heredoc) must appear immediately after the redirection.
 
-**:pencil2: Examples**
+<details>
+  <summary>✏️ Examples</summary>
 
 ```
 # The following examples are all behaving the same way,
@@ -561,8 +562,9 @@ Note that redirections and arguments can be in any order. The only rule is that 
 
 $ echo Hello World > file
 $ echo Hello > file World
-$ echo > fileHello World
+$ echo > file Hello World
 ```
+</details>
 
 <h2 id="quotes">
 	<a href="#table-of-content">🔝 </a>
@@ -575,14 +577,15 @@ Enclosing text in single quotes `'` prevents the shell from interpreting any met
 - **Double Quotes**:\
 Using double quotes `"` also prevents interpretation of metacharacters, except for the dollar sign `$`, which is used for [:book: variable expansion](#variable-expansion).
 
-If you use single quotes inside double quotes, the single quotes will be interpreted as a normal character and vice versa.
+If you use single quotes inside double quotes, the single quotes will be interpreted as normal characters and vice versa.
 
 :bulb: The outer quotes are always the contextual quotes.\
-:bulb: An contextual quote (single or double) must always be closed with an matching quote.\
+:bulb: A contextual quote (single or double) must always be closed with the matching quote.\
 :warning: If contextual quotes are not closed, frankenshell prints an error and updates the [:book: exit status](#exit-status) to `2`.
 
+<details>
+  <summary>✏️ Examples</summary>
 
-**:pencil2: Examples**
 ```
 $ echo "this single quote: ' is inside contextual quotes and therefore not contextual!"
 this single quote: ' is inside contextual quotes and therefore not contextual!
@@ -597,6 +600,8 @@ $ echo "this single quote ' doesn't close the double quote
 frankenshell: syntax error: unclosed quotes
 ```
 
+</details>
+
 
 <h2 id="seperators">
 	<a href="#table-of-content">🔝 </a>
@@ -604,7 +609,7 @@ frankenshell: syntax error: unclosed quotes
 	Separators
 </h2>
 
-The following characters are used as seperators for the input string
+The following characters are used as seperators for the input string:
 | Symbol | Description              |
 |--------|--------------------------|
 | `'` `"`| contextual quotes        |
@@ -626,7 +631,7 @@ The following characters are used as seperators for the input string
 	<a href="../includes/structs.h">📄</a>
 </h1>
 
-All structs are defined int the header file [structs.h](../includes/structs.h).
+All structs are defined int the header file [:page_facing_up: structs.h](../includes/structs.h).
 
 
 <h2 id="t_mbox">
@@ -638,26 +643,26 @@ All structs are defined int the header file [structs.h](../includes/structs.h).
 </h2>
 
 The struct `mbox` is the main structure of the program: it is being passed as an argument to most of the functions and contains all the info needed for the program to work.\
-The file ['manage_mbox.c'](../src/1_core/0_mbox.c) contains the functions for initializing and destroying the mbox instance.
+The file [:computer: manage_mbox.c](../src/1_core/0_mbox.c) contains the functions for initializing and destroying the mbox instance.
 ```
 typedef struct s_mbox
 {
-	char	*inp_orig;				// (  echo $USER "" > file)
-	char	*inp_trim;				// (echo $USER "" > file)
-	char	*inp_eq;				// (echo $USER E_ > file)
-	char	*inp_shift;				// (echo $USER E_ O file)
-	char	*inp_expand;			// (echo astein E_ O file)
-	int		consecutive_lt;			// << lol << lol
-	bool	syntax_err_encountered;	// track the first error
-	t_env	*env;					// env vars as linked list
-	t_list	*history_lst;			// history as linked list
-	t_token	*tokens;				// tokens as linked list
-	t_token	*tmp_token;				// temp token for building ast
-	t_ast	*ast;					// root of the ast
-	t_ast	*tmp_node;				// temp node for building ast
-	t_exec	exec;					// execution data
-	int		count_cycles;			// cycles for heredoc error msg
-	t_bool	info_mode;				// info mode on/off
+    char    *inp_orig;              // (  echo $USER "" > file)
+    char    *inp_trim;              // (echo $USER "" > file)
+    char    *inp_eq;                // (echo $USER E_ > file)
+    char    *inp_shift;             // (echo $USER E_ O file)
+    char    *inp_expand;            // (echo astein E_ O file)
+    int	    consecutive_lt;         // << lol << lol
+    bool    syntax_err_encountered; // track the first error
+    t_env   *env;                   // env vars as linked list
+    t_list  *history_lst;           // history as linked list
+    t_token *tokens;                // tokens as linked list
+    t_token *tmp_token;             // temp token for building ast
+    t_ast   *ast;                   // root of the ast
+    t_ast   *tmp_node;              // temp node for building ast
+    t_exec  exec;                   // execution data
+    int	    count_cycles;           // cycles for heredoc error msg
+    t_bool  info_mode;              // info mode on/off
 } t_mbox;
 ```
 
