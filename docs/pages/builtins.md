@@ -1,6 +1,0 @@
-
-## Builtins
-
-
-
-### `echo`
